@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a83b4bf6_0d3d7b20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-08-27T08:09:03Z",
+      "side": 1,
+      "message": "@Anthony: thank you for the new version. It looks good to me, just some minor suggestions regarding the doc/comments, if you don\u0027t mind.",
+      "revId": "565507304cdb163609e5eb032dc481e11a2d7360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaad7acd_fb17a64f",
+        "filename": "doc/godebug.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-08-27T08:09:03Z",
+      "side": 1,
+      "message": "Maybe clearer to say:\n\n\u003e For Go 1.24, it now defaults to `multipathtcp\u003d2`: enabled by default on listerners.\n\u003e Using `multipathtcp\u003d0` reverts to the pre-Go 1.24 behavior.",
+      "revId": "565507304cdb163609e5eb032dc481e11a2d7360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18adecd5_42483d83",
+        "filename": "doc/godebug.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-08-27T08:09:03Z",
+      "side": 1,
+      "message": "There is a trailing whitespace.",
+      "range": {
+        "startLine": 162,
+        "startChar": 61,
+        "endLine": 162,
+        "endChar": 62
+      },
+      "revId": "565507304cdb163609e5eb032dc481e11a2d7360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38305b30_b57a58dc",
+        "filename": "doc/next/6-stdlib/99-minor/net/56539.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-08-27T08:09:03Z",
+      "side": 1,
+      "message": "I *think*  that `#[0-9]+` are references to GitHub issues, not to Gerrit changes.",
+      "range": {
+        "startLine": 1,
+        "startChar": 46,
+        "endLine": 1,
+        "endChar": 53
+      },
+      "revId": "565507304cdb163609e5eb032dc481e11a2d7360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d6dfaa0_dbc437cc",
+        "filename": "doc/next/6-stdlib/99-minor/net/56539.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-08-27T08:09:03Z",
+      "side": 1,
+      "message": "```suggestion\n[ListenConfig] now uses MPTCP by default.\n```",
+      "range": {
+        "startLine": 1,
+        "startChar": 15,
+        "endLine": 1,
+        "endChar": 23
+      },
+      "revId": "565507304cdb163609e5eb032dc481e11a2d7360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "166ba463_ba290ab1",
+        "filename": "doc/next/6-stdlib/99-minor/net/56539.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-08-27T08:09:03Z",
+      "side": 1,
+      "message": "It looks like there is no newline at the end of the file. I guess it is better to add one.",
+      "revId": "565507304cdb163609e5eb032dc481e11a2d7360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2003a71d_43f36edb",
+        "filename": "src/net/dial.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-08-27T08:09:03Z",
+      "side": 1,
+      "message": "```suggestion\n\t// If MPTCP is disabled via GODEBUG\u003dmultipathtcp\u003d0 or only\n\t// enabled on dialers, but not on listeners.\n```\n\nTo me, only saying \u0027forced\u0027 means \u0027enabled\u0027. Maybe clearer to say \"disabled\"?",
+      "range": {
+        "startLine": 99,
+        "startChar": 16,
+        "endLine": 99,
+        "endChar": 22
+      },
+      "revId": "565507304cdb163609e5eb032dc481e11a2d7360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
