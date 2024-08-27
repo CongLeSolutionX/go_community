@@ -291,7 +291,9 @@ func (pr *pkgReader) typIdx(info typeInfo, dict *readerDict) types.Type {
 }
 
 func (r *reader) doTyp() (res types.Type) {
-	switch tag := pkgbits.CodeType(r.Code(pkgbits.SyncType)); tag {
+	var tag pkgbits.CodeType
+	r.Code(&tag)
+	switch tag {
 	default:
 		errorf("unhandled type tag: %v", tag)
 		panic("unreachable")
@@ -458,7 +460,7 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types.Package, string) {
 		objPkg, objName = rname.qualifiedIdent()
 		assert(objName != "")
 
-		tag = pkgbits.CodeObj(rname.Code(pkgbits.SyncCodeObj))
+		rname.Code(&tag)
 		pr.retireReader(rname)
 	}
 

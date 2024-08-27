@@ -385,16 +385,13 @@ func (r *Decoder) Int() int { x := r.Int64(); v := int(x); assert(int64(v) == x)
 // Uint decodes and returns a uint value from the element bitstream.
 func (r *Decoder) Uint() uint { x := r.Uint64(); v := uint(x); assert(uint64(v) == x); return v }
 
-// Code decodes a Code value from the element bitstream and returns
+// Code decodes a Code value from the element bitstream and sets
 // its ordinal value. It's the caller's responsibility to convert the
 // result to an appropriate Code type.
-//
-// TODO(mdempsky): Ideally this method would have signature "Code[T
-// Code] T" instead, but we don't allow generic methods and the
-// compiler can't depend on generics yet anyway.
-func (r *Decoder) Code(mark SyncMarker) int {
-	r.Sync(mark)
-	return r.Len()
+func (r *Decoder) Code(c MutableCode) {
+	r.Sync(c.Marker())
+	v := r.Len()
+	c.Set(v)
 }
 
 // Reloc decodes a relocation of expected section k from the element
@@ -434,7 +431,9 @@ func (r *Decoder) Value() constant.Value {
 }
 
 func (r *Decoder) scalar() constant.Value {
-	switch tag := CodeVal(r.Code(SyncVal)); tag {
+	var tag CodeVal
+	r.Code(&tag)
+	switch tag {
 	default:
 		panic(fmt.Errorf("unexpected scalar tag: %v", tag))
 
@@ -494,21 +493,19 @@ func (pr *PkgDecoder) PeekPkgPath(idx Index) string {
 func (pr *PkgDecoder) PeekObj(idx Index) (string, string, CodeObj) {
 	var ridx Index
 	var name string
-	var rcode int
+	var tag CodeObj
 	{
 		r := pr.TempDecoder(RelocName, idx, SyncObject1)
 		r.Sync(SyncSym)
 		r.Sync(SyncPkg)
 		ridx = r.Reloc(RelocPkg)
 		name = r.String()
-		rcode = r.Code(SyncCodeObj)
+		r.Code(&tag)
 		pr.RetireDecoder(&r)
 	}
 
 	path := pr.PeekPkgPath(ridx)
 	assert(name != "")
-
-	tag := CodeObj(rcode)
 
 	return path, name, tag
 }
