@@ -16,6 +16,29 @@
       "message": "Possible alternative to https://go.dev/cl/607078 ?",
       "revId": "3d21c55f90004cc2d328cb5d772f7bf146303913",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91c94682_c8f7bfa8",
+        "filename": "src/internal/pkgbits/decoder.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-08-27T14:35:26Z",
+      "side": 1,
+      "message": "This comment is not applicable anymore after this change.",
+      "range": {
+        "startLine": 393,
+        "startChar": 1,
+        "endLine": 395,
+        "endChar": 49
+      },
+      "revId": "3d21c55f90004cc2d328cb5d772f7bf146303913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
