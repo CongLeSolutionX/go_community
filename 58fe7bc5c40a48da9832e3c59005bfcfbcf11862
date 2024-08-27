@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0338fdb_f083f435",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-08-27T10:21:17Z",
+      "side": 1,
+      "message": "Just one comment, and then LGTM.\n\nThank you.\n\nAlex",
+      "revId": "58fe7bc5c40a48da9832e3c59005bfcfbcf11862",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

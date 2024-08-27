@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3da562ab_8b504cdc",
+        "filename": "src/os/user/user_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-08-27T10:21:17Z",
+      "side": 1,
+      "message": "You also want to display some error message, like this\n```\nfmt.Fprintf(os.Stderr, \"netapi32.dll is loaded\\n\")\n```\nbefore `os.EXit(9)`, so you know why your test failed.",
+      "parentUuid": "9911f0f0_8355dfec",
+      "revId": "b04148ded8ac7be5ccec092f70f6b04af6fc0631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04838c6e_e5d1bf55",
         "filename": "src/os/user/user_windows_test.go",
         "patchSetId": 5
