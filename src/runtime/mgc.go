@@ -998,6 +998,7 @@ func gcMarkTermination(stw worldStop) {
 			// concurrent mark process.
 			startCheckmarks()
 			gcResetMarkState()
+			gcMarkRootPrepare()
 			gcw := &getg().m.p.ptr().gcw
 			gcDrain(gcw, 0)
 			wbBufFlush1(getg().m.p.ptr())
