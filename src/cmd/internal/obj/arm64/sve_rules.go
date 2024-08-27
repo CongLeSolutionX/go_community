@@ -33,7 +33,8 @@ func pu(val uint32, hibit int, lobit int) (uint32, bool) {
 	checkBitRange(hibit, lobit, 32)
 	var top uint32 = 1 << (hibit - lobit + 1)
 	if val >= top {
-		panic(fmt.Sprintf("val '%d' too large for %d bit field", val, hibit-lobit+1))
+		Debug("val '%d' too large for %d bit field", val, hibit-lobit+1)
+		return 0, false
 	}
 	return uint32((val & (top - 1)) << lobit), true
 }

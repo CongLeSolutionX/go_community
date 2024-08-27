@@ -3495,6 +3495,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 			out[0] = opcode
 			return 1
 		}
+		Debug("%s", sveErr.Error())
 		c.ctxt.Diag(err.Error())
 		out[0] = 0x0 // udf
 		return 1

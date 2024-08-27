@@ -8,6 +8,13 @@ import (
 	"fmt"
 )
 
+func Debug(format string, args ...interface{}) {
+	const debugging = false
+	if debugging {
+		fmt.Println("(sve-debug) " + fmt.Sprintf(format, args...))
+	}
+}
+
 type encoding struct {
 	// Concatenation of all fixed bits in the encoding.
 	base uint32
@@ -47,7 +54,7 @@ func (e *encoding) assemble(p *obj.Prog) (uint32, bool) {
 		}
 		enc, ok := r.encode(selectedArgs...)
 		if !ok {
-			fmt.Println("encoder failed")
+			Debug("failed to encode '%v'", p)
 			return 0, false
 		}
 		result |= enc
@@ -119,6 +126,7 @@ func (e *encoding) getFormattedArgs(prog *obj.Prog) ([]*obj.Addr, bool) {
 		for i, arg := range args {
 			ok = validateArg(arg, fmt[i])
 			if !ok {
+				Debug("mismatch on arg %d, need %v, addr: %v format: %v", i, fmt[i], arg, fmt)
 				break
 			}
 		}
@@ -126,6 +134,7 @@ func (e *encoding) getFormattedArgs(prog *obj.Prog) ([]*obj.Addr, bool) {
 			continue
 		}
 
+		Debug("matched: %v", fmt)
 		return args, true
 	}
 
@@ -187,7 +196,7 @@ func validateArg(arg *obj.Addr, format int) bool {
 		}
 		return immFormat == format
 	default:
-		return false
+		panic(fmt.Sprintf("invalid argument type '%v'", format))
 	}
 
 	return true
