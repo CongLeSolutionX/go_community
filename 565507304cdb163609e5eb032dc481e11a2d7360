@@ -58,6 +58,48 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81360c03_aa4dc6ae",
+        "filename": "doc/godebug.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 3594541
+      },
+      "writtenOn": "2024-08-27T08:40:31Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "18adecd5_42483d83",
+      "range": {
+        "startLine": 162,
+        "startChar": 61,
+        "endLine": 162,
+        "endChar": 62
+      },
+      "revId": "565507304cdb163609e5eb032dc481e11a2d7360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bafcafdc_1b3a8cc9",
+        "filename": "doc/godebug.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 3594541
+      },
+      "writtenOn": "2024-08-27T08:40:31Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "eaad7acd_fb17a64f",
+      "revId": "565507304cdb163609e5eb032dc481e11a2d7360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38305b30_b57a58dc",
@@ -121,6 +163,72 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f3c5b28_f5241d0e",
+        "filename": "doc/next/6-stdlib/99-minor/net/56539.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3594541
+      },
+      "writtenOn": "2024-08-27T08:40:31Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "5d6dfaa0_dbc437cc",
+      "range": {
+        "startLine": 1,
+        "startChar": 15,
+        "endLine": 1,
+        "endChar": 23
+      },
+      "revId": "565507304cdb163609e5eb032dc481e11a2d7360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f03bce1f_aa59541d",
+        "filename": "doc/next/6-stdlib/99-minor/net/56539.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3594541
+      },
+      "writtenOn": "2024-08-27T08:40:31Z",
+      "side": 1,
+      "message": "It is indeed the case, maybe just dropping this reference then ?",
+      "parentUuid": "38305b30_b57a58dc",
+      "range": {
+        "startLine": 1,
+        "startChar": 46,
+        "endLine": 1,
+        "endChar": 53
+      },
+      "revId": "565507304cdb163609e5eb032dc481e11a2d7360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "446c31c4_4ee78d64",
+        "filename": "doc/next/6-stdlib/99-minor/net/56539.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3594541
+      },
+      "writtenOn": "2024-08-27T08:40:31Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "166ba463_ba290ab1",
+      "revId": "565507304cdb163609e5eb032dc481e11a2d7360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2003a71d_43f36edb",
@@ -134,6 +242,30 @@
       "writtenOn": "2024-08-27T08:09:03Z",
       "side": 1,
       "message": "```suggestion\n\t// If MPTCP is disabled via GODEBUG\u003dmultipathtcp\u003d0 or only\n\t// enabled on dialers, but not on listeners.\n```\n\nTo me, only saying \u0027forced\u0027 means \u0027enabled\u0027. Maybe clearer to say \"disabled\"?",
+      "range": {
+        "startLine": 99,
+        "startChar": 16,
+        "endLine": 99,
+        "endChar": 22
+      },
+      "revId": "565507304cdb163609e5eb032dc481e11a2d7360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edf02b93_e9a123cc",
+        "filename": "src/net/dial.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 3594541
+      },
+      "writtenOn": "2024-08-27T08:40:31Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2003a71d_43f36edb",
       "range": {
         "startLine": 99,
         "startChar": 16,
