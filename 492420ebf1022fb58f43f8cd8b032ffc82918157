@@ -33,6 +33,86 @@
       "message": "Gentle ping! Please have a look when you have time.",
       "revId": "492420ebf1022fb58f43f8cd8b032ffc82918157",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bdeb5b5_31cc9496",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 3963,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-08-27T16:51:57Z",
+      "side": 1,
+      "message": "This is probably pretty conservative (we do have cases where the callee is inlineable but we end up not inlining), but that\u0027s probably ok for now.",
+      "range": {
+        "startLine": 3963,
+        "startChar": 2,
+        "endLine": 3963,
+        "endChar": 54
+      },
+      "revId": "492420ebf1022fb58f43f8cd8b032ffc82918157",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe97ea5a_bc86ef3a",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 3967,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-08-27T16:51:57Z",
+      "side": 1,
+      "message": "Can we put the logging call here? There are a few other cases in cmd/compile/internal/noder to model it on. Feel free to add a case to cmd/compile/internal/base.DebugFlags.",
+      "revId": "492420ebf1022fb58f43f8cd8b032ffc82918157",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98a3d975_9dcbbe1a",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-08-27T16:51:57Z",
+      "side": 1,
+      "message": "This -2 thing is strange. We generally use higher numbers for more debug output.\n\nIt is also strange that this is the pass that is reporting using a tail call. Shouldn\u0027t the place where the tail call is introduced generate this log line?",
+      "range": {
+        "startLine": 188,
+        "startChar": 16,
+        "endLine": 188,
+        "endChar": 18
+      },
+      "revId": "492420ebf1022fb58f43f8cd8b032ffc82918157",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72a3633c_93351031",
+        "filename": "test/tailcall.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-08-27T16:51:57Z",
+      "side": 1,
+      "message": "This go:noinline is subtle. A comment as to what exactly this is testing would help.\n\n\"Test that when generating wrappers for methods, we generate a tail call to the pointer version of the method, if that method is not inlineable. We use go:noinline here to force the non-inlineability condition.\"",
+      "revId": "492420ebf1022fb58f43f8cd8b032ffc82918157",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
