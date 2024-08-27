@@ -75,6 +75,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97b1738f_ae9e2bee",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 3967,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-08-27T19:59:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe97ea5a_bc86ef3a",
+      "revId": "492420ebf1022fb58f43f8cd8b032ffc82918157",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98a3d975_9dcbbe1a",
@@ -98,6 +116,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ded1fa4_50e76e97",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-08-27T19:59:59Z",
+      "side": 1,
+      "message": "Yes, having a separate debug flag for tail call appears more convenient. Thanks!",
+      "parentUuid": "98a3d975_9dcbbe1a",
+      "range": {
+        "startLine": 188,
+        "startChar": 16,
+        "endLine": 188,
+        "endChar": 18
+      },
+      "revId": "492420ebf1022fb58f43f8cd8b032ffc82918157",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72a3633c_93351031",
@@ -111,6 +153,24 @@
       "writtenOn": "2024-08-27T16:51:57Z",
       "side": 1,
       "message": "This go:noinline is subtle. A comment as to what exactly this is testing would help.\n\n\"Test that when generating wrappers for methods, we generate a tail call to the pointer version of the method, if that method is not inlineable. We use go:noinline here to force the non-inlineability condition.\"",
+      "revId": "492420ebf1022fb58f43f8cd8b032ffc82918157",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82d83ccd_4b919b29",
+        "filename": "test/tailcall.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-08-27T19:59:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72a3633c_93351031",
       "revId": "492420ebf1022fb58f43f8cd8b032ffc82918157",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
