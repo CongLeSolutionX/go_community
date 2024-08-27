@@ -176,6 +176,24 @@
       "parentUuid": "dec55af3_82eaadf2",
       "revId": "2b11a95407ec45a2f56016228f3dd0dc81b6e891",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53ff2abc_36b1bd9f",
+        "filename": "src/net/dial.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 3594541
+      },
+      "writtenOn": "2024-08-27T07:00:14Z",
+      "side": 1,
+      "message": "I\u0027ve thus added the new checks for multipathtcp. Thank you for your feedback !",
+      "parentUuid": "4f6282a7_a8eef97f",
+      "revId": "2b11a95407ec45a2f56016228f3dd0dc81b6e891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
