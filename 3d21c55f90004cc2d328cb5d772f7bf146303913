@@ -18,6 +18,29 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68ed65c0_1b1ae1c1",
+        "filename": "src/internal/pkgbits/codes.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-08-28T18:35:06Z",
+      "side": 1,
+      "message": "A possible alternative is to have a `From(int) Code` method on Code. This would return a Code with the given value and the same type.\n\nThat would be used as `switch tag :\u003d r.Code(pkgbits.CodeType(0)).(pkgbits.CodeType)`.\n\nI didn\u0027t like that quite as much, but it does get the 1-liner backs.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 28
+      },
+      "revId": "3d21c55f90004cc2d328cb5d772f7bf146303913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91c94682_c8f7bfa8",
@@ -31,6 +54,30 @@
       "writtenOn": "2024-08-27T14:35:26Z",
       "side": 1,
       "message": "This comment is not applicable anymore after this change.",
+      "range": {
+        "startLine": 393,
+        "startChar": 1,
+        "endLine": 395,
+        "endChar": 49
+      },
+      "revId": "3d21c55f90004cc2d328cb5d772f7bf146303913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5b9c921_3a82a5e0",
+        "filename": "src/internal/pkgbits/decoder.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-08-28T18:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91c94682_c8f7bfa8",
       "range": {
         "startLine": 393,
         "startChar": 1,
