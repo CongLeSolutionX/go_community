@@ -16,6 +16,114 @@
       "message": "Seems reasonable to me. Thanks!\nAdding Kirill to Cc so he can also take a look.",
       "revId": "0e5982d21b9d50d4cd5e2411cda96c2195f2242d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a1a75ce_736c8c9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-08-28T18:20:36Z",
+      "side": 1,
+      "message": "Left some minor comments, looks good overall.",
+      "revId": "0e5982d21b9d50d4cd5e2411cda96c2195f2242d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "408a4db0_52df5a77",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-08-28T18:20:36Z",
+      "side": 1,
+      "message": "I agree it\u0027s a good idea.",
+      "range": {
+        "startLine": 647,
+        "startChar": 0,
+        "endLine": 649,
+        "endChar": 0
+      },
+      "revId": "0e5982d21b9d50d4cd5e2411cda96c2195f2242d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09185d9d_2146884b",
+        "filename": "src/syscall/syscall_linux_386.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-08-28T18:20:36Z",
+      "side": 1,
+      "message": "Not really related to this CL, but in view of #67001, if this CL is not to be backported to Go 1.23, the fallback code to use GETRLIMIT can be omitted since SYS_PRLIMIT64 is available since Linux kernel 2.6.36.\n\nIf it is to be backported, maybe add a comment saying the fallback is needed for kernels older than 2.6.36 (so it is easier to find). Can do it in a commit just before this one.",
+      "revId": "0e5982d21b9d50d4cd5e2411cda96c2195f2242d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af0a94fe_02d29deb",
+        "filename": "src/syscall/syscall_linux_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-08-28T18:20:36Z",
+      "side": 1,
+      "message": "It would be slightly better if the test re-executed itself (and check for env var in the beginning to see if a helper needs to be run). This way there are no extra `func TestXXX` that are not actually tests (and thus less output).\n\nI.e. something like:\n\n```\nfunc TestPrlimitFileLimit(t *testing.T) {\n  switch os.Getenv(\"GO_WANT_HELPER_PROCESS\") {\n    case \"prlimit1\":\n      return prlimitFileHelper1(t)\n    case \"prlimit2\":\n      return prlimitFileHelper2(t)\n    case \"\":\n      // do nothing\n  }\n...\n  cmd :\u003d testenv.Command(exe, \"-test.run\u003d^\"+test.Name()+\"$\", \"-test.v\")\n  cmd.Env \u003d append(cmd.Environ(), \"GO_WANT_HELPER_PROCESS\u003dprlimit1\")\n...\n}\n```",
+      "revId": "0e5982d21b9d50d4cd5e2411cda96c2195f2242d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5c7d8d6_cffd5032",
+        "filename": "src/syscall/syscall_linux_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-08-28T18:20:36Z",
+      "side": 1,
+      "message": "Perhaps `testenv.Command` should be used instead?",
+      "revId": "0e5982d21b9d50d4cd5e2411cda96c2195f2242d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e775a6f_a6750079",
+        "filename": "src/syscall/syscall_linux_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-08-28T18:20:36Z",
+      "side": 1,
+      "message": "Perhaps `testenv.Command` should be used instead?",
+      "revId": "0e5982d21b9d50d4cd5e2411cda96c2195f2242d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
