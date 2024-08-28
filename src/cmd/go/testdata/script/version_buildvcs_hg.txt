@@ -12,6 +12,7 @@ cd repo/a
 go install
 go version -m $GOBIN/a$GOEXE
 ! stdout hgrevision
+stdout '\s+mod\s+example.com/a\s+\(devel\)'
 rm $GOBIN/a$GOEXE
 
 # If there is a repository, but it can't be used for some reason,
@@ -36,24 +37,30 @@ go install
 go version -m $GOBIN/a$GOEXE
 ! stdout vcs.revision
 ! stdout vcs.time
+stdout '\s+mod\s+example.com/a\s+\(devel\)'
 stdout '^\tbuild\tvcs.modified=true$'
 cd ..
 
 # Revision and commit time are tagged for repositories with commits.
 exec hg add a README
 exec hg commit -m 'initial commit'
+exec hg tag v1.2.3
+# Switch to the tagged branch
+exec hg update -C '.~1'
 cd a
 go install
 go version -m $GOBIN/a$GOEXE
 stdout '^\tbuild\tvcs.revision='
 stdout '^\tbuild\tvcs.time='
 stdout '^\tbuild\tvcs.modified=false$'
+stdout '\s+mod\s+example.com/a\s+v1.2.3\s+'
 rm $GOBIN/a$GOEXE
 
 # Building with -buildvcs=false suppresses the info.
 go install -buildvcs=false
 go version -m $GOBIN/a$GOEXE
 ! stdout hgrevision
+stdout '\s+mod\s+example.com/a\s+\(devel\)'
 rm $GOBIN/a$GOEXE
 
 # An untracked file is shown as uncommitted, even if it isn't part of the build.
@@ -61,6 +68,7 @@ cp ../../outside/empty.txt .
 go install
 go version -m $GOBIN/a$GOEXE
 stdout '^\tbuild\tvcs.modified=true$'
+stdout '\s+mod\s+example.com/a\s+v1.2.3\+dirty\s+'
 rm empty.txt
 rm $GOBIN/a$GOEXE
 
@@ -69,6 +77,7 @@ cp ../../outside/empty.txt ../README
 go install
 go version -m $GOBIN/a$GOEXE
 stdout '^\tbuild\tvcs.modified=true$'
+stdout '\s+mod\s+example.com/a\s+v1.2.3\+dirty\s+'
 exec hg revert ../README
 rm $GOBIN/a$GOEXE
 

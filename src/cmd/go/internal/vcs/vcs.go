@@ -188,38 +188,42 @@ func hgRemoteRepo(vcsHg *Cmd, rootDir string) (remoteRepo string, err error) {
 }
 
 func hgStatus(vcsHg *Cmd, rootDir string) (Status, error) {
-	// Output changeset ID and seconds since epoch.
-	out, err := vcsHg.runOutputVerboseOnly(rootDir, `log -l1 -T {node}:{date|hgdate}`)
+	status := Status{}
+	// Look for untracked files.
+	out, err := vcsHg.runOutputVerboseOnly(rootDir, "status")
 	if err != nil {
-		return Status{}, err
+		return status, err
+	}
+	status.Uncommitted = len(out) > 0
+	// Find the current revision if any.
+	changesetID, err := vcsHg.runOutputVerboseOnly(rootDir, `id -i`)
+	if err != nil {
+		return status, err
+	}
+	changesetID = bytes.TrimSuffix(bytes.TrimSpace(changesetID), []byte("+"))
+	if string(changesetID) == "000000000000" { // null revision
+		return status, err
+	}
+	// Output changeset ID and seconds since epoch.
+	hgLogCmd := fmt.Sprintf("log -l1 --rev %s -T {node}:{date|hgdate}", string(changesetID))
+	out, err = vcsHg.runOutputVerboseOnly(rootDir, hgLogCmd)
+	if err != nil || len(out) == 0 {
+		return status, err
 	}
 
-	// Successful execution without output indicates an empty repo (no commits).
 	var rev string
 	var commitTime time.Time
-	if len(out) > 0 {
-		// Strip trailing timezone offset.
-		if i := bytes.IndexByte(out, ' '); i > 0 {
-			out = out[:i]
-		}
-		rev, commitTime, err = parseRevTime(out)
-		if err != nil {
-			return Status{}, err
-		}
+	// Strip trailing timezone offset.
+	if i := bytes.IndexByte(out, ' '); i > 0 {
+		out = out[:i]
 	}
-
-	// Also look for untracked files.
-	out, err = vcsHg.runOutputVerboseOnly(rootDir, "status")
+	rev, commitTime, err = parseRevTime(out)
 	if err != nil {
-		return Status{}, err
+		return status, err
 	}
-	uncommitted := len(out) > 0
-
-	return Status{
-		Revision:    rev,
-		CommitTime:  commitTime,
-		Uncommitted: uncommitted,
-	}, nil
+	status.Revision = rev
+	status.CommitTime = commitTime
+	return status, nil
 }
 
 // parseRevTime parses commit details in "revision:seconds" format.
