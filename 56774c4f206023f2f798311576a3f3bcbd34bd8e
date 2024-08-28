@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50cf02ac_a588165e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3378790
+      },
+      "writtenOn": "2024-08-28T10:41:55Z",
+      "side": 1,
+      "message": "@iant@golang.org I\u0027ve rebased this diff on master. Shall we merge it?",
+      "revId": "56774c4f206023f2f798311576a3f3bcbd34bd8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
