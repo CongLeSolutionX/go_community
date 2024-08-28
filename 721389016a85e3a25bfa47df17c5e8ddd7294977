@@ -52,6 +52,24 @@
       "parentUuid": "61c538f6_b210250c",
       "revId": "721389016a85e3a25bfa47df17c5e8ddd7294977",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e894271_ba42d8e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-08-28T07:47:32Z",
+      "side": 1,
+      "message": "I\u0027m on macOS. Thanks for pointing out that this isn\u0027t an issue on Linux.\n\n\u003e The issue on macOS is that /dev/fd/XX is read-only in this case. os.Create opens files with O_RDWR, so the open fails.\n\nYou meant \"is write-only\" here, right?\n\n\u003e That probably means introducing a new function (openOutputFile? openFileForWriting? createWriteOnly?) and using it instead of os.Create.\n\nThat sounds good to me. I like `createWriteOnly`. Please confirm if you want me to go ahead with this and I\u0027ll update the CL 🙇🏻‍♂️.",
+      "parentUuid": "386152ba_637a6746",
+      "revId": "721389016a85e3a25bfa47df17c5e8ddd7294977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
