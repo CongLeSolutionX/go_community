@@ -86,6 +86,18 @@ var armGnuNeed = []string{ // for both ARM and AMR64
 	"cmp",
 }
 
+var loong64Need = []string{
+	"JMP main.main(SB)",
+	"CALL main.Println(SB)",
+	"RET",
+}
+
+var loong64GnuNeed = []string{
+	"ldr",
+	"bl",
+	"cmp",
+}
+
 var ppcNeed = []string{
 	"BR main.main(SB)",
 	"CALL main.Println(SB)",
@@ -178,6 +190,8 @@ func testDisasm(t *testing.T, srcfname string, printCode bool, printGnuAsm bool,
 		need = append(need, armNeed...)
 	case "arm64":
 		need = append(need, arm64Need...)
+	case "loong64":
+		need = append(need, loong64Need...)
 	case "ppc64", "ppc64le":
 		var pie bool
 		for _, flag := range flags {
@@ -204,6 +218,8 @@ func testDisasm(t *testing.T, srcfname string, printCode bool, printGnuAsm bool,
 			need = append(need, i386GnuNeed...)
 		case "arm", "arm64":
 			need = append(need, armGnuNeed...)
+		case "loong64":
+			need = append(need, loong64GnuNeed...)
 		case "ppc64", "ppc64le":
 			need = append(need, ppcGnuNeed...)
 		case "s390x":
