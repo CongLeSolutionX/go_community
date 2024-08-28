@@ -520,6 +520,10 @@ opSwitch:
 			}
 		}
 
+		// A call to a parameter is optimistically a cheap call, if it's a constant function
+		// perhaps it will inline, it also can simplify escape analysis.
+		callParamDiscount := int32(0)
+
 		if n.Fun.Op() == ir.ONAME {
 			name := n.Fun.(*ir.Name)
 			if name.Class == ir.PFUNC {
@@ -538,6 +542,9 @@ opSwitch:
 						cheap = true
 					}
 				}
+			}
+			if name.Class == ir.PPARAM {
+				callParamDiscount = 40
 			}
 		}
 
@@ -572,7 +579,7 @@ opSwitch:
 		}
 
 		// Call cost for non-leaf inlining.
-		v.budget -= v.extraCallCost
+		v.budget -= (v.extraCallCost - callParamDiscount)
 
 	case ir.OCALLMETH:
 		base.FatalfAt(n.Pos(), "OCALLMETH missed by typecheck")
