@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c292a68a_e111ab54",
+        "filename": "src/runtime/HACKING.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-08-29T21:49:50Z",
+      "side": 1,
+      "message": "It may be worth mentioning that these are all really just conventions. E.g., nothing requires that the second argument to linkname be a package-prefixed symbol name at all. It\u0027s just an arbitrary ELF symbol name, but we prefer using package-prefixed symbol names to keep things organized.",
+      "revId": "67507172207ea9a906fb34ea5333dadc61c905a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0631b3f3_019f7983",
         "filename": "src/runtime/HACKING.md",
         "patchSetId": 1
@@ -118,6 +135,23 @@
       "writtenOn": "2024-08-29T20:38:57Z",
       "side": 1,
       "message": "Actually, I don\u0027t think the (gc) compiler (currently) dead-code symbols even if they don\u0027t have linkname. Other compilers (gccgo, gollvm) do, though.",
+      "revId": "67507172207ea9a906fb34ea5333dadc61c905a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e294a76_b02f97cc",
+        "filename": "src/runtime/HACKING.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-08-29T21:49:50Z",
+      "side": 1,
+      "message": "The original reason we added this form was as an easy way to force the compiler to produce all ABI wrappers for a symbol, specifically so a symbol defined in Go could be referenced by assembly in another package.",
       "revId": "67507172207ea9a906fb34ea5333dadc61c905a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
