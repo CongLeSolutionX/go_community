@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdd3fc6c_95522280",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-29T20:04:12Z",
+      "side": 1,
+      "message": "If the missing ENOSYS is the only reason to split the files, we can add\n\nconst enosys \u003d syscall.ENOSYS\n\nto os/error_erno.go and\n\nconst enosys \u003d -1\n\nto os/error_plan9go, and then refer to enosys rather than syscall.ENOSYS.",
+      "revId": "cb48fe1faac5513ef75258fddb1466099256ce02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7d92447_46fd2f17",
+        "filename": "src/os/getwd.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-29T20:04:12Z",
+      "side": 1,
+      "message": "I don\u0027t think we need this paragraph.  This isn\u0027t going to lead to any useful action for most programmers.",
+      "revId": "cb48fe1faac5513ef75258fddb1466099256ce02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b4fe6c8_e01c3ed5",
+        "filename": "src/os/getwd_other.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-29T20:04:12Z",
+      "side": 1,
+      "message": "In the original code we always call syscall.Getwd on Windows.  Why change that?\n\nIn any case we shouldn\u0027t check PWD on Windows.",
+      "revId": "cb48fe1faac5513ef75258fddb1466099256ce02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c8bf0b7_28439d87",
+        "filename": "src/os/getwd_other.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-29T20:04:12Z",
+      "side": 1,
+      "message": "We don\u0027t really need a goto here.  We can write\n\n    if err !\u003d syscall.ENAMETOOLONG {\n        return dir, NewSyscallError(...)\n    }\n    \n    // For ENAMETOOLONG, fall back to the slow path.",
+      "revId": "cb48fe1faac5513ef75258fddb1466099256ce02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f98bc06_71deaebc",
+        "filename": "src/os/getwd_other_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-29T20:04:12Z",
+      "side": 1,
+      "message": "On a system that doesn\u0027t limit the path passed to Stat, this loop will go on forever.  I think we should also stop it when the path name is longer than 5K or something.",
+      "revId": "cb48fe1faac5513ef75258fddb1466099256ce02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
