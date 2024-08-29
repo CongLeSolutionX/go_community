@@ -34,6 +34,24 @@
       "parentUuid": "b2923e16_ea3a27c1",
       "revId": "8ac0dc92841c5b4b7187b28f69fa2ebc3f464621",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22293b47_a60fb025",
+        "filename": "src/cmd/go/testdata/script/build_issue68658.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-08-29T20:03:45Z",
+      "side": 1,
+      "message": "Awesome!",
+      "parentUuid": "a97532d8_2ec7d571",
+      "revId": "8ac0dc92841c5b4b7187b28f69fa2ebc3f464621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
