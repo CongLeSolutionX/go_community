@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "614f2f82_05a8a0ee",
+        "filename": "src/runtime/HACKING.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-08-29T19:55:08Z",
+      "side": 1,
+      "message": "I was unaware of a name for this, so I created one. I\u0027m happy to bikeshed.\n\nEdit: \"I\u0027m happy to bikeshed.\" triggered the AI-suggested to start off the bikeshedding by offering an alternative name suggestion. 😂",
+      "revId": "67507172207ea9a906fb34ea5333dadc61c905a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
