@@ -3,6 +3,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0631b3f3_019f7983",
+        "filename": "src/runtime/HACKING.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-29T20:17:10Z",
+      "side": 1,
+      "message": "Perhaps mention what the other package needs to do.",
+      "revId": "67507172207ea9a906fb34ea5333dadc61c905a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d85cb667_a17b975d",
+        "filename": "src/runtime/HACKING.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-29T20:17:10Z",
+      "side": 1,
+      "message": "s/symbal/symbol/",
+      "revId": "67507172207ea9a906fb34ea5333dadc61c905a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "628f30a7_780411e5",
+        "filename": "src/runtime/HACKING.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-29T20:17:10Z",
+      "side": 1,
+      "message": "Note that people use linkname with variables, but the definition/declaration distinction doesn\u0027t exist for variables.  Personally I consider this to be a bug that needs to be fixed with some new compiler directive.  But in the meantime, that should perhaps be mentioned here.  Sample linkname for a variable: X86 in internal/cpu/cpu.go.",
+      "revId": "67507172207ea9a906fb34ea5333dadc61c905a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "614f2f82_05a8a0ee",
         "filename": "src/runtime/HACKING.md",
         "patchSetId": 1
@@ -14,6 +65,58 @@
       "writtenOn": "2024-08-29T19:55:08Z",
       "side": 1,
       "message": "I was unaware of a name for this, so I created one. I\u0027m happy to bikeshed.\n\nEdit: \"I\u0027m happy to bikeshed.\" triggered the AI-suggested to start off the bikeshedding by offering an alternative name suggestion. 😂",
+      "revId": "67507172207ea9a906fb34ea5333dadc61c905a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "147503f1_1964892f",
+        "filename": "src/runtime/HACKING.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-29T20:17:10Z",
+      "side": 1,
+      "message": "Bikeshed: I think of this as an \"export linkname\" because it exports the symbol to other packages, even though its name is unexported.",
+      "parentUuid": "614f2f82_05a8a0ee",
+      "revId": "67507172207ea9a906fb34ea5333dadc61c905a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "650681c8_63ffd222",
+        "filename": "src/runtime/HACKING.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-29T20:17:10Z",
+      "side": 1,
+      "message": "Well, it has another effect on the toolchain, which is that code is permitted to refer to that name.  That is, it\u0027s not just documentation.  If you don\u0027t have a target linkname, you can\u0027t refer to the push linkname.",
+      "revId": "67507172207ea9a906fb34ea5333dadc61c905a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8658ca66_0fc81d62",
+        "filename": "src/runtime/HACKING.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-29T20:17:10Z",
+      "side": 1,
+      "message": "Again, the latter kind of is required.",
       "revId": "67507172207ea9a906fb34ea5333dadc61c905a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
