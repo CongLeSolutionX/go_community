@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4f79ffd_192c140d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-08-29T20:49:28Z",
+      "side": 1,
+      "message": "The only thing that bugs me is with this CL `os.Getwd` works like `pwd` shell builtin (i.e. it honors `$PWD` and can return paths longer than `PATH_MAX`), and yet `os.Chdir` does not work like `cd` shell builtin (i.e. it does not set `$PWD`). This seems somewhat odd/asymmetric to me.",
+      "revId": "79c17a7ce5e152473b448031f1b58516294c019c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
