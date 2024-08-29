@@ -266,6 +266,119 @@ If memory is already in a type-safe state and is simply being set to
 the zero value, this must be done using regular writes, `typedmemclr`,
 or `memclrHasPointers`. This performs write barriers.
 
+Linkname
+========
+
+There are three forms of `//go:linkname` directives.
+
+"Push linkname"
+---------------
+
+A "push" linkname gives a local _definition_ a final symbol name in a different
+package. This effectively "pushes" the symbol to the other package.
+
+```
+//go:linkname foo otherpkg.foo
+func foo() {
+    // impl
+}
+```
+
+"Pull linkname"
+---------------
+
+A "pull" linkname gives references to a local _declaration_ a final symbal name
+in a different package. This effectively "pulls" the symbol from the other
+package.
+
+```
+//go:linkname foo otherpkg.foo
+func foo()
+```
+
+"Target linkname"
+-----------------
+
+The second argument to `//go:linkname` is the target symbol name. If it is
+omitted, the toolchain uses the default symbol name. In other words, this is a
+linkname to itself. This seems to be a no-op, but it is used to mean that this
+symbol is itself the "target" of another linkname.
+
+```
+//go:linkname foo
+func foo() {
+    // impl
+}
+```
+
+When applied to a definition, a target linkname indicates that another package
+has a pull linkname targeting this symbol. This has a few effects:
+
+- The compiler avoids dead-code elimination of the symbol even if it is otherwise unused.
+- The linker will allow pull linknames to this symbol even with
+  `-checklinkname=true` (see "Handshake" section below).
+
+```
+//go:linkname foo
+func foo()
+```
+
+When applied to a declaration, a target linkname indicates that another package
+has a push linkname targeting this symbol. Other than documentation, the only
+effect this has on the toolchain is that the compiler will not require a `.s`
+file in the package (normally the compiler requires a `.s` when there are
+function declarations without a body).
+
+Handshake
+---------
+
+We always prefer to use push linknames rather than pull linknames. With a push
+linkname, the package with the definition is aware it is publishing an API to
+another package. On the other hand, with a pull linkname, the definition
+package may be completely unaware of the dependency and may unintentionally
+break users.
+
+The preferred form for a linkname is to use a push linkname in the defining
+package, and a target linkname in the receiving package. The latter is not
+strictly required, but serves as documentation. By convention, the receiving
+package names the symbol containing the source package to further aid
+documentation.
+
+```
+package runtime
+
+//go:linkname foo otherpkg.runtime_foo
+func foo() {
+    // impl
+}
+```
+
+```
+package otherpkg
+
+//go:linkname runtime_foo
+func runtime_foo()
+```
+
+As of Go 1.23, the linker forbids pull linknames of symbols in the standard
+library unless they participate in a handshake. Since many third-party packages
+already have pull linknames to standard library functions, for backwards
+compatibility, standard library symbols that are the target of external pull
+linknames must use a target linkname to signal to the linker that pull
+linknames are acceptable.
+
+```
+package runtime
+
+//go:linkname fastrand
+func fastrand() {
+    // impl
+}
+```
+
+Note that linker enforcement can be disabled with the `-checklinkname=false`
+flag.
+
 Runtime-only compiler directives
 ================================
 
