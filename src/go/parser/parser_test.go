@@ -9,6 +9,7 @@ import (
 	"go/ast"
 	"go/token"
 	"io/fs"
+	"reflect"
 	"strings"
 	"testing"
 )
@@ -819,5 +820,41 @@ func TestIssue57490(t *testing.T) {
 	offset := tokFile.Offset(funcEnd)
 	if offset != tokFile.Size() {
 		t.Fatalf("offset = %d, want %d", offset, tokFile.Size())
+	}
+}
+
+func TestCommentGroupWithLineDirective(t *testing.T) {
+	const src = `package main
+func test() {
+//line a:15:1
+	//
+}
+`
+	fs := token.NewFileSet()
+	f, err := ParseFile(fs, "test.go", src, ParseComments|SkipObjectResolution)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := []*ast.CommentGroup{
+		{
+			List: []*ast.Comment{
+				{
+					Slash: token.Pos(28),
+					Text:  "//line a:15:1",
+				},
+				{
+					Slash: token.Pos(43),
+					Text:  "//",
+				},
+			},
+		},
+	}
+
+	if !reflect.DeepEqual(f.Comments, want) {
+		var g, w strings.Builder
+		ast.Fprint(&g, fs, f.Comments, nil)
+		ast.Fprint(&w, fs, want, nil)
+		t.Fatalf("unexpected f.Comments got:\n%v\nwant:\n%v", g.String(), w.String())
 	}
 }
