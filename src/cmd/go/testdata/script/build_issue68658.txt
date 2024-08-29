@@ -1,0 +1,19 @@
+# Test for issue #68658: In GOPATH mode, files with a fileVersion earlier
+# than go1.21 should downgrade to go1.21, not an earlier language version.
+
+[short] skip 'requires build'
+
+env GO111MODULE=off
+go build foo
+
+-- foo/main.go --
+//go:build go1.10
+
+package p
+
+import "fmt"
+
+func main() {
+	var x any
+	fmt.Println(x)
+}
