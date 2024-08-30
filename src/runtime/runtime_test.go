@@ -367,6 +367,31 @@ func TestGoroutineProfileTrivial(t *testing.T) {
 	}
 }
 
+func TestGoroutineProfileNullTermination(t *testing.T) {
+	var p []StackRecord
+	for {
+		n, ok := GoroutineProfile(p)
+		if ok {
+			p = p[:n]
+			break
+		}
+		p = make([]StackRecord, n*2)
+		for i := range p {
+			for j := range p[i].Stack0 {
+				p[i].Stack0[j] = ^uintptr(0)
+			}
+		}
+	}
+
+	for _, sr := range p {
+		for _, v := range sr.Stack() {
+			if v == ^uintptr(0) {
+				t.Fatal("StackRecord not null terminated")
+			}
+		}
+	}
+}
+
 func BenchmarkGoroutineProfile(b *testing.B) {
 	run := func(fn func() bool) func(b *testing.B) {
 		runOne := func(b *testing.B) {

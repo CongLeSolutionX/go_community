@@ -1656,6 +1656,9 @@ func GoroutineProfile(p []StackRecord) (n int, ok bool) {
 	}
 	for i, mr := range records[0:n] {
 		copy(p[i].Stack0[:], mr.Stack)
+		if len(mr.Stack) < len(p[i].Stack0) {
+			p[i].Stack0[len(mr.Stack)] = 0
+		}
 	}
 	return
 }
