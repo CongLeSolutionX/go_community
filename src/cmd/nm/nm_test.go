@@ -29,26 +29,6 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-// nmPath returns the path to the "nm" binary to run.
-func nmPath(t testing.TB) string {
-	t.Helper()
-	testenv.MustHaveExec(t)
-
-	nmPathOnce.Do(func() {
-		nmExePath, nmPathErr = os.Executable()
-	})
-	if nmPathErr != nil {
-		t.Fatal(nmPathErr)
-	}
-	return nmExePath
-}
-
-var (
-	nmPathOnce sync.Once
-	nmExePath  string
-	nmPathErr  error
-)
-
 func TestNonGoExecs(t *testing.T) {
 	t.Parallel()
 	testfiles := []string{
@@ -74,7 +54,7 @@ func TestNonGoExecs(t *testing.T) {
 			exepath = tf
 		}
 
-		cmd := testenv.Command(t, nmPath(t), exepath)
+		cmd := testenv.Command(t, testenv.Executable(t), exepath)
 		out, err := cmd.CombinedOutput()
 		if err != nil {
 			t.Errorf("go tool nm %v: %v\n%s", exepath, err, string(out))
@@ -148,7 +128,7 @@ func testGoExec(t *testing.T, iscgo, isexternallinker bool) {
 		runtimeSyms["runtime.epclntab"] = "D"
 	}
 
-	out, err = testenv.Command(t, nmPath(t), exe).CombinedOutput()
+	out, err = testenv.Command(t, testenv.Executable(t), exe).CombinedOutput()
 	if err != nil {
 		t.Fatalf("go tool nm: %v\n%s", err, string(out))
 	}
@@ -259,7 +239,7 @@ func testGoLib(t *testing.T, iscgo bool) {
 	}
 	mylib := filepath.Join(libpath, "mylib.a")
 
-	out, err = testenv.Command(t, nmPath(t), mylib).CombinedOutput()
+	out, err = testenv.Command(t, testenv.Executable(t), mylib).CombinedOutput()
 	if err != nil {
 		t.Fatalf("go tool nm: %v\n%s", err, string(out))
 	}

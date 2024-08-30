@@ -30,26 +30,6 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-// objdumpPath returns the path to the "objdump" binary to run.
-func objdumpPath(t testing.TB) string {
-	t.Helper()
-	testenv.MustHaveExec(t)
-
-	objdumpPathOnce.Do(func() {
-		objdumpExePath, objdumpPathErr = os.Executable()
-	})
-	if objdumpPathErr != nil {
-		t.Fatal(objdumpPathErr)
-	}
-	return objdumpExePath
-}
-
-var (
-	objdumpPathOnce sync.Once
-	objdumpExePath  string
-	objdumpPathErr  error
-)
-
 var x86Need = []string{ // for both 386 and AMD64
 	"JMP main.main(SB)",
 	"CALL main.Println(SB)",
@@ -222,7 +202,7 @@ func testDisasm(t *testing.T, srcfname string, printCode bool, printGnuAsm bool,
 	if printGnuAsm {
 		args = append([]string{"-gnu"}, args...)
 	}
-	cmd = testenv.Command(t, objdumpPath(t), args...)
+	cmd = testenv.Command(t, testenv.Executable(t), args...)
 	cmd.Dir = "testdata" // "Bad line" bug #36683 is sensitive to being run in the source directory
 	out, err = cmd.CombinedOutput()
 	t.Logf("Running %v", cmd.Args)
@@ -320,7 +300,7 @@ func TestDisasmGoobj(t *testing.T) {
 		hello,
 	}
 
-	out, err = testenv.Command(t, objdumpPath(t), args...).CombinedOutput()
+	out, err = testenv.Command(t, testenv.Executable(t), args...).CombinedOutput()
 	if err != nil {
 		t.Fatalf("objdump fmthello.o: %v\n%s", err, out)
 	}
@@ -361,7 +341,7 @@ func TestGoobjFileNumber(t *testing.T) {
 		t.Fatalf("build failed: %v\n%s", err, out)
 	}
 
-	cmd = testenv.Command(t, objdumpPath(t), obj)
+	cmd = testenv.Command(t, testenv.Executable(t), obj)
 	out, err = cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("objdump failed: %v\n%s", err, out)
@@ -384,7 +364,7 @@ func TestGoObjOtherVersion(t *testing.T) {
 	t.Parallel()
 
 	obj := filepath.Join("testdata", "go116.o")
-	cmd := testenv.Command(t, objdumpPath(t), obj)
+	cmd := testenv.Command(t, testenv.Executable(t), obj)
 	out, err := cmd.CombinedOutput()
 	if err == nil {
 		t.Fatalf("objdump go116.o succeeded unexpectedly")
