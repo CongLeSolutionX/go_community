@@ -33,12 +33,7 @@ const (
 // test. At one point this was created via "go build"; we now reuse the unit
 // test executable itself.
 func testcover(t testing.TB) string {
-	exe, err := os.Executable()
-	if err != nil {
-		t.Helper()
-		t.Fatal(err)
-	}
-	return exe
+	return testenv.Executable(t)
 }
 
 // testTempDir is a temporary directory created in TestMain.
