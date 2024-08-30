@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba11b790_956ab198",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-08-30T16:25:30Z",
+      "side": 1,
+      "message": "I agree, I can\u0027t see any sign that the Skip was intentionally more forgiving than the new behavior of t.Fatal.",
+      "revId": "c54bd7bcbc6f6423ff54791db7ae677a6de644c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
