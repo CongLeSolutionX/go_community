@@ -45,14 +45,14 @@ var ptrTests = []ptrTest{
 		// Passing a pointer to a struct that contains a Go pointer.
 		name: "ptr1",
 		c:    `typedef struct s1 { int *p; } s1; void f1(s1 *ps) {}`,
-		body: `C.f1(&C.s1{new(C.int)})`,
+		body: `C.f1(&C.s1{p:new(C.int)})`,
 		fail: true,
 	},
 	{
 		// Passing a pointer to a struct that contains a Go pointer.
 		name: "ptr2",
 		c:    `typedef struct s2 { int *p; } s2; void f2(s2 *ps) {}`,
-		body: `p := &C.s2{new(C.int)}; C.f2(p)`,
+		body: `p := &C.s2{p:new(C.int)}; C.f2(p)`,
 		fail: true,
 	},
 	{
@@ -231,7 +231,7 @@ var ptrTests = []ptrTest{
 		    struct s19b { struct s19a f; };
 		    struct s19b *f19() { return malloc(sizeof(struct s19b)); }
 		    void f19b(struct s19b *p) {}`,
-		body:      `p := C.f19(); p.f = C.struct_s19a{[32769]*C.char{new(C.char)}}; C.f19b(p)`,
+		body:      `p := C.f19(); p.f = C.struct_s19a{a:[32769]*C.char{new(C.char)}}; C.f19b(p)`,
 		fail:      true,
 		expensive: true,
 	},
@@ -245,7 +245,7 @@ var ptrTests = []ptrTest{
 		    void f20b(struct s20b *p) {}
 		    void f20c(void *p) {}`,
 		imports:   []string{"unsafe"},
-		body:      `p := C.f20(); n := &C.struct_s20a{[32769]*C.char{new(C.char)}}; p.f = *n; C.f20b(p); n.a[0] = nil; C.f20c(unsafe.Pointer(n))`,
+		body:      `p := C.f20(); n := &C.struct_s20a{a:[32769]*C.char{new(C.char)}}; p.f = *n; C.f20b(p); n.a[0] = nil; C.f20c(unsafe.Pointer(n))`,
 		fail:      true,
 		expensive: true,
 	},
