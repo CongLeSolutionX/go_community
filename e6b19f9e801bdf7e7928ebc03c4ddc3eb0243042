@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3331f803_d13c9a89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-08-30T06:42:27Z",
+      "side": 1,
+      "message": "Sorry about the regression and thanks for taking a look. If the fix lands, it\u0027d be great to have it back-ported to go1.23.x.",
+      "revId": "e6b19f9e801bdf7e7928ebc03c4ddc3eb0243042",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
