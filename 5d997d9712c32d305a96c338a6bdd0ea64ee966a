@@ -50,6 +50,24 @@
       "message": "One thing I\u0027m not entirely sure of is whether `testenv.Executable` should fall back on returning `os.Args[0]` upon getting an error from `os.Executable` or not.\n\nSome of the `os.executable` implementations rely on `os.Args[0]`, so I guess it should be an internal detail and the above fallback is not necessary, but maybe I\u0027m missing something here.",
       "revId": "5d997d9712c32d305a96c338a6bdd0ea64ee966a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cdea006_9d7807c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-08-30T17:39:04Z",
+      "side": 1,
+      "message": "So, I guess the current implementation is sufficient, and if needed, a fallback to `os.Args[0]` can be added later.",
+      "parentUuid": "1fde6644_f62450ca",
+      "revId": "5d997d9712c32d305a96c338a6bdd0ea64ee966a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
