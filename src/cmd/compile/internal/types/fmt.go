@@ -6,13 +6,13 @@ package types
 
 import (
 	"bytes"
+	"crypto/md5"
 	"encoding/binary"
 	"fmt"
 	"strconv"
 	"sync"
 
 	"cmd/compile/internal/base"
-	"cmd/internal/notsha256"
 )
 
 // BuiltinPkg is a fake package that declares the universe block.
@@ -644,7 +644,7 @@ func SplitVargenSuffix(name string) (base, suffix string) {
 func TypeHash(t *Type) uint32 {
 	p := t.LinkString()
 
-	// Using SHA256 is overkill, but reduces accidental collisions.
-	h := notsha256.Sum256([]byte(p))
+	// Using MD5 is overkill, but reduces accidental collisions.
+	h := md5.Sum([]byte(p))
 	return binary.LittleEndian.Uint32(h[:4])
 }

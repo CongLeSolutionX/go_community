@@ -5,11 +5,12 @@
 package ld
 
 import (
-	"cmd/internal/notsha256"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/loader"
 	"cmd/link/internal/sym"
+	"crypto/sha1"
+	"crypto/sha256"
 	"debug/elf"
 	"encoding/binary"
 	"encoding/hex"
@@ -812,7 +813,7 @@ func addbuildinfo(val string) {
 			Exitf("-B gobuildid requires a Go build ID supplied via -buildid")
 		}
 
-		hashedBuildID := notsha256.Sum256([]byte(buildID))
+		hashedBuildID := sha256.Sum256([]byte(buildID))
 		buildinfo = hashedBuildID[:20]
 
 		return
@@ -1677,10 +1678,10 @@ func (ctxt *Link) doelf() {
 		sb.SetType(sym.SRODATA)
 		ldr.SetAttrSpecial(s, true)
 		sb.SetReachable(true)
-		sb.SetSize(notsha256.Size)
+		sb.SetSize(sha1.Size)
 
 		sort.Sort(byPkg(ctxt.Library))
-		h := notsha256.New()
+		h := sha1.New()
 		for _, l := range ctxt.Library {
 			h.Write(l.Fingerprint[:])
 		}

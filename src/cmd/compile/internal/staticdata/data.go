@@ -5,6 +5,7 @@
 package staticdata
 
 import (
+	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
 	"go/constant"
@@ -18,7 +19,6 @@ import (
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/objw"
 	"cmd/compile/internal/types"
-	"cmd/internal/notsha256"
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
@@ -78,7 +78,7 @@ func StringSym(pos src.XPos, s string) (data *obj.LSym) {
 		// Indulge in some paranoia by writing the length of s, too,
 		// as protection against length extension attacks.
 		// Same pattern is known to fileStringSym below.
-		h := notsha256.New()
+		h := sha256.New()
 		io.WriteString(h, s)
 		symname = fmt.Sprintf(stringSymPattern, len(s), shortHashString(h.Sum(nil)))
 	} else {
@@ -146,7 +146,7 @@ func fileStringSym(pos src.XPos, file string, readonly bool, hash []byte) (*obj.
 			sym = slicedata(pos, string(data))
 		}
 		if len(hash) > 0 {
-			sum := notsha256.Sum256(data)
+			sum := sha256.Sum256(data)
 			copy(hash, sum[:])
 		}
 		return sym, size, nil
@@ -163,7 +163,7 @@ func fileStringSym(pos src.XPos, file string, readonly bool, hash []byte) (*obj.
 	// Compute hash if needed for read-only content hashing or if the caller wants it.
 	var sum []byte
 	if readonly || len(hash) > 0 {
-		h := notsha256.New()
+		h := sha256.New()
 		n, err := io.Copy(h, f)
 		if err != nil {
 			return nil, 0, err

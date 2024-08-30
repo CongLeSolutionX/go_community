@@ -5,11 +5,11 @@
 package ssa
 
 import (
+	"crypto/sha256"
 	"fmt"
 	"io"
 	"strings"
 
-	"cmd/internal/notsha256"
 	"cmd/internal/src"
 )
 
@@ -18,7 +18,7 @@ func printFunc(f *Func) {
 }
 
 func hashFunc(f *Func) []byte {
-	h := notsha256.New()
+	h := sha256.New()
 	p := stringFuncPrinter{w: h, printDead: true}
 	fprintFunc(p, f)
 	return h.Sum(nil)
@@ -33,7 +33,7 @@ func (f *Func) String() string {
 
 // rewriteHash returns a hash of f suitable for detecting rewrite cycles.
 func (f *Func) rewriteHash() string {
-	h := notsha256.New()
+	h := sha256.New()
 	p := stringFuncPrinter{w: h, printDead: false}
 	fprintFunc(p, f)
 	return fmt.Sprintf("%x", h.Sum(nil))
