@@ -10,6 +10,7 @@ import (
 	"internal/cpu"
 	"internal/runtime/atomic"
 	"io"
+	"runtime"
 	. "runtime"
 	"runtime/debug"
 	"slices"
@@ -364,6 +365,113 @@ func TestGoroutineProfileTrivial(t *testing.T) {
 		if i >= 10 {
 			t.Fatalf("GoroutineProfile not converging")
 		}
+	}
+}
+
+func TestProfileRecordNullPadding(t *testing.T) {
+	produceProfileRecords()
+
+	testProfileRecordNullPadding(t, "MutexProfile", MutexProfile)
+	testProfileRecordNullPadding(t, "GoroutineProfile", GoroutineProfile)
+	testProfileRecordNullPadding(t, "BlockProfile", BlockProfile)
+	testProfileRecordNullPadding(t, "MemProfile/inUseZero=true", func(p []MemProfileRecord) (int, bool) {
+		return MemProfile(p, true)
+	})
+	testProfileRecordNullPadding(t, "MemProfile/inUseZero=false", func(p []MemProfileRecord) (int, bool) {
+		return MemProfile(p, false)
+	})
+	// Not testing ThreadCreateProfile because it is broken, see issue 6104.
+}
+
+func testProfileRecordNullPadding[T StackRecord | MemProfileRecord | BlockProfileRecord](t *testing.T, name string, fn func([]T) (int, bool)) {
+	stack0 := func(sr *T) *[32]uintptr {
+		switch t := any(sr).(type) {
+		case *StackRecord:
+			return &t.Stack0
+		case *MemProfileRecord:
+			return &t.Stack0
+		case *BlockProfileRecord:
+			return &t.Stack0
+		default:
+			panic(fmt.Sprintf("unexpected type %T", sr))
+		}
+	}
+
+	t.Run(name, func(t *testing.T) {
+		var p []T
+		for {
+			n, ok := fn(p)
+			if ok {
+				p = p[:n]
+				break
+			}
+			p = make([]T, n*2)
+			for i := range p {
+				s0 := stack0(&p[i])
+				for j := range s0 {
+					// Poison the Stack0 array to identify lack of zero padding
+					s0[j] = ^uintptr(0)
+				}
+			}
+		}
+
+		if len(p) == 0 {
+			t.Fatal("no records found")
+		}
+
+		for _, sr := range p {
+			for i, v := range stack0(&sr) {
+				if v == ^uintptr(0) {
+					t.Fatalf("record p[%d].Stack0 is not null padded: %+v", i, sr)
+				}
+			}
+		}
+	})
+}
+
+func produceProfileRecords() {
+	// Disable sampling, otherwise it's difficult to assert anything.
+	oldMemRate := runtime.MemProfileRate
+	runtime.MemProfileRate = 1
+	runtime.SetBlockProfileRate(1)
+	oldMutexRate := runtime.SetMutexProfileFraction(1)
+
+	sink = *new(uint64)            // MemProfile
+	<-time.After(time.Millisecond) // BlockProfile
+	produceMutexProfileRecord()    // MutexProfile
+
+	runtime.MemProfileRate = oldMemRate
+	runtime.SetBlockProfileRate(0)
+	runtime.SetMutexProfileFraction(oldMutexRate)
+}
+
+func produceMutexProfileRecord() {
+	var mu sync.Mutex
+	done := make(chan struct{})
+	defer close(done)
+
+	// Start at least 2 goroutines to create contention on mu.
+	for range max(2, runtime.GOMAXPROCS(-1)) {
+		go func() {
+			for finish := false; !finish; {
+				mu.Lock()
+				select {
+				case <-done:
+					finish = true
+				default:
+					// In theory the scheduler could pick an execution schedule
+					// that doesn't cause contention on mu. Reduce the odds of
+					// this happening by yielding to the scheduler while holding
+					// mu.
+					time.Sleep(time.Millisecond)
+				}
+				mu.Unlock()
+			}
+		}()
+	}
+
+	for n := 0; n < 1; {
+		n, _ = MutexProfile(nil)
 	}
 }
 
