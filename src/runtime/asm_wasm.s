@@ -538,7 +538,7 @@ TEXT wasm_pc_f_loop(SB),NOSPLIT,$0
 			Get SP
 			I32Const $8
 			I32Sub
-			I32Load16U $2 // PC_F
+			I32Load $2 // PC_F
 
 			CallIndirect $0
 			Drop
