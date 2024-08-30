@@ -1853,6 +1853,7 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 		// except for certain packages, to avoid circular dependencies.
 		if p.UsesCgo() {
 			addImport("unsafe", true)
+			addImport("structs", true)
 		}
 		if p.UsesCgo() && (!p.Standard || !cgoExclude[p.ImportPath]) && cfg.BuildContext.Compiler != "gccgo" {
 			addImport("runtime/cgo", true)
@@ -1864,6 +1865,7 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 		// SWIG adds imports of some standard packages.
 		if p.UsesSwig() {
 			addImport("unsafe", true)
+			addImport("structs", true)
 			if cfg.BuildContext.Compiler != "gccgo" {
 				addImport("runtime/cgo", true)
 			}
