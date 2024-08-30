@@ -54,6 +54,9 @@ func (p *Package) godefs(f *File, args []string) string {
 		}
 	}
 
+	needsStructs := false
+	var lastImport int = -1
+
 	// Otherwise, if the source file says type T C.whatever,
 	// use "T" as the mangling of C.whatever,
 	// except in the definition (handled at end of function).
@@ -61,9 +64,15 @@ func (p *Package) godefs(f *File, args []string) string {
 	for _, r := range f.Ref {
 		refName[r.Expr] = r.Name
 	}
-	for _, d := range f.AST.Decls {
+	for i, d := range f.AST.Decls {
 		d, ok := d.(*ast.GenDecl)
-		if !ok || d.Tok != token.TYPE {
+		if !ok {
+			continue
+		}
+		if d.Tok == token.IMPORT {
+			lastImport = i
+		}
+		if d.Tok != token.TYPE {
 			continue
 		}
 		for _, s := range d.Specs {
@@ -72,6 +81,34 @@ func (p *Package) godefs(f *File, args []string) string {
 			if n != nil && n.Mangle != "" {
 				override[n.Mangle] = s.Name.Name
 			}
+			if _, ok := s.Type.(*ast.StructType); ok {
+				needsStructs = true
+			}
+
+		}
+	}
+
+	// If there is a structure, there will be a reference to "structs".
+	// Ensure it is imported.
+	if needsStructs {
+		for _, i := range f.AST.Imports {
+			if i.Path.Value == "\"structs\"" {
+				needsStructs = false
+				break
+			}
+		}
+		if needsStructs {
+			is := &ast.ImportSpec{Path: &ast.BasicLit{Kind: token.STRING, Value: "\"structs\""}}
+			if lastImport >= 0 {
+				li := f.AST.Decls[lastImport].(*ast.GenDecl)
+				li.Specs = append(li.Specs, is)
+			} else {
+				l := len(f.AST.Decls)
+				f.AST.Decls = append(f.AST.Decls, nil)
+				copy(f.AST.Decls[1:l+1], f.AST.Decls[0:l])
+				f.AST.Decls[0] = &ast.GenDecl{Tok: token.IMPORT, Specs: []ast.Spec{is}}
+			}
+			f.AST.Imports = append(f.AST.Imports, is)
 		}
 	}
 
