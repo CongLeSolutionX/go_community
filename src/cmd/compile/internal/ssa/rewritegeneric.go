@@ -19752,6 +19752,84 @@ func rewriteValuegeneric_OpNilCheck(v *Value) bool {
 		v.copyOf(ptr)
 		return true
 	}
+	// match: (NilCheck ptr:(Const32 [c]) _ )
+	// cond: c != 0
+	// result: ptr
+	for {
+		ptr := v_0
+		if ptr.Op != OpConst32 {
+			break
+		}
+		c := auxIntToInt32(ptr.AuxInt)
+		if !(c != 0) {
+			break
+		}
+		v.copyOf(ptr)
+		return true
+	}
+	// match: (NilCheck ptr:(Const64 [c]) _ )
+	// cond: c != 0
+	// result: ptr
+	for {
+		ptr := v_0
+		if ptr.Op != OpConst64 {
+			break
+		}
+		c := auxIntToInt64(ptr.AuxInt)
+		if !(c != 0) {
+			break
+		}
+		v.copyOf(ptr)
+		return true
+	}
+	// match: (NilCheck ptr:(Addr _) _ )
+	// result: ptr
+	for {
+		ptr := v_0
+		if ptr.Op != OpAddr {
+			break
+		}
+		v.copyOf(ptr)
+		return true
+	}
+	// match: (NilCheck ptr:(Convert (Addr _) _) _ )
+	// result: ptr
+	for {
+		ptr := v_0
+		if ptr.Op != OpConvert {
+			break
+		}
+		ptr_0 := ptr.Args[0]
+		if ptr_0.Op != OpAddr {
+			break
+		}
+		v.copyOf(ptr)
+		return true
+	}
+	// match: (NilCheck ptr:(LocalAddr _ _) _ )
+	// result: ptr
+	for {
+		ptr := v_0
+		if ptr.Op != OpLocalAddr {
+			break
+		}
+		v.copyOf(ptr)
+		return true
+	}
+	// match: (NilCheck ptr (Store _ ptr _))
+	// result: ptr
+	for {
+		ptr := v_0
+		if v_1.Op != OpStore {
+			break
+		}
+		_ = v_1.Args[1]
+		if ptr != v_1.Args[1] {
+			break
+		}
+		v.copyOf(ptr)
+		return true
+	}
 	return false
 }
 func rewriteValuegeneric_OpNot(v *Value) bool {

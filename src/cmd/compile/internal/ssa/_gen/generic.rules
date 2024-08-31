@@ -2228,6 +2228,13 @@
 (IsNonNil (Convert (Addr _) _)) => (ConstBool [true])
 (IsNonNil (LocalAddr _ _)) => (ConstBool [true])
 
+// Remove nil checks for pointers that were just used.
+(NilCheck ptr:(Const(32|64) [c])   _             ) && c != 0 => ptr
+(NilCheck          ptr:(Addr _)    _             )           => ptr
+(NilCheck ptr:(Convert (Addr _) _) _             )           => ptr
+(NilCheck ptr:(LocalAddr _ _)      _             )           => ptr
+(NilCheck ptr                     (Store _ ptr _))           => ptr
+
 // Inline small or disjoint runtime.memmove calls with constant length.
 // See the comment in op Move in genericOps.go for discussion of the type.
 //
