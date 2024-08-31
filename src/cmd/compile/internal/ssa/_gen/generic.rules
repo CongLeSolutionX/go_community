@@ -2105,10 +2105,6 @@
 	&& warnRule(fe.Debug_checknil(), v, "removed nil check")
 	=> ptr
 
-// Addresses of globals are always non-nil.
-(NilCheck          ptr:(Addr {_} (SB))    _) => ptr
-(NilCheck ptr:(Convert (Addr {_} (SB)) _) _) => ptr
-
 // for late-expanded calls, recognize memequal applied to a single constant byte
 // Support is limited by 1, 2, 4, 8 byte sizes
 (StaticLECall {callAux} sptr (Addr {scon} (SB)) (Const64 [1]) mem)

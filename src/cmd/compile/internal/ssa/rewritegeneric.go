@@ -19720,38 +19720,6 @@ func rewriteValuegeneric_OpNilCheck(v *Value) bool {
 		v.copyOf(ptr)
 		return true
 	}
-	// match: (NilCheck ptr:(Addr {_} (SB)) _)
-	// result: ptr
-	for {
-		ptr := v_0
-		if ptr.Op != OpAddr {
-			break
-		}
-		ptr_0 := ptr.Args[0]
-		if ptr_0.Op != OpSB {
-			break
-		}
-		v.copyOf(ptr)
-		return true
-	}
-	// match: (NilCheck ptr:(Convert (Addr {_} (SB)) _) _)
-	// result: ptr
-	for {
-		ptr := v_0
-		if ptr.Op != OpConvert {
-			break
-		}
-		ptr_0 := ptr.Args[0]
-		if ptr_0.Op != OpAddr {
-			break
-		}
-		ptr_0_0 := ptr_0.Args[0]
-		if ptr_0_0.Op != OpSB {
-			break
-		}
-		v.copyOf(ptr)
-		return true
-	}
 	// match: (NilCheck ptr:(Const32 [c]) _ )
 	// cond: c != 0
 	// result: ptr
