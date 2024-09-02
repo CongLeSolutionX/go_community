@@ -536,13 +536,15 @@ var instructionTable = map[obj.As][]encoding{
 		{0x05205000, FG_PdT_PnT_PmT, E_size_Pm_Pn_Pd}, // TRN1 <Pd>.<T>, <Pn>.<T>, <Pm>.<T>
 	},
 	AZTRN1: {
-		{0x05207000, FG_ZdT_ZnT_ZmT, E_size_Zm_Zn_Zd}, // TRN1 <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+		{0x05207000, FG_ZdT_ZnT_ZmT, E_size_Zm_Zn_Zd},  // TRN1 <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+		{0x05a01800, []int{F_ZdQ_ZnQ_ZmQ}, E_Rd_Rn_Rm}, // TRN1 <Zd>.Q, <Zn>.Q, <Zm>.Q
 	},
 	APTRN2: {
 		{0x05205400, FG_PdT_PnT_PmT, E_size_Pm_Pn_Pd}, // TRN2 <Pd>.<T>, <Pn>.<T>, <Pm>.<T>
 	},
 	AZTRN2: {
-		{0x05207400, FG_ZdT_ZnT_ZmT, E_size_Zm_Zn_Zd}, // TRN2 <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+		{0x05207400, FG_ZdT_ZnT_ZmT, E_size_Zm_Zn_Zd},  // TRN2 <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+		{0x05a01c00, []int{F_ZdQ_ZnQ_ZmQ}, E_Rd_Rn_Rm}, // TRN2 <Zd>.Q, <Zn>.Q, <Zm>.Q
 	},
 	AZUABD: {
 		{0x040d0000, FG_ZdnT_PgM_ZdnT_ZmT, E_size_Pg_Zm_Zdn}, // UABD <Zdn>.<T>, <Pg>/M, <Zdn>.<T>, <Zm>.<T>
@@ -596,13 +598,15 @@ var instructionTable = map[obj.As][]encoding{
 		{0x05204800, FG_PdT_PnT_PmT, E_size_Pm_Pn_Pd}, // UZP1 <Pd>.<T>, <Pn>.<T>, <Pm>.<T>
 	},
 	AZUZP1: {
-		{0x05206800, FG_ZdT_ZnT_ZmT, E_size_Zm_Zn_Zd}, // UZP1 <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+		{0x05206800, FG_ZdT_ZnT_ZmT, E_size_Zm_Zn_Zd},  // UZP1 <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+		{0x05a00800, []int{F_ZdQ_ZnQ_ZmQ}, E_Rd_Rn_Rm}, // UZP1 <Zd>.Q, <Zn>.Q, <Zm>.Q
 	},
 	APUZP2: {
 		{0x05204c00, FG_PdT_PnT_PmT, E_size_Pm_Pn_Pd}, // UZP2 <Pd>.<T>, <Pn>.<T>, <Pm>.<T>
 	},
 	AZUZP2: {
-		{0x05206c00, FG_ZdT_ZnT_ZmT, E_size_Zm_Zn_Zd}, // UZP2 <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+		{0x05206c00, FG_ZdT_ZnT_ZmT, E_size_Zm_Zn_Zd},  // UZP2 <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+		{0x05a00c00, []int{F_ZdQ_ZnQ_ZmQ}, E_Rd_Rn_Rm}, // UZP2 <Zd>.Q, <Zn>.Q, <Zm>.Q
 	},
 	AWHILELE: {
 		{0x25201410, FG_PdT_Rn_Rm, E_size_Rm_Rn_Pd}, // WHILELE <Pd>.<T>, <R><n>, <R><m>
@@ -635,13 +639,15 @@ var instructionTable = map[obj.As][]encoding{
 		{0x05204000, FG_PdT_PnT_PmT, E_size_Pm_Pn_Pd}, // ZIP1 <Pd>.<T>, <Pn>.<T>, <Pm>.<T>
 	},
 	AZZIP1: {
-		{0x05206000, FG_ZdT_ZnT_ZmT, E_size_Zm_Zn_Zd}, // ZIP1 <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+		{0x05206000, FG_ZdT_ZnT_ZmT, E_size_Zm_Zn_Zd},  // ZIP1 <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+		{0x05a00000, []int{F_ZdQ_ZnQ_ZmQ}, E_Rd_Rn_Rm}, // ZIP1 <Zd>.Q, <Zn>.Q, <Zm>.Q
 	},
 	APZIP2: {
 		{0x05204400, FG_PdT_PnT_PmT, E_size_Pm_Pn_Pd}, // ZIP2 <Pd>.<T>, <Pn>.<T>, <Pm>.<T>
 	},
 	AZZIP2: {
-		{0x05206400, FG_ZdT_ZnT_ZmT, E_size_Zm_Zn_Zd}, // ZIP2 <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+		{0x05206400, FG_ZdT_ZnT_ZmT, E_size_Zm_Zn_Zd},  // ZIP2 <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+		{0x05a00400, []int{F_ZdQ_ZnQ_ZmQ}, E_Rd_Rn_Rm}, // ZIP2 <Zd>.Q, <Zn>.Q, <Zm>.Q
 	},
 }
 
@@ -735,6 +741,7 @@ const (
 	F_ZdH_ZnH_ZmH
 	F_ZdS_ZnS_ZmS
 	F_ZdD_ZnD_ZmD
+	F_ZdQ_ZnQ_ZmQ
 	F_Vdn_Pg_Vdn_ZmB
 	F_Vdn_Pg_Vdn_ZmH
 	F_Vdn_Pg_Vdn_ZmS
@@ -858,6 +865,7 @@ var formats = map[int]format{
 	F_ZdH_ZnH_ZmH:        []int{REG_Z | EXT_H, REG_Z | EXT_H, REG_Z | EXT_H},                        // <Zd>.H, <Zn>.H, <Zm>.H
 	F_ZdS_ZnS_ZmS:        []int{REG_Z | EXT_S, REG_Z | EXT_S, REG_Z | EXT_S},                        // <Zd>.S, <Zn>.S, <Zm>.S
 	F_ZdD_ZnD_ZmD:        []int{REG_Z | EXT_D, REG_Z | EXT_D, REG_Z | EXT_D},                        // <Zd>.D, <Zn>.D, <Zm>.D
+	F_ZdQ_ZnQ_ZmQ:        []int{REG_Z | EXT_Q, REG_Z | EXT_Q, REG_Z | EXT_Q},                        // <Zd>.Q, <Zn>.Q, <Zm>.Q
 	F_Vdn_Pg_Vdn_ZmB:     []int{REG_V, REG_P, REG_V, REG_Z | EXT_B},                                 // <V><d>, <Pg>, <V><dn>, <Zm>.<T>
 	F_Vdn_Pg_Vdn_ZmH:     []int{REG_V, REG_P, REG_V, REG_Z | EXT_H},                                 // <V><d>, <Pg>, <V><dn>, <Zm>.<T>
 	F_Vdn_Pg_Vdn_ZmS:     []int{REG_V, REG_P, REG_V, REG_Z | EXT_S},                                 // <V><d>, <Pg>, <V><dn>, <Zm>.<T>

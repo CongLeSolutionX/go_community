@@ -376,6 +376,8 @@ func ARM64RegisterExtension(a *obj.Addr, ext string, reg, num int16, isAmount, i
 			r.SetExt(arm64.EXT_S)
 		case ext == "D":
 			r.SetExt(arm64.EXT_D)
+		case ext == "Q" && isAmount:
+			r.SetExt(arm64.EXT_Q)
 		default:
 			return fmt.Errorf(
 				"extension unsupported for SVE register: %s isAmount=%v isIndex=%v",

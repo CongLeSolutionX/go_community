@@ -42,6 +42,7 @@ const (
 	EXT_H       // .H
 	EXT_S       // .S
 	EXT_D       // .D
+	EXT_Q       // .Q
 	EXT_MERGING // .M
 	EXT_ZEROING // .Z
 	EXT_END     // End marker
@@ -143,6 +144,8 @@ func (r *SVERegister) Extension() string {
 		return ".S"
 	case EXT_D:
 		return ".D"
+	case EXT_Q:
+		return ".Q"
 	case EXT_MERGING:
 		return ".M"
 	case EXT_ZEROING:

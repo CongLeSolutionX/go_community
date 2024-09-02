@@ -2472,4 +2472,34 @@ TEXT svetest(SB),$0
     ZUCVTF P3.M, Z12.S, Z10.H                        // 8aad5565
     ZUCVTF P7.M, Z31.S, Z31.H                        // ffbf5565
 
+// TRN1    <Zd>.Q, <Zn>.Q, <Zm>.Q
+    ZTRN1 Z0.Q, Z0.Q, Z0.Q                           // 0018a005
+    ZTRN1 Z11.Q, Z12.Q, Z10.Q                        // 6a19ac05
+    ZTRN1 Z31.Q, Z31.Q, Z31.Q                        // ff1bbf05
+
+// TRN2    <Zd>.Q, <Zn>.Q, <Zm>.Q
+    ZTRN2 Z0.Q, Z0.Q, Z0.Q                           // 001ca005
+    ZTRN2 Z11.Q, Z12.Q, Z10.Q                        // 6a1dac05
+    ZTRN2 Z31.Q, Z31.Q, Z31.Q                        // ff1fbf05
+
+// UZP1    <Zd>.Q, <Zn>.Q, <Zm>.Q
+    ZUZP1 Z0.Q, Z0.Q, Z0.Q                           // 0008a005
+    ZUZP1 Z11.Q, Z12.Q, Z10.Q                        // 6a09ac05
+    ZUZP1 Z31.Q, Z31.Q, Z31.Q                        // ff0bbf05
+
+// UZP2    <Zd>.Q, <Zn>.Q, <Zm>.Q
+    ZUZP2 Z0.Q, Z0.Q, Z0.Q                           // 000ca005
+    ZUZP2 Z11.Q, Z12.Q, Z10.Q                        // 6a0dac05
+    ZUZP2 Z31.Q, Z31.Q, Z31.Q                        // ff0fbf05
+
+// ZIP1    <Zd>.Q, <Zn>.Q, <Zm>.Q
+    ZZIP1 Z0.Q, Z0.Q, Z0.Q                           // 0000a005
+    ZZIP1 Z11.Q, Z12.Q, Z10.Q                        // 6a01ac05
+    ZZIP1 Z31.Q, Z31.Q, Z31.Q                        // ff03bf05
+
+// ZIP2    <Zd>.Q, <Zn>.Q, <Zm>.Q
+    ZZIP2 Z0.Q, Z0.Q, Z0.Q                           // 0004a005
+    ZZIP2 Z11.Q, Z12.Q, Z10.Q                        // 6a05ac05
+    ZZIP2 Z31.Q, Z31.Q, Z31.Q                        // ff07bf05
+
     RET
