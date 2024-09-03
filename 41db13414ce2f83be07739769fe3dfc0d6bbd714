@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34ae51d7_724bdf88",
+        "filename": "src/cmd/compile/internal/test/issue62407_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-03T17:30:07Z",
+      "side": 1,
+      "message": "The danger here is that the sum+conversions might get done at compile time, not at runtime. (I don\u0027t think it does that currently, but it might at some point in the future.)\nWe should use a way to ensure that the compiler doesn\u0027t constant-fold these. I think the easiest would be\n\n//go:noinline\nfunc foo() string { return \"foo\" }\n//go:noinline\nfunc empty() string { return \"\" }\n\nThen\n\nempty :\u003d empty()\ns :\u003d foo()\n\nSee https://github.com/golang/go/issues/61179 for a better solution, once that proposal is accepted+implemented.",
+      "revId": "41db13414ce2f83be07739769fe3dfc0d6bbd714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbc444e4_5c1bba43",
+        "filename": "src/cmd/compile/internal/test/issue62407_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-03T17:30:07Z",
+      "side": 1,
+      "message": "Also add an s+empty test.",
+      "revId": "41db13414ce2f83be07739769fe3dfc0d6bbd714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "698c47ac_bbc201ea",
+        "filename": "src/cmd/compile/internal/test/issue62407_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-03T17:30:07Z",
+      "side": 1,
+      "message": "There are 3 empty elements in the test 😊",
+      "range": {
+        "startLine": 39,
+        "startChar": 3,
+        "endLine": 39,
+        "endChar": 6
+      },
+      "revId": "41db13414ce2f83be07739769fe3dfc0d6bbd714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3b6bd5f_777b4ba8",
+        "filename": "src/cmd/compile/internal/test/issue62407_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-03T17:30:07Z",
+      "side": 1,
+      "message": "Same here, an s+empty test.",
+      "revId": "41db13414ce2f83be07739769fe3dfc0d6bbd714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
