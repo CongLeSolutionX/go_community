@@ -335,6 +335,10 @@ Below is the full list of supported metrics, ordered lexicographically.
 		The number of non-default behaviors executed by the crypto/tls
 		package due to a non-default GODEBUG=tlsunsafeekm=... setting.
 
+	/godebug/non-default-behavior/toolchaintrace:events
+		The number of non-default behaviors executed by the cmd/go
+		package due to a non-default GODEBUG=toolchaintrace=... setting.
+
 	/godebug/non-default-behavior/winreadlinkvolume:events
 		The number of non-default behaviors executed by the os package
 		due to a non-default GODEBUG=winreadlinkvolume=... setting.
