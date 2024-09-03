@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07761c7a_6f8589d1",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1687,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-03T17:12:05Z",
+      "side": 0,
+      "message": "What is this note used for, and will it care that the hash changed from 32 bytes to 20 bytes?",
+      "revId": "4f327f271d5cf0f6cc6e1bbac72aecaa25ca6e6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

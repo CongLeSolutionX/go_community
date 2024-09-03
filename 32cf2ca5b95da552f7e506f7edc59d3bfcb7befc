@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84b2608f_e7418ebc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-03T17:12:05Z",
+      "side": 1,
+      "message": "Two things:\n\n- A bunch of these changes are not just notsha256-\u003esha256, but notsha256-\u003esomething else. I checked them and the replacements seem reasonable, but I haven\u0027t 100% convinced myself that I didn\u0027t miss something. Maybe we should do all notsha256-\u003esha256 replacements, followed by tightenings to md5/sha1 where appropriate?\n\n- Part of using notsha256 was recording the fact that the actual hash doesn\u0027t matter. i.e., there\u0027s nothing consuming these hash values that cares that it is precisely sha256. Doing notsha256-\u003esha256 destroys that bit of information at the callsite.\n\nI\u0027m not really sure either of these is a dealbreaker. But let me propose an alternative:\n\n1. Add a package cmd/internal/hash, with hash.New32, hash.New20, hash.New16 which are just wrappers around crypto/sha256.New, crypto/sha1.New, and crypto/md5.New.\n2. CL which moves cmd/internal/notsha256.New. to cmd/internal/hash.New32\n3. CL which moves cmd/internal/hash.New32 to 20 or 16 versions, as needed.\n4. Remove cmd/internal/notsha256\n\nThe wrappers in cmd/internal/hash could also keep the not behavior to ensure that no one ever assumes they exactly match a known hash algorithm.",
+      "revId": "32cf2ca5b95da552f7e506f7edc59d3bfcb7befc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
