@@ -1,0 +1,62 @@
+# Test the GODEBUG=toolchaintrace behavior
+# See https://go.dev/issue/63939
+env GODEBUG=toolchaintrace=1
+
+# Clear the path so this test doesn't fail if the system running it\
+# has a binary named go1.21 or go1.22 on its path.
+[GOOS:plan9] env path=
+[!GOOS:plan9] env PATH=
+
+# Go line is newer than local go version.
+env TESTGO_VERSION=go1.14
+go mod init m
+go mod edit -go=1.21
+! go version
+stderr 'go: switching from go1.14\(local go version\) to go1.21.0\(go line in go.mod\)'
+rm go.mod
+
+# Toolchain line is newer than go line.
+env TESTGO_VERSION=go1.14
+go mod init m
+go mod edit -go=1.21 -toolchain=go1.21.2
+! go version
+stderr 'go: switching from go1.14\(local go version\) to go1.21.2\(toolchain line in go.mod\)'
+rm go.mod
+
+# Go line is newer than local go version and toolchain line.
+env TESTGO_VERSION=go1.14
+go mod init m
+go mod edit -go=1.22 -toolchain=go1.21.2
+! go version
+stderr 'go: switching from go1.14\(local go version\) to go1.21.2\(toolchain line in go.mod\)'
+stderr 'go: switching from go1.21.2\(toolchain line in go.mod\) to go1.22.0\(go line in go.mod\)'
+rm go.mod
+
+# No switch.
+env TESTGO_VERSION=go1.21.0
+go mod init m
+go mod edit -go=1.21.0 -toolchain=go1.21.0
+go version
+! stderr 'go: switched from'
+rm go.mod
+
+# GOTOOLCHAIN is older than go line and toolchain line.
+env TESTGO_VERSION=go1.14
+go mod init m
+go mod edit -go=1.22 -toolchain=go1.21.2
+env GOTOOLCHAIN=go1.21.0+auto
+! go version
+stderr 'go: switching from go1.14\(local go version\) to go1.21.0\(GOTOOLCHAIN=go1.21.0\+auto\)'
+stderr 'go: switching from go1.21.0\(GOTOOLCHAIN=go1.21.0\+auto\) to go1.21.2\(toolchain line in go.mod\)'
+stderr 'go: switching from go1.21.2\(toolchain line in go.mod\) to go1.22.0\(go line in go.mod\)'
+rm go.mod
+env GOTOOLCHAIN=auto
+
+# GOTOOLCHAIN is newer than go line and toolchain line.
+env TESTGO_VERSION=go1.14
+go mod init m
+go mod edit -go=1.21.0 -toolchain=go1.21.2
+env GOTOOLCHAIN=go1.22.0+auto
+! go version
+stderr 'go: switching from go1.14\(local go version\) to go1.22.0\(GOTOOLCHAIN=go1.22.0\+auto\)'
+rm go.mod
