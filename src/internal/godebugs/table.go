@@ -55,6 +55,7 @@ var All = []Info{
 	{Name: "tlsmaxrsasize", Package: "crypto/tls"},
 	{Name: "tlsrsakex", Package: "crypto/tls", Changed: 22, Old: "1"},
 	{Name: "tlsunsafeekm", Package: "crypto/tls", Changed: 22, Old: "1"},
+	{Name: "toolchaintrace", Package: "cmd/go"},
 	{Name: "winreadlinkvolume", Package: "os", Changed: 22, Old: "0"},
 	{Name: "winsymlink", Package: "os", Changed: 22, Old: "0"},
 	{Name: "x509keypairleaf", Package: "crypto/tls", Changed: 23, Old: "0"},

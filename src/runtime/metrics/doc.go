@@ -250,6 +250,10 @@ Below is the full list of supported metrics, ordered lexicographically.
 		The number of non-default behaviors executed by the cmd/go
 		package due to a non-default GODEBUG=gocacheverify=... setting.
 
+	/godebug/non-default-behavior/toolchaintrace:events
+		The number of non-default behaviors executed by the cmd/go
+		package due to a non-default GODEBUG=toolchaintrace=... setting.
+
 	/godebug/non-default-behavior/gotypesalias:events
 		The number of non-default behaviors executed by the go/types
 		package due to a non-default GODEBUG=gotypesalias=... setting.
