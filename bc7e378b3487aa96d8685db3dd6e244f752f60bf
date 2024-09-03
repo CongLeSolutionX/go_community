@@ -16,6 +16,24 @@
       "message": "@kolyshkin@gmail.com The new tests are failing on macOS builders, e.g.:\n\nhttps://ci.chromium.org/b/8737799613133794801\n\nMade a revert CL (CL 610275) if that helps. If fixing forward can be done about equally quickly, we can do that instead. Thanks.",
       "revId": "bc7e378b3487aa96d8685db3dd6e244f752f60bf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "416ae8dc_b51b2ee5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-03T18:31:01Z",
+      "side": 1,
+      "message": "Sent https://go.dev/cl/609579 as a fix.",
+      "parentUuid": "d45f2850_03c8776d",
+      "revId": "bc7e378b3487aa96d8685db3dd6e244f752f60bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
