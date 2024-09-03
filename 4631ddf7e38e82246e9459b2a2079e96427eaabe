@@ -33,6 +33,24 @@
       "message": "This was previously looping over e.cachedVals and deleting from e.cache, while the new code always clears e.cache. It might very well be equivalent and simpler code if e.cachedVals is guaranteed to have the same elements, but I\u0027m not familiar with this to easily tell. Is that right? (It does align with the comment on top.)\n\nEdit: Reading the field comments on lines 2194-2195 suggests iterating cachedVals was clearing all of cache.",
       "revId": "4631ddf7e38e82246e9459b2a2079e96427eaabe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0776a529_dac974b8",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2231,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-03T22:29:01Z",
+      "side": 1,
+      "message": "Yes, I believe cachedVals contains everything in the cache map.",
+      "parentUuid": "ae8ccccc_c8a2994e",
+      "revId": "4631ddf7e38e82246e9459b2a2079e96427eaabe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
