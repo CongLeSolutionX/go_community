@@ -1,6 +1,69 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d1d841f_64132ae8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-03T20:21:01Z",
+      "side": 1,
+      "message": "\"cmd/go/internal/load\" or \"cmd/go\"\n\nYou may have to shorten the rest of the message to get everything to fit.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f231746_370a4b94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-03T20:21:01Z",
+      "side": 1,
+      "message": "Please remove the backticks here and below.",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b78292e2_be9170d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-03T20:21:01Z",
+      "side": 1,
+      "message": "add \"Fixes #66078\"",
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0c5b22c5_8e31d19e",
@@ -31,6 +94,213 @@
       "writtenOn": "2024-08-28T20:30:28Z",
       "side": 1,
       "message": "Hi Michael, when you have time, could you help to review the code change in the CL?\nThank you!",
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26aa3da5_2439f07b",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-03T20:21:01Z",
+      "side": 1,
+      "message": "I think we should remove this too. See the comment on MarshalJSON.",
+      "range": {
+        "startLine": 139,
+        "startChar": 8,
+        "endLine": 139,
+        "endChar": 26
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ebfa9d1_f27619cc",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-03T20:21:01Z",
+      "side": 1,
+      "message": "Please remove these from the documentation since we don\u0027t marshal them with MarshalJSON.",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 5
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09fd3d7d_3a5a6784",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-03T20:21:01Z",
+      "side": 1,
+      "message": "I think we should have a single field of type ImportStack ([]*ImportInfo). Then we can move all the formatting to be done by PackageError.Error (or a function that it calls)\n\nMarshalJSON would have to call Copy itself. (though I think we should change the name. see below)",
+      "range": {
+        "startLine": 461,
+        "startChar": 0,
+        "endLine": 463,
+        "endChar": 0
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8db84b84_56277c58",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-03T20:21:01Z",
+      "side": 1,
+      "message": "I don\u0027t think we should include ImportStackWithPos in the JSON output unless we\u0027re sure that we have a usage. (I also think that if we want to marshal the positions of the import stack it should be in a more structured format)",
+      "range": {
+        "startLine": 507,
+        "startChar": 0,
+        "endLine": 507,
+        "endChar": 29
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6e19b86_99acf59c",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-03T20:21:01Z",
+      "side": 1,
+      "message": "I think we should probably unexport this. It\u0027s mostly an internal implementation detail. I think the reason it currently needs to be exported is so we can pass a path and pos in to Push in internal/work/action.go. But I think we can just have push take (string, []token.Position) as arguments and construct the import info itself.",
+      "range": {
+        "startLine": 571,
+        "startChar": 5,
+        "endLine": 571,
+        "endChar": 15
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e872b1a_f76b3455",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-03T20:21:01Z",
+      "side": 1,
+      "message": "Could we use a token.Position rather than a slice? If the input []token.Position has at least one element we can use pos[0], and otherwise we can just use an empty token.Position{}.\n\nThen instead of checking the length of this field to determine whether there is a position to print, we can just call IsValid() on the position. (It will return false for empty positions)",
+      "range": {
+        "startLine": 573,
+        "startChar": 5,
+        "endLine": 573,
+        "endChar": 21
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "673ac8a0_8052b6fb",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-03T20:21:01Z",
+      "side": 1,
+      "message": "I think we should keep the previous version of Copy, but also add a new function with a different name that does what this function does so we can extract the set of packages for marshaling the JSON.",
+      "range": {
+        "startLine": 589,
+        "startChar": 22,
+        "endLine": 589,
+        "endChar": 26
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cced2c6b_61fc55ba",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-03T20:21:01Z",
+      "side": 1,
+      "message": "I think it would be better for us to construct the string from v.Pos rather than calling String() and then doing string manipulation on it.",
+      "range": {
+        "startLine": 624,
+        "startChar": 49,
+        "endLine": 624,
+        "endChar": 66
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d733e86d_1df085ef",
+        "filename": "src/cmd/go/testdata/script/list_import_cycle_deps_errors.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-03T20:21:01Z",
+      "side": 1,
+      "message": "See comment on PackageError.MarshalJSON. I don\u0027t think we should marshal the ImportStackWithPos field.",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 22
+      },
       "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
