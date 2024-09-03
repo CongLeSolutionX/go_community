@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c9bf22e_9c71ada9",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-03T21:15:14Z",
+      "side": 0,
+      "message": "FYI: In the cmd/compile/internal/syntax package where this code was written first, the parser actively discards parentheses around call arguments because we care about saving memory and reducing work more than AST fidelity. See the analogous code in cmd/compile/internal/syntax/printer.go:936 ff.\nThere, the panic is ok because we should never each this place.",
+      "revId": "fc9f02c7aec81bcfcc95434d2529e0bb0bc03d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
