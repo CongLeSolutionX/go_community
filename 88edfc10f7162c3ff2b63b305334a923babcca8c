@@ -51,6 +51,24 @@
       "parentUuid": "b02abcaa_92e20ca7",
       "revId": "88edfc10f7162c3ff2b63b305334a923babcca8c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b860adf4_7ae967b8",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-03T10:40:45Z",
+      "side": 1,
+      "message": "I dont think we can drop the s.Func().Text.Pos in error message. The \"improved\" message you got just because base.Pos is set to line 11 at the time the error is emitted.",
+      "parentUuid": "e4c84727_28e11645",
+      "revId": "88edfc10f7162c3ff2b63b305334a923babcca8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
