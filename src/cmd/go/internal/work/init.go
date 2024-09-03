@@ -371,10 +371,10 @@ func compilerVersion() (version, error) {
 					// gcc, but does not support gcc's "-v" flag?!
 					return err
 				}
-				gccRE := regexp.MustCompile(`gcc version (\d+)\.(\d+)`)
+				gccRE := regexp.MustCompile(`gcc .+? (\d+)\.(\d+)`)
 				match = gccRE.FindSubmatch(out)
 			} else {
-				clangRE := regexp.MustCompile(`clang version (\d+)\.(\d+)`)
+				clangRE := regexp.MustCompile(`clang .+? (\d+)\.(\d+)`)
 				if match = clangRE.FindSubmatch(out); len(match) > 0 {
 					compiler.name = "clang"
 				}
