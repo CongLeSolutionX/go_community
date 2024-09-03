@@ -168,6 +168,8 @@ For Go 1.24, it now defaults to multipathtcp="2", thus
 enabled by default on listerners. Using multipathtcp="0" reverts to the
 pre-Go 1.24 behavior.
 
+Go 1.24 introduces the ability to print information about the toolchain switch used in the go command, controlled by the `toolchaintrace` setting. This setting defaults to `toolchaintrace=0`, meaning no information is printed. Setting it to `toolchaintrace=1` will cause the go command to print a message indicating the toolchain used and where it was found.
+
 ### Go 1.23
 
 Go 1.23 changed the channels created by package time to be unbuffered
