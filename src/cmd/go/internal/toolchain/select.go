@@ -11,6 +11,7 @@ import (
 	"flag"
 	"fmt"
 	"go/build"
+	"internal/godebug"
 	"io/fs"
 	"log"
 	"os"
@@ -84,6 +85,7 @@ func FilterEnv(env []string) []string {
 }
 
 var counterErrorsInvalidToolchainInFile = counter.New("go/errors:invalid-toolchain-in-file")
+var toolchaintrace = godebug.New("toolchaintrace")
 
 // Select invokes a different Go toolchain if directed by
 // the GOTOOLCHAIN environment variable or the user's configuration
@@ -96,6 +98,9 @@ func Select() {
 
 	if !modload.WillBeEnabled() {
 		return
+	}
+	if toolchaintrace.Value() == "1" {
+		toolchaintrace.IncNonDefault()
 	}
 
 	// As a special case, let "go env GOTOOLCHAIN" and "go env -w GOTOOLCHAIN=..."
@@ -136,6 +141,7 @@ func Select() {
 	// Note: minToolchain is what https://go.dev/doc/toolchain#select calls the default toolchain.
 	minToolchain := gover.LocalToolchain()
 	minVers := gover.Local()
+	minVersOrigin := "local go version"
 	var mode string
 	if gotoolchain == "auto" {
 		mode = "auto"
@@ -150,6 +156,11 @@ func Select() {
 					base.Fatalf("invalid GOTOOLCHAIN %q: invalid minimum toolchain %q", gotoolchain, min)
 				}
 				base.Fatalf("invalid GOTOOLCHAIN %q", gotoolchain)
+			}
+			if toolchaintrace.Value() == "1" {
+				newMinVersOrigin := fmt.Sprintf("GOTOOLCHAIN=%s", gotoolchain)
+				fmt.Fprintf(os.Stderr, "go: switching from go%s(%s) to go%s(%s)\n", minVers, minVersOrigin, v, newMinVersOrigin)
+				minVersOrigin = newMinVersOrigin
 			}
 			minToolchain = min
 			minVers = v
@@ -190,6 +201,11 @@ func Select() {
 					base.Fatalf("invalid toolchain %q in %s", toolchain, base.ShortPath(file))
 				}
 				if gover.Compare(toolVers, minVers) > 0 {
+					if toolchaintrace.Value() == "1" {
+						toolVersOrigin := fmt.Sprintf("toolchain line in %s", base.ShortPath(file))
+						fmt.Fprintf(os.Stderr, "go: switching from go%s(%s) to go%s(%s)\n", minVers, minVersOrigin, toolVers, toolVersOrigin)
+						minVersOrigin = toolVersOrigin
+					}
 					gotoolchain = toolchain
 					minVers = toolVers
 					gover.Startup.AutoToolchain = toolchain
@@ -206,6 +222,10 @@ func Select() {
 				}
 				gover.Startup.AutoGoVersion = goVers
 				gover.Startup.AutoToolchain = "" // in case we are overriding it for being too old
+				if toolchaintrace.Value() == "1" {
+					toolVersOrigin := fmt.Sprintf("go line in %s", base.ShortPath(file))
+					fmt.Fprintf(os.Stderr, "go: switching from go%s(%s) to %s(%s)\n", minVers, minVersOrigin, gotoolchain, toolVersOrigin)
+				}
 			}
 		}
 	}
