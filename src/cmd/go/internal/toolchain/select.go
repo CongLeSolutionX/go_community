@@ -11,6 +11,7 @@ import (
 	"flag"
 	"fmt"
 	"go/build"
+	"internal/godebug"
 	"io/fs"
 	"log"
 	"os"
@@ -84,6 +85,7 @@ func FilterEnv(env []string) []string {
 }
 
 var counterErrorsInvalidToolchainInFile = counter.New("go/errors:invalid-toolchain-in-file")
+var traceToolchain = godebug.New("#toolchaintrace").Value() == "1"
 
 // Select invokes a different Go toolchain if directed by
 // the GOTOOLCHAIN environment variable or the user's configuration
@@ -137,6 +139,7 @@ func Select() {
 	minToolchain := gover.LocalToolchain()
 	minVers := gover.Local()
 	var mode string
+	var traceToolchainBuffer strings.Builder
 	if gotoolchain == "auto" {
 		mode = "auto"
 	} else if gotoolchain == "path" {
@@ -158,6 +161,9 @@ func Select() {
 			base.Fatalf("invalid GOTOOLCHAIN %q: only version suffixes are +auto and +path", gotoolchain)
 		}
 		mode = suffix
+		if traceToolchain {
+			fmt.Fprintf(&traceToolchainBuffer, "go: default toolchain set to %s from GOTOOLCHAIN=%s\n", minToolchain, gotoolchain)
+		}
 	}
 
 	gotoolchain = minToolchain
@@ -190,6 +196,13 @@ func Select() {
 					base.Fatalf("invalid toolchain %q in %s", toolchain, base.ShortPath(file))
 				}
 				if gover.Compare(toolVers, minVers) > 0 {
+					if traceToolchain {
+						modeFormat := mode
+						if strings.Contains(cfg.Getenv("GOTOOLCHAIN"), "+") { // go1.2.3+auto
+							modeFormat = fmt.Sprintf("<name>+%s", mode)
+						}
+						fmt.Fprintf(&traceToolchainBuffer, "go: upgrading toolchain to %s (required by toolchain line in %s; upgrade allowed by GOTOOLCHAIN=%s)\n", toolchain, base.ShortPath(file), modeFormat)
+					}
 					gotoolchain = toolchain
 					minVers = toolVers
 					gover.Startup.AutoToolchain = toolchain
@@ -206,6 +219,13 @@ func Select() {
 				}
 				gover.Startup.AutoGoVersion = goVers
 				gover.Startup.AutoToolchain = "" // in case we are overriding it for being too old
+				if traceToolchain {
+					modeFormat := mode
+					if strings.Contains(cfg.Getenv("GOTOOLCHAIN"), "+") { // go1.2.3+auto
+						modeFormat = fmt.Sprintf("<name>+%s", mode)
+					}
+					fmt.Fprintf(&traceToolchainBuffer, "go: upgrading toolchain to %s (required by go line in %s; upgrade allowed by GOTOOLCHAIN=%s)\n", gotoolchain, base.ShortPath(file), modeFormat)
+				}
 			}
 		}
 	}
@@ -237,8 +257,16 @@ func Select() {
 		return
 	}
 
+	if traceToolchain {
+		// Flush toolchain tracing buffer only in the parent process (targetEnv is unset).
+		fmt.Fprintf(os.Stderr, traceToolchainBuffer.String())
+	}
+
 	if gotoolchain == "local" || gotoolchain == gover.LocalToolchain() {
 		// Let the current binary handle the command.
+		if traceToolchain {
+			fmt.Fprintf(os.Stderr, "go: using local toolchain %s\n", gover.LocalToolchain())
+		}
 		return
 	}
 
@@ -424,7 +452,6 @@ func Exec(gotoolchain string) {
 			base.Fatalf("download %s: %v", gotoolchain, err)
 		}
 	}
-
 	// Reinvoke the go command.
 	execGoToolchain(gotoolchain, dir, filepath.Join(dir, "bin/go"))
 }
