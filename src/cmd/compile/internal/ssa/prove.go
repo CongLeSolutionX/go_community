@@ -1671,12 +1671,12 @@ func (ft *factsTable) flowLimit(v *Value) bool {
 		// AND can only make the value smaller.
 		a := ft.limits[v.Args[0].ID]
 		b := ft.limits[v.Args[1].ID]
-		return ft.unsignedMax(v, minU(a.umax, b.umax))
+		return ft.unsignedMax(v, min(a.umax, b.umax))
 	case OpOr64, OpOr32, OpOr16, OpOr8:
 		// OR can only make the value bigger.
 		a := ft.limits[v.Args[0].ID]
 		b := ft.limits[v.Args[1].ID]
-		return ft.unsignedMin(v, maxU(a.umin, b.umin))
+		return ft.unsignedMin(v, max(a.umin, b.umin))
 	case OpXor64, OpXor32, OpXor16, OpXor8:
 		// TODO: use leading/trailing zeroes?
 		// Not sure if it is worth it.
@@ -1762,8 +1762,8 @@ func (ft *factsTable) flowLimit(v *Value) bool {
 			l2 := ft.limits[a.ID]
 			l.min = min(l.min, l2.min)
 			l.max = max(l.max, l2.max)
-			l.umin = minU(l.umin, l2.umin)
-			l.umax = maxU(l.umax, l2.umax)
+			l.umin = min(l.umin, l2.umin)
+			l.umax = max(l.umax, l2.umax)
 		}
 		return ft.newLimit(v, l)
 	}
