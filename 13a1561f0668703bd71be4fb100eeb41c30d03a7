@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1db240bd_f8e4c38a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-03T22:46:04Z",
+      "side": 1,
+      "message": "Interesting idea.\n\nI\u0027m not 100% sold on modifying things and then modifying them back. It would be nicer to keep a side table somehow (which you\u0027re doing anyway for the undo part) and use that to modify partitioning.\n\nAny idea whether there are actual cases where this comes up? Perhaps a benchmark that improves?",
+      "revId": "13a1561f0668703bd71be4fb100eeb41c30d03a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e533fe5e_fba553f2",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-03T22:46:04Z",
+      "side": 1,
+      "message": "I worry a bit about this being quadratic in some cases. Not sure if that would actually happen or not. Maybe lots of local declarations would make that happen?",
+      "revId": "13a1561f0668703bd71be4fb100eeb41c30d03a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26afb759_095f3114",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-03T22:46:04Z",
+      "side": 1,
+      "message": "You could use \"continue\" here and \"break\" at the end of the loop body, then you don\u0027t need the \"changed\" variable.",
+      "revId": "13a1561f0668703bd71be4fb100eeb41c30d03a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e00eecec_cc503941",
+        "filename": "test/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-03T22:46:04Z",
+      "side": 1,
+      "message": "This test appears somewhat fragile because we could constant-propagate 0 everywhere pretty easily.",
+      "revId": "13a1561f0668703bd71be4fb100eeb41c30d03a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
