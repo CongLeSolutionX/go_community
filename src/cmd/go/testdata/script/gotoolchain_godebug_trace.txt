@@ -1,0 +1,137 @@
+# Test the GODEBUG=toolchaintrace behavior
+# See https://go.dev/issue/63939
+env GODEBUG=toolchaintrace=1
+
+# Clear the path so this test doesn't fail if the system running it\
+# has a binary named go1.21 or go1.22 on its path.
+[GOOS:plan9] env path=
+[!GOOS:plan9] env PATH=
+
+# Go line is newer than local go version.
+env TESTGO_VERSION=go1.14
+go mod init m
+go mod edit -go=1.21
+! go version
+stderr 'go: upgrading toolchain to go1.21.0 \(required by go line in go.mod and GOTOOLCHAIN mode=auto\)'
+stderr 'go: using toolchain go1.21.0'
+stderr 'go: downloading go1.21.0'
+rm go.mod
+
+# Toolchain line is newer than go line.
+env TESTGO_VERSION=go1.14
+go mod init m
+go mod edit -go=1.21 -toolchain=go1.21.2
+! go version
+stderr 'go: upgrading toolchain to go1.21.2 \(required by toolchain line in go.mod and GOTOOLCHAIN mode=auto\)'
+stderr 'go: using toolchain go1.21.2'
+stderr 'go: downloading go1.21.2'
+rm go.mod
+
+# Go line is newer than local go version and toolchain line.
+env TESTGO_VERSION=go1.14
+go mod init m
+go mod edit -go=1.22 -toolchain=go1.21.2
+! go version
+stderr 'go: upgrading toolchain to go1.21.2 \(required by toolchain line in go.mod and GOTOOLCHAIN mode=auto\)'
+stderr 'go: upgrading toolchain to go1.22.0 \(required by go line in go.mod and GOTOOLCHAIN mode=auto\)'
+stderr 'go: using toolchain go1.22.0'
+stderr 'go: downloading go1.22.0'
+rm go.mod
+
+# No switch.
+env TESTGO_VERSION=go1.21.0
+go mod init m
+go mod edit -go=1.21.0 -toolchain=go1.21.0
+go version
+stderr 'go: using toolchain go1.21.0'
+! stderr 'go: upgrading toolchain'
+rm go.mod
+
+# GOTOOLCHAIN+auto is older than go line and toolchain line.
+env TESTGO_VERSION=go1.14
+go mod init m
+go mod edit -go=1.22 -toolchain=go1.21.2
+env GOTOOLCHAIN=go1.21.0+auto
+! go version
+stderr 'go: default toolchain set to go1.21.0 from GOTOOLCHAIN=go1.21.0\+auto'
+stderr 'go: upgrading toolchain to go1.21.2 \(required by toolchain line in go.mod and GOTOOLCHAIN mode=auto\)'
+stderr 'go: upgrading toolchain to go1.22.0 \(required by go line in go.mod and GOTOOLCHAIN mode=auto\)'
+stderr 'go: using toolchain go1.22.0'
+rm go.mod
+env GOTOOLCHAIN=auto
+
+# GOTOOLCHAIN is older than go line and toolchain line.
+env TESTGO_VERSION=go1.14
+go mod init m
+go mod edit -go=1.22 -toolchain=go1.21.2
+env GOTOOLCHAIN=go1.21.0
+! go version
+stderr 'go: default toolchain set to go1.21.0 from GOTOOLCHAIN=go1.21.0'
+! stderr 'go: upgrading toolchain to go1.21.2 \(required by toolchain line in go.mod and GOTOOLCHAIN mode=auto\)'
+! stderr 'go: upgrading toolchain to go1.22.0 \(required by go line in go.mod and GOTOOLCHAIN mode=auto\)'
+stderr 'go: using toolchain go1.21.0'
+stderr 'go: downloading go1.21.0'
+rm go.mod
+env GOTOOLCHAIN=auto
+
+# GOTOOLCHAIN+auto is newer than go line and toolchain line.
+env TESTGO_VERSION=go1.14
+go mod init m
+go mod edit -go=1.21.0 -toolchain=go1.21.2
+env GOTOOLCHAIN=go1.22.0+auto
+! go version
+stderr 'go: default toolchain set to go1.22.0 from GOTOOLCHAIN=go1.22.0\+auto'
+stderr 'go: using toolchain go1.22.0'
+rm go.mod
+env GOTOOLCHAIN=auto
+
+# GOTOOLCHAIN=local
+env TESTGO_VERSION=go1.14
+go mod init m
+go mod edit -go=1.21.0 -toolchain=go1.21.2
+env GOTOOLCHAIN=local
+go version
+stderr 'go: default toolchain set to go1.14 from GOTOOLCHAIN=local'
+stderr 'go: using toolchain go1.14'
+rm go.mod
+env GOTOOLCHAIN=auto
+
+# If toolchain found in PATH, ensure we print that.
+env TESTGO_VERSION=go1.21
+mkdir $WORK/bin
+go build -o $WORK/bin/go1.22.0$GOEXE ./fake/fakego.go  # adds .exe extension implicitly on Windows
+[!GOOS:plan9] env PATH=$WORK/bin
+[GOOS:plan9] env path=$WORK/bin
+go mod init m
+go mod edit -go=1.22.0
+! go version
+stderr 'go: using toolchain go1.22.0 from PATH'
+stderr 'running go1.22.0 from PATH'
+rm go.mod
+
+# toolchaintrace outputs location of toolchain.
+env TESTGO_VERSION=go1.14
+env TESTGO_VERSION_SWITCH=switch
+env GOTOOLCHAIN=auto
+go mod init m
+go mod edit -go=1.21.0
+go version
+stderr 'go: using toolchain go1.21.0 from'
+
+-- fake/fakego.go --
+package main
+
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+	"strings"
+)
+
+func main() {
+	exe, _ := os.Executable()
+	name := filepath.Base(exe)
+	name = strings.TrimSuffix(name, ".exe")
+	fmt.Fprintf(os.Stderr, "running %s from PATH\n", name)
+	os.Exit(1) // fail in case we are running this accidentally (like in "go mod edit")
+}
