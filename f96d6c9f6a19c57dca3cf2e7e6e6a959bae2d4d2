@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2722a3b6_4a3dfc95",
+        "filename": "src/os/pidfd_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-09-03T23:17:16Z",
+      "side": 1,
+      "message": "Makes sense to mention that this only happens on Android \u003c 12, and add a TODO once it is no longer supported.\n\nOTOH I\u0027m worried if Go won\u0027t use pidfd on [any version of] Android, they can make a mistake of disabling it again in a future version.",
+      "range": {
+        "startLine": 13,
+        "startChar": 1,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "f96d6c9f6a19c57dca3cf2e7e6e6a959bae2d4d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
