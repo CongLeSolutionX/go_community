@@ -22,7 +22,9 @@ golang.org/x/term v0.22.1-0.20240716160707-d4346f0be292 h1:BOrQi08eIX3cDgGcMgFON
 golang.org/x/term v0.22.1-0.20240716160707-d4346f0be292/go.mod h1:F3qCibpT5AMpCRfhfT53vVJwhLtIVHhB9XDjfFvnMI4=
 golang.org/x/text v0.16.1-0.20240716160804-ae0cf96bbcd9 h1:MlCLrwVF1WvXT14xTzwuKN3u4LpUve8sG/gJUCuBpe8=
 golang.org/x/text v0.16.1-0.20240716160804-ae0cf96bbcd9/go.mod h1:GhwF1Be+LQoKShO3cGOHzqOgRrGaYc9AvblQOmPVHnI=
-golang.org/x/tools v0.23.1-0.20240722161640-ec1a81bfec7c h1:jGHQpjWnvPa5qmjhxUYeut+TlRYWRGaMcOnAZ4S5IOo=
-golang.org/x/tools v0.23.1-0.20240722161640-ec1a81bfec7c/go.mod h1:pnu6ufv6vQkll6szChhK3C3L/ruaIv5eBeztNG8wtsI=
+golang.org/x/tools v0.24.1-0.20240903162851-09886e004ed7 h1:tuqTscouq46YPjX4818fKxxcjHbC0URy+GNGq8mQILI=
+golang.org/x/tools v0.24.1-0.20240903162851-09886e004ed7/go.mod h1:YhNqVBIfWHdzvTLs0d8LCuMhkKUgSUKldakyV7W/WDQ=
+golang.org/x/tools v0.24.1-0.20240903210605-2db563b1a3a2 h1:kAu+Ah+MaYVg7ZqH/m07oXWJljgEQfxVJKiN8QWKMfs=
+golang.org/x/tools v0.24.1-0.20240903210605-2db563b1a3a2/go.mod h1:YhNqVBIfWHdzvTLs0d8LCuMhkKUgSUKldakyV7W/WDQ=
 rsc.io/markdown v0.0.0-20240306144322-0bf8f97ee8ef h1:mqLYrXCXYEZOop9/Dbo6RPX11539nwiCNBb1icVPmw8=
 rsc.io/markdown v0.0.0-20240306144322-0bf8f97ee8ef/go.mod h1:8xcPgWmwlZONN1D9bjxtHEjrUtSEa3fakVF8iaewYKQ=
