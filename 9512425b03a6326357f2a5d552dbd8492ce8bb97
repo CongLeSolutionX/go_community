@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6e29c1a_c4c7311d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-09-04T19:32:45Z",
+      "side": 1,
+      "message": "Lets add a mention of TestAllDependencies.\n\n\"This also updates ureader.go used by vendored x/tools during\nsome tests, including cmd/internal/moddeps.TestAllDependencies.\nThis test uses golang.org/x/tools/cmd/bundle which uses x/reader.\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 55
+      },
+      "revId": "9512425b03a6326357f2a5d552dbd8492ce8bb97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0575874_be7c5983",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-09-04T19:32:45Z",
+      "side": 1,
+      "message": "Does this need \"golang/go\"?",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 15
+      },
+      "revId": "9512425b03a6326357f2a5d552dbd8492ce8bb97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67dd1e1d_02a152af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-09-04T19:32:45Z",
+      "side": 1,
+      "message": "Updates #68778",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 21
+      },
+      "revId": "9512425b03a6326357f2a5d552dbd8492ce8bb97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
