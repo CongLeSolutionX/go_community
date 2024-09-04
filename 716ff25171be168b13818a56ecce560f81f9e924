@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4109bc2c_08298b3b",
+        "filename": "src/cmd/go.mod",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-09-04T18:02:55Z",
+      "side": 1,
+      "message": "FYI I am pushing this through https://go.dev/cl/610036 for exportdata ATM.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 57
+      },
+      "revId": "716ff25171be168b13818a56ecce560f81f9e924",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
