@@ -16,6 +16,24 @@
       "message": "What is this note used for, and will it care that the hash changed from 32 bytes to 20 bytes?",
       "revId": "4f327f271d5cf0f6cc6e1bbac72aecaa25ca6e6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "deaae046_eb6518a5",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1687,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-04T07:53:19Z",
+      "side": 0,
+      "message": "This note is used by the linker, so it can read/check the hash when linking against shared library.\n\nIIRC, the size does not matter: https://go-review.googlesource.com/c/go/+/8773",
+      "parentUuid": "07761c7a_6f8589d1",
+      "revId": "4f327f271d5cf0f6cc6e1bbac72aecaa25ca6e6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
