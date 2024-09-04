@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f28f3da_d58b1eba",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-04T22:21:05Z",
+      "side": 1,
+      "message": "Hi Mateusz,\n\nWhile making the equivalent changes for the syntax parser and printer I realized that this is actually incorrect. It should be:\n```\nreturn !isTypeElem(x.X)\n```\n\nI can make the fix, or you can do it (see my CL 610758 for reference). Let me know your preference. Thanks.\n\nSorry for noticing this after the fact.",
+      "fixSuggestions": [
+        {
+          "fixId": "aeccb8a7_1a71b333",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/go/printer/nodes.go",
+              "range": {
+                "startLine": 430,
+                "startChar": 0,
+                "endLine": 431,
+                "endChar": 0
+              },
+              "replacement": "\t\treturn !isTypeElem(x.X)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "700920bbb73b39af4794854e79b76dc9b66b19ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
