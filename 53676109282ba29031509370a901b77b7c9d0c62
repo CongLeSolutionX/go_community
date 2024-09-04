@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30a1f216_e6041378",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-04T19:30:32Z",
+      "side": 1,
+      "message": "This is just slices.Sotr?",
+      "revId": "53676109282ba29031509370a901b77b7c9d0c62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15b4c213_905516a9",
+        "filename": "src/cmd/compile/internal/noder/unified.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-04T19:30:32Z",
+      "side": 1,
+      "message": "This is just slices.Sort?",
+      "revId": "53676109282ba29031509370a901b77b7c9d0c62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68eff3c7_cf0b197a",
+        "filename": "src/cmd/compile/internal/ssa/debug_lines_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-04T19:30:32Z",
+      "side": 1,
+      "message": "If we get here, are the two slices equal? Should we return 0?",
+      "revId": "53676109282ba29031509370a901b77b7c9d0c62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d623b91_2f41b767",
+        "filename": "src/cmd/compile/internal/walk/switch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-04T19:30:32Z",
+      "side": 1,
+      "message": "This is just slices.Sort, right?",
+      "revId": "53676109282ba29031509370a901b77b7c9d0c62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
