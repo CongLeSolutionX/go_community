@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3d555fb_95ce84d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-09-04T21:25:12Z",
+      "side": 1,
+      "message": "Sent CL 610797 for x/crypto.\nIt looks like other x/ repos need similar attention, filed #69267 to track that.",
+      "revId": "de0aafa3c7f669df0a93dd62cc336ebda52815f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
