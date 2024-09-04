@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7f94dcea_1fd7b361",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-09-04T14:15:39Z",
+      "side": 1,
+      "message": "https://github.com/golang/go/issues/69243\n\nLatest patch commit message also references it.",
+      "parentUuid": "53c7338d_d0b238e1",
+      "revId": "e9dc022f7317d82b5be6f9fa2f2f27b924df9421",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "55c6760d_d8b8b3a6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -52,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4e6a2ea_fc913f4f",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1279,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-09-04T14:15:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbfff0ad_1db17532",
+      "revId": "e9dc022f7317d82b5be6f9fa2f2f27b924df9421",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d69afd0_e4ca6d27",
@@ -65,6 +101,24 @@
       "writtenOn": "2024-09-03T21:20:41Z",
       "side": 1,
       "message": "copyBlockProfileRecord and expandFrames use `clear`. Is there a reason to be different here?",
+      "revId": "e9dc022f7317d82b5be6f9fa2f2f27b924df9421",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f7cde88_944fcf76",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1659,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-09-04T14:15:39Z",
+      "side": 1,
+      "message": "I think this has been a historical inconsistency between the profile types. The GoroutineProfile used zero termination, but the block/mutex profiles used zero padding.\n\nThe latter is a stronger invariant that\u0027s going beyond the documented behavior of Stack0 and is a little costlier to achieve. OTOH it\u0027s less code which is nice.\n\nSince taking away the zero padding for the block/mutex profile could in theory break callers, we probably don\u0027t want to change it to zero termination. So to address the inconsistency, I\u0027ve applied zero padding for all the other profile types as well in my latest patch.\n\nI don\u0027t feel strongly either way, but I hope this is the best path forward.",
+      "parentUuid": "7d69afd0_e4ca6d27",
       "revId": "e9dc022f7317d82b5be6f9fa2f2f27b924df9421",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
