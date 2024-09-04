@@ -1,0 +1,154 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2899a11a_dc4ec4ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-04T14:59:23Z",
+      "side": 1,
+      "message": "\"Fixes #69243\"",
+      "revId": "4f9e1647bb1d0818548338e899ee4107542cac59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cae0c3e_bd512651",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-04T14:59:23Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "4f9e1647bb1d0818548338e899ee4107542cac59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5da93725_b2474f69",
+        "filename": "src/runtime/runtime_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-04T14:59:23Z",
+      "side": 1,
+      "message": "Log the full stack0?",
+      "revId": "4f9e1647bb1d0818548338e899ee4107542cac59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8839c94_f86a73d7",
+        "filename": "src/runtime/runtime_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-04T14:59:23Z",
+      "side": 1,
+      "message": "Why an alias?",
+      "range": {
+        "startLine": 432,
+        "startChar": 19,
+        "endLine": 432,
+        "endChar": 20
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "aaf04b33_2c39a377",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/runtime_test.go",
+              "range": {
+                "startLine": 432,
+                "startChar": 0,
+                "endLine": 433,
+                "endChar": 0
+              },
+              "replacement": "type profileRecord interface {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "4f9e1647bb1d0818548338e899ee4107542cac59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b458124_69b718a9",
+        "filename": "src/runtime/runtime_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-04T14:59:23Z",
+      "side": 1,
+      "message": "You may need a sleep here to make this more reliable.\n\n(Ideally you\u0027d just hold the lock until the MutexProfile got samples, but we only collect samples on Unlock...)",
+      "revId": "4f9e1647bb1d0818548338e899ee4107542cac59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f14b8df_f4b45406",
+        "filename": "src/runtime/runtime_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-04T14:59:23Z",
+      "side": 1,
+      "message": "extra space",
+      "range": {
+        "startLine": 474,
+        "startChar": 50,
+        "endLine": 474,
+        "endChar": 52
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "6cf7fc90_9b40d0dc",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/runtime_test.go",
+              "range": {
+                "startLine": 474,
+                "startChar": 0,
+                "endLine": 475,
+                "endChar": 0
+              },
+              "replacement": "\t// has a single runtime._LostContendedRuntimeLock frame. This will be fixed\n"
+            }
+          ]
+        }
+      ],
+      "revId": "4f9e1647bb1d0818548338e899ee4107542cac59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
