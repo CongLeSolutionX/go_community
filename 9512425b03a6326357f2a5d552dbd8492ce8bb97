@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0793b4a2_8fa10888",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-04T20:15:43Z",
+      "side": 1,
+      "message": "Thanks; done.",
+      "parentUuid": "e6e29c1a_c4c7311d",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 55
+      },
+      "revId": "9512425b03a6326357f2a5d552dbd8492ce8bb97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0575874_be7c5983",
@@ -65,6 +89,54 @@
         "startChar": 0,
         "endLine": 13,
         "endChar": 21
+      },
+      "revId": "9512425b03a6326357f2a5d552dbd8492ce8bb97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "524f6a80_3dd82ea7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-04T20:15:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67dd1e1d_02a152af",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 21
+      },
+      "revId": "9512425b03a6326357f2a5d552dbd8492ce8bb97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "263ad68c_406321c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-04T20:15:43Z",
+      "side": 1,
+      "message": "No, a habit developed while working in the off-world colonies. Fixed.",
+      "parentUuid": "a0575874_be7c5983",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 15
       },
       "revId": "9512425b03a6326357f2a5d552dbd8492ce8bb97",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
