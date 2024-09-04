@@ -34,6 +34,24 @@
       "parentUuid": "84b2608f_e7418ebc",
       "revId": "32cf2ca5b95da552f7e506f7edc59d3bfcb7befc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b702e01e_53d252e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-04T11:49:15Z",
+      "side": 1,
+      "message": "I sent these CLs chain to do above proposal: https://go-review.googlesource.com/c/go/+/610595",
+      "parentUuid": "f28b68ce_8062d9ed",
+      "revId": "32cf2ca5b95da552f7e506f7edc59d3bfcb7befc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
