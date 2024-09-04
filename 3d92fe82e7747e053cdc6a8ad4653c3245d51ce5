@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8738256d_42872228",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-09-04T18:01:39Z",
+      "side": 1,
+      "message": "The comment is correct as written (before this CL). Calling Synopsis on a zero Package (as opposed to a Package loaded from actual Go package sources) does not have info about declarations in that package, and so it cannot handle links correctly.\n\n\nFor example if your package comment says\n\n// Package p provides [Foo].\n\nand Foo is a type defined in package P, then Synopsis should interpret [Foo] as a link to Foo. It will if you use a real, initialized Package\u0027s Synopsis method. It will not if you use the zero Package.",
+      "revId": "3d92fe82e7747e053cdc6a8ad4653c3245d51ce5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
