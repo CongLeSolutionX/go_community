@@ -32,8 +32,7 @@ func firstSentence(s string) string {
 
 // Synopsis returns a cleaned version of the first sentence in text.
 //
-// Deprecated: New programs should use [Package.Synopsis] instead,
-// which handles links in text properly.
+// Deprecated: New programs should use [Package.Synopsis] instead.
 func Synopsis(text string) string {
 	var p Package
 	return p.Synopsis(text)
