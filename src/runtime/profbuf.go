@@ -378,11 +378,20 @@ func (b *profBuf) write(tagPtr *unsafe.Pointer, now int64, hdr []uint64, stk []u
 		// Racing with reader setting flag bits in b.w, to avoid lost wakeups.
 		old := b.w.load()
 		new := old.addCountsAndClearFlags(skip+2+len(stk)+int(b.hdrsize), 1)
+		// TODO: do we need to re-load b.r? Is "new" right, or do we want old?
+		unread := countSub(new.dataCount(), br.dataCount())
+		wakeupLimit := len(b.data) / 2
+		if unread < wakeupLimit {
+			// Carry over the sleeping flag since we're not planning
+			// to wake the reader yet
+			new |= old & profReaderSleeping
+		}
 		if !b.w.cas(old, new) {
 			continue
 		}
-		// If there was a reader, wake it up.
-		if old&profReaderSleeping != 0 {
+		// If we've hit our high watermark for data in the buffer,
+		// and there is a reader, wake it up.
+		if unread >= wakeupLimit && old&profReaderSleeping != 0 {
 			notewakeup(&b.wait)
 		}
 		break
@@ -452,7 +461,11 @@ func (b *profBuf) read(mode profBufReadMode) (data []uint64, tags []unsafe.Point
 	}
 
 Read:
+	// TODO: make sure this works and comment why
 	bw := b.w.load()
+	for !b.w.cas(bw, bw&^profReaderSleeping) {
+		bw = b.w.load()
+	}
 	numData := countSub(bw.dataCount(), br.dataCount())
 	if numData == 0 {
 		if b.hasOverflow() {
