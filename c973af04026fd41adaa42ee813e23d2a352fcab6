@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db635d09_12a71d7a",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-04T18:29:07Z",
+      "side": 1,
+      "message": "It would be better to set the environment when running the subcommand\n\nSee the documentation of the env field here: https://pkg.go.dev/os/exec#Cmd",
+      "revId": "c973af04026fd41adaa42ee813e23d2a352fcab6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
