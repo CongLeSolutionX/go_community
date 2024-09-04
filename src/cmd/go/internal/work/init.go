@@ -363,6 +363,11 @@ func compilerVersion() (version, error) {
 				return err
 			}
 
+			//get current env 'LANG' and set 'LANG C'
+			currentLang := os.Getenv("LANG")
+			defer func() { os.Setenv("LANG", currentLang) }()
+			os.Setenv("LANG", "C")
+
 			var match [][]byte
 			if bytes.HasPrefix(out, []byte("gcc")) {
 				compiler.name = "gcc"
