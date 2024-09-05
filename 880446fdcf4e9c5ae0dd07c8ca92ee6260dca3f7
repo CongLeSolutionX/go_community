@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "041f0516_db86da3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-05T19:10:54Z",
+      "side": 1,
+      "message": "It probably makes sense to make rconv keyed by architecture, instead of the ranges, so every architecture can use all the bits. But I don\u0027t understand why it needs the Addr. It is printing a register, and only it, so it shouldn\u0027t need other fields. If it needs other fields, it probably should be a different Type.",
+      "revId": "880446fdcf4e9c5ae0dd07c8ca92ee6260dca3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05c7c5f4_c49616ea",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-05T19:10:54Z",
+      "side": 1,
+      "message": "Forcing the RegTo2 to Reg seems like a bad way of doing this. This suggests using an Addr is probably not the right way of doing this.",
+      "revId": "880446fdcf4e9c5ae0dd07c8ca92ee6260dca3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
