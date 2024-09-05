@@ -70,6 +70,24 @@
       "parentUuid": "4ed836fc_13a05f8f",
       "revId": "700920bbb73b39af4794854e79b76dc9b66b19ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fffe5b2_9fe1976e",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-05T20:35:19Z",
+      "side": 1,
+      "message": "combinesWithName is wrong: if x.X is an identifier, combinesWithName returns false.\nThen, a parameter list of the form [P (C)] (w/o any parentheses stripped) will be printed without comma, resulting in [P(C)] which the parser must interpret as an array length (for instance, it could be [int(N)]byte where N is a constant). The comma is needed to disambiguate.\n\nThe reason it looks like it \"works\" is unrelated: on line nodes.go:374, parentheses are always stripped around types (or constraints, for that matter). This is why the printer prints [P T,] instead of [P (T),].\n\nThe printer is producing a \"canonical\" output and we have (for historical reasons) stripped parentheses there (on the line mentioned above). In retrospect it might have been cleaner to do the canonicalization in a separate pass, leaving the printer to just do the (white space) formatting.\n\nTo fix this current issue, we probably need to feed the unparenthesized type/constraint into combinesWithName because that is what is produced in the output.\n\nAnother way to look at this is from the design point of view (rather than from the empirical \"it works/doesn\u0027t work\" point of view): combinesWithName should tell us if an expression combines into a valid value (i.e., non-type) expression. And (X) combines with a name as in N(X) whenever X is not a type element. So the suggested fix is what we need to do. It also matches what the code for the other cases do.\n\nAgain, leaving up to you to fix. Or you can leave it to me, if you prefer. Thanks.",
+      "parentUuid": "1296a6dd_515327e5",
+      "revId": "700920bbb73b39af4794854e79b76dc9b66b19ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
