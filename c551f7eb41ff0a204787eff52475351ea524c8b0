@@ -78,6 +78,30 @@
       },
       "revId": "c551f7eb41ff0a204787eff52475351ea524c8b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06c35c68_ecf910dc",
+        "filename": "src/crypto/internal/nistec/p256_asm_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2024-09-05T13:23:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "326f2ec6_c8ca6163",
+      "range": {
+        "startLine": 34,
+        "startChar": 43,
+        "endLine": 34,
+        "endChar": 69
+      },
+      "revId": "c551f7eb41ff0a204787eff52475351ea524c8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
