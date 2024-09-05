@@ -24,6 +24,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a27a365_57796d07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-05T06:32:35Z",
+      "side": 1,
+      "message": "Thanks for pointing it out!\nThe new title and summary are :\ncmd/go: add file names for cyclic import error\n\nFor some reason, I could not update the commit info.\nWhen click save:\n\nAn error occurred\nError 403: modifying commit message not permitted\n\nEndpoint: /changes/~/message",
+      "parentUuid": "6d1d841f_64132ae8",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa64ce6c_bc97757b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-05T06:32:35Z",
+      "side": 1,
+      "message": "Thanks for pointing it out!\nThe new title and summary are : \ncmd/go: add file names for cyclic import error\n\nFor some reason, I could not update the commit info.\nWhen click save:\n\nAn error occurred\nError 403: modifying commit message not permitted\n\nEndpoint: /changes/*~*/message",
+      "parentUuid": "6d1d841f_64132ae8",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f231746_370a4b94",
@@ -49,6 +97,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "40085880_48b66a30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-05T06:32:35Z",
+      "side": 1,
+      "message": "Thanks for highlighting that!\nI tried to remove it, but when clicking the save button, got 403 error.",
+      "parentUuid": "8f231746_370a4b94",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "572efe1e_a2a5d4e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-05T06:32:35Z",
+      "side": 1,
+      "message": "Yes, but got the same 403 error when clicking save.",
+      "parentUuid": "8f231746_370a4b94",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b78292e2_be9170d8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 21
@@ -60,6 +156,42 @@
       "writtenOn": "2024-09-03T20:21:01Z",
       "side": 1,
       "message": "add \"Fixes #66078\"",
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d81c723_480c3016",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-05T06:32:35Z",
+      "side": 1,
+      "message": "Yes, but got the same 403 error when clicking save.",
+      "parentUuid": "b78292e2_be9170d8",
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6d39fa5_58b9009a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-05T06:32:35Z",
+      "side": 1,
+      "message": "Yes, but got the same 403 error when clicking save.",
+      "parentUuid": "b78292e2_be9170d8",
       "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -138,6 +270,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5eec23b_927ef4af",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-05T06:32:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26aa3da5_2439f07b",
+      "range": {
+        "startLine": 139,
+        "startChar": 8,
+        "endLine": 139,
+        "endChar": 26
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ebfa9d1_f27619cc",
@@ -151,6 +307,30 @@
       "writtenOn": "2024-09-03T20:21:01Z",
       "side": 1,
       "message": "Please remove these from the documentation since we don\u0027t marshal them with MarshalJSON.",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 5
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89f037f5_d8313918",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-05T06:32:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ebfa9d1_f27619cc",
       "range": {
         "startLine": 142,
         "startChar": 0,
@@ -299,6 +479,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1d9fd22_05e628f9",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-05T06:32:35Z",
+      "side": 1,
+      "message": "Done, yes, I find that there is Filename var from Pos, so we could directly use it to simplify the code and without extracting basename and trimming number.",
+      "parentUuid": "cced2c6b_61fc55ba",
+      "range": {
+        "startLine": 624,
+        "startChar": 49,
+        "endLine": 624,
+        "endChar": 66
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d733e86d_1df085ef",
@@ -312,6 +516,30 @@
       "writtenOn": "2024-09-03T20:21:01Z",
       "side": 1,
       "message": "See comment on PackageError.MarshalJSON. I don\u0027t think we should marshal the ImportStackWithPos field.",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebb32c2e_562c2bc8",
+        "filename": "src/cmd/go/testdata/script/list_import_cycle_deps_errors.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-05T06:32:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d733e86d_1df085ef",
       "range": {
         "startLine": 15,
         "startChar": 4,
