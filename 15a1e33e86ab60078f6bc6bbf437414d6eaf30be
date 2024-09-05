@@ -16,6 +16,24 @@
       "message": "Is there a guarantee that this function returns a string which can be converted to an int? I found some documentation (https://android.googlesource.com/platform/frameworks/base/+/android-5.0.0_r1/core/java/android/os/Build.java#152) which gives examples of \"1.0\" or \"3.4b5\", but I\u0027m not sure if that documentation is applicable.\n\nIf it is, atoi will return 0, and we probably need to check for the first non-numeric character and remove it and the remainder of the string.",
       "revId": "15a1e33e86ab60078f6bc6bbf437414d6eaf30be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8513d1b_2911ef53",
+        "filename": "src/runtime/os_android.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 3617945
+      },
+      "writtenOn": "2024-09-05T15:21:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "800df044_a0ae6377",
+      "revId": "15a1e33e86ab60078f6bc6bbf437414d6eaf30be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

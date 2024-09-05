@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3f2f4679_b0936889",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3617945
+      },
+      "writtenOn": "2024-09-05T15:21:42Z",
+      "side": 1,
+      "message": "I tried to move to internal/syscall/unix, then it causes segfault.\nThe compiled code looks very different just by moving the package.\n\n```\n func __system_property_get(name *byte, value *byte) int32 {\n \tret :\u003d libcCall(unsafe.Pointer(abi.FuncPCABI0(__system_property_get_trampoline)), unsafe.Pointer(\u0026name))\n-\tKeepAlive(name)\n-\tKeepAlive(value)\n+\truntime.KeepAlive(name)\n+\truntime.KeepAlive(value)\n \treturn ret\n }\n\n```\n```\n-0000000000068860 \u003cruntime.__system_property_get.abi0\u003e:\n-   68860: f81d0ffe      str     x30, [sp, #-0x30]!\n-   68864: f81f83fd      stur    x29, [sp, #-0x8]\n-   68868: d10023fd      sub     x29, sp, #0x8\n-   6886c: b9004bff      str     wzr, [sp, #0x48]\n-   68870: d0000100      adrp    x0, 0x8a000 \u003cruntime.debugCallV2+0x150\u003e\n-   68874: 912a8000      add     x0, x0, #0xaa0\n-   68878: 9100e3e1      add     x1, sp, #0x38\n-   6887c: 9400002d      bl      0x68930 \u003cruntime.libcCall\u003e\n-   68880: f9401fe2      ldr     x2, [sp, #0x38]\n-   68884: f90013e2      str     x2, [sp, #0x20]\n-   68888: b9004be0      str     w0, [sp, #0x48]\n-   6888c: a97ffbfd      ldp     x29, x30, [sp, #-0x8]\n-   68890: 9100c3ff      add     sp, sp, #0x30\n-   68894: d65f03c0      ret\n+00000000000fbcb0 \u003cinternal/syscall/unix.__system_property_get.abi0\u003e:\n+   fbcb0: f81c0ffe      str     x30, [sp, #-0x40]!\n+   fbcb4: f81f83fd      stur    x29, [sp, #-0x8]\n+   fbcb8: d10023fd      sub     x29, sp, #0x8\n+   fbcbc: b9005bff      str     wzr, [sp, #0x58]\n+   fbcc0: d0003700      adrp    x0, 0x7dd000 \u003ctyperel.*+0x2cff8\u003e\n+   fbcc4: 911d0000      add     x0, x0, #0x740\n+   fbcc8: 97fc8b86      bl      0x1eae0 \u003cruntime.newobject\u003e\n+   fbccc: f9001be0      str     x0, [sp, #0x30]\n+   fbcd0: 90005c9b      adrp    x27, 0xc8b000 \u003cruntime.mheap_+0x18b40\u003e\n+   fbcd4: b9496361      ldr     w1, [x27, #0x960]\n+   fbcd8: 340000e1      cbz     w1, 0xfbcf4 \u003cinternal/syscall/unix.__system_property_get.abi0+0x44\u003e\n+   fbcdc: aa0003e1      mov     x1, x0\n+   fbce0: 910123e2      add     x2, sp, #0x48\n+   fbce4: d0003700      adrp    x0, 0x7dd000 \u003ctyperel.*+0x2cff8\u003e\n+   fbce8: 911d0000      add     x0, x0, #0x740\n+   fbcec: 97fc9b11      bl      0x22930 \u003cruntime.wbMove\u003e\n+   fbcf0: f9401be0      ldr     x0, [sp, #0x30]\n+   fbcf4: f94027e2      ldr     x2, [sp, #0x48]\n+   fbcf8: f9000002      str     x2, [x0]\n+   fbcfc: aa0003e1      mov     x1, x0\n+   fbd00: 90000000      adrp    x0, 0xfb000 \u003cinternal/filepathlite.Base+0xc0\u003e\n+   fbd04: 9134c000      add     x0, x0, #0xd30\n+   fbd08: 97fe276e      bl      0x85ac0 \u003cruntime.libcCall\u003e\n+   fbd0c: f9401be2      ldr     x2, [sp, #0x30]\n+   fbd10: f9400042      ldr     x2, [x2]\n+   fbd14: f90017e2      str     x2, [sp, #0x28]\n+   fbd18: b9005be0      str     w0, [sp, #0x58]\n+   fbd1c: a97ffbfd      ldp     x29, x30, [sp, #-0x8]\n+   fbd20: 910103ff      add     sp, sp, #0x40\n+   fbd24: d65f03c0      ret\n```",
+      "parentUuid": "13f34aa4_e3438758",
+      "revId": "9c0340f360771975d2d51c7998b16e8400bb8479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2acec25_b966589d",
         "filename": "src/runtime/os_android.go",
         "patchSetId": 3
