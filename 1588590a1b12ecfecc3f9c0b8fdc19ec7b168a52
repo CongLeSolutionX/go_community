@@ -33,6 +33,24 @@
       "message": "Thanks for the +2. Can you advise on what\u0027s going on with the TryBots?",
       "revId": "1588590a1b12ecfecc3f9c0b8fdc19ec7b168a52",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0786b245_1a556b07",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-05T20:29:23Z",
+      "side": 1,
+      "message": "The output is somewhat confusing, but I think it is saying that go test -cpu\u003d1 runtime is timing out in TestProfileRecordNullPadding. So something up with GOMAXPROCS\u003d1?",
+      "parentUuid": "bec10009_592c07ac",
+      "revId": "1588590a1b12ecfecc3f9c0b8fdc19ec7b168a52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
