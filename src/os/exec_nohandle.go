@@ -6,4 +6,4 @@
 
 package os
 
-func (p *Process) closeHandle() {}
+func closeProcessHandle(handle uintptr) {}

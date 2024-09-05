@@ -58,6 +58,9 @@ func startProcess(name string, argv []string, attr *ProcAttr) (p *Process, err e
 	runtime.KeepAlive(attr)
 
 	if e != nil {
+		if h, ok := getPidfd(sysattr.Sys, false); ok {
+			closeProcessHandle(h)
+		}
 		return nil, &PathError{Op: "fork/exec", Path: name, Err: e}
 	}
 

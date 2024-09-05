@@ -94,7 +94,7 @@ type Process struct {
 	// modeHandle.
 	//
 	// handle must be accessed only via the handleTransientAcquire method
-	// (or during closeHandle), not directly! handle is immutable.
+	// (or when closing), not directly! handle is immutable.
 	//
 	// On Windows, it is a handle from OpenProcess.
 	// On Linux, it is a pidfd.
@@ -180,7 +180,7 @@ func (p *Process) handleTransientRelease() {
 			continue
 		}
 		if new&^processStatusMask == 0 {
-			p.closeHandle()
+			closeProcessHandle(p.handle)
 		}
 		return
 	}
@@ -217,7 +217,7 @@ func (p *Process) handlePersistentRelease(reason processStatus) processStatus {
 			continue
 		}
 		if new&^processStatusMask == 0 {
-			p.closeHandle()
+			closeProcessHandle(p.handle)
 		}
 		return status
 	}
