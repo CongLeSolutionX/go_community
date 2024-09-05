@@ -1777,34 +1777,32 @@ func TestSeekError(t *testing.T) {
 	}
 }
 
-type openErrorTest struct {
-	path  string
-	mode  int
-	error error
-}
-
-var openErrorTests = []openErrorTest{
-	{
-		sfdir + "/no-such-file",
-		O_RDONLY,
-		syscall.ENOENT,
-	},
-	{
-		sfdir,
-		O_WRONLY,
-		syscall.EISDIR,
-	},
-	{
-		sfdir + "/" + sfname + "/no-such-file",
-		O_WRONLY,
-		syscall.ENOTDIR,
-	},
-}
-
 func TestOpenError(t *testing.T) {
 	t.Parallel()
 
-	for _, tt := range openErrorTests {
+	testCases := []struct {
+		path  string
+		mode  int
+		error error
+	}{
+		{
+			sfdir + "/no-such-file",
+			O_RDONLY,
+			syscall.ENOENT,
+		},
+		{
+			sfdir,
+			O_WRONLY,
+			syscall.EISDIR,
+		},
+		{
+			sfdir + "/" + sfname + "/no-such-file",
+			O_WRONLY,
+			syscall.ENOTDIR,
+		},
+	}
+
+	for _, tt := range testCases {
 		f, err := OpenFile(tt.path, tt.mode, 0)
 		if err == nil {
 			t.Errorf("Open(%q, %d) succeeded", tt.path, tt.mode)
