@@ -111,6 +111,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "701f58d9_91b6a0c9",
+        "filename": "src/runtime/os_android.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3617945
+      },
+      "writtenOn": "2024-09-05T00:45:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2acec25_b966589d",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 0
+      },
+      "revId": "9c0340f360771975d2d51c7998b16e8400bb8479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17ae1f62_d598cd6f",
@@ -124,6 +148,30 @@
       "writtenOn": "2024-09-04T23:54:01Z",
       "side": 1,
       "message": "I _think_ that it is easier and more correct to initialize *name* like this:\n```\nname :\u003d []byte(\"ro.build.version.release\\000\")\n```",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 0
+      },
+      "revId": "9c0340f360771975d2d51c7998b16e8400bb8479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5851561c_74fb7488",
+        "filename": "src/runtime/os_android.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 3617945
+      },
+      "writtenOn": "2024-09-05T00:45:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17ae1f62_d598cd6f",
       "range": {
         "startLine": 16,
         "startChar": 0,
