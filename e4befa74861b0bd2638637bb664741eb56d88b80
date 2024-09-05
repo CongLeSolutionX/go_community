@@ -68,6 +68,23 @@
       "parentUuid": "de06961a_3ba7bcc1",
       "revId": "e4befa74861b0bd2638637bb664741eb56d88b80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e193820a_051c2d29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64694
+      },
+      "writtenOn": "2024-09-05T18:44:05Z",
+      "side": 1,
+      "message": "Should we add this usage to deps rule? I\u0027m a little concerned about the effect this will have on binary volume",
+      "revId": "e4befa74861b0bd2638637bb664741eb56d88b80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
