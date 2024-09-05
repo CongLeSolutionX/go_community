@@ -72,6 +72,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15ee199d_3d88703d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-05T14:14:52Z",
+      "side": 1,
+      "message": "Hi, I am not too familiar with the Github workflow but I believe the first line is taken from the title of the github pull request and the rest are taken from the first comment. Could you try editing those?",
+      "parentUuid": "aa64ce6c_bc97757b",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f231746_370a4b94",
