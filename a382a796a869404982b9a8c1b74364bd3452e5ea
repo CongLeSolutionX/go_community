@@ -102,6 +102,24 @@
       "message": "We\u0027d better not set default rs1 to 0. It may make encoding process hard to distinguish the real rs1 of aninstruction. I set it to 0xFFFFFFFF in my patch.",
       "revId": "a382a796a869404982b9a8c1b74364bd3452e5ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9ab6f71_6f55ce6f",
+        "filename": "src/cmd/internal/obj/riscv/inst.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-09-05T01:52:19Z",
+      "side": 1,
+      "message": "I think this is generated from parse.py, should be OK with 0.\nOtherwise you have to change all other language generator in parse.py.",
+      "parentUuid": "a0ebd482_bf81b453",
+      "revId": "a382a796a869404982b9a8c1b74364bd3452e5ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
