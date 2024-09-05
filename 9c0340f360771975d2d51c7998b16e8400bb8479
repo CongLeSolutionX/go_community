@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "13f34aa4_e3438758",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-05T00:31:31Z",
+      "side": 1,
+      "message": "The main advantage would come if we ever have to do this again.  For example, look at internal/syscall/unix/net_darwin.go, and how it calls getaddrinfo.  It goes via syscall_syscall6 which is defined in the runtime package to call libcCall.  We could use an approach like that for Android, I think.",
+      "parentUuid": "209b4308_222b0afc",
+      "revId": "9c0340f360771975d2d51c7998b16e8400bb8479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2acec25_b966589d",
         "filename": "src/runtime/os_android.go",
         "patchSetId": 3
