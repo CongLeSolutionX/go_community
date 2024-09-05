@@ -16,6 +16,24 @@
       "message": "This is still missing the go/types stmt.go changes.",
       "revId": "5916752d92113dea1221939f1f8bf4519126674c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f209fdd0_942cb84f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-05T02:39:18Z",
+      "side": 1,
+      "message": "Hmm, I see. Sounds like stmt.go is not re-generated like others, so I have to do it manually.\n\nWill do once I’m back with my laptop.",
+      "parentUuid": "7251ce31_14beb353",
+      "revId": "5916752d92113dea1221939f1f8bf4519126674c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
