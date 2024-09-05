@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf88dd31_53299efe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-05T21:37:14Z",
+      "side": 1,
+      "message": "Thanks, but this feels like code churn.  The new code isn\u0027t really better than the old code.  Yes, we would probably write the new version if we were writing it today, but that\u0027s not enough of a reason to change working code.  We should only change code if there is a clear improvement.  Removing some unexported test-only package-scope variables is not a clear improvement.",
+      "revId": "049ea2363476e309af43654111c3012a9b81363f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
