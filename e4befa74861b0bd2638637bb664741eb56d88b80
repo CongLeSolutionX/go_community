@@ -33,6 +33,23 @@
       "message": "well, this was not allowed by some rule. Should we use some hack way like search test.v flag?",
       "revId": "e4befa74861b0bd2638637bb664741eb56d88b80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de06961a_3ba7bcc1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64694
+      },
+      "writtenOn": "2024-09-05T18:06:15Z",
+      "side": 1,
+      "message": "In fact, I\u0027m confused as to why we need a net_fake.go, if it\u0027s true that we don\u0027t support the server api, then what we should be doing is skipping these tests in the wasm architecture instead of creating a meaningless net to trick the test system.",
+      "revId": "e4befa74861b0bd2638637bb664741eb56d88b80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
