@@ -52,6 +52,24 @@
       "parentUuid": "3f28f3da_d58b1eba",
       "revId": "700920bbb73b39af4794854e79b76dc9b66b19ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1296a6dd_515327e5",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-09-05T13:39:15Z",
+      "side": 1,
+      "message": "My point here is that no matter the amount of parens, then:\n\n```\ntype _[P (((T))),] struct{}\n```\n\nshould be formatted the same way as\n\n```\ntype _[P T,] struct{}\n```\n\nright?",
+      "parentUuid": "4ed836fc_13a05f8f",
+      "revId": "700920bbb73b39af4794854e79b76dc9b66b19ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
