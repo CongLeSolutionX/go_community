@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0770d15a_c12451f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2024-09-05T16:53:03Z",
+      "side": 1,
+      "message": "This is great, the old check was definitely wrong. Thank you!",
+      "revId": "e4befa74861b0bd2638637bb664741eb56d88b80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
