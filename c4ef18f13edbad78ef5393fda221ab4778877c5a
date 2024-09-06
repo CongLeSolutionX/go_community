@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7daa22ef_105ff634",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-06T22:11:32Z",
+      "side": 1,
+      "message": "cmd/link: change FreeBSD Version from 12.3 to 13.3\n\n(See https://go.dev/wiki/CommitMessage)",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "c4ef18f13edbad78ef5393fda221ab4778877c5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "076c2fbc_a610c63d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-06T22:11:32Z",
+      "side": 1,
+      "message": "I don\u0027t know what our FreeBSD support policy is. CC @dmitshur@golang.org",
+      "revId": "c4ef18f13edbad78ef5393fda221ab4778877c5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fdf98f6_6e78a00f",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-06T22:11:32Z",
+      "side": 1,
+      "message": "This comment needs update.",
+      "range": {
+        "startLine": 754,
+        "startChar": 49,
+        "endLine": 754,
+        "endChar": 53
+      },
+      "revId": "c4ef18f13edbad78ef5393fda221ab4778877c5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
