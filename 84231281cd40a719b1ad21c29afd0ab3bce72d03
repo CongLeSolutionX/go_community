@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2835fe79_1a45afa6",
+        "filename": "src/regexp/syntax/regexp_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-06T07:50:04Z",
+      "side": 1,
+      "message": "2024",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "84231281cd40a719b1ad21c29afd0ab3bce72d03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
