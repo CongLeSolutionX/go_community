@@ -33,6 +33,24 @@
       "message": "This is great!\n\nMy one concern is people who haven\u0027t upgraded their dependency on frugal, but have updated their version of Go. I want the ecosystem to move forward and for package authors to have an incentive to move off these linknames, so I do think this is the right thing to do, but I wanted to put that out there.\n\nI\u0027m not sure whether our original linkname analysis was version-aware. If not, then this is no different than when we started locking down linkname. But if it was.. we may need to at least report a useful error telling users what to upgrade.",
       "revId": "ef5c209d3eeb37b16e2e4a6a1c692d0a92b3b67c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e619427a_b6c41c4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 27296
+      },
+      "writtenOn": "2024-09-06T13:26:44Z",
+      "side": 1,
+      "message": "Luckily, the legacy frugal version will be prevented from being compiled by the latest version of Go, as it panics with an unsupported Go version error. However, it would be better if the linkname analysis could indicate that it’s the package’s fault when a package fails to do so and attempts to link to Go standard or runtime package symbols while compiling with an incompatible Go version.",
+      "parentUuid": "ee8b97f4_e8a5e20e",
+      "revId": "ef5c209d3eeb37b16e2e4a6a1c692d0a92b3b67c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
