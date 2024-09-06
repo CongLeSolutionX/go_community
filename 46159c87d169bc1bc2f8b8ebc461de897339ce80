@@ -118,6 +118,30 @@
       },
       "revId": "46159c87d169bc1bc2f8b8ebc461de897339ce80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "091c14a4_4b1d3441",
+        "filename": "src/regexp/syntax/regexp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 56218
+      },
+      "writtenOn": "2024-09-06T16:30:08Z",
+      "side": 1,
+      "message": "Without the prefix `(?i)` in your input:\n\n```\n{`[xX][O-u]`, `(?i:X)[O-u]`},\n```",
+      "parentUuid": "a4629392_09a554e1",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 0
+      },
+      "revId": "46159c87d169bc1bc2f8b8ebc461de897339ce80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
