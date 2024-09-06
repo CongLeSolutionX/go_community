@@ -103,6 +103,24 @@
       "parentUuid": "e193820a_051c2d29",
       "revId": "e4befa74861b0bd2638637bb664741eb56d88b80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9710434d_0df77717",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64694
+      },
+      "writtenOn": "2024-09-06T05:09:40Z",
+      "side": 1,
+      "message": "I\u0027ve added a new method that looks a bit hack, but at least allows the normal program to run normally on Node.js.",
+      "parentUuid": "2fdc010e_966cb3d7",
+      "revId": "e4befa74861b0bd2638637bb664741eb56d88b80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
