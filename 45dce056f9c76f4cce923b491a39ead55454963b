@@ -87,6 +87,24 @@
       "parentUuid": "4b195627_90c3d332",
       "revId": "45dce056f9c76f4cce923b491a39ead55454963b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9660b68e_720cb3de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 56218
+      },
+      "writtenOn": "2024-09-06T08:50:38Z",
+      "side": 1,
+      "message": "Sorry, I’ve just fixed it now",
+      "parentUuid": "afe2ffe1_30fe8651",
+      "revId": "45dce056f9c76f4cce923b491a39ead55454963b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
