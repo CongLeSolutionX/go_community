@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62f6261b_d11dfba7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-06T04:51:55Z",
+      "side": 1,
+      "message": "Describe the change, rather than using words like \"fix\".  See https://go.dev/wiki/CommitMessage.",
+      "revId": "45dce056f9c76f4cce923b491a39ead55454963b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7775169_b80d876f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-06T04:51:55Z",
+      "side": 1,
+      "message": "Write this as simply\n\nFixes #69303",
+      "revId": "45dce056f9c76f4cce923b491a39ead55454963b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
