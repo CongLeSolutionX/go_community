@@ -793,6 +793,24 @@
       "parentUuid": "d12faaf4_524948b6",
       "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "477428dd_17f1e632",
+        "filename": "src/cmd/internal/obj/wasm32/a.out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-06T19:05:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b91d398_a3a2c44f",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
