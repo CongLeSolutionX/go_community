@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e60e71ac_5079c64b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-09-06T16:10:13Z",
+      "side": 1,
+      "message": "It\u0027s nice to see these go. Thanks.\n\nFor some of the linkname allowlist symbols (perhaps not these), there are going to be other uses beyond what\u0027s listed, so if other projects are broken by this CL, I am also fine with rolling back the parts that cause breakage elsewhere. \n\nIn general the basic operations like mapclear seem fine to leave linknamable basically forever, while internal guts like firstmoduledatap are really great to be able to re-lock down.\n\nThanks again.",
+      "revId": "123594d3863b0a4b9094a569957d1bd94ebe7512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
