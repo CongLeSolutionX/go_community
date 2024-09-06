@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "767238ee_f4e25924",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2024-09-06T10:38:13Z",
+      "side": 1,
+      "message": "\u003e but that\u0027s not happening\n\nThat\u0027s perhaps ambiguous. I mean `*SysProcAttr.PidFD` _is_ being changed even though the process has not started successfully. The syscall logic certainly knows that the process has not started successfully and is in a good position to close the file descriptor and avoid setting PidFD AFAICS.",
+      "parentUuid": "d665c73a_4eba1a48",
+      "revId": "7d48b44840b75ef072327fc126b7f8e76aaa4e7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4dcb765a_104560de",
