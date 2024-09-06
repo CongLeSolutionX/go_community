@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "324f014a_b027fc58",
+        "filename": "src/regexp/syntax/regexp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-06T13:35:47Z",
+      "side": 1,
+      "message": "It seems to me that we could just remove all the code and just `return 0, 0`, since OpCharClass is parsed by parseUnicodeClass, which always push fold characters to Regexp.Rune slice. Thus the character class is now always not fold sensitive.",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 0
+      },
+      "revId": "46159c87d169bc1bc2f8b8ebc461de897339ce80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
