@@ -16,6 +16,74 @@
       "message": "I spotted some possible problems.\n\nThese findings are based on simple heuristics. If a finding appears wrong, briefly reply here saying so. Otherwise, please address any problems and update the GitHub PR. When complete, mark this comment as \u0027Done\u0027 and click the [blue \u0027Reply\u0027 button](https://go.dev/wiki/GerritBot#i-left-a-reply-to-a-comment-in-gerrit-but-no-one-but-me-can-see-it) above.\n\nPossible problems detected:\n  1. Lines in the commit message should be wrapped at ~76 characters unless needed for things like URLs or tables. You have a 261 character line.\n\nThe commit title and commit message body come from the GitHub PR title and description, and must be edited in the GitHub web interface (not via git). For instructions, see [here](https://go.dev/wiki/GerritBot/#how-does-gerritbot-determine-the-final-commit-message). For guidelines on commit messages for the Go project, see [here](https://go.dev/doc/contribute#commit_messages).\n\n\n(In general for Gerrit code reviews, the change author is expected to [log in to Gerrit](https://go-review.googlesource.com/login/) with a Gmail or other Google account and then close out each piece of feedback by marking it as \u0027Done\u0027 if implemented as suggested or otherwise reply to each review comment. See the [Review](https://go.dev/doc/contribute#review) section of the Contributing Guide for details.)",
       "revId": "2ef5af47ea9ae7e851087930de784f84f138502f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dad71926_84101f34",
+        "filename": "src/runtime/cgo/gcc_libinit.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-06T22:24:09Z",
+      "side": 1,
+      "message": "This code is Linux-specific.  It should ideally be in a Linux-specific file and only called from Linux-specific files.",
+      "revId": "2ef5af47ea9ae7e851087930de784f84f138502f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cb47841_80019e7a",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-06T22:24:09Z",
+      "side": 1,
+      "message": "For example, right now it looks like this code will do the wrong thing on a non-Linux system.",
+      "revId": "2ef5af47ea9ae7e851087930de784f84f138502f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20d9a50d_abc9fc59",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-06T22:24:09Z",
+      "side": 1,
+      "message": "Maybe readNullTerminatedStringsFromFile.\n\nThis needs a doc comment explaining what it does.",
+      "revId": "2ef5af47ea9ae7e851087930de784f84f138502f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "123041f0_c56b0c26",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-06T22:24:09Z",
+      "side": 1,
+      "message": "Why not 1024-byte chunks?",
+      "revId": "2ef5af47ea9ae7e851087930de784f84f138502f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
