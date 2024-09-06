@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "4b4ce925_6bb5438a",
         "filename": "src/bytes/buffer.go",
@@ -20,10 +21,10 @@
         "endChar": 17
       },
       "revId": "1ba4556a2c84f552f7c9697ad7323fd6cdbc6970",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "4a89259e_cbef90ac",
         "filename": "src/bytes/buffer.go",
@@ -44,10 +45,10 @@
         "endChar": 17
       },
       "revId": "1ba4556a2c84f552f7c9697ad7323fd6cdbc6970",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "100f35ba_88ac39d5",
         "filename": "src/bytes/buffer.go",
@@ -68,8 +69,31 @@
         "endChar": 17
       },
       "revId": "1ba4556a2c84f552f7c9697ad7323fd6cdbc6970",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95391f49_2a893cb8",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-06T00:04:06Z",
+      "side": 1,
+      "message": "This comment is obsolete, as the bootstrap array was removed in CL 133715.",
+      "parentUuid": "100f35ba_88ac39d5",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 17
+      },
+      "revId": "1ba4556a2c84f552f7c9697ad7323fd6cdbc6970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
