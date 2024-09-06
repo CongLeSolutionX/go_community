@@ -22,6 +22,30 @@
       },
       "revId": "46159c87d169bc1bc2f8b8ebc461de897339ce80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f28b73a_b46d6aab",
+        "filename": "src/regexp/syntax/regexp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 56218
+      },
+      "writtenOn": "2024-09-06T15:08:49Z",
+      "side": 1,
+      "message": "Did you mean it never reaches `return 0, flagI` in the OpCharClass case with the current implementation?",
+      "parentUuid": "324f014a_b027fc58",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 0
+      },
+      "revId": "46159c87d169bc1bc2f8b8ebc461de897339ce80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
