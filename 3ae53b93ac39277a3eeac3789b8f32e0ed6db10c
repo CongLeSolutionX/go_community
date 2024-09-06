@@ -16,6 +16,23 @@
       "message": "net/http.TestOmitHTTP2 [passed](https://ci.chromium.org/ui/p/golang/builders/try/go1.23-windows-amd64-longtest/b8737534453641117537/test-results?q\u003dExactID%3Anet%2Fhttp.TestOmitHTTP2+VHash%3Ad1f1ba6c4790c1d4) in the second run.",
       "revId": "3ae53b93ac39277a3eeac3789b8f32e0ed6db10c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb260591_9b7f0b41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2024-09-06T16:04:31Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "3ae53b93ac39277a3eeac3789b8f32e0ed6db10c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
