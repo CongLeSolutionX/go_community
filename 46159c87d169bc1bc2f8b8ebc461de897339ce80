@@ -46,6 +46,30 @@
       },
       "revId": "46159c87d169bc1bc2f8b8ebc461de897339ce80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e4c6399_b8634b80",
+        "filename": "src/regexp/syntax/regexp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-06T15:11:32Z",
+      "side": 1,
+      "message": "It does reach that return statement, but seems does not matter at all, because `re.String()` always clear flagI.\n\nAt least, there\u0027s no test failing when these code is removed.\n\nI would wait for Russ (or Rob Pike) to chime in, he knows the code better.",
+      "parentUuid": "1f28b73a_b46d6aab",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 0
+      },
+      "revId": "46159c87d169bc1bc2f8b8ebc461de897339ce80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
