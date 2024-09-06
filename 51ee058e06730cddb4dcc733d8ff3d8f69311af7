@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4e9e590_4a2c10af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-06T08:57:54Z",
+      "side": 1,
+      "message": "s/Optimize/optimize/\n\nMaybe:\n\nregexp/syntax: optimize OpCharClass fold case in calcFlags",
+      "revId": "51ee058e06730cddb4dcc733d8ff3d8f69311af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8efa18e3_dbdbd628",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-06T08:57:54Z",
+      "side": 1,
+      "message": "Dont do markdown in commit message, just write \"Fixes #69303\" is enough.",
+      "revId": "51ee058e06730cddb4dcc733d8ff3d8f69311af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58146b53_b87df1e1",
+        "filename": "src/regexp/syntax/regexp.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-06T08:57:54Z",
+      "side": 1,
+      "message": "Please add comments to explain how this function works.",
+      "revId": "51ee058e06730cddb4dcc733d8ff3d8f69311af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
