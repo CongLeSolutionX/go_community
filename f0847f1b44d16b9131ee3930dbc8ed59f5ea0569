@@ -16,6 +16,24 @@
       "message": "cmd/go: set environment LANG\u003dC when getting compiler version",
       "revId": "f0847f1b44d16b9131ee3930dbc8ed59f5ea0569",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "473f0677_1b503ee5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3618845
+      },
+      "writtenOn": "2024-09-06T13:37:43Z",
+      "side": 1,
+      "message": "Yes,Change it.",
+      "parentUuid": "cd30de17_604393a9",
+      "revId": "f0847f1b44d16b9131ee3930dbc8ed59f5ea0569",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
