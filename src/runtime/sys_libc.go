@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || (openbsd && !mips64)
+//go:build darwin || (openbsd && !mips64) || android
 
 package runtime
 
@@ -14,6 +14,7 @@ import "unsafe"
 // Preserves the calling point as the location where a profiler traceback will begin.
 //
 //go:nosplit
+//go:linkname libcCall runtime.libcCall
 func libcCall(fn, arg unsafe.Pointer) int32 {
 	// Leave caller's PC/SP/G around for traceback.
 	gp := getg()
