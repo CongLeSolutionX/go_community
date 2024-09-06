@@ -16,6 +16,23 @@
       "message": "I see that trampolines for darwin (which also calls libc) are implemented in two different ways:\n1. in `runtime/sys_darwin_*.s` -- similar to how it\u0027s done in this CL;\n2. in `internal/syscall/unix/asm_darwin.s` -- in a simpler way.\n\nI see that both ways have a lot of similarity, but there is one difference: way 2 doesn\u0027t have a bunch of long per-trampoline and per-architecture asm to rearrange registers -- it\u0027s a mere JMP.\n\nSame for \"openbsd \u0026\u0026 !mips64\" -- what\u0027s used in `internal/syscal/unix` is similarly way simpler than that in `runtime`.\n\nI can\u0027t yet see why but maybe you can do it the same way, too.\n\nHmm, is this because way 2 uses syscall_syscall* (which uses libcCall) while way 1 uses libcCall directly?",
       "revId": "059b41cf783436728870a11456bbcc67ba4919b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06ecdc3e_f41f5a50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-09-06T07:39:55Z",
+      "side": 1,
+      "message": "Maybe we should use `ro.build.version.sdk`, which is Android API level.\n\nAndroid 12 corresponds to API level 31, according to https://developer.android.com/reference/android/os/Build.VERSION_CODES.\n\nAlso, I was able to run an Android emulator with SDK (API level) 30, which is Android 11, and run os.test in there. For some reason, it works. Maybe this is because it\u0027s a bare modes image.\n\nWe still need to find a way to test what we\u0027re doing here.",
+      "revId": "059b41cf783436728870a11456bbcc67ba4919b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
