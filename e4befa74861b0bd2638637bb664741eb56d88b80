@@ -121,6 +121,42 @@
       "parentUuid": "2fdc010e_966cb3d7",
       "revId": "e4befa74861b0bd2638637bb664741eb56d88b80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "244e389a_3a0ac380",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-09-07T21:18:58Z",
+      "side": 1,
+      "message": "The net_fake predates Node supporting Fetch API, and it existed from the NaCL port so it was a good choice back the . We indeed probably don’t need it now, but the work of removing it in favor of using real fetch hasn’t been done yet. It’s tracked in issue #60810.",
+      "parentUuid": "c6b69378_ce355e05",
+      "revId": "e4befa74861b0bd2638637bb664741eb56d88b80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aef55437_1b3c9aef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-09-07T21:18:58Z",
+      "side": 1,
+      "message": "I too considered `testing.Testing` and would’ve liked to use it previously [here](https://go-review.googlesource.com/c/go/+/503675/comment/dfba4b3e_f392ce7d/), but testing is too big of a dependency for net/http, so using a workaround instead is fine.",
+      "parentUuid": "9710434d_0df77717",
+      "revId": "e4befa74861b0bd2638637bb664741eb56d88b80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
