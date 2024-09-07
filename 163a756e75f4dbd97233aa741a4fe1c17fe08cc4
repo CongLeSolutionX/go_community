@@ -70,6 +70,24 @@
       "message": "Thanks.",
       "revId": "163a756e75f4dbd97233aa741a4fe1c17fe08cc4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cc71b06_206f2962",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-09-07T18:26:00Z",
+      "side": 1,
+      "message": "Resources were cleaned up after migrating some of those legacy builders to LUCI, so not all of the legacy builders will work by now.\n\nThe legacy slowbot request has been running for 55 hrs and produced as much signal as it will, so I\u0027ll stop it here. (Everything passed, except builders that aren\u0027t working for unrelated reasons.)\n\nFor reference, see https://go.dev/wiki/SlowBots#using-slowbots for how to request any of the [available](https://ci.chromium.org/ui/p/golang/g/go-gotip/builders) LUCI-based slowbots.",
+      "parentUuid": "a5602df6_51beb159",
+      "revId": "163a756e75f4dbd97233aa741a4fe1c17fe08cc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
