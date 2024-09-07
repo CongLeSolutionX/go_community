@@ -1151,7 +1151,7 @@ func expandFrames(p []BlockProfileRecord) {
 				break
 			}
 		}
-		k := copy(p[i].Stack0[:], expandedStack[:j])
+		k := copy(p[i].Stack0[:], expandedStack[:j+1])
 		clear(p[i].Stack0[k:])
 	}
 }
