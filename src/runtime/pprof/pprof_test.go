@@ -1328,6 +1328,63 @@ func TestMutexProfile(t *testing.T) {
 			t.Fatalf("profile samples total %v, want within range [%v, %v] (target: %v)", d, lo, hi, N*D)
 		}
 	})
+
+	t.Run("records", func(t *testing.T) {
+		// Check that the runtime.MutexProfile contains the same stack traces as
+		// the the proto profile.
+		var records []runtime.BlockProfileRecord
+		for {
+			n, ok := runtime.MutexProfile(records)
+			if ok {
+				records = records[:n]
+				break
+			}
+			records = make([]runtime.BlockProfileRecord, n*2)
+		}
+
+		var w bytes.Buffer
+		Lookup("mutex").WriteTo(&w, 0)
+		p, err := profile.Parse(&w)
+		if err != nil {
+			t.Fatalf("failed to parse profile: %v", err)
+		}
+
+		sampleFuncs := func(s *profile.Sample) (funcs string) {
+			for _, loc := range s.Location {
+				for _, line := range loc.Line {
+					funcs += line.Function.Name + ";"
+				}
+			}
+			return
+		}
+
+		recordFuncs := func(r runtime.BlockProfileRecord) (funcs string) {
+			frames := runtime.CallersFrames(r.Stack())
+			for {
+				frame, more := frames.Next()
+				funcs += frame.Function + ";"
+				if !more {
+					break
+				}
+			}
+			return
+		}
+
+		for _, record := range records {
+			found := false
+			rf := recordFuncs(record)
+			for _, sample := range p.Sample {
+				sf := sampleFuncs(sample)
+				if rf == sf {
+					found = true
+					break
+				}
+			}
+			if !found {
+				t.Fatalf("MutexProfile stack %q not found in proto:\n%s", rf, p)
+			}
+		}
+	})
 }
 
 func TestMutexProfileRateAdjust(t *testing.T) {

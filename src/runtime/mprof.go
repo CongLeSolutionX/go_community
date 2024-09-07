@@ -1144,6 +1144,11 @@ func expandFrames(p []BlockProfileRecord) {
 		j := 0
 		for ; j < len(expandedStack); j++ {
 			f, more := cf.Next()
+			if f.Func.Name() == "runtime.goexit" {
+				// exclude runtime.goexit frame like runtime/pprof/proto.go
+				j--
+				break
+			}
 			// f.PC is a "call PC", but later consumers will expect
 			// "return PCs"
 			expandedStack[j] = f.PC + 1
@@ -1151,7 +1156,7 @@ func expandFrames(p []BlockProfileRecord) {
 				break
 			}
 		}
-		k := copy(p[i].Stack0[:], expandedStack[:j])
+		k := copy(p[i].Stack0[:], expandedStack[:j+1])
 		clear(p[i].Stack0[k:])
 	}
 }
