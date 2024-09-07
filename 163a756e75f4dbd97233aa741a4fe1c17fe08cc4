@@ -88,6 +88,24 @@
       "parentUuid": "a5602df6_51beb159",
       "revId": "163a756e75f4dbd97233aa741a4fe1c17fe08cc4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbcfd12e_44d21100",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-09-07T18:30:10Z",
+      "side": 1,
+      "message": "The openbsd-386-72 failure is pre-existing and unrelated to this change; it\u0027s tracked in #55261.",
+      "parentUuid": "b2391787_7312719a",
+      "revId": "163a756e75f4dbd97233aa741a4fe1c17fe08cc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
