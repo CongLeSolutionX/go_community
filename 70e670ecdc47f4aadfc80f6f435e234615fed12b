@@ -436,6 +436,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2967eca0_3c101bc8",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-07T17:11:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09fd3d7d_3a5a6784",
+      "range": {
+        "startLine": 461,
+        "startChar": 0,
+        "endLine": 463,
+        "endChar": 0
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8db84b84_56277c58",
@@ -449,6 +473,30 @@
       "writtenOn": "2024-09-03T20:21:01Z",
       "side": 1,
       "message": "I don\u0027t think we should include ImportStackWithPos in the JSON output unless we\u0027re sure that we have a usage. (I also think that if we want to marshal the positions of the import stack it should be in a more structured format)",
+      "range": {
+        "startLine": 507,
+        "startChar": 0,
+        "endLine": 507,
+        "endChar": 29
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afb46399_1e3df070",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-07T17:11:07Z",
+      "side": 1,
+      "message": "Done, yes, introduced position inside importInfo struct.",
+      "parentUuid": "8db84b84_56277c58",
       "range": {
         "startLine": 507,
         "startChar": 0,
@@ -482,6 +530,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57dd82a9_54201fd7",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-07T17:11:07Z",
+      "side": 1,
+      "message": "Got it. I changed to push *importInfo, which has path and *token.Position, since we only need one position if it has. Please correct me if I am wrong.",
+      "parentUuid": "d6e19b86_99acf59c",
+      "range": {
+        "startLine": 571,
+        "startChar": 5,
+        "endLine": 571,
+        "endChar": 15
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e872b1a_f76b3455",
@@ -505,6 +577,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e565583_9ca7c99f",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-07T17:11:07Z",
+      "side": 1,
+      "message": "Done, yes, agreed, we only need one. Changed to use *token.Position (use pointer for checking if it is nil) instead of []token.Position",
+      "parentUuid": "7e872b1a_f76b3455",
+      "range": {
+        "startLine": 573,
+        "startChar": 5,
+        "endLine": 573,
+        "endChar": 21
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "673ac8a0_8052b6fb",
@@ -518,6 +614,30 @@
       "writtenOn": "2024-09-03T20:21:01Z",
       "side": 1,
       "message": "I think we should keep the previous version of Copy, but also add a new function with a different name that does what this function does so we can extract the set of packages for marshaling the JSON.",
+      "range": {
+        "startLine": 589,
+        "startChar": 22,
+        "endLine": 589,
+        "endChar": 26
+      },
+      "revId": "70e670ecdc47f4aadfc80f6f435e234615fed12b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "856eb34e_5a9fc760",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-07T17:11:07Z",
+      "side": 1,
+      "message": "Done, yes, added, so now there are three methods:\nCopy(), CopyPkgs(), CopyPkgsWithPos()",
+      "parentUuid": "673ac8a0_8052b6fb",
       "range": {
         "startLine": 589,
         "startChar": 22,
