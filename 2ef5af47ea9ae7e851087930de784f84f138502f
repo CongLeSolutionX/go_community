@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b215e7bf_cc23682f",
+        "filename": "src/runtime/cgo/gcc_libinit.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-07T08:07:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad71926_84101f34",
+      "revId": "2ef5af47ea9ae7e851087930de784f84f138502f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0cb47841_80019e7a",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-09-06T22:24:09Z",
       "side": 1,
       "message": "For example, right now it looks like this code will do the wrong thing on a non-Linux system.",
+      "revId": "2ef5af47ea9ae7e851087930de784f84f138502f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b01dbda0_d09fb8f6",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-07T08:07:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cb47841_80019e7a",
       "revId": "2ef5af47ea9ae7e851087930de784f84f138502f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -69,6 +105,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2b66f02_134861ea",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-07T08:07:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20d9a50d_abc9fc59",
+      "revId": "2ef5af47ea9ae7e851087930de784f84f138502f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "123041f0_c56b0c26",
@@ -82,6 +136,24 @@
       "writtenOn": "2024-09-06T22:24:09Z",
       "side": 1,
       "message": "Why not 1024-byte chunks?",
+      "revId": "2ef5af47ea9ae7e851087930de784f84f138502f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f6b62a7_29ab8fbc",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-07T08:07:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "123041f0_c56b0c26",
       "revId": "2ef5af47ea9ae7e851087930de784f84f138502f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
