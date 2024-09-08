@@ -70,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c708273f_0f6f63cb",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-09-08T18:09:07Z",
+      "side": 1,
+      "message": "I\u0027ve updated the loop in `skipDisjointMemDefs` function to not make more than a constant number of steps. It should be linear now (limited by the constant * number of load-like instructions it is called on). Currently the constant is not more than 255 (because of storing it into a byte), probably it should be almost always enough.",
+      "parentUuid": "e533fe5e_fba553f2",
+      "revId": "13a1561f0668703bd71be4fb100eeb41c30d03a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26afb759_095f3114",
@@ -87,6 +105,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "817ac29b_06af2ab9",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-09-08T18:09:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26afb759_095f3114",
+      "revId": "13a1561f0668703bd71be4fb100eeb41c30d03a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e00eecec_cc503941",
@@ -100,6 +136,24 @@
       "writtenOn": "2024-09-03T22:46:04Z",
       "side": 1,
       "message": "This test appears somewhat fragile because we could constant-propagate 0 everywhere pretty easily.",
+      "revId": "13a1561f0668703bd71be4fb100eeb41c30d03a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45348cc8_b7ebe5e1",
+        "filename": "test/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-09-08T18:09:07Z",
+      "side": 1,
+      "message": "I changed it to use the argument `q` pointer in the loads and `p` in the store, for the test it works fine too.",
+      "parentUuid": "e00eecec_cc503941",
       "revId": "13a1561f0668703bd71be4fb100eeb41c30d03a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
