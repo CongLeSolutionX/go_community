@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2132419d_7a862c85",
+        "filename": "src/runtime/cgo.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-08T03:43:43Z",
+      "side": 1,
+      "message": "This should be in a Linux-specific file.",
+      "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "315ce977_87b81fc8",
+        "filename": "src/runtime/cgo/callbacks.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-08T03:43:43Z",
+      "side": 1,
+      "message": "This should be in a Linux-specific file.",
+      "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0065ab11_6c98ec70",
+        "filename": "src/runtime/cgo/gcc_libinit.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-08T03:43:43Z",
+      "side": 1,
+      "message": "This change is not needed.",
+      "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ea60a79_5fa80c13",
+        "filename": "src/runtime/cgo/gcc_linux_amd64.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-08T03:43:43Z",
+      "side": 1,
+      "message": "Let\u0027s not duplicate this, let\u0027s use a new file gcc_must_linux.c or something.",
+      "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e73bb442_aaa74b84",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-08T03:43:43Z",
+      "side": 1,
+      "message": "We don\u0027t need to check GOOS \u003d\u003d \"linux\" in the file os_linux.go.",
+      "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aac3acd7_7f1d40ef",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-08T03:43:43Z",
+      "side": 1,
+      "message": "This probably needs to be a hook defined in os_linux.go and os_unix_nonlinux.go.",
+      "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91784103_65b3df05",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-08T03:43:43Z",
+      "side": 1,
+      "message": "This should be in a Linux-specific file.",
+      "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
