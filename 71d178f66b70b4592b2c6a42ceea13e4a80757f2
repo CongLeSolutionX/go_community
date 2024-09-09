@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "302ed70a_c2b76957",
+        "filename": "src/cmd/compile/internal/test/issue62407_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-09T21:19:53Z",
+      "side": 1,
+      "message": "noinline on the tests themselves is not needed.",
+      "revId": "71d178f66b70b4592b2c6a42ceea13e4a80757f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
