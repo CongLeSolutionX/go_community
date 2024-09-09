@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6a68376_185ce9e5",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-09T17:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "503b91b1_cdaab0c7",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 88
+      },
+      "revId": "e5419fd6474a91b7e55ccc748ed351056b703bf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70d87204_6a317322",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-09-09T16:31:31Z",
       "side": 1,
       "message": "maybe we should say \"from GOTOOLCHAIN\u003d%s\" so we can imply that the GOTOOLCHAIN is determining more than just what the toolchain is (in case it\u0027s +auto or +path)",
+      "range": {
+        "startLine": 170,
+        "startChar": 60,
+        "endLine": 170,
+        "endChar": 74
+      },
+      "revId": "e5419fd6474a91b7e55ccc748ed351056b703bf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdb8fee2_01b3effe",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-09T17:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70d87204_6a317322",
       "range": {
         "startLine": 170,
         "startChar": 60,
@@ -87,6 +135,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e54d1c5a_4e3949ad",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-09T17:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7255f37_766aaaeb",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 205,
+        "endChar": 131
+      },
+      "revId": "e5419fd6474a91b7e55ccc748ed351056b703bf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3188ed5e_4f3d7b07",
@@ -100,6 +172,30 @@
       "writtenOn": "2024-09-09T16:31:31Z",
       "side": 1,
       "message": "we should mention that the GOTOOLCHAIN contains auto or path when logging this upgrade",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 125
+      },
+      "revId": "e5419fd6474a91b7e55ccc748ed351056b703bf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "778a0af1_de4014e0",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-09T17:52:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3188ed5e_4f3d7b07",
       "range": {
         "startLine": 224,
         "startChar": 0,

@@ -22,6 +22,30 @@
       },
       "revId": "96c20f6ec1ca3f5552ca568c60915aa749145282",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c4255b_b42f05ab",
+        "filename": "doc/godebug.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-09T17:52:59Z",
+      "side": 1,
+      "message": "Will ask Russ at weekly",
+      "parentUuid": "fcd28c9b_c5667d59",
+      "range": {
+        "startLine": 171,
+        "startChar": 3,
+        "endLine": 171,
+        "endChar": 7
+      },
+      "revId": "96c20f6ec1ca3f5552ca568c60915aa749145282",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
