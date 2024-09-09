@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34d25473_98029a87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-09T14:41:25Z",
+      "side": 1,
+      "message": "Aligned the print messages closer to the tool chain doc.",
+      "revId": "e5419fd6474a91b7e55ccc748ed351056b703bf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
