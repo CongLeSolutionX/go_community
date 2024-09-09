@@ -16,6 +16,23 @@
       "message": "This fixes another bug I noticed while working on the fix for the GoroutineProfile null padding. I\u0027m putting it ahead in the CL chain b/c it simplifies writing the test for the mutex profile in the following CL.",
       "revId": "35f06098ba1234d888157bd83be86aaa4d8ec26c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e03b27ae_ae41a5c8",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-09-09T11:40:19Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t// the proto profile.\n```",
+      "revId": "35f06098ba1234d888157bd83be86aaa4d8ec26c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
