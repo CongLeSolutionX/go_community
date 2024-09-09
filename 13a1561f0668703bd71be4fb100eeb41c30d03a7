@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6597e448_a72af375",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2024-09-09T17:41:42Z",
+      "side": 1,
+      "message": "I\u0027m trying to understand where this would come up in practice. Probably the best way to do that is to take a few of the benchmarks which changed (both faster and slower), grab a profile of them, look at the top functions (top overall or top when looking at a differential profile), and find one whose assembly has changed.",
+      "parentUuid": "43fb8702_07c8bb22",
+      "revId": "13a1561f0668703bd71be4fb100eeb41c30d03a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e533fe5e_fba553f2",
         "filename": "src/cmd/compile/internal/ssa/cse.go",
         "patchSetId": 1
