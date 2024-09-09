@@ -16,6 +16,24 @@
       "message": "I gave up on my attempt to spin until a mutex profile event has been recorded. \n\nInstead I moved the test case into the runtime/pprof package which already has the code that\u0027s needed to reliably produce mutex events (`awaitBlockedGoroutine`, `blockMutex`).\n\nAnother option would be to put `awaitBlockedGoroutine` into an internal package, which I also briefly played with, but in the end I decided that moving the test case is the most pragmatic choice for now.\n\nShould I add Michael K as a second reviewer or do you have somebody else in mind?",
       "revId": "3b686d5fd118b5320bfba9392175d0b32c6105e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d685c42c_154de8d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-09T14:48:09Z",
+      "side": 1,
+      "message": "We have a rotation to look at https://go.dev/s/needs-review, which should take care of this soon, but feel free to add Michael for faster look if you\u0027d like.",
+      "parentUuid": "5f9c29cf_b785e21f",
+      "revId": "3b686d5fd118b5320bfba9392175d0b32c6105e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
