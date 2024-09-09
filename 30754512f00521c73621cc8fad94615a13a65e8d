@@ -16,6 +16,23 @@
       "message": "Thank you for the notification!\n\n\u003e This is causing some internal Google tests to fail.\n\nI guess we cannot have more details about them, and what they are doing, right?\n\n\u003e I would be happy to hear suggestions for what to look for.\n\nIt would be good to check the kernel version, and check if it is up to date. Then check what networking features are being used, if there are any socket options being set/checked. Maybe some verifications are too specific to TCP, and need to be adapted when MPTCP is used?\n\n\u003e Those tests pass with GODEBUG\u003dmultipathtcp\u003d0, GODEBUG\u003dmultipathtcp\u003d1, and GODEBUG\u003dmultipathtcp\u003d3\n\nThat\u0027s surprising they pass with 1 (enabled for dialers and listeners), but not with 2 (enabled only for listeners): 2 should be a safe option, because the kernel will create a TCP socket when the client doesn\u0027t request to use MPTCP. In other words, in this case, there is no behaviour changes, only when the client asks to use MPTCP.",
       "revId": "30754512f00521c73621cc8fad94615a13a65e8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f483e52_f8aba587",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-09-09T20:12:16Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "30754512f00521c73621cc8fad94615a13a65e8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
