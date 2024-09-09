@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3153a300_399fd2b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-09T21:02:37Z",
+      "side": 1,
+      "message": "The strange thing is that they aren\u0027t doing anything very complicated.  They are starting a server and connecting to it, and the connect fails.\n\nActually, looking at one of the failures more closely, it looks like this may be a timing problem in the test.  The code is running, essentially\n\n    go func() { httpServer.ListenAndServer() }()\n    http.Get(addr)\n\nBut there isn\u0027t anything that ensures that the server is actually running and listening before the http.Get.  If MPTCP takes noticeably longer to set up in the kernel, then the problem may be that an inherently flaky test becomes significantly more flaky when using MPTCP.\n\nI\u0027ve put this CL on hold while I look further.",
+      "parentUuid": "2c7bd524_15b35ccc",
+      "revId": "30754512f00521c73621cc8fad94615a13a65e8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3f483e52_f8aba587",
