@@ -18,6 +18,40 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "518a8b83_63a4b751",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2024-09-09T12:41:11Z",
+      "side": 1,
+      "message": "Thanks! The fix looks good. I wonder if we could make the test more reliable?",
+      "revId": "35f06098ba1234d888157bd83be86aaa4d8ec26c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41160c39_2b98a76a",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1332,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2024-09-09T12:41:11Z",
+      "side": 1,
+      "message": "I notice this tests passes consistently for me with `GOMAXPROCS\u003d1`, if I revert the fix. I guess because there isn\u0027t necessarily any runtime lock contention, and this test is relying on `runtime._LostContendedRuntimeLock` being in the profile? Not sure of a better way to do it, though. I guess as long as at least one of the runners reliably triggers runtime lock contention (and we do `runtime._LostContendedRuntimeLock` rather than the full stack) this test should catch a future regression? Or we could assert that `MutexProfile` stacks have `runtime.goexit` as the root frame?",
+      "revId": "35f06098ba1234d888157bd83be86aaa4d8ec26c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e03b27ae_ae41a5c8",
@@ -31,6 +65,23 @@
       "writtenOn": "2024-09-09T11:40:19Z",
       "side": 1,
       "message": "```suggestion\n\t\t// the proto profile.\n```",
+      "revId": "35f06098ba1234d888157bd83be86aaa4d8ec26c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c35fc38d_e72947f8",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1387,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2024-09-09T12:41:11Z",
+      "side": 1,
+      "message": "If I revert the fix, the failure message here is `MutexProfile stack \";\" not found in proto:`. It\u0027s not clear to me what\u0027s missing just from that message. Perhaps also log the stacks from the `MutexProfile` on failure so it\u0027s easier to compare the outputs?",
       "revId": "35f06098ba1234d888157bd83be86aaa4d8ec26c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
