@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcd28c9b_c5667d59",
+        "filename": "doc/godebug.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-09T16:31:31Z",
+      "side": 1,
+      "message": "I don\u0027t think this needs to be documented here. I think The GODEBUGs we document here are only the ones that were added for compatibility reasons? See line 146.",
+      "range": {
+        "startLine": 171,
+        "startChar": 3,
+        "endLine": 171,
+        "endChar": 7
+      },
+      "revId": "96c20f6ec1ca3f5552ca568c60915aa749145282",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
