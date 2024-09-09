@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30e61db1_6270019a",
+        "filename": "src/runtime/cgo.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-09T02:11:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2132419d_7a862c85",
+      "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "315ce977_87b81fc8",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-09-08T03:43:43Z",
       "side": 1,
       "message": "This should be in a Linux-specific file.",
+      "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1a74cfe_f3a704fc",
+        "filename": "src/runtime/cgo/callbacks.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-09T02:11:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "315ce977_87b81fc8",
       "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2d8bc50_b98b3c4f",
+        "filename": "src/runtime/cgo/gcc_libinit.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-09T02:11:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0065ab11_6c98ec70",
+      "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ea60a79_5fa80c13",
@@ -69,6 +123,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e955908c_d91da5a8",
+        "filename": "src/runtime/cgo/gcc_linux_amd64.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-09T02:11:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ea60a79_5fa80c13",
+      "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e73bb442_aaa74b84",
@@ -82,6 +154,24 @@
       "writtenOn": "2024-09-08T03:43:43Z",
       "side": 1,
       "message": "We don\u0027t need to check GOOS \u003d\u003d \"linux\" in the file os_linux.go.",
+      "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30baec42_fac93fc6",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-09T02:11:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e73bb442_aaa74b84",
       "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -105,6 +195,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5e7d0133_6d85bcf8",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-09T02:11:21Z",
+      "side": 1,
+      "message": "The condition check or the following env fetch lines?",
+      "parentUuid": "aac3acd7_7f1d40ef",
+      "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91784103_65b3df05",
         "filename": "src/runtime/runtime1.go",
         "patchSetId": 3
@@ -116,6 +224,24 @@
       "writtenOn": "2024-09-08T03:43:43Z",
       "side": 1,
       "message": "This should be in a Linux-specific file.",
+      "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20157a89_c0337ee3",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-09T02:11:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91784103_65b3df05",
       "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
