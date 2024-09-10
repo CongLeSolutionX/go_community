@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "590c24a9_c7cb3657",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3071,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-09-10T15:43:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0abe154b_21c726ea",
+      "revId": "06e777689882bf1be4479a83599133486ca36e25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a573e42_55017166",
@@ -66,6 +84,24 @@
           ]
         }
       ],
+      "revId": "06e777689882bf1be4479a83599133486ca36e25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b93ca22_8c63214b",
+        "filename": "src/cmd/cgo/godefs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-09-10T15:43:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a573e42_55017166",
       "revId": "06e777689882bf1be4479a83599133486ca36e25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -127,6 +163,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "98611a50_4b326330",
+        "filename": "src/cmd/cgo/godefs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-09-10T15:43:40Z",
+      "side": 1,
+      "message": "I am also not sure, but the \"structs\" import has to appear where C.struct_foo is declared as a type, because that is where structs.HostLayout will be mentioned.",
+      "parentUuid": "31b546a9_217b3d48",
+      "revId": "06e777689882bf1be4479a83599133486ca36e25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f0d8fc9_04598690",
         "filename": "src/cmd/cgo/godefs.go",
         "patchSetId": 1
@@ -170,6 +224,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96d2a292_46338368",
+        "filename": "src/cmd/cgo/godefs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-09-10T15:43:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f0d8fc9_04598690",
+      "revId": "06e777689882bf1be4479a83599133486ca36e25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61f55a05_7aa77721",
@@ -201,6 +273,24 @@
           ]
         }
       ],
+      "revId": "06e777689882bf1be4479a83599133486ca36e25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0f2d529_c09527f5",
+        "filename": "src/cmd/cgo/godefs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-09-10T15:43:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61f55a05_7aa77721",
       "revId": "06e777689882bf1be4479a83599133486ca36e25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
