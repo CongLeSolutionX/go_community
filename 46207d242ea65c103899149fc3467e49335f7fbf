@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d5654fc_5df0bb77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-10T22:58:07Z",
+      "side": 1,
+      "message": "\"This reverts CL 602296.\"",
+      "revId": "46207d242ea65c103899149fc3467e49335f7fbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "13b156f9_162e1c36",
@@ -14,6 +31,23 @@
       "writtenOn": "2024-09-10T22:57:40Z",
       "side": 1,
       "message": "https://go.dev/cl/609296 was failing on:\nhttps://ci.chromium.org/ui/p/golang/builders/ci/gotip-linux-amd64-nocgo/b8737143207690098369/overview\nhttps://ci.chromium.org/ui/p/golang/builders/ci/gotip-darwin-amd64-nocgo/b8737146986451723809/overview\nhttps://ci.chromium.org/ui/p/golang/builders/ci/gotip-linux-ppc64_power10/b8737143409358603665/overview\nhttps://ci.chromium.org/ui/p/golang/builders/ci/gotip-linux-ppc64_power8/b8737144316963254353/overview\n\nReverting for now.",
+      "revId": "46207d242ea65c103899149fc3467e49335f7fbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7caf260_3038a2d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-10T22:58:07Z",
+      "side": 1,
+      "message": "Thanks.",
       "revId": "46207d242ea65c103899149fc3467e49335f7fbf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
