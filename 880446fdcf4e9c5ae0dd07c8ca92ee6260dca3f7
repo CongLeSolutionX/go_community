@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b8902ad2_da074099",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3400833
+      },
+      "writtenOn": "2024-09-10T13:54:29Z",
+      "side": 1,
+      "message": "I\u0027ve looked into this again and I can\u0027t find any space in the bits we have to add in Z/P registers.\n\nSince our register range is [8192, 13312), we have 12 bits of free space to work with, and one bit at position 13 that is always set. The top three bits can only hold 0-4 so we don\u0027t reach 13312, these are used already for REG_SPECIAL, REG_ARNG, REG_EXT and REG_SXT*. Underneath REG_ARNG, we have 9 bits that are already allocated so I don\u0027t have space to add a field for V/Z/P registers there. \n\nThere might be some more space hidden somewhere underneath another flag but it\u0027s hard to find and likely won\u0027t read very well in code. So keying rconv by architecture would be best in my opinion.\n\nDo you agree with this? If so I can try making this change to rconv and we can drop this patch, and I\u0027ll fix the SVE register type to wrap uint16 instead of *obj.Addr.",
+      "parentUuid": "f1375bf3_6df98b0c",
+      "revId": "880446fdcf4e9c5ae0dd07c8ca92ee6260dca3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "05c7c5f4_c49616ea",
         "filename": "src/cmd/internal/obj/util.go",
         "patchSetId": 4
