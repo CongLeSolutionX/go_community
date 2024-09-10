@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71737b6c_844302e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-09-10T08:23:30Z",
+      "side": 1,
+      "message": "Thanks,I can confirm this CL fixed on Ubuntu 24.04(noble)",
+      "revId": "b93d091e54557d8b7a5121e8a8dadc8641a0bacb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
