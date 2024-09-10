@@ -1592,6 +1592,7 @@ var Linkppc64 = obj.LinkArch{
 	Progedit:       progedit,
 	UnaryDst:       unaryDst,
 	DWARFRegisters: PPC64DWARFRegisters,
+	Rconv:          Rconv,
 }
 
 var Linkppc64le = obj.LinkArch{
@@ -1602,4 +1603,5 @@ var Linkppc64le = obj.LinkArch{
 	Progedit:       progedit,
 	UnaryDst:       unaryDst,
 	DWARFRegisters: PPC64DWARFRegisters,
+	Rconv:          Rconv,
 }

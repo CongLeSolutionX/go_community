@@ -1506,6 +1506,7 @@ var Linkmips64 = obj.LinkArch{
 	Assemble:       span0,
 	Progedit:       progedit,
 	DWARFRegisters: MIPSDWARFRegisters,
+	Rconv:          Rconv,
 }
 
 var Linkmips64le = obj.LinkArch{
@@ -1515,6 +1516,7 @@ var Linkmips64le = obj.LinkArch{
 	Assemble:       span0,
 	Progedit:       progedit,
 	DWARFRegisters: MIPSDWARFRegisters,
+	Rconv:          Rconv,
 }
 
 var Linkmips = obj.LinkArch{
@@ -1524,6 +1526,7 @@ var Linkmips = obj.LinkArch{
 	Assemble:       span0,
 	Progedit:       progedit,
 	DWARFRegisters: MIPSDWARFRegisters,
+	Rconv:          Rconv,
 }
 
 var Linkmipsle = obj.LinkArch{
@@ -1533,4 +1536,5 @@ var Linkmipsle = obj.LinkArch{
 	Assemble:       span0,
 	Progedit:       progedit,
 	DWARFRegisters: MIPSDWARFRegisters,
+	Rconv:          Rconv,
 }

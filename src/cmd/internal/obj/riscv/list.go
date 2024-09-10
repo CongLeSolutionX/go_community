@@ -11,10 +11,11 @@ import (
 )
 
 func init() {
-	obj.RegisterRegister(obj.RBaseRISCV, REG_END, RegName)
 	obj.RegisterOpcode(obj.ABaseRISCV, Anames)
 	obj.RegisterOpSuffix("riscv64", opSuffixString)
 }
+
+var RConv = RegName
 
 func RegName(r int) string {
 	switch {

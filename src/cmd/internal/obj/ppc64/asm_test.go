@@ -403,7 +403,7 @@ func TestRegValueAlignment(t *testing.T) {
 	tstFunc := func(rstart, rend, msk, rout int) {
 		for i := rstart; i <= rend; i++ {
 			if i&msk != rout {
-				t.Errorf("%v is not aligned to 0x%X (expected %d, got %d)\n", rconv(i), msk, rout, rstart&msk)
+				t.Errorf("%v is not aligned to 0x%X (expected %d, got %d)\n", Rconv(i), msk, rout, rstart&msk)
 			}
 			rout++
 		}

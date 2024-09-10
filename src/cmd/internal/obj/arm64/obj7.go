@@ -1122,4 +1122,5 @@ var Linkarm64 = obj.LinkArch{
 	Progedit:       progedit,
 	UnaryDst:       unaryDst,
 	DWARFRegisters: ARM64DWARFRegisters,
+	Rconv:          Rconv,
 }

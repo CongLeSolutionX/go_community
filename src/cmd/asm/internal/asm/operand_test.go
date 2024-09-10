@@ -73,15 +73,17 @@ func testBadOperandParser(t *testing.T, parser *Parser, tests []badOperandTest) 
 }
 
 func testOperandParser(t *testing.T, parser *Parser, tests []operandTest) {
+	testProg := obj.Prog{Ctxt: parser.ctxt}
+
 	for _, test := range tests {
 		parser.start(lex.Tokenize(test.input))
 		addr := obj.Addr{}
 		parser.operand(&addr)
 		var result string
 		if parser.allowABI {
-			result = obj.DconvWithABIDetail(&emptyProg, &addr)
+			result = obj.DconvWithABIDetail(&testProg, &addr)
 		} else {
-			result = obj.Dconv(&emptyProg, &addr)
+			result = obj.Dconv(&testProg, &addr)
 		}
 		if result != test.output {
 			t.Errorf("fail at %s: got %s; expected %s\n", test.input, result, test.output)

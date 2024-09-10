@@ -10,11 +10,10 @@ import (
 )
 
 func init() {
-	obj.RegisterRegister(obj.RBaseLOONG64, REG_LAST+1, rconv)
 	obj.RegisterOpcode(obj.ABaseLoong64, Anames)
 }
 
-func rconv(r int) string {
+func Rconv(r int) string {
 	if r == 0 {
 		return "NONE"
 	}

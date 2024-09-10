@@ -7,6 +7,7 @@ package obj
 import (
 	"bytes"
 	"cmd/internal/objabi"
+	"cmd/internal/sys"
 	"fmt"
 	"internal/abi"
 	"internal/buildcfg"
@@ -173,7 +174,7 @@ func (p *Prog) WriteInstructionString(w io.Writer) {
 	}
 	if p.Reg != REG_NONE {
 		// Should not happen but might as well show it if it does.
-		fmt.Fprintf(w, "%s%v", sep, Rconv(int(p.Reg)))
+		fmt.Fprintf(w, "%s%v", sep, p.Ctxt.Arch.Rconv(int(p.Reg)))
 		sep = ", "
 	}
 	for i := range p.RestArgs {
@@ -201,7 +202,7 @@ func (p *Prog) WriteInstructionString(w io.Writer) {
 		sep = ", "
 	}
 	if p.RegTo2 != REG_NONE {
-		fmt.Fprintf(w, "%s%v", sep, Rconv(int(p.RegTo2)))
+		fmt.Fprintf(w, "%s%v", sep, p.Ctxt.Arch.Rconv(int(p.RegTo2)))
 	}
 	for i := range p.RestArgs {
 		if p.RestArgs[i].Pos == Destination {
@@ -252,8 +253,8 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 
 	case TYPE_NONE:
 		if a.Name != NAME_NONE || a.Reg != 0 || a.Sym != nil {
-			a.WriteNameTo(w)
-			fmt.Fprintf(w, "(%v)(NONE)", Rconv(int(a.Reg)))
+			a.WriteNameTo(p, w)
+			fmt.Fprintf(w, "(%v)(NONE)", p.Ctxt.Arch.Rconv(int(a.Reg)))
 		}
 
 	case TYPE_REG:
@@ -261,20 +262,20 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 		//	PINSRQ	CX,$1,X6
 		// where the $1 is included in the p->to Addr.
 		// Move into a new field.
-		if a.Offset != 0 && (a.Reg < RBaseARM64 || a.Reg >= RBaseMIPS) {
-			fmt.Fprintf(w, "$%d,%v", a.Offset, Rconv(int(a.Reg)))
+		if a.Offset != 0 && (p.Ctxt.Arch.Family != sys.ARM64) {
+			fmt.Fprintf(w, "$%d,%v", a.Offset, p.Ctxt.Arch.Rconv(int(a.Reg)))
 			return
 		}
 
 		if a.Name != NAME_NONE || a.Sym != nil {
-			a.WriteNameTo(w)
-			fmt.Fprintf(w, "(%v)(REG)", Rconv(int(a.Reg)))
+			a.WriteNameTo(p, w)
+			fmt.Fprintf(w, "(%v)(REG)", p.Ctxt.Arch.Rconv(int(a.Reg)))
 		} else {
-			io.WriteString(w, Rconv(int(a.Reg)))
+			io.WriteString(w, p.Ctxt.Arch.Rconv(int(a.Reg)))
 		}
 
 	case TYPE_REGINDEX:
-		fmt.Fprintf(w, "%s[%d]", Rconv(int(a.Reg)), a.Index)
+		fmt.Fprintf(w, "%s[%d]", p.Ctxt.Arch.Rconv(int(a.Reg)), a.Index)
 
 	case TYPE_BRANCH:
 		if a.Sym != nil {
@@ -287,24 +288,24 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 
 	case TYPE_INDIR:
 		io.WriteString(w, "*")
-		a.writeNameTo(w, abiDetail)
+		a.writeNameTo(p, w, abiDetail)
 
 	case TYPE_MEM:
-		a.WriteNameTo(w)
+		a.WriteNameTo(p, w)
 		if a.Index != REG_NONE {
 			if a.Scale == 0 {
 				// arm64 shifted or extended register offset, scale = 0.
-				fmt.Fprintf(w, "(%v)", Rconv(int(a.Index)))
+				fmt.Fprintf(w, "(%v)", p.Ctxt.Arch.Rconv(int(a.Index)))
 			} else {
-				fmt.Fprintf(w, "(%v*%d)", Rconv(int(a.Index)), int(a.Scale))
+				fmt.Fprintf(w, "(%v*%d)", p.Ctxt.Arch.Rconv(int(a.Index)), int(a.Scale))
 			}
 		}
 
 	case TYPE_CONST:
 		io.WriteString(w, "$")
-		a.WriteNameTo(w)
+		a.WriteNameTo(p, w)
 		if a.Reg != 0 {
-			fmt.Fprintf(w, "(%v)", Rconv(int(a.Reg)))
+			fmt.Fprintf(w, "(%v)", p.Ctxt.Arch.Rconv(int(a.Reg)))
 		}
 
 	case TYPE_TEXTSIZE:
@@ -327,7 +328,7 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 
 	case TYPE_ADDR:
 		io.WriteString(w, "$")
-		a.writeNameTo(w, abiDetail)
+		a.writeNameTo(p, w, abiDetail)
 
 	case TYPE_SHIFT:
 		v := int(a.Offset)
@@ -341,21 +342,21 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 				fmt.Fprintf(w, "R%d%c%c%d", v&15, op[0], op[1], (v>>7)&31)
 			}
 			if a.Reg != 0 {
-				fmt.Fprintf(w, "(%v)", Rconv(int(a.Reg)))
+				fmt.Fprintf(w, "(%v)", p.Ctxt.Arch.Rconv(int(a.Reg)))
 			}
 		case "arm64":
 			op := ops[((v>>22)&3)<<1:]
 			r := (v >> 16) & 31
-			fmt.Fprintf(w, "%s%c%c%d", Rconv(r+RBaseARM64), op[0], op[1], (v>>10)&63)
+			fmt.Fprintf(w, "%s%c%c%d", p.Ctxt.Arch.Rconv(r+RBaseARM64), op[0], op[1], (v>>10)&63)
 		default:
 			panic("TYPE_SHIFT is not supported on " + buildcfg.GOARCH)
 		}
 
 	case TYPE_REGREG:
-		fmt.Fprintf(w, "(%v, %v)", Rconv(int(a.Reg)), Rconv(int(a.Offset)))
+		fmt.Fprintf(w, "(%v, %v)", p.Ctxt.Arch.Rconv(int(a.Reg)), p.Ctxt.Arch.Rconv(int(a.Offset)))
 
 	case TYPE_REGREG2:
-		fmt.Fprintf(w, "%v, %v", Rconv(int(a.Offset)), Rconv(int(a.Reg)))
+		fmt.Fprintf(w, "%v, %v", p.Ctxt.Arch.Rconv(int(a.Offset)), p.Ctxt.Arch.Rconv(int(a.Reg)))
 
 	case TYPE_REGLIST:
 		io.WriteString(w, RLconv(a.Offset))
@@ -365,11 +366,11 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 	}
 }
 
-func (a *Addr) WriteNameTo(w io.Writer) {
-	a.writeNameTo(w, false)
+func (a *Addr) WriteNameTo(p *Prog, w io.Writer) {
+	a.writeNameTo(p, w, false)
 }
 
-func (a *Addr) writeNameTo(w io.Writer, abiDetail bool) {
+func (a *Addr) writeNameTo(p *Prog, w io.Writer, abiDetail bool) {
 
 	switch a.Name {
 	default:
@@ -380,16 +381,16 @@ func (a *Addr) writeNameTo(w io.Writer, abiDetail bool) {
 		case a.Reg == REG_NONE:
 			fmt.Fprint(w, a.Offset)
 		case a.Offset == 0:
-			fmt.Fprintf(w, "(%v)", Rconv(int(a.Reg)))
+			fmt.Fprintf(w, "(%v)", p.Ctxt.Arch.Rconv(int(a.Reg)))
 		case a.Offset != 0:
-			fmt.Fprintf(w, "%d(%v)", a.Offset, Rconv(int(a.Reg)))
+			fmt.Fprintf(w, "%d(%v)", a.Offset, p.Ctxt.Arch.Rconv(int(a.Reg)))
 		}
 
 		// Note: a.Reg == REG_NONE encodes the default base register for the NAME_ type.
 	case NAME_EXTERN:
 		reg := "SB"
 		if a.Reg != REG_NONE {
-			reg = Rconv(int(a.Reg))
+			reg = p.Ctxt.Arch.Rconv(int(a.Reg))
 		}
 		if a.Sym != nil {
 			fmt.Fprintf(w, "%s%s%s(%s)", a.Sym.Name, abiDecorate(a, abiDetail), offConv(a.Offset), reg)
@@ -400,7 +401,7 @@ func (a *Addr) writeNameTo(w io.Writer, abiDetail bool) {
 	case NAME_GOTREF:
 		reg := "SB"
 		if a.Reg != REG_NONE {
-			reg = Rconv(int(a.Reg))
+			reg = p.Ctxt.Arch.Rconv(int(a.Reg))
 		}
 		if a.Sym != nil {
 			fmt.Fprintf(w, "%s%s@GOT(%s)", a.Sym.Name, offConv(a.Offset), reg)
@@ -411,7 +412,7 @@ func (a *Addr) writeNameTo(w io.Writer, abiDetail bool) {
 	case NAME_STATIC:
 		reg := "SB"
 		if a.Reg != REG_NONE {
-			reg = Rconv(int(a.Reg))
+			reg = p.Ctxt.Arch.Rconv(int(a.Reg))
 		}
 		if a.Sym != nil {
 			fmt.Fprintf(w, "%s<>%s(%s)", a.Sym.Name, offConv(a.Offset), reg)
@@ -422,7 +423,7 @@ func (a *Addr) writeNameTo(w io.Writer, abiDetail bool) {
 	case NAME_AUTO:
 		reg := "SP"
 		if a.Reg != REG_NONE {
-			reg = Rconv(int(a.Reg))
+			reg = p.Ctxt.Arch.Rconv(int(a.Reg))
 		}
 		if a.Sym != nil {
 			fmt.Fprintf(w, "%s%s(%s)", a.Sym.Name, offConv(a.Offset), reg)
@@ -433,7 +434,7 @@ func (a *Addr) writeNameTo(w io.Writer, abiDetail bool) {
 	case NAME_PARAM:
 		reg := "FP"
 		if a.Reg != REG_NONE {
-			reg = Rconv(int(a.Reg))
+			reg = p.Ctxt.Arch.Rconv(int(a.Reg))
 		}
 		if a.Sym != nil {
 			fmt.Fprintf(w, "%s%s(%s)", a.Sym.Name, offConv(a.Offset), reg)
@@ -443,7 +444,7 @@ func (a *Addr) writeNameTo(w io.Writer, abiDetail bool) {
 	case NAME_TOCREF:
 		reg := "SB"
 		if a.Reg != REG_NONE {
-			reg = Rconv(int(a.Reg))
+			reg = p.Ctxt.Arch.Rconv(int(a.Reg))
 		}
 		if a.Sym != nil {
 			fmt.Fprintf(w, "%s%s(%s)", a.Sym.Name, offConv(a.Offset), reg)
@@ -484,25 +485,12 @@ func RegisterOpSuffix(arch string, cconv func(uint8) string) {
 	})
 }
 
-type regSet struct {
-	lo    int
-	hi    int
-	Rconv func(int) string
-}
-
-// Few enough architectures that a linear scan is fastest.
-// Not even worth sorting.
-var regSpace []regSet
-
 /*
-	Each architecture defines a register space as a unique
-	integer range.
-	Here is the list of architectures and the base of their register spaces.
+Deprecated: Architecture backends do not need to rely on these values anymore
+and may use the full 16-bit range to represent registers. The zero value is
+still reserved as REG_NONE.
 */
-
 const (
-	// Because of masking operations in the encodings, each register
-	// space should start at 0 modulo some power of 2.
 	RBase386     = 1 * 1024
 	RBaseAMD64   = 2 * 1024
 	RBaseARM     = 3 * 1024
@@ -514,26 +502,6 @@ const (
 	RBaseWasm    = 16 * 1024
 	RBaseLOONG64 = 17 * 1024
 )
-
-// RegisterRegister binds a pretty-printer (Rconv) for register
-// numbers to a given register number range. Lo is inclusive,
-// hi exclusive (valid registers are lo through hi-1).
-func RegisterRegister(lo, hi int, Rconv func(int) string) {
-	regSpace = append(regSpace, regSet{lo, hi, Rconv})
-}
-
-func Rconv(reg int) string {
-	if reg == REG_NONE {
-		return "NONE"
-	}
-	for i := range regSpace {
-		rs := &regSpace[i]
-		if rs.lo <= reg && reg < rs.hi {
-			return rs.Rconv(reg)
-		}
-	}
-	return fmt.Sprintf("R???%d", reg)
-}
 
 type regListSet struct {
 	lo     int64
