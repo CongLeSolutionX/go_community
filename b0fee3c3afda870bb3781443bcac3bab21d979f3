@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f0cb040_3009326f",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-10T19:54:38Z",
+      "side": 1,
+      "message": "i think maybe we should say something like `(required by toolchain line in %s; upgrade allowed by GOTOOLCHAIN\u003d\u003cname\u003e+%s)` or `upgrade allowed by GOTOOLCHAIN\u003d%s` if there\u0027s no prefix?\n\nThe word \u0027mode\u0027 doesn\u0027t appear in the toolchain doc so I don\u0027t think we should use it?",
+      "range": {
+        "startLine": 202,
+        "startChar": 93,
+        "endLine": 202,
+        "endChar": 161
+      },
+      "revId": "b0fee3c3afda870bb3781443bcac3bab21d979f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

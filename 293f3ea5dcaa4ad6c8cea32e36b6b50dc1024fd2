@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9fd0ae37_484b4fe8",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-10T19:54:38Z",
+      "side": 1,
+      "message": "I\u0027m not super sure either.\n\nSo I think the log.SetPrefix is for the error messages: base.Fatalf logs its messages using log.Printf.\n\nThe closest thing we have to what we\u0027re doing here is when we log toolchain switches at depth 90-99 on line 294 of this patchset, even though that\u0027s not quite the same thing because it\u0027s more of a warning. But that uses fmt.Fprintf(os.Stderr\n\nWe clear the flags when cmd/go starts, so the behavior should be pretty similar between logging and printing to stderr...",
+      "parentUuid": "c80ca72a_34ac89f5",
+      "range": {
+        "startLine": 167,
+        "startChar": 3,
+        "endLine": 167,
+        "endChar": 24
+      },
+      "revId": "293f3ea5dcaa4ad6c8cea32e36b6b50dc1024fd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd9af136_d173db54",
         "filename": "src/cmd/go/internal/toolchain/select.go",
         "patchSetId": 18
@@ -161,6 +185,24 @@
       "side": 1,
       "message": "We log this in execGoToolchain in exec.go. We log \"go: using toolchain %s from PATH\" or \"go: using toolchain %s from dir\"",
       "parentUuid": "017c7d2f_ad44d458",
+      "revId": "293f3ea5dcaa4ad6c8cea32e36b6b50dc1024fd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fb764a9_c3e16a07",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-10T19:54:38Z",
+      "side": 1,
+      "message": "I think Hana\u0027s asking whether we should also log the path to the binary that we choose to execute from PATH?",
+      "parentUuid": "b48dbb13_aad7d190",
       "revId": "293f3ea5dcaa4ad6c8cea32e36b6b50dc1024fd2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
