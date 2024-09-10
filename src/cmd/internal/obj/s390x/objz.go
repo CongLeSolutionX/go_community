@@ -800,4 +800,5 @@ var Links390x = obj.LinkArch{
 	Progedit:       progedit,
 	UnaryDst:       unaryDst,
 	DWARFRegisters: S390XDWARFRegisters,
+	Rconv:          Rconv,
 }

@@ -10,7 +10,6 @@ import (
 )
 
 func init() {
-	obj.RegisterRegister(obj.RBaseLOONG64, REG_LAST, rconv)
 	obj.RegisterOpcode(obj.ABaseLoong64, Anames)
 }
 
@@ -55,7 +54,7 @@ func arrange(a int16) string {
 	}
 }
 
-func rconv(r int) string {
+func Rconv(r int) string {
 	switch {
 	case r == 0:
 		return "NONE"

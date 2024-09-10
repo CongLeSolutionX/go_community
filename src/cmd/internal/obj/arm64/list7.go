@@ -55,9 +55,7 @@ var strcond = [16]string{
 }
 
 func init() {
-	obj.RegisterRegister(obj.RBaseARM64, REG_SPECIAL+1024, rconv)
 	obj.RegisterOpcode(obj.ABaseARM64, Anames)
-	obj.RegisterRegisterList(obj.RegListARM64Lo, obj.RegListARM64Hi, rlconv)
 	obj.RegisterOpSuffix("arm64", obj.CConvARM)
 	obj.RegisterSpecialOperands(int64(SPOP_BEGIN), int64(SPOP_END), SPCconv)
 }
@@ -95,7 +93,7 @@ func arrange(a int) string {
 	}
 }
 
-func rconv(r int) string {
+func Rconv(r int) string {
 	ext := (r >> 5) & 7
 	if r == REGG {
 		return "g"

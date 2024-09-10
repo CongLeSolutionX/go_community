@@ -83,7 +83,6 @@ var Register = map[string]int16{
 var registerNames []string
 
 func init() {
-	obj.RegisterRegister(MINREG, MAXREG, rconv)
 	obj.RegisterOpcode(obj.ABaseWasm, Anames)
 
 	registerNames = make([]string, MAXREG-MINREG)
@@ -92,7 +91,7 @@ func init() {
 	}
 }
 
-func rconv(r int) string {
+func Rconv(r int) string {
 	return registerNames[r-MINREG]
 }
 
@@ -122,6 +121,7 @@ var Linkwasm = obj.LinkArch{
 	Preprocess: preprocess,
 	Assemble:   assemble,
 	UnaryDst:   unaryDst,
+	Rconv:      Rconv,
 }
 
 var (

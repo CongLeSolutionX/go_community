@@ -836,4 +836,6 @@ var Linkarm = obj.LinkArch{
 	Progedit:       progedit,
 	UnaryDst:       unaryDst,
 	DWARFRegisters: ARMDWARFRegisters,
+	Rconv:          Rconv,
+	RLconv:         rlconv,
 }

@@ -2097,7 +2097,7 @@ func span6(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			}
 			p.To.Type = obj.TYPE_BRANCH
 			p.To.Name = obj.NAME_EXTERN
-			p.To.Sym = ctxt.Lookup("runtime.retpoline" + obj.Rconv(int(p.To.Reg)))
+			p.To.Sym = ctxt.Lookup("runtime.retpoline" + Rconv(int(p.To.Reg)))
 			p.To.Reg = 0
 			p.To.Offset = 0
 		}
@@ -3506,7 +3506,7 @@ bas:
 	return
 
 bad:
-	ctxt.Diag("asmidx: bad address %d/%s/%s", scale, rconv(index), rconv(base))
+	ctxt.Diag("asmidx: bad address %d/%s/%s", scale, Rconv(index), Rconv(base))
 	ab.Put1(0)
 }
 
@@ -3977,7 +3977,7 @@ func isax(a *obj.Addr) bool {
 
 func subreg(p *obj.Prog, from int, to int) {
 	if false { /* debug['Q'] */
-		fmt.Printf("\n%v\ts/%v/%v/\n", p, rconv(from), rconv(to))
+		fmt.Printf("\n%v\ts/%v/%v/\n", p, Rconv(from), Rconv(to))
 	}
 
 	if int(p.From.Reg) == from {
@@ -5139,7 +5139,7 @@ func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 									Type: objabi.R_CALL,
 									Off:  int32(p.Pc + int64(ab.Len())),
 									Siz:  4,
-									Sym:  ctxt.Lookup("__x86.get_pc_thunk." + strings.ToLower(rconv(int(dst)))),
+									Sym:  ctxt.Lookup("__x86.get_pc_thunk." + strings.ToLower(Rconv(int(dst)))),
 								})
 								ab.PutInt32(0)
 

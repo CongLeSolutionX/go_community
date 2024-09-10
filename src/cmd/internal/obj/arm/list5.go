@@ -36,13 +36,11 @@ import (
 )
 
 func init() {
-	obj.RegisterRegister(obj.RBaseARM, MAXREG, rconv)
 	obj.RegisterOpcode(obj.ABaseARM, Anames)
-	obj.RegisterRegisterList(obj.RegListARMLo, obj.RegListARMHi, rlconv)
 	obj.RegisterOpSuffix("arm", obj.CConvARM)
 }
 
-func rconv(r int) string {
+func Rconv(r int) string {
 	if r == 0 {
 		return "NONE"
 	}

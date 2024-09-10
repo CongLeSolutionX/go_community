@@ -2727,4 +2727,5 @@ var LinkRISCV64 = obj.LinkArch{
 	Progedit:       progedit,
 	UnaryDst:       unaryDst,
 	DWARFRegisters: RISCV64DWARFRegisters,
+	Rconv:          RConv,
 }

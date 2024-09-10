@@ -240,14 +240,12 @@ var Register = []string{
 }
 
 func init() {
-	obj.RegisterRegister(REG_AL, REG_AL+len(Register), rconv)
 	obj.RegisterOpcode(obj.ABaseAMD64, Anames)
-	obj.RegisterRegisterList(obj.RegListX86Lo, obj.RegListX86Hi, rlconv)
 	obj.RegisterOpSuffix("386", opSuffixString)
 	obj.RegisterOpSuffix("amd64", opSuffixString)
 }
 
-func rconv(r int) string {
+func Rconv(r int) string {
 	if REG_AL <= r && r-REG_AL < len(Register) {
 		return Register[r-REG_AL]
 	}
@@ -256,7 +254,7 @@ func rconv(r int) string {
 
 func rlconv(bits int64) string {
 	reg0, reg1 := decodeRegisterRange(bits)
-	return fmt.Sprintf("[%s-%s]", rconv(reg0), rconv(reg1))
+	return fmt.Sprintf("[%s-%s]", Rconv(reg0), Rconv(reg1))
 }
 
 func opSuffixString(s uint8) string {

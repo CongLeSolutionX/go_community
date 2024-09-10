@@ -1240,4 +1240,8 @@ type LinkArch struct {
 	SEH            func(*Link, *LSym) *LSym
 	UnaryDst       map[As]bool // Instruction takes one operand, a destination.
 	DWARFRegisters map[int16]int16
+	// Rconv converts a register number into a string
+	Rconv func(int) string
+	// RLconv converts a register list number into a string
+	RLconv func(int64) string
 }

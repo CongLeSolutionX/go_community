@@ -569,7 +569,7 @@ func rewriteToPcrel(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 	r := obj.Appendp(q, newprog)
 	r.RegTo2 = 1
 	q.As = obj.ACALL
-	thunkname := "__x86.get_pc_thunk." + strings.ToLower(rconv(int(dst)))
+	thunkname := "__x86.get_pc_thunk." + strings.ToLower(Rconv(int(dst)))
 	q.To.Sym = ctxt.LookupInit(thunkname, func(s *obj.LSym) { s.Set(obj.AttrLocal, true) })
 	q.To.Type = obj.TYPE_MEM
 	q.To.Name = obj.NAME_EXTERN
@@ -1533,6 +1533,8 @@ var Linkamd64 = obj.LinkArch{
 	SEH:            populateSeh,
 	UnaryDst:       unaryDst,
 	DWARFRegisters: AMD64DWARFRegisters,
+	Rconv:          Rconv,
+	RLconv:         rlconv,
 }
 
 var Link386 = obj.LinkArch{
@@ -1543,4 +1545,6 @@ var Link386 = obj.LinkArch{
 	Progedit:       progedit,
 	UnaryDst:       unaryDst,
 	DWARFRegisters: X86DWARFRegisters,
+	Rconv:          Rconv,
+	RLconv:         rlconv,
 }

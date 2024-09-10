@@ -201,7 +201,7 @@ func archArm() *Arch {
 	// Create maps for easy lookup of instruction names etc.
 	// Note that there is no list of names as there is for x86.
 	for i := arm.REG_R0; i < arm.REG_SPSR; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[arm.Rconv(i)] = int16(i)
 	}
 	// Avoid unintentionally clobbering g using R10.
 	delete(register, "R10")
@@ -261,18 +261,18 @@ func archArm64() *Arch {
 	register := make(map[string]int16)
 	// Create maps for easy lookup of instruction names etc.
 	// Note that there is no list of names as there is for 386 and amd64.
-	register[obj.Rconv(arm64.REGSP)] = int16(arm64.REGSP)
+	register[arm64.Rconv(arm64.REGSP)] = int16(arm64.REGSP)
 	for i := arm64.REG_R0; i <= arm64.REG_R31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[arm64.Rconv(i)] = int16(i)
 	}
 	// Rename R18 to R18_PLATFORM to avoid accidental use.
 	register["R18_PLATFORM"] = register["R18"]
 	delete(register, "R18")
 	for i := arm64.REG_F0; i <= arm64.REG_F31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[arm64.Rconv(i)] = int16(i)
 	}
 	for i := arm64.REG_V0; i <= arm64.REG_V31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[arm64.Rconv(i)] = int16(i)
 	}
 
 	// System registers.
@@ -325,28 +325,28 @@ func archPPC64(linkArch *obj.LinkArch) *Arch {
 	// Create maps for easy lookup of instruction names etc.
 	// Note that there is no list of names as there is for x86.
 	for i := ppc64.REG_R0; i <= ppc64.REG_R31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[ppc64.Rconv(i)] = int16(i)
 	}
 	for i := ppc64.REG_F0; i <= ppc64.REG_F31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[ppc64.Rconv(i)] = int16(i)
 	}
 	for i := ppc64.REG_V0; i <= ppc64.REG_V31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[ppc64.Rconv(i)] = int16(i)
 	}
 	for i := ppc64.REG_VS0; i <= ppc64.REG_VS63; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[ppc64.Rconv(i)] = int16(i)
 	}
 	for i := ppc64.REG_A0; i <= ppc64.REG_A7; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[ppc64.Rconv(i)] = int16(i)
 	}
 	for i := ppc64.REG_CR0; i <= ppc64.REG_CR7; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[ppc64.Rconv(i)] = int16(i)
 	}
 	for i := ppc64.REG_MSR; i <= ppc64.REG_CR; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[ppc64.Rconv(i)] = int16(i)
 	}
 	for i := ppc64.REG_CR0LT; i <= ppc64.REG_CR7SO; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[ppc64.Rconv(i)] = int16(i)
 	}
 	register["CR"] = ppc64.REG_CR
 	register["XER"] = ppc64.REG_XER
@@ -401,17 +401,17 @@ func archMips(linkArch *obj.LinkArch) *Arch {
 	// Create maps for easy lookup of instruction names etc.
 	// Note that there is no list of names as there is for x86.
 	for i := mips.REG_R0; i <= mips.REG_R31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[mips.Rconv(i)] = int16(i)
 	}
 
 	for i := mips.REG_F0; i <= mips.REG_F31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[mips.Rconv(i)] = int16(i)
 	}
 	for i := mips.REG_M0; i <= mips.REG_M31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[mips.Rconv(i)] = int16(i)
 	}
 	for i := mips.REG_FCR0; i <= mips.REG_FCR31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[mips.Rconv(i)] = int16(i)
 	}
 	register["HI"] = mips.REG_HI
 	register["LO"] = mips.REG_LO
@@ -457,19 +457,19 @@ func archMips64(linkArch *obj.LinkArch) *Arch {
 	// Create maps for easy lookup of instruction names etc.
 	// Note that there is no list of names as there is for x86.
 	for i := mips.REG_R0; i <= mips.REG_R31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[mips.Rconv(i)] = int16(i)
 	}
 	for i := mips.REG_F0; i <= mips.REG_F31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[mips.Rconv(i)] = int16(i)
 	}
 	for i := mips.REG_M0; i <= mips.REG_M31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[mips.Rconv(i)] = int16(i)
 	}
 	for i := mips.REG_FCR0; i <= mips.REG_FCR31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[mips.Rconv(i)] = int16(i)
 	}
 	for i := mips.REG_W0; i <= mips.REG_W31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[mips.Rconv(i)] = int16(i)
 	}
 	register["HI"] = mips.REG_HI
 	register["LO"] = mips.REG_LO
@@ -518,27 +518,27 @@ func archLoong64(linkArch *obj.LinkArch) *Arch {
 	// Create maps for easy lookup of instruction names etc.
 	// Note that there is no list of names as there is for x86.
 	for i := loong64.REG_R0; i <= loong64.REG_R31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[loong64.Rconv(i)] = int16(i)
 	}
 
 	for i := loong64.REG_F0; i <= loong64.REG_F31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[loong64.Rconv(i)] = int16(i)
 	}
 
 	for i := loong64.REG_FCSR0; i <= loong64.REG_FCSR31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[loong64.Rconv(i)] = int16(i)
 	}
 
 	for i := loong64.REG_FCC0; i <= loong64.REG_FCC31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[loong64.Rconv(i)] = int16(i)
 	}
 
 	for i := loong64.REG_V0; i <= loong64.REG_V31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[loong64.Rconv(i)] = int16(i)
 	}
 
 	for i := loong64.REG_X0; i <= loong64.REG_X31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[loong64.Rconv(i)] = int16(i)
 	}
 
 	// Pseudo-registers.
@@ -708,16 +708,16 @@ func archS390x() *Arch {
 	// Create maps for easy lookup of instruction names etc.
 	// Note that there is no list of names as there is for x86.
 	for i := s390x.REG_R0; i <= s390x.REG_R15; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[s390x.Rconv(i)] = int16(i)
 	}
 	for i := s390x.REG_F0; i <= s390x.REG_F15; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[s390x.Rconv(i)] = int16(i)
 	}
 	for i := s390x.REG_V0; i <= s390x.REG_V31; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[s390x.Rconv(i)] = int16(i)
 	}
 	for i := s390x.REG_AR0; i <= s390x.REG_AR15; i++ {
-		register[obj.Rconv(i)] = int16(i)
+		register[s390x.Rconv(i)] = int16(i)
 	}
 	register["LR"] = s390x.REG_LR
 	// Pseudo-registers.
