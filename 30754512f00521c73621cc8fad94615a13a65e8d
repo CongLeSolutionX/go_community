@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f986ae49_1ebd4607",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-09-10T07:41:33Z",
+      "side": 1,
+      "message": "\u003e But there isn\u0027t anything that ensures that the server is actually running and listening before the http.Get.  If MPTCP takes noticeably longer to set up in the kernel, then the problem may be that an inherently flaky test becomes significantly more flaky when using MPTCP.\n\nGood catch. Yes, even if I never noticed a difference, I understand it can take slightly longer, enough to make this test flaky, especially if it is the very first MPTCP connection. That might explain why `GODEBUG\u003dmultipathtcp\u003d1` is OK.\n\n\u003e I\u0027ve put this CL on hold while I look further.\n\nThank you!",
+      "parentUuid": "3153a300_399fd2b4",
+      "revId": "30754512f00521c73621cc8fad94615a13a65e8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3f483e52_f8aba587",
