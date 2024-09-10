@@ -86,6 +86,24 @@
       "message": "I\u0027ve verified that the MPTCP change just revealed flakiness.  We don\u0027t need to revert it.  Sorry for the noise.",
       "revId": "30754512f00521c73621cc8fad94615a13a65e8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "560e14b3_f0c59d81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-09-10T14:31:39Z",
+      "side": 1,
+      "message": "@Ian: thank you for having checked! Do not hesitate to reach me if you see any strange behaviour related to MPTCP.",
+      "parentUuid": "5ed1e109_c7d0fd77",
+      "revId": "30754512f00521c73621cc8fad94615a13a65e8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
