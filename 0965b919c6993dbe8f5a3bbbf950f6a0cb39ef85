@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19eeea31_5d5a6dd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-10T15:18:54Z",
+      "side": 1,
+      "message": "In the commit message the For/Fixes section goes after the body of the message (and before the Cq-Include-Trybots/Change-Id sections).",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "0965b919c6993dbe8f5a3bbbf950f6a0cb39ef85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
