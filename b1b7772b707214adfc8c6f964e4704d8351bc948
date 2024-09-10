@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5103dc77_da6a7595",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-10T17:37:22Z",
+      "side": 1,
+      "message": "fly-by comment:\n\nWe usually write\n\ngo/types, types2: remove ...\n\nto make it clear it\u0027s not just one of the type checkers that changed.",
+      "revId": "b1b7772b707214adfc8c6f964e4704d8351bc948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
