@@ -1513,7 +1513,7 @@ func isMOVop(op obj.As) bool {
 }
 
 func isRegShiftOrExt(a *obj.Addr) bool {
-	return (a.Index-obj.RBaseARM64)&REG_EXT != 0 || (a.Index-obj.RBaseARM64)&REG_LSL != 0
+	return a.Index&REG_EXT != 0 || a.Index&REG_LSL != 0
 }
 
 // Maximum PC-relative displacement.
@@ -2319,17 +2319,21 @@ func (c *ctxt7) oplook(p *obj.Prog) *Optab {
 		fmt.Printf("\t\t%d %d\n", p.From.Type, p.To.Type)
 	}
 
-	ops := oprange[p.As&obj.AMask]
-	c1 := &xcmp[a1]
-	c2 := &xcmp[a2]
-	c3 := &xcmp[a3]
-	c4 := &xcmp[a4]
-	c5 := &xcmp[a5]
-	for i := range ops {
-		op := &ops[i]
-		if c1[op.a1] && c2[op.a2] && c3[op.a3] && c4[op.a4] && c5[op.a5] && p.Scond == op.scond {
-			p.Optab = uint16(cap(optab) - cap(ops) + i + 1)
-			return op
+	// If the sign bit is set on any of the class values then the operand is using the SVE
+	// representation and the search should be skipped.
+	if !((a1 | a2 | a3 | a4 | a5) < 0) {
+		ops := oprange[p.As&obj.AMask]
+		c1 := &xcmp[a1]
+		c2 := &xcmp[a2]
+		c3 := &xcmp[a3]
+		c4 := &xcmp[a4]
+		c5 := &xcmp[a5]
+		for i := range ops {
+			op := &ops[i]
+			if c1[op.a1] && c2[op.a2] && c3[op.a3] && c4[op.a4] && c5[op.a5] && p.Scond == op.scond {
+				p.Optab = uint16(cap(optab) - cap(ops) + i + 1)
+				return op
+			}
 		}
 	}
 
@@ -3972,7 +3976,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		if r == obj.REG_NONE {
 			r = rt
 		}
-		if (p.From.Reg-obj.RBaseARM64)&REG_EXT != 0 ||
+		if (p.From.Reg)&REG_EXT != 0 ||
 			(p.From.Reg >= REG_LSL && p.From.Reg < REG_ARNG) {
 			amount := (p.From.Reg >> 5) & 7
 			if amount > 4 {

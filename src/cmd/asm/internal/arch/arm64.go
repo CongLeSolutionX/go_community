@@ -12,7 +12,16 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/obj/arm64"
 	"errors"
+	"fmt"
 )
+
+var arm64RegisterPrefix = map[string]bool{
+	"F": true,
+	"R": true,
+	"V": true,
+	"Z": true,
+	"P": true,
+}
 
 var arm64LS = map[string]uint8{
 	"P": arm64.C_XPOST,
@@ -182,6 +191,14 @@ func arm64RegisterNumber(name string, n int16) (int16, bool) {
 		if 0 <= n && n <= 31 {
 			return arm64.REG_V0 + n, true
 		}
+	case "Z":
+		if 0 <= n && n <= 31 {
+			return arm64.REG_Z0 + n, true
+		}
+	case "P":
+		if 0 <= n && n <= 15 {
+			return arm64.REG_P0 + n, true
+		}
 	}
 	return 0, false
 }
@@ -336,6 +353,44 @@ func ARM64RegisterExtension(a *obj.Addr, ext string, reg, num int16, isAmount, i
 		default:
 			return errors.New("unsupported simd register extension type: " + ext)
 		}
+	} else if reg <= arm64.REG_Z31 && reg >= arm64.REG_Z0 {
+		r := arm64.NewSVERegister(reg, arm64.EXT_NONE)
+
+		switch {
+		case ext == "B" && isAmount:
+			r.SetExt(arm64.EXT_B)
+		case ext == "H" && isAmount:
+			r.SetExt(arm64.EXT_H)
+		case ext == "S" && isAmount:
+			r.SetExt(arm64.EXT_S)
+		case ext == "D" && isAmount:
+			r.SetExt(arm64.EXT_D)
+		default:
+			return fmt.Errorf(
+				"extension unsupported for SVE register: %s isAmount=%v isIndex=%v",
+				ext, isAmount, isIndex)
+		}
+		a.Reg = r.ToInt16()
+		return nil
+	} else if reg <= arm64.REG_P15 && reg >= arm64.REG_P0 {
+		if isIndex {
+			return errors.New("predicate register cannot be indexed")
+		}
+
+		r := arm64.NewSVERegister(reg, arm64.EXT_NONE)
+
+		switch {
+		case ext == "M" && isAmount:
+			r.SetExt(arm64.EXT_MERGING)
+		case ext == "Z" && isAmount:
+			r.SetExt(arm64.EXT_ZEROING)
+		default:
+			return fmt.Errorf(
+				"extension unsupported for predicate register: %s isAmount=%v isIndex=%v",
+				ext, isAmount, isIndex)
+		}
+		a.Reg = r.ToInt16()
+		return nil
 	} else {
 		return errors.New("invalid register and extension combination")
 	}

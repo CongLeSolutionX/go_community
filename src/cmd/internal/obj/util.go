@@ -12,6 +12,7 @@ import (
 	"internal/abi"
 	"internal/buildcfg"
 	"io"
+	"strconv"
 	"strings"
 )
 
@@ -347,7 +348,13 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 		case "arm64":
 			op := ops[((v>>22)&3)<<1:]
 			r := (v >> 16) & 31
-			fmt.Fprintf(w, "%s%c%c%d", p.Ctxt.Arch.Rconv(r+RBaseARM64), op[0], op[1], (v>>10)&63)
+			var reg string
+			if r == 31 {
+				reg = "ZR"
+			} else {
+				reg = "R" + strconv.Itoa(r)
+			}
+			fmt.Fprintf(w, "%s%c%c%d", reg, op[0], op[1], (v>>10)&63)
 		default:
 			panic("TYPE_SHIFT is not supported on " + buildcfg.GOARCH)
 		}
@@ -495,7 +502,6 @@ const (
 	RBaseAMD64   = 2 * 1024
 	RBaseARM     = 3 * 1024
 	RBasePPC64   = 4 * 1024  // range [4k, 8k)
-	RBaseARM64   = 8 * 1024  // range [8k, 13k)
 	RBaseMIPS    = 13 * 1024 // range [13k, 14k)
 	RBaseS390X   = 14 * 1024 // range [14k, 15k)
 	RBaseRISCV   = 15 * 1024 // range [15k, 16k)

@@ -95,6 +95,11 @@ func arrange(a int) string {
 }
 
 func Rconv(r int) string {
+	if IsSVERegister(int16(r)) {
+		reg := AsSVERegister(int16(r))
+		return reg.String()
+	}
+
 	ext := (r >> 5) & 7
 	if r == REGG {
 		return "g"
@@ -108,6 +113,10 @@ func Rconv(r int) string {
 		return fmt.Sprintf("F%d", r-REG_F0)
 	case REG_V0 <= r && r <= REG_V31:
 		return fmt.Sprintf("V%d", r-REG_V0)
+	case REG_Z0 <= r && r <= REG_Z31:
+		return fmt.Sprintf("Z%d", r-REG_Z0)
+	case REG_P0 <= r && r <= REG_P15:
+		return fmt.Sprintf("P%d", r-REG_P0)
 	case r == REGSP:
 		return "RSP"
 	case REG_UXTB <= r && r < REG_UXTH:
@@ -249,4 +258,42 @@ func regname(r int) string {
 		return "ZR"
 	}
 	return fmt.Sprintf("R%d", r&31)
+}
+
+var RegisterList map[string]int16
+
+func InitRegisterList() {
+	RegisterList = make(map[string]int16)
+	// Create maps for easy lookup of instruction names etc.
+	// Note that there is no list of names as there is for 386 and amd64.
+	RegisterList[Rconv(REGSP)] = int16(REGSP)
+	for i := REG_R0; i <= REG_R31; i++ {
+		RegisterList[Rconv(i)] = int16(i)
+	}
+	// Rename R18 to R18_PLATFORM to avoid accidental use.
+	RegisterList["R18_PLATFORM"] = RegisterList["R18"]
+	delete(RegisterList, "R18")
+	for i := REG_F0; i <= REG_F31; i++ {
+		RegisterList[Rconv(i)] = int16(i)
+	}
+	for i := REG_V0; i <= REG_V31; i++ {
+		RegisterList[Rconv(i)] = int16(i)
+	}
+	for i := REG_Z0; i <= REG_Z31; i++ {
+		RegisterList[Rconv(i)] = int16(i)
+	}
+	for i := REG_P0; i <= REG_P15; i++ {
+		RegisterList[Rconv(i)] = int16(i)
+	}
+
+	// System registers.
+	for i := 0; i < len(SystemReg); i++ {
+		RegisterList[SystemReg[i].Name] = SystemReg[i].Reg
+	}
+
+	RegisterList["LR"] = REGLINK
+
+	// Avoid unintentionally clobbering g using R28.
+	delete(RegisterList, "R28")
+	RegisterList["g"] = REG_R28
 }
