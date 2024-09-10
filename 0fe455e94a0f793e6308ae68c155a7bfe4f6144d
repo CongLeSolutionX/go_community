@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f05a098_f1340520",
+        "filename": "src/cmd/compile/internal/walk/convert.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-10T08:26:49Z",
+      "side": 1,
+      "message": "You should do:\n\n```\nif expr, ok :\u003d s.(*ir.AddStringExpr); ok {\n    return walkAddString(n.Type(), expr, init)\n}\n```\n\nto avoid an interface call via `s.Op()`.",
+      "range": {
+        "startLine": 274,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 0
+      },
+      "revId": "0fe455e94a0f793e6308ae68c155a7bfe4f6144d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
