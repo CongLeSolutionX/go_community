@@ -16,6 +16,23 @@
       "message": "Thanks, nice catch!",
       "revId": "4c0f86594f29f4b1fa76bebda74f321595170678",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5843cf2_2d2f3be1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2024-09-10T18:40:31Z",
+      "side": 1,
+      "message": "This looks like a weird failure.. Maybe something transient? Could we kick off another run?\n\n```\n[I2024-09-10T16:04:13.284411Z 85934 0 cmd_stream.go:492] rdb-stream: \nstarting the test command - \n[\"/home/swarming/.swarming/w/ir/cache/tools/bin/result_adapter\" \"go\" \n\"-v\u003dfalse\" \"-dump-json\" \"/home/swarming/.swarming/w/ir/x/w/go.testjson\" \n\"--\" \"unshare\" \"--net\" \"--map-root-user\" \"--\" \"sh\" \"-c\" \"ip link set dev\n lo up \u0026\u0026 /home/swarming/.swarming/w/ir/x/w/goroot/bin/go test \n-json -short ./...\"]\ninternal/server/command.go:38:2: no required module provides package \ngolang.org/x/tools/gopls/internal/util/slices; to add it:\n\tgo get golang.org/x/tools/gopls/internal/util/slices\n[I2024-09-10T16:04:13.727115Z 85934 0 cmd_stream.go:488] rdb-stream: the\n test process terminated\n```",
+      "revId": "4c0f86594f29f4b1fa76bebda74f321595170678",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
