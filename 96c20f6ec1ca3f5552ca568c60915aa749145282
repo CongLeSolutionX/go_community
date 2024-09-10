@@ -46,6 +46,30 @@
       },
       "revId": "96c20f6ec1ca3f5552ca568c60915aa749145282",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a354877a_518b03c9",
+        "filename": "doc/godebug.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2024-09-10T03:46:16Z",
+      "side": 1,
+      "message": "I agree other places are better for this.  The toolchain reference https://go.dev/doc/toolchain or somewhere in https://go.dev/cmd like other similar GODEBUG variables for debugging go commands (e.g. go.dev/cmd/go#hdr-Build_and_test_caching).",
+      "parentUuid": "e7c4255b_b42f05ab",
+      "range": {
+        "startLine": 171,
+        "startChar": 3,
+        "endLine": 171,
+        "endChar": 7
+      },
+      "revId": "96c20f6ec1ca3f5552ca568c60915aa749145282",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

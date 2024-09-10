@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fc9757c_b2235993",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2024-09-10T03:46:16Z",
+      "side": 1,
+      "message": "thanks for adding this feature!",
+      "revId": "293f3ea5dcaa4ad6c8cea32e36b6b50dc1024fd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d45b4c42_73a70f4d",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2024-09-10T03:46:16Z",
+      "side": 1,
+      "message": "I am not familiar with cmd/go\u0027s logging. When are we supposed to use  `fmt`+`os.Stderr` instead of `log` (for which the prefix is set to `go:` in line 96)?",
+      "range": {
+        "startLine": 167,
+        "startChar": 3,
+        "endLine": 167,
+        "endChar": 24
+      },
+      "revId": "293f3ea5dcaa4ad6c8cea32e36b6b50dc1024fd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd9af136_d173db54",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2024-09-10T03:46:16Z",
+      "side": 1,
+      "message": "question: does this GODEBUG tracing work for the `go install` command?",
+      "range": {
+        "startLine": 172,
+        "startChar": 42,
+        "endLine": 172,
+        "endChar": 61
+      },
+      "revId": "293f3ea5dcaa4ad6c8cea32e36b6b50dc1024fd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "017c7d2f_ad44d458",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2024-09-10T03:46:16Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be also logged? (I am fine with either)",
+      "revId": "293f3ea5dcaa4ad6c8cea32e36b6b50dc1024fd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3183eea6_342a47d5",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2024-09-10T03:46:16Z",
+      "side": 1,
+      "message": "nit: can we use more realistic versions (\u003e\u003dgo1.21.0)? (go1.14 does not know of toolchain switch so toolchain update shouldn\u0027t happen at all but output errors, right?)",
+      "revId": "293f3ea5dcaa4ad6c8cea32e36b6b50dc1024fd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
