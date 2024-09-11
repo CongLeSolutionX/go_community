@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5c58ddd_58a1ff69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-11T16:26:31Z",
+      "side": 1,
+      "message": "Please drop the \"revert revert\".  That is difficult to understand.",
+      "revId": "6b49378cfc44e46f68cb67d85055be7d1d0c263f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "8cf65ad6_3540b478",
