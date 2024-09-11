@@ -94,6 +94,30 @@
       },
       "revId": "96c20f6ec1ca3f5552ca568c60915aa749145282",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac72fa09_c5645276",
+        "filename": "doc/godebug.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-11T16:34:57Z",
+      "side": 1,
+      "message": "Actually it seems like it has to be documented in doc/godebug.md because it fails a test if it doesn\u0027t find toolchaintrace mentioned there.",
+      "parentUuid": "35c8ba69_69282a97",
+      "range": {
+        "startLine": 171,
+        "startChar": 3,
+        "endLine": 171,
+        "endChar": 7
+      },
+      "revId": "96c20f6ec1ca3f5552ca568c60915aa749145282",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
