@@ -16,6 +16,24 @@
       "message": "As TestTrampoline (in cmd/link/link_test.go) is already enabled on loong64, is this still necessary?",
       "revId": "c415fc8c117d09c314f9d3a639c884c2b17103a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4344810_ef09d1c9",
+        "filename": "src/cmd/link/internal/ld/ld_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 54318
+      },
+      "writtenOn": "2024-09-11T08:18:28Z",
+      "side": 1,
+      "message": "Hi, sorry for the late reply. \n\nThe test in cmd/link only tests whether the executable file is executed successfully, and does not confirm whether the executable file has the tramp function we need. The newly added test verifies whether the tramp is generated successfully for a specific function, so I personally think this test is necessary.",
+      "parentUuid": "ef234dba_08472b2d",
+      "revId": "c415fc8c117d09c314f9d3a639c884c2b17103a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
