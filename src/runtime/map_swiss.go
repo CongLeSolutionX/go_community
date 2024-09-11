@@ -22,6 +22,9 @@ const (
 
 type maptype = abi.SwissMapType
 
+//go:linkname maps_errNilAssign internal/runtime/maps.errNilAssign
+var maps_errNilAssign error = plainError("assignment to entry in nil map")
+
 func makemap64(t *abi.SwissMapType, hint int64, m *maps.Map) *maps.Map {
 	if int64(int(hint)) != hint {
 		hint = 0
@@ -152,26 +155,11 @@ func mapaccess2_fat(t *abi.SwissMapType, m *maps.Map, key, zero unsafe.Pointer) 
 	return e, true
 }
 
-func mapassign(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) unsafe.Pointer {
-	// TODO: concurrent checks.
-	if m == nil {
-		panic(plainError("assignment to entry in nil map"))
-	}
-	if raceenabled {
-		callerpc := sys.GetCallerPC()
-		pc := abi.FuncPCABIInternal(mapassign)
-		racewritepc(unsafe.Pointer(m), callerpc, pc)
-		raceReadObjectPC(t.Key, key, callerpc, pc)
-	}
-	if msanenabled {
-		msanread(key, t.Key.Size_)
-	}
-	if asanenabled {
-		asanread(key, t.Key.Size_)
-	}
-
-	return m.PutSlot(key)
-}
+// mapassign is pushed from internal/runtime/maps. We could just call it, but
+// we want to avoid one layer of call.
+//
+//go:linkname mapassign
+func mapassign(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) unsafe.Pointer
 
 func mapdelete(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) {
 	// TODO: concurrent checks.
