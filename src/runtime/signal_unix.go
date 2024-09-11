@@ -365,16 +365,16 @@ const preemptMSupported = true
 // marked for preemption and the goroutine is at an asynchronous
 // safe-point, it will preempt the goroutine. It always atomically
 // increments mp.preemptGen after handling a preemption request.
-func preemptM(mp *m) {
-	// On Darwin, don't try to preempt threads during exec.
-	// Issue #41702.
-	if GOOS == "darwin" || GOOS == "ios" {
-		execLock.rlock()
-	}
-
+func preemptM(mp *m) bool {
 	if mp.signalPending.CompareAndSwap(0, 1) {
+		// On Darwin, don't try to preempt threads during exec.
+		// Issue #41702.
 		if GOOS == "darwin" || GOOS == "ios" {
-			pendingPreemptSignals.Add(1)
+			pending := pendingPreemptSignals.Add(1)
+			if pending > pendingPreemptDisabled {
+				pendingPreemptSignals.Add(-1)
+				return false
+			}
 		}
 
 		// If multiple threads are preempting the same M, it may send many
@@ -385,9 +385,7 @@ func preemptM(mp *m) {
 		signalM(mp, sigPreempt)
 	}
 
-	if GOOS == "darwin" || GOOS == "ios" {
-		execLock.runlock()
-	}
+	return true
 }
 
 // sigFetchG fetches the value of G safely when running in a signal handler.

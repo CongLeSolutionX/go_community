@@ -4936,6 +4936,12 @@ func syscall_runtime_AfterForkInChild() {
 // For #41702.
 var pendingPreemptSignals atomic.Int32
 
+// pendingPreemptDisabled is added to pendingPreemptSignals
+// to disable preemption during exec. 1<30 is distant enough from
+// 0 and MaxInt32 to hopefully avoid overflow/underflow from any
+// possible number of pending preemption signals.
+const pendingPreemptDisabled = 1 << 30
+
 // Called from syscall package before Exec.
 //
 //go:linkname syscall_runtime_BeforeExec syscall.runtime_BeforeExec
@@ -4946,7 +4952,8 @@ func syscall_runtime_BeforeExec() {
 	// On Darwin, wait for all pending preemption signals to
 	// be received. See issue #41702.
 	if GOOS == "darwin" || GOOS == "ios" {
-		for pendingPreemptSignals.Load() > 0 {
+		pendingPreemptSignals.Add(pendingPreemptDisabled)
+		for pendingPreemptSignals.Load() != pendingPreemptDisabled {
 			osyield()
 		}
 	}
@@ -4956,6 +4963,7 @@ func syscall_runtime_BeforeExec() {
 //
 //go:linkname syscall_runtime_AfterExec syscall.runtime_AfterExec
 func syscall_runtime_AfterExec() {
+	pendingPreemptSignals.Add(-pendingPreemptDisabled)
 	execLock.unlock()
 }
 
@@ -6332,7 +6340,7 @@ func preemptone(pp *p) bool {
 	// Request an async preemption of this P.
 	if preemptMSupported && debug.asyncpreemptoff == 0 {
 		pp.preempt = true
-		preemptM(mp)
+		return preemptM(mp)
 	}
 
 	return true
