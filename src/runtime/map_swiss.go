@@ -100,34 +100,12 @@ func alignUpPow2(n uint64) (uint64, bool) {
 // the key is not in the map.
 // NOTE: The returned pointer may keep the whole map live, so don't
 // hold onto it for very long.
-func mapaccess1(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) unsafe.Pointer {
-	// TODO: concurrent checks.
-	if raceenabled && m != nil {
-		callerpc := sys.GetCallerPC()
-		pc := abi.FuncPCABIInternal(mapaccess1)
-		racereadpc(unsafe.Pointer(m), callerpc, pc)
-		raceReadObjectPC(t.Key, key, callerpc, pc)
-	}
-	if msanenabled && m != nil {
-		msanread(key, t.Key.Size_)
-	}
-	if asanenabled && m != nil {
-		asanread(key, t.Key.Size_)
-	}
-
-	if m == nil || m.Used() == 0 {
-		if err := mapKeyError(t, key); err != nil {
-			panic(err) // see issue 23734
-		}
-		return unsafe.Pointer(&zeroVal[0])
-	}
-
-	elem, ok := m.Get(t, key)
-	if !ok {
-		return unsafe.Pointer(&zeroVal[0])
-	}
-	return elem
-}
+//
+// mapaccess1 is pushed from internal/runtime/maps. We could just call it, but
+// we want to avoid one layer of call.
+//
+//go:linkname mapaccess1
+func mapaccess1(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) unsafe.Pointer
 
 func mapaccess2(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) (unsafe.Pointer, bool) {
 	// TODO: concurrent checks.
