@@ -33,6 +33,24 @@
       "message": "Consider also using strings.Cut here, to remove slightly overlapping returns and reduce nesting:\n\n```\n\tt, ok :\u003d strings.CutPrefix(s, prefix)\n\tif !ok {\n\t\treturn false\n\t}\n\treturn slices.ContainsFunc(nameKinds, func(k string) bool {\n\t\treturn strings.HasPrefix(t, k+\"_\")\n\t})\n```",
       "revId": "fa7a5a7a86c95943b11636c896e2bfb13dfabb29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5fdcff2_8a8db839",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2024-09-11T13:41:35Z",
+      "side": 1,
+      "message": "Thanks for the suggestion, done in the latest patchset.",
+      "parentUuid": "defbee62_8f765b1c",
+      "revId": "fa7a5a7a86c95943b11636c896e2bfb13dfabb29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
