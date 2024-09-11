@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b88e0fe8_b6518566",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2024-09-11T14:36:37Z",
+      "side": 1,
+      "message": "The Go project doesn\u0027t use Signed-off-by headers. See https://go.dev/wiki/CommitMessage. Please remove this line.",
+      "revId": "745d18e94ef791c464c3d33bccdd99c6cfab8394",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78c9c0aa_16c59dbc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2024-09-11T14:36:37Z",
+      "side": 1,
+      "message": "Vendoring mechanics look good, leaving the objfile and objdump to be reviewed by someone else.",
+      "revId": "745d18e94ef791c464c3d33bccdd99c6cfab8394",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
