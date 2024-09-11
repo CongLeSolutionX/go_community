@@ -2257,7 +2257,15 @@ func span6(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			// Only need to mark the second instruction, which has
 			// REG_TLS as Index. (It is okay to interrupt and restart
 			// the first instruction.)
-			return p.From.Index == REG_TLS
+			if p.From.Index == REG_TLS {
+				return true
+			}
+			if ctxt.Headtype == objabi.Hwindows && (p.From.Index == REG_GS || p.From.Index == REG_FS) {
+				// Windows TLS access is rewritten with an additional
+				// instruction loading from GS or FS (see progedit).
+				return true
+			}
+			return false
 		}
 		obj.MarkUnsafePoints(ctxt, s.Func().Text, newprog, useTLS, nil)
 	}
