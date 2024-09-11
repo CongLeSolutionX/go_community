@@ -97,3 +97,107 @@ func runtime_mapaccess1(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsaf
 		}
 	}
 }
+
+//go:linkname runtime_mapassign runtime.mapassign
+func runtime_mapassign(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsafe.Pointer {
+	// TODO: concurrent checks.
+	if m == nil {
+		// XXX
+		//panic(plainError("assignment to entry in nil map"))
+		panic("assignment to entry in nil map")
+	}
+	//if raceenabled {
+	//	callerpc := sys.GetCallerPC()
+	//	pc := abi.FuncPCABIInternal(mapassign)
+	//	racewritepc(unsafe.Pointer(m), callerpc, pc)
+	//	raceReadObjectPC(t.Key, key, callerpc, pc)
+	//}
+	if msan.Enabled {
+		msan.Read(key, typ.Key.Size_)
+	}
+	if asan.Enabled {
+		asan.Read(key, typ.Key.Size_)
+	}
+
+	hash := typ.Hasher(key, m.seed)
+
+	if m.dirLen < 0 {
+		return m.putSlotSmall(hash, key)
+	} else if m.dirLen == 0 {
+		m.growToTable()
+	}
+
+outer:
+	for {
+		// Select table.
+		idx := m.directoryIndex(hash)
+		t := m.directoryAt(idx)
+
+		seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
+		//startOffset := seq.offset
+
+		for ; ; seq = seq.next() {
+			g := t.groups.group(typ, seq.offset)
+			match := g.ctrls().matchH2(h2(hash))
+
+			// Look for an existing slot containing this key.
+			for match != 0 {
+				i := match.first()
+
+				slotKey := g.key(typ, i)
+				if t.typ.Key.Equal(key, slotKey) {
+					if t.typ.NeedKeyUpdate() {
+						typedmemmove(t.typ.Key, slotKey, key)
+					}
+
+					slotElem := g.elem(typ, i)
+
+					t.checkInvariants()
+					return slotElem
+				}
+				match = match.removeFirst()
+			}
+
+			match = g.ctrls().matchEmpty()
+			if match != 0 {
+				// Finding an empty slot means we've reached the end of
+				// the probe sequence.
+
+				// If there is room left to grow, just insert the new entry.
+				if t.growthLeft > 0 {
+					i := match.first()
+
+					slotKey := g.key(typ, i)
+					typedmemmove(t.typ.Key, slotKey, key)
+					slotElem := g.elem(typ, i)
+
+					g.ctrls().set(i, ctrl(h2(hash)))
+					t.growthLeft--
+					t.used++
+					m.used++
+
+					t.checkInvariants()
+					return slotElem
+				}
+
+				// TODO(prattmic): While searching the probe sequence,
+				// we may have passed deleted slots which we could use
+				// for this entry.
+				//
+				// At the moment, we leave this behind for
+				// rehash to free up.
+				//
+				// cockroachlabs/swiss restarts search of the probe
+				// sequence for a deleted slot.
+				//
+				// TODO(go.dev/issue/54766): We want this optimization
+				// back. We could search for the first deleted slot
+				// during the main search, but only use it if we don't
+				// find an existing entry.
+
+				t.rehash(m)
+				continue outer
+			}
+		}
+	}
+}
