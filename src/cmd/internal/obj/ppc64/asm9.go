@@ -1871,6 +1871,9 @@ func buildop(ctxt *obj.Link) {
 			opset(AFSUBS, r0)
 			opset(AFSUBCC, r0)
 			opset(AFSUBSCC, r0)
+			opset(ADADD, r0)
+			opset(ADDIV, r0)
+			opset(ADSUB, r0)
 
 		case AFMADD:
 			opset(AFMADDCC, r0)
@@ -1895,6 +1898,7 @@ func buildop(ctxt *obj.Link) {
 			opset(AFMULS, r0)
 			opset(AFMULCC, r0)
 			opset(AFMULSCC, r0)
+			opset(ADMUL, r0)
 
 		case AFCMPO:
 			opset(AFCMPU, r0)
