@@ -35,6 +35,40 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc256728_f0af8222",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2024-09-11T12:27:05Z",
+      "side": 1,
+      "message": "I was looking at this again while contemplating corner cases for CL 611241 and think I\u0027ve found an off-by-one error. PTAL at my new comment, and sorry for not looking at this more closely the first time around.",
+      "revId": "35f06098ba1234d888157bd83be86aaa4d8ec26c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc18db71_83d44c71",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1154,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2024-09-11T12:27:05Z",
+      "side": 1,
+      "message": "This will be off by one if the above loop exits when `j \u003d\u003d cap(expandedStack)`, i.e. if `more` is never false above. I think the fully correct version would be something like\n\n```\nfor i :\u003d range p {\n\tcf :\u003d CallersFrames(p[i].Stack())\n\tj :\u003d 0\n\tfor j \u003c len(expandedStack) {\n\t\tf, more :\u003d cf.Next()\n\t\t// f.PC is a \"call PC\", but later consumers will expect\n\t\t// \"return PCs\"\n\t\texpandedStack[j] \u003d f.PC + 1\n\t\tj++\n\t\tif !more {\n\t\t\tbreak\n\t\t}\n\t}\n\tk :\u003d copy(p[i].Stack0[:], expandedStack[:j])\n\tclear(p[i].Stack0[k:])\n}\n```\n\nI don\u0027t think this will break users in practice since the default stack depth of 128 is a lot bigger than 32, the size of the `BlockProfileRecord` stack. But for example if I run the unit tests with `GODEBUG\u003dprofstackdepth\u003d4` I get an out-of-bounds panic.",
+      "revId": "35f06098ba1234d888157bd83be86aaa4d8ec26c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41160c39_2b98a76a",
