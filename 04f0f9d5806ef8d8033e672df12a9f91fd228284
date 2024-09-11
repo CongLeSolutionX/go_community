@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40cdf304_dd4386b8",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4943,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-09-11T21:23:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3eeeff78_b589aa2a",
+      "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea143b90_3bcb14f0",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-09-11T16:58:55Z",
       "side": 1,
       "message": "Only fiddle with pendingPreemptSignals on darwin and ios.",
+      "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8e33440_35b140f4",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4966,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-09-11T21:23:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea143b90_3bcb14f0",
       "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "494e71c1_0b389963",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6332,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-09-11T21:23:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89f616b3_5111b416",
+      "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b00378b5_b3ef992d",
@@ -69,6 +123,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87fecab8_c3c95cb2",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-09-11T21:23:16Z",
+      "side": 1,
+      "message": "As I understand it, pendingPreemptSignals is usually incremented once before sending a signal, and decremented once after receiving a signal. So each signal sent/received has a matching increment/decrement.\n\nThe path here skips sending the signal when pendingPreemptSignals\u003ependingPreemptDisabled. In this case, we perform the decrement before returning.",
+      "parentUuid": "b00378b5_b3ef992d",
+      "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8544878b_22cd213e",
@@ -82,6 +154,24 @@
       "writtenOn": "2024-09-11T17:02:56Z",
       "side": 1,
       "message": "mp.signalPending is still 1 here, but we aren\u0027t actually sending a signal. This will prevent future calls from sending a signal.",
+      "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57eb314d_fb7e345d",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-09-11T21:23:16Z",
+      "side": 1,
+      "message": "Oops, I forgot to set signalPending back to 0. I believe this is safe, through the same reasoning as decrementing pendingPreemptSignals. Fixed.",
+      "parentUuid": "8544878b_22cd213e",
       "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
