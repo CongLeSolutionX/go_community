@@ -129,6 +129,30 @@
       },
       "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3912ea4_784321eb",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-11T18:25:06Z",
+      "side": 1,
+      "message": "Okay, I\u0027ll take another look. Thanks.",
+      "parentUuid": "7d2a0916_9f03deeb",
+      "range": {
+        "startLine": 690,
+        "startChar": 0,
+        "endLine": 693,
+        "endChar": 5
+      },
+      "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
