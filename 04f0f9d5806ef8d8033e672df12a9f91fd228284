@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3eeeff78_b589aa2a",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4943,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-11T17:02:56Z",
+      "side": 1,
+      "message": "Note that execLock protects setting this bit? Otherwise the logic below would be buggy given multiple racing exec calls.",
+      "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ea143b90_3bcb14f0",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -14,6 +31,57 @@
       "writtenOn": "2024-09-11T16:58:55Z",
       "side": 1,
       "message": "Only fiddle with pendingPreemptSignals on darwin and ios.",
+      "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89f616b3_5111b416",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6332,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-11T17:02:56Z",
+      "side": 1,
+      "message": "Hm, it looks my \"return false\" suggestion was bad. This function actually returns true if gp.preempt is set (i.e., morestack will cooperatively preempt) even if we don\u0027t send a signal.\n\nSo I think this should remain as-is, returning true even if no signal was sent.",
+      "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b00378b5_b3ef992d",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-11T17:02:56Z",
+      "side": 1,
+      "message": "I think this races with the cleanup logic at https://cs.opensource.google/go/go/+/master:src/runtime/proc.go;l\u003d1975-1977;drc\u003daf0c40311e2ee33ecd24971257606f42a49cf593;bpv\u003d1;bpt\u003d1.\n\ni.e., both locations could decrement pendingPreemptSignals, making it negative.\n\nThis problem is very messy :/",
+      "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8544878b_22cd213e",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-11T17:02:56Z",
+      "side": 1,
+      "message": "mp.signalPending is still 1 here, but we aren\u0027t actually sending a signal. This will prevent future calls from sending a signal.",
       "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
