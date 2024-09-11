@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8effe1c_4c240979",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4940,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-11T22:28:13Z",
+      "side": 1,
+      "message": "to disable preemption during exec on Darwin (see issue #41702)",
+      "revId": "9d9be7d44a932398525811e917baacb1d10a9214",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
