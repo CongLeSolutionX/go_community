@@ -34,6 +34,24 @@
       "parentUuid": "ef234dba_08472b2d",
       "revId": "c415fc8c117d09c314f9d3a639c884c2b17103a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f46e790_3ccbbd7c",
+        "filename": "src/cmd/link/internal/ld/ld_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-11T16:35:14Z",
+      "side": 1,
+      "message": "We probably should update TestTrampoline to check if the trampoline is actually there. Additional test like this is fine. But I think we should run it only on Loong64 (and we don\u0027t need to set the environ variables below).\n\nFor this test, I think we should write the code with multiple packages. The trampoline pass is not designed to handle a single very large package, but multiple packages that in aggregate make the binary large. (The RISCV case is different in that it\u0027s direct jump range is too short, so it has special logics for intra-package trampolines. But we should not expect intra-package trampolines on other platforms.)",
+      "parentUuid": "d4344810_ef09d1c9",
+      "revId": "c415fc8c117d09c314f9d3a639c884c2b17103a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
