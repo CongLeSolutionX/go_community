@@ -231,6 +231,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "767fd9db_1e063724",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-12T06:17:20Z",
+      "side": 1,
+      "message": "I\u0027ve analyzed the needed changes and this assumes that each platform would have this hook so it would not be undefined. So I think this one doesn\u0027t make sense.\n\nNow see, the `schedinit()` is called from `rt0_go` (asm, platform independent) and within `schedinit()` the `goDebugEarly()` is invoked, then there would be this hook that you suggested. The whole call has no platform constraints, so it wouldn\u0027t just be `os_linux.go` and `os_unix_nonlinux.go` that would need to define this hook.\n\nIn Patchset 6, as a cleaner approach, I have changed line 772 of `src/runtime/proc.go` to check against `libmusl` variable instead, which is assigned from a linux-specific `libpreinit()` and I think that makes more sense, considering the added code only fetches a specific env, in which `goDebugEarly()` is all about.",
+      "parentUuid": "f72617cc_515629d2",
+      "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91784103_65b3df05",
         "filename": "src/runtime/runtime1.go",
         "patchSetId": 3
