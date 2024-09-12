@@ -275,6 +275,10 @@ const (
 	// AUIPC + I-type instruction pair.
 	R_RISCV_PCREL_ITYPE
 
+	// R_RISCV_GOT_PCREL_ITYPE resolves a 32 bit GOT base PC-relative
+	// address for an AUIPC + I-type instruction pair.
+	R_RISCV_GOT_PCREL_ITYPE
+
 	// R_RISCV_PCREL_STYPE resolves a 32 bit PC-relative address for an
 	// AUIPC + S-type instruction pair.
 	R_RISCV_PCREL_STYPE

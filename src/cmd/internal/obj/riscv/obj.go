@@ -244,11 +244,15 @@ func markRelocs(p *obj.Prog) {
 			switch p.From.Name {
 			case obj.NAME_EXTERN, obj.NAME_STATIC:
 				p.Mark |= NEED_PCREL_ITYPE_RELOC
+			case obj.NAME_GOTREF:
+				p.Mark |= NEED_GOT_PCREL_ITYPE_RELOC
 			}
 		case p.From.Type == obj.TYPE_MEM && p.To.Type == obj.TYPE_REG:
 			switch p.From.Name {
 			case obj.NAME_EXTERN, obj.NAME_STATIC:
 				p.Mark |= NEED_PCREL_ITYPE_RELOC
+			case obj.NAME_GOTREF:
+				p.Mark |= NEED_GOT_PCREL_ITYPE_RELOC
 			}
 		case p.From.Type == obj.TYPE_REG && p.To.Type == obj.TYPE_MEM:
 			switch p.To.Name {
@@ -2202,7 +2206,7 @@ func instructionsForMOV(p *obj.Prog) []*instruction {
 			// MOV c(Rs), Rd -> L $c, Rs, Rd
 			inss = instructionsForLoad(p, movToLoad(p.As), addrToReg(p.From))
 
-		case obj.NAME_EXTERN, obj.NAME_STATIC:
+		case obj.NAME_EXTERN, obj.NAME_STATIC, obj.NAME_GOTREF:
 			if p.From.Sym.Type == objabi.STLSBSS {
 				return instructionsForTLSLoad(p)
 			}
@@ -2582,6 +2586,9 @@ func assemble(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				addr = &p.From
 			} else if p.Mark&NEED_PCREL_ITYPE_RELOC == NEED_PCREL_ITYPE_RELOC {
 				rt = objabi.R_RISCV_PCREL_ITYPE
+				addr = &p.From
+			} else if p.Mark&NEED_GOT_PCREL_ITYPE_RELOC == NEED_GOT_PCREL_ITYPE_RELOC {
+				rt = objabi.R_RISCV_GOT_PCREL_ITYPE
 				addr = &p.From
 			} else if p.Mark&NEED_PCREL_STYPE_RELOC == NEED_PCREL_STYPE_RELOC {
 				rt = objabi.R_RISCV_PCREL_STYPE
