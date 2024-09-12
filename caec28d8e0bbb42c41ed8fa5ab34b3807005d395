@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d95b481_d71d0708",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-12T19:14:21Z",
+      "side": 1,
+      "message": "Until we can assume that the getrandom system call exists, I would rather fall back to reading /dev/urandom as we do today.  I don\u0027t think we should fall back to the time based random numbers if we don\u0027t have to.",
+      "revId": "caec28d8e0bbb42c41ed8fa5ab34b3807005d395",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdc7d651_243e78e8",
