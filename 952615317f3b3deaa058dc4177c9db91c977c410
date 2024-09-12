@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0809be24_49a8917f",
+        "filename": "src/runtime/cgo/callbacks_musl_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-12T20:04:20Z",
+      "side": 1,
+      "message": "s/2016/2024/",
+      "revId": "952615317f3b3deaa058dc4177c9db91c977c410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fb4f287_3c80140d",
+        "filename": "src/runtime/cgo/callbacks_musl_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-12T20:04:20Z",
+      "side": 1,
+      "message": "s/is set to/returns/",
+      "revId": "952615317f3b3deaa058dc4177c9db91c977c410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c67a92d_9a725667",
+        "filename": "src/runtime/cgo/gcc_musl_linux.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-12T20:04:20Z",
+      "side": 1,
+      "message": "s/2009/2024/",
+      "revId": "952615317f3b3deaa058dc4177c9db91c977c410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9e463c5_3fbf4521",
+        "filename": "src/runtime/cgo_musl_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-12T20:04:20Z",
+      "side": 1,
+      "message": "s/2015/2024/",
+      "revId": "952615317f3b3deaa058dc4177c9db91c977c410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d939852_9d6c5295",
+        "filename": "src/runtime/cgo_musl_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-12T20:04:20Z",
+      "side": 1,
+      "message": "Can we just put this in os_linux.go?  I don\u0027t see why it needs to be in a new file.",
+      "revId": "952615317f3b3deaa058dc4177c9db91c977c410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5327e8cd_2a310cdd",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-12T20:04:20Z",
+      "side": 1,
+      "message": "You can write _O_RDONLY rather than 0.  That will be clearer.",
+      "revId": "952615317f3b3deaa058dc4177c9db91c977c410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
