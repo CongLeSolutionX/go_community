@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdc7d651_243e78e8",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-09-12T14:52:37Z",
+      "side": 1,
+      "message": "The `man` stats that it will return \"a maximum of 32Mi-1 bytes is returned by a single call to getrandom() when GRND_RANDOM is not set\", we should check if r is larger than \"32Mi - 1\" here.",
+      "range": {
+        "startLine": 350,
+        "startChar": 9,
+        "endLine": 350,
+        "endChar": 26
+      },
+      "revId": "caec28d8e0bbb42c41ed8fa5ab34b3807005d395",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
