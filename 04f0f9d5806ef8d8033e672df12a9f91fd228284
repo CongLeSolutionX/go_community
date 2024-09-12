@@ -143,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d6d62f2_1521e368",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-12T21:38:19Z",
+      "side": 1,
+      "message": "The linked cleanup in mexit is there is handle a race between preemptM and thread exit. Specifically:\n\nM1: calls preemptM(M2)\nM1: Sets mp.signalPending \u003d 1\nM1: Increments pendingPreemptSignals\nM2: Exits: mexit -\u003e exitThread -\u003e exit syscall\nM1: Calls signalM(M2)\n\nIn the last step, no signal is delivered since M2 doesn\u0027t exist anymore. Thus the normal reset of mp.signalPending / decrement of pendingPreemptSignals in `doSigPreempt` never runs.\n\nThus, we have this extra cleanup in mexit to reset the state if we\u0027re about to exit and missed / will miss a signal. (Note that this check is after sigblock, so we can\u0027t receive more signals at this point).\n\nThat said, why can\u0027t M1 just set mp.signalPending / pendingPreemptSignals after this check and then the same race could occur?\n\nThat is a wonderful question, I\u0027m glad you asked! mknyszek@ and I discussed this  and we don\u0027t see why it couldn\u0027t happen. (One might expect some form of synchronization that prevents preemptM from getting an M that is far enough through mexit, but that doesn\u0027t exist). Most of the callers of preemptM don\u0027t care about this case because if the M is exiting there is nothing to preempt anyway. It is just these implementation internals that care.\n\nSo this race would leave mp.signalPending and pendingPreemptSignals stale. Stale mp.signalPending is not a problem, since the M object won\u0027t be used again, but the global pendingPreemptSignals is problematic. It would result in syscall_runtime_BeforeExec spinning indefinitely.\n\nI think this could be fixed by changing pendingPreemptSignals from a global to a field on the M. I think that means that syscall_runtime_BeforeExec would need to loop over `allm` and check every M [1]. Note that mexit does remove the M from `allm` before exiting. 😊\n\nOnce pendingPreemptSignals is on the M, I feel like it could just be merged with mp.signalPending, though I haven\u0027t thought enough to be certain.\n\n[1] Unless this bug only applies if the thread calling exec receives a signal? I assume any thread is a problem.\n\n\u003cThis comment started as a way that a similar bug could be triggered specific to pendingPreemptDisabled. But then I found this more general issue.\u003e",
+      "parentUuid": "87fecab8_c3c95cb2",
+      "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8544878b_22cd213e",
         "filename": "src/runtime/signal_unix.go",
         "patchSetId": 1
