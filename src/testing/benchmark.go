@@ -114,6 +114,7 @@ type B struct {
 	// Extra metrics collected by ReportMetric.
 	extra map[string]float64
 	// Remaining iterations of Loop() to be executed in benchFunc.
+	// See issue #61515.
 	loopN int
 }
 
@@ -359,6 +360,11 @@ func (b *B) ReportMetric(n float64, unit string) {
 // may use b.N to compute other average metrics.
 func (b *B) Loop() bool {
 	b.loopN--
+	if b.loopN == b.N {
+		// If it's the first call to b.Loop() in the benchmark function.
+		// Allows more precise measurement of benchmark loop cost counts.
+		b.ResetTimer()
+	}
 	return b.loopN >= 0
 }
 
