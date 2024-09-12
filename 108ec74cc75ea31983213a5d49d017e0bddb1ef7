@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26a88b1e_39e776a3",
+        "filename": "src/crypto/md5/md5block_riscv64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-09-12T15:15:25Z",
+      "side": 1,
+      "message": "Nit: This could be `SRL $6, X30` (same for `SLL` on the next line and some others)",
+      "revId": "108ec74cc75ea31983213a5d49d017e0bddb1ef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61a39719_28702ac0",
+        "filename": "src/crypto/md5/md5block_riscv64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-09-12T15:15:25Z",
+      "side": 1,
+      "message": "Somewhat personal preference, however I find it more readable to have the defines/macros above the main implementation (this also makes it consistent with sha256/sha512/etc).",
+      "revId": "108ec74cc75ea31983213a5d49d017e0bddb1ef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e24718e1_11fae962",
+        "filename": "src/crypto/md5/md5block_riscv64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-09-12T15:15:25Z",
+      "side": 1,
+      "message": "Seems strange to shift dest, rather than loading and shifting tmp:\n\n```\nMOVBU ..., dest\nMOVBU ..., tmp\nSLL $8, tmp\nOR tmp, dest\n```",
+      "revId": "108ec74cc75ea31983213a5d49d017e0bddb1ef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb59c529_0b56166e",
+        "filename": "src/crypto/md5/md5block_riscv64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-09-12T15:15:25Z",
+      "side": 1,
+      "message": "ORN can now be used unconditionally (CL#611895).",
+      "revId": "108ec74cc75ea31983213a5d49d017e0bddb1ef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
