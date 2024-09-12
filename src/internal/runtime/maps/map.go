@@ -229,11 +229,15 @@ func depthToShift(depth uint32) uint32 {
 }
 
 func NewMap(mt *abi.SwissMapType, capacity uint64) *Map {
-	if capacity < abi.SwissMapGroupSlots {
+	// Increase initial capacity to hold capacity entries without growing
+	// in the average case.
+	targetCapacity := (capacity * abi.SwissMapGroupSlots) / maxAvgGroupLoad
+
+	if targetCapacity < abi.SwissMapGroupSlots {
 		// TODO: temporary to simplify initial implementation.
-		capacity = abi.SwissMapGroupSlots
+		targetCapacity = abi.SwissMapGroupSlots
 	}
-	dirSize := (capacity + maxTableCapacity - 1) / maxTableCapacity
+	dirSize := (targetCapacity + maxTableCapacity - 1) / maxTableCapacity
 	dirSize, overflow := alignUpPow2(dirSize)
 	if overflow {
 		panic("rounded-up capacity overflows uint64")
@@ -252,12 +256,12 @@ func NewMap(mt *abi.SwissMapType, capacity uint64) *Map {
 		globalShift: depthToShift(globalDepth),
 	}
 
-	if capacity > abi.SwissMapGroupSlots {
+	if targetCapacity > abi.SwissMapGroupSlots {
 		directory := make([]*table, dirSize)
 
 		for i := range directory {
 			// TODO: Think more about initial table capacity.
-			directory[i] = newTable(mt, capacity/dirSize, i, globalDepth)
+			directory[i] = newTable(mt, targetCapacity/dirSize, i, globalDepth)
 		}
 
 		m.dirPtr = unsafe.Pointer(&directory[0])
