@@ -15,6 +15,7 @@ import (
 	"fmt"
 	"internal/godebug"
 	"io/fs"
+	"maps"
 	"math"
 	"path"
 	"reflect"
@@ -698,9 +699,7 @@ func FileInfoHeader(fi fs.FileInfo, link string) (*Header, error) {
 		h.ChangeTime = sys.ChangeTime
 		if sys.Xattrs != nil {
 			h.Xattrs = make(map[string]string)
-			for k, v := range sys.Xattrs {
-				h.Xattrs[k] = v
-			}
+			maps.Copy(h.Xattrs, sys.Xattrs)
 		}
 		if sys.Typeflag == TypeLink {
 			// hard link
@@ -710,9 +709,7 @@ func FileInfoHeader(fi fs.FileInfo, link string) (*Header, error) {
 		}
 		if sys.PAXRecords != nil {
 			h.PAXRecords = make(map[string]string)
-			for k, v := range sys.PAXRecords {
-				h.PAXRecords[k] = v
-			}
+			maps.Copy(h.PAXRecords, sys.PAXRecords)
 		}
 	}
 	var doNameLookups = true
