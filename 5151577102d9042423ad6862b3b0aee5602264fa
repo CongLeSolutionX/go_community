@@ -16,6 +16,24 @@
       "message": "The main branch CL seems to have closed the wrong issue? We need to reopen this, or file a new one.",
       "revId": "5151577102d9042423ad6862b3b0aee5602264fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d4f1f4a_101eeea2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-12T17:25:01Z",
+      "side": 1,
+      "message": "Oops, thanks. Done.",
+      "parentUuid": "dcb9425b_e8763614",
+      "revId": "5151577102d9042423ad6862b3b0aee5602264fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
