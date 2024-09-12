@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2c81f81_8f1eeea2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-12T15:11:26Z",
+      "side": 1,
+      "message": "LGTM. It would be good if an S390X maintainer can review the instruction encoding. Thanks.",
+      "revId": "3bcd493584dfdc2d1d21f65b31ae0742fe6e3c1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "310bda84_a9d954e3",
+        "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-12T15:11:26Z",
+      "side": 1,
+      "message": "Remove trailing space.",
+      "range": {
+        "startLine": 524,
+        "startChar": 41,
+        "endLine": 524,
+        "endChar": 42
+      },
+      "revId": "3bcd493584dfdc2d1d21f65b31ae0742fe6e3c1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0ea54b3_3bf089b7",
+        "filename": "src/cmd/asm/internal/asm/testdata/s390x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-12T15:11:26Z",
+      "side": 1,
+      "message": "Nit: use tab. Thanks.",
+      "range": {
+        "startLine": 525,
+        "startChar": 0,
+        "endLine": 525,
+        "endChar": 8
+      },
+      "revId": "3bcd493584dfdc2d1d21f65b31ae0742fe6e3c1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
