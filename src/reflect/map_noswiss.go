@@ -223,7 +223,7 @@ func (v Value) MapKeys() []Value {
 	a := make([]Value, mlen)
 	var i int
 	for i = 0; i < len(a); i++ {
-		key := mapiterkey(&it)
+		key := it.key
 		if key == nil {
 			// Someone deleted an entry from the map since we
 			// called maplen above. It's a data race, but nothing
@@ -274,7 +274,7 @@ func (iter *MapIter) Key() Value {
 	if !iter.hiter.initialized() {
 		panic("MapIter.Key called before Next")
 	}
-	iterkey := mapiterkey(&iter.hiter)
+	iterkey := iter.hiter.key
 	if iterkey == nil {
 		panic("MapIter.Key called on exhausted iterator")
 	}
@@ -292,7 +292,7 @@ func (v Value) SetIterKey(iter *MapIter) {
 	if !iter.hiter.initialized() {
 		panic("reflect: Value.SetIterKey called before Next")
 	}
-	iterkey := mapiterkey(&iter.hiter)
+	iterkey := iter.hiter.key
 	if iterkey == nil {
 		panic("reflect: Value.SetIterKey called on exhausted iterator")
 	}
@@ -307,7 +307,7 @@ func (v Value) SetIterKey(iter *MapIter) {
 	ktype := t.Key
 
 	iter.m.mustBeExported() // do not let unexported m leak
-	key := Value{ktype, iterkey, iter.m.flag | flag(ktype.Kind()) | flagIndir}
+	key := Value{ktype, abi.NoEscape(iterkey), iter.m.flag | flag(ktype.Kind()) | flagIndir}
 	key = key.assignTo("reflect.MapIter.SetKey", v.typ(), target)
 	typedmemmove(v.typ(), v.ptr, key.ptr)
 }
@@ -317,7 +317,7 @@ func (iter *MapIter) Value() Value {
 	if !iter.hiter.initialized() {
 		panic("MapIter.Value called before Next")
 	}
-	iterelem := mapiterelem(&iter.hiter)
+	iterelem := iter.hiter.elem
 	if iterelem == nil {
 		panic("MapIter.Value called on exhausted iterator")
 	}
@@ -335,7 +335,7 @@ func (v Value) SetIterValue(iter *MapIter) {
 	if !iter.hiter.initialized() {
 		panic("reflect: Value.SetIterValue called before Next")
 	}
-	iterelem := mapiterelem(&iter.hiter)
+	iterelem := iter.hiter.elem
 	if iterelem == nil {
 		panic("reflect: Value.SetIterValue called on exhausted iterator")
 	}
@@ -350,7 +350,7 @@ func (v Value) SetIterValue(iter *MapIter) {
 	vtype := t.Elem
 
 	iter.m.mustBeExported() // do not let unexported m leak
-	elem := Value{vtype, iterelem, iter.m.flag | flag(vtype.Kind()) | flagIndir}
+	elem := Value{vtype, abi.NoEscape(iterelem), iter.m.flag | flag(vtype.Kind()) | flagIndir}
 	elem = elem.assignTo("reflect.MapIter.SetValue", v.typ(), target)
 	typedmemmove(v.typ(), v.ptr, elem.ptr)
 }
@@ -365,12 +365,12 @@ func (iter *MapIter) Next() bool {
 	if !iter.hiter.initialized() {
 		mapiterinit(iter.m.typ(), iter.m.pointer(), &iter.hiter)
 	} else {
-		if mapiterkey(&iter.hiter) == nil {
+		if iter.hiter.key == nil {
 			panic("MapIter.Next called on exhausted iterator")
 		}
 		mapiternext(&iter.hiter)
 	}
-	return mapiterkey(&iter.hiter) != nil
+	return iter.hiter.key != nil
 }
 
 // Reset modifies iter to iterate over v.
