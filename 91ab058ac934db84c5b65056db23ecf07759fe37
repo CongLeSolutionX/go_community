@@ -70,6 +70,30 @@
       },
       "revId": "91ab058ac934db84c5b65056db23ecf07759fe37",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "735a170a_e01af7e7",
+        "filename": "src/reflect/map_swiss.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-12T21:34:00Z",
+      "side": 1,
+      "message": "These abi.NoEscape calls here are quite different than the //go:noescape labels that were on mapiterkey/mapiterelem. The latter only ensures that the hiter doesn\u0027t escape, not that the key or elem pointers don\u0027t escape. In other words, the noescape labels are more like\n\n key :\u003d abi.NoEscape(it).key\n \n than\n \n key :\u003d abi.NoEscape(it.key)\n \n and I think the former would be pointless, as reading a field as the only use of a pointer is trivially non-escaping.",
+      "parentUuid": "86f28ca2_2c5ce172",
+      "range": {
+        "startLine": 227,
+        "startChar": 9,
+        "endLine": 227,
+        "endChar": 29
+      },
+      "revId": "91ab058ac934db84c5b65056db23ecf07759fe37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
