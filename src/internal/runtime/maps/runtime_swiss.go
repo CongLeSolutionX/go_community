@@ -126,6 +126,10 @@ func runtime_mapassign(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsafe
 
 	hash := typ.Hasher(key, m.seed)
 
+	if m.dirPtr == nil {
+		m.growToSmall()
+	}
+
 	if m.dirLen < 0 {
 		return m.putSlotSmall(hash, key)
 	} else if m.dirLen == 0 {
