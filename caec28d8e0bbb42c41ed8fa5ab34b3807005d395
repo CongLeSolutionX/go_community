@@ -22,6 +22,30 @@
       },
       "revId": "caec28d8e0bbb42c41ed8fa5ab34b3807005d395",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "067559af_a28bbf1e",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-09-12T16:10:59Z",
+      "side": 1,
+      "message": "r is a 32 bytes fixed size buffer, and the man page says that \"reads of up to 256 bytes will always return as many bytes as requested and will not be interrupted by signals\". So I think the check is not necessary, the getrandom(2) can always feed 32 random bytes into r.\n\nmanpage link: https://man7.org/linux/man-pages/man2/getrandom.2.html",
+      "parentUuid": "cdc7d651_243e78e8",
+      "range": {
+        "startLine": 350,
+        "startChar": 9,
+        "endLine": 350,
+        "endChar": 26
+      },
+      "revId": "caec28d8e0bbb42c41ed8fa5ab34b3807005d395",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
