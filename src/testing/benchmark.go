@@ -115,6 +115,10 @@ type B struct {
 	extra map[string]float64
 	// Remaining iterations of Loop() to be executed in benchFunc.
 	loopN int
+	// If it's the first call to b.Loop() in the benchmark function.
+	// Allows more precise measurement of benchmark loop cost counts.
+	// See issue #61515.
+	isFirstCallToLoop bool
 }
 
 // StartTimer starts timing a test. This function is called automatically
@@ -190,6 +194,7 @@ func (b *B) runN(n int) {
 	b.resetRaces()
 	b.N = n
 	b.loopN = n
+	b.isFirstCallToLoop = true
 	b.parallelism = 1
 	b.ResetTimer()
 	b.StartTimer()
@@ -359,6 +364,10 @@ func (b *B) ReportMetric(n float64, unit string) {
 // may use b.N to compute other average metrics.
 func (b *B) Loop() bool {
 	b.loopN--
+	if b.isFirstCallToLoop {
+		b.ResetTimer()
+		b.isFirstCallToLoop = false
+	}
 	return b.loopN >= 0
 }
 
