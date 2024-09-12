@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "319f8fc9_0cfe0b55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-12T22:39:21Z",
+      "side": 1,
+      "message": "This is fine, but note that the comment on the field has concrete examples exactly for this reason.",
+      "revId": "dfcb38410ee67cd5350c76b42bdb768caef1a3e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
