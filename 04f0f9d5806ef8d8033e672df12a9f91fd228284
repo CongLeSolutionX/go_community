@@ -161,6 +161,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e4e7c3f_aa9b5e2f",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-12T21:45:46Z",
+      "side": 1,
+      "message": "Perhaps slightly simpler, we could add a flag to m.signalsPending, similar to the one being added to pendingPreemptSignals, that says that the thread will no longer be accepting signals.  Then preemptM won\u0027t increment pendingPreemptSignals.",
+      "parentUuid": "5d6d62f2_1521e368",
+      "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8544878b_22cd213e",
         "filename": "src/runtime/signal_unix.go",
         "patchSetId": 1
