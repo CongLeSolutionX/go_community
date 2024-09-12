@@ -51,6 +51,24 @@
       "message": "We don\u0027t need the extra parentheses here.  Just maps.Copy(*dst, src).",
       "revId": "ec80122a62eddef14280f2dee9821ccf5e7e2d33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab71625e_2e2d1db8",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-12T18:24:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bb82782_de6d6693",
+      "revId": "ec80122a62eddef14280f2dee9821ccf5e7e2d33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
