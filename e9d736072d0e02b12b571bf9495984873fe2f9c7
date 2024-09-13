@@ -16,6 +16,24 @@
       "message": "Do we know when this was actually fixed? Switch to types2?",
       "revId": "e9d736072d0e02b12b571bf9495984873fe2f9c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dad32374_d613271e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-13T18:23:28Z",
+      "side": 1,
+      "message": "Yes, fixed since go1.18 (go1.17 with -G\u003d3) when we used types2 as default typechecker.",
+      "parentUuid": "13e9b2ce_b4519a7c",
+      "revId": "e9d736072d0e02b12b571bf9495984873fe2f9c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
