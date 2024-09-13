@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "503275ba_8fe2acc6",
+        "filename": "src/crypto/md5/md5block_riscv64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-09-13T11:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26a88b1e_39e776a3",
+      "revId": "108ec74cc75ea31983213a5d49d017e0bddb1ef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61a39719_28702ac0",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-09-12T15:15:25Z",
       "side": 1,
       "message": "Somewhat personal preference, however I find it more readable to have the defines/macros above the main implementation (this also makes it consistent with sha256/sha512/etc).",
+      "revId": "108ec74cc75ea31983213a5d49d017e0bddb1ef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1515e795_c5d0be29",
+        "filename": "src/crypto/md5/md5block_riscv64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-09-13T11:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61a39719_28702ac0",
       "revId": "108ec74cc75ea31983213a5d49d017e0bddb1ef7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55433a8d_5dc79bc7",
+        "filename": "src/crypto/md5/md5block_riscv64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-09-13T11:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e24718e1_11fae962",
+      "revId": "108ec74cc75ea31983213a5d49d017e0bddb1ef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb59c529_0b56166e",
@@ -65,6 +119,24 @@
       "writtenOn": "2024-09-12T15:15:25Z",
       "side": 1,
       "message": "ORN can now be used unconditionally (CL#611895).",
+      "revId": "108ec74cc75ea31983213a5d49d017e0bddb1ef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a037fe4_37905e5a",
+        "filename": "src/crypto/md5/md5block_riscv64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-09-13T11:46:34Z",
+      "side": 1,
+      "message": "Thanks.  This is nicer than the #ifdef",
+      "parentUuid": "fb59c529_0b56166e",
       "revId": "108ec74cc75ea31983213a5d49d017e0bddb1ef7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
