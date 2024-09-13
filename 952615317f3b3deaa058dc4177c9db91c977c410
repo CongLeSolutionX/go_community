@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97558fe9_cf2abe3d",
+        "filename": "src/runtime/cgo/callbacks_musl_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-13T08:25:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0809be24_49a8917f",
+      "revId": "952615317f3b3deaa058dc4177c9db91c977c410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0fb4f287_3c80140d",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-09-12T20:04:20Z",
       "side": 1,
       "message": "s/is set to/returns/",
+      "revId": "952615317f3b3deaa058dc4177c9db91c977c410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "292ae47d_088f200d",
+        "filename": "src/runtime/cgo/callbacks_musl_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-13T08:25:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fb4f287_3c80140d",
       "revId": "952615317f3b3deaa058dc4177c9db91c977c410",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a045acc_087ccfe3",
+        "filename": "src/runtime/cgo/gcc_musl_linux.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-13T08:25:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c67a92d_9a725667",
+      "revId": "952615317f3b3deaa058dc4177c9db91c977c410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9e463c5_3fbf4521",
@@ -65,6 +119,24 @@
       "writtenOn": "2024-09-12T20:04:20Z",
       "side": 1,
       "message": "s/2015/2024/",
+      "revId": "952615317f3b3deaa058dc4177c9db91c977c410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21ced000_80617839",
+        "filename": "src/runtime/cgo_musl_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-13T08:25:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9e463c5_3fbf4521",
       "revId": "952615317f3b3deaa058dc4177c9db91c977c410",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +158,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "997f4aa6_b21c68e6",
+        "filename": "src/runtime/cgo_musl_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-13T08:25:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d939852_9d6c5295",
+      "revId": "952615317f3b3deaa058dc4177c9db91c977c410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5327e8cd_2a310cdd",
@@ -99,6 +189,24 @@
       "writtenOn": "2024-09-12T20:04:20Z",
       "side": 1,
       "message": "You can write _O_RDONLY rather than 0.  That will be clearer.",
+      "revId": "952615317f3b3deaa058dc4177c9db91c977c410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb174bad_bbb5f06f",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-13T08:25:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5327e8cd_2a310cdd",
       "revId": "952615317f3b3deaa058dc4177c9db91c977c410",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

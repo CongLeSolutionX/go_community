@@ -265,6 +265,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "302858a4_bdebb174",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 3619279
+      },
+      "writtenOn": "2024-09-13T08:25:54Z",
+      "side": 1,
+      "message": "The only problem here is that `getGodebugEarly` and `goargs` are not platform specific and I do not intend to change that in this PR, so a check against `libmusl` boolean is needed within a general purpose file. This follows the same strategy as the rest of linux-specific code within the same functions.\n\nI invite you to contribute your envisioned changes to this PR in order to finally fix this decade old issue. other than that, the submitted code is pretty functional.",
+      "parentUuid": "9de633e0_13bf1075",
+      "revId": "db9958ee0f76b8479ada760c9a26ba33f6d1b094",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91784103_65b3df05",
