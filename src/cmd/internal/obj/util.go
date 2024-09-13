@@ -272,16 +272,13 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 		} else {
 			io.WriteString(w, Rconv(int(a.Reg)))
 		}
-
-		if (RBaseARM64+1<<10+1<<9) /* arm64.REG_ELEM */ <= a.Reg &&
-			a.Reg < (RBaseARM64+1<<11) /* arm64.REG_ELEM_END */ {
-			fmt.Fprintf(w, "[%d]", a.Index)
-		}
-
 		if (RBaseLOONG64+(1<<10)+(1<<11)) /* loong64.REG_ELEM */ <= a.Reg &&
 			a.Reg < (RBaseLOONG64+(1<<10)+(2<<11)) /* loong64.REG_ELEM_END */ {
 			fmt.Fprintf(w, "[%d]", a.Index)
 		}
+
+	case TYPE_REGINDEX:
+		fmt.Fprintf(w, "%s[%d]", Rconv(int(a.Reg)), a.Index)
 
 	case TYPE_BRANCH:
 		if a.Sym != nil {

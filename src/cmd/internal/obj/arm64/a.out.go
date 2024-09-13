@@ -150,8 +150,6 @@ const (
 // bits 5-8 indicates arrangement: <T>
 const (
 	REG_ARNG = obj.RBaseARM64 + 1<<10 + iota<<9 // Vn.<T>
-	REG_ELEM                                    // Vn.<T>[index]
-	REG_ELEM_END
 )
 
 // Not registers, but flags that can be combined with regular register

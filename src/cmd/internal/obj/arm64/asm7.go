@@ -1887,10 +1887,8 @@ func rclass(r int16) int {
 		return C_VREG
 	case r == REGSP:
 		return C_RSP
-	case r >= REG_ARNG && r < REG_ELEM:
+	case r >= REG_ARNG && r < REG_UXTB:
 		return C_ARNG
-	case r >= REG_ELEM && r < REG_ELEM_END:
-		return C_ELEM
 	case r >= REG_UXTB && r < REG_SPECIAL,
 		r >= REG_LSL && r < REG_ARNG:
 		return C_EXTREG
@@ -2077,6 +2075,9 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 
 	case obj.TYPE_REG:
 		return rclass(a.Reg)
+
+	case obj.TYPE_REGINDEX:
+		return C_ELEM
 
 	case obj.TYPE_REGREG:
 		return C_PAIR

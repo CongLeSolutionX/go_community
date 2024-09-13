@@ -162,9 +162,7 @@ func rconv(r int) string {
 	// bits 0-4 indicate register, bits 5-7 indicate shift amount, bit 8 equals to 0.
 	case REG_LSL <= r && r < (REG_LSL+1<<8):
 		return fmt.Sprintf("R%d<<%d", r&31, (r>>5)&7)
-	case REG_ARNG <= r && r < REG_ELEM:
-		return fmt.Sprintf("V%d.%s", r&31, arrange((r>>5)&15))
-	case REG_ELEM <= r && r < REG_ELEM_END:
+	case REG_ARNG <= r && r < REG_UXTB:
 		return fmt.Sprintf("V%d.%s", r&31, arrange((r>>5)&15))
 	}
 	// Return system register name.
