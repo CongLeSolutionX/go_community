@@ -104,7 +104,7 @@ func (mux *serveMux121) handleFunc(pattern string, handler func(ResponseWriter, 
 func (mux *serveMux121) findHandler(r *Request) (h Handler, pattern string) {
 
 	// CONNECT requests are not canonicalized.
-	if r.Method == "CONNECT" {
+	if r.Method == MethodConnect {
 		// If r.URL.Path is /tree and its handler is not registered,
 		// the /tree -> /tree/ redirect applies to CONNECT requests
 		// but the path canonicalization does not.

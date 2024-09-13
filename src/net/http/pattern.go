@@ -123,7 +123,7 @@ func parsePattern(s string) (_ *pattern, err error) {
 
 	// An unclean path with a method that is not CONNECT can never match,
 	// because paths are cleaned before matching.
-	if method != "" && method != "CONNECT" && rest != cleanPath(rest) {
+	if method != "" && method != MethodConnect && rest != cleanPath(rest) {
 		return nil, errors.New("non-CONNECT pattern with unclean path can never match")
 	}
 
@@ -268,11 +268,11 @@ func (p1 *pattern) compareMethods(p2 *pattern) relationship {
 	if p2.method == "" {
 		return moreSpecific
 	}
-	if p1.method == "GET" && p2.method == "HEAD" {
+	if p1.method == MethodGet && p2.method == MethodHead {
 		// p1 matches GET and HEAD; p2 matches only HEAD.
 		return moreGeneral
 	}
-	if p2.method == "GET" && p1.method == "HEAD" {
+	if p2.method == MethodGet && p1.method == MethodHead {
 		return moreSpecific
 	}
 	return disjoint

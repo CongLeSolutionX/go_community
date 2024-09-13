@@ -84,7 +84,7 @@ func newTransferWriter(r any) (t *transferWriter, err error) {
 		if rr.ContentLength != 0 && rr.Body == nil {
 			return nil, fmt.Errorf("http: Request.ContentLength=%d with nil Body", rr.ContentLength)
 		}
-		t.Method = valueOrDefault(rr.Method, "GET")
+		t.Method = valueOrDefault(rr.Method, MethodGet)
 		t.Close = rr.Close
 		t.TransferEncoding = rr.TransferEncoding
 		t.Header = rr.Header
@@ -172,7 +172,7 @@ func (t *transferWriter) shouldSendChunkedRequestBody() bool {
 	if t.ContentLength >= 0 || t.Body == nil { // redundant checks; caller did them
 		return false
 	}
-	if t.Method == "CONNECT" {
+	if t.Method == MethodConnect {
 		return false
 	}
 	if requestMethodUsuallyLacksBody(t.Method) {
@@ -247,7 +247,7 @@ func (t *transferWriter) probeRequestBody() {
 }
 
 func noResponseBodyExpected(requestMethod string) bool {
-	return requestMethod == "HEAD"
+	return requestMethod == MethodHead
 }
 
 func (t *transferWriter) shouldSendContentLength() bool {
@@ -261,11 +261,12 @@ func (t *transferWriter) shouldSendContentLength() bool {
 		return false
 	}
 	// Many servers expect a Content-Length for these methods
-	if t.Method == "POST" || t.Method == "PUT" || t.Method == "PATCH" {
+	switch t.Method {
+	case MethodPost, MethodPut, MethodPatch:
 		return true
 	}
 	if t.ContentLength == 0 && isIdentity(t.TransferEncoding) {
-		if t.Method == "GET" || t.Method == "HEAD" {
+		if t.Method == MethodGet || t.Method == MethodHead {
 			return false
 		}
 		return true
@@ -363,7 +364,7 @@ func (t *transferWriter) writeBody(w io.Writer) (err error) {
 			}
 		} else if t.ContentLength == -1 {
 			dst := w
-			if t.Method == "CONNECT" {
+			if t.Method == MethodConnect {
 				dst = bufioFlushWriter{dst}
 			}
 			ncopy, err = t.doBodyCopy(dst, body)
@@ -510,7 +511,7 @@ func readTransfer(msg any, r *bufio.Reader) (err error) {
 		t.ProtoMinor = rr.ProtoMinor
 		// Transfer semantics for Requests are exactly like those for
 		// Responses with status code 200, responding to a GET method
-		t.StatusCode = 200
+		t.StatusCode = StatusOK
 		t.Close = rr.Close
 	default:
 		panic("unexpected type")

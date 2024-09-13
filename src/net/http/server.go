@@ -375,7 +375,7 @@ func (cw *chunkWriter) Write(p []byte) (n int, err error) {
 	if !cw.wroteHeader {
 		cw.writeHeader(p)
 	}
-	if cw.res.req.Method == "HEAD" {
+	if cw.res.req.Method == MethodHead {
 		// Eat writes.
 		return len(p), nil
 	}
@@ -611,7 +611,7 @@ func (w *response) ReadFrom(src io.Reader) (n int64, err error) {
 	w.cw.flush() // make sure Header is written; flush data to rwc
 
 	// Now that cw has been flushed, its chunking field is guaranteed initialized.
-	if !w.cw.chunking && w.bodyAllowed() && w.req.Method != "HEAD" {
+	if !w.cw.chunking && w.bodyAllowed() && w.req.Method != MethodHead {
 		n0, err := rf.ReadFrom(src)
 		n += n0
 		w.written += n0
@@ -1040,7 +1040,7 @@ func (c *conn) readRequest(ctx context.Context) (w *response, err error) {
 	}
 
 	c.r.setReadLimit(c.server.initialReadLimitSize())
-	if c.lastMethod == "POST" {
+	if c.lastMethod == MethodPost {
 		// RFC 7230 section 3 tolerance for old buggy clients.
 		peek, _ := c.bufr.Peek(4) // ReadRequest will get err below
 		c.bufr.Discard(numLeadingCRorLF(peek))
@@ -1062,7 +1062,7 @@ func (c *conn) readRequest(ctx context.Context) (w *response, err error) {
 
 	hosts, haveHost := req.Header["Host"]
 	isH2Upgrade := req.isH2Upgrade()
-	if req.ProtoAtLeast(1, 1) && (!haveHost || len(hosts) == 0) && !isH2Upgrade && req.Method != "CONNECT" {
+	if req.ProtoAtLeast(1, 1) && (!haveHost || len(hosts) == 0) && !isH2Upgrade && req.Method != MethodConnect {
 		return nil, badRequestError("missing required Host header")
 	}
 	if len(hosts) == 1 && !httpguts.ValidHostHeader(hosts[0]) {
@@ -1307,7 +1307,7 @@ func (cw *chunkWriter) writeHeader(p []byte) {
 
 	w := cw.res
 	keepAlivesEnabled := w.conn.server.doKeepAlives()
-	isHEAD := w.req.Method == "HEAD"
+	isHEAD := w.req.Method == MethodHead
 
 	// header is written out to w.conn.buf below. Depending on the
 	// state of the handler, we either own the map or not. If we
@@ -1518,7 +1518,7 @@ func (cw *chunkWriter) writeHeader(p []byte) {
 		hasCL = false
 	}
 
-	if w.req.Method == "HEAD" || !bodyAllowedForStatus(code) || code == StatusNoContent {
+	if w.req.Method == MethodHead || !bodyAllowedForStatus(code) || code == StatusNoContent {
 		// Response has no body.
 		delHeader("Transfer-Encoding")
 	} else if hasCL {
@@ -1738,7 +1738,7 @@ func (w *response) shouldReuseConnection() bool {
 		return false
 	}
 
-	if w.req.Method != "HEAD" && w.contentLength != -1 && w.bodyAllowed() && w.contentLength != w.written {
+	if w.req.Method != MethodHead && w.contentLength != -1 && w.bodyAllowed() && w.contentLength != w.written {
 		// Did not write enough. Avoid getting out of sync.
 		return false
 	}
@@ -2339,13 +2339,13 @@ func Redirect(w ResponseWriter, r *Request, url string, code int) {
 	_, hadCT := h["Content-Type"]
 
 	h.Set("Location", hexEscapeNonASCII(url))
-	if !hadCT && (r.Method == "GET" || r.Method == "HEAD") {
+	if !hadCT && (r.Method == MethodGet || r.Method == MethodHead) {
 		h.Set("Content-Type", "text/html; charset=utf-8")
 	}
 	w.WriteHeader(code)
 
 	// Shouldn't send the body for POST or HEAD; that leaves GET.
-	if !hadCT && r.Method == "GET" {
+	if !hadCT && r.Method == MethodGet {
 		body := "<a href=\"" + htmlEscape(url) + "\">" + StatusText(code) + "</a>.\n"
 		fmt.Fprintln(w, body)
 	}
@@ -2588,7 +2588,7 @@ func (mux *ServeMux) findHandler(r *Request) (h Handler, patStr string, _ *patte
 	escapedPath := r.URL.EscapedPath()
 	path := escapedPath
 	// CONNECT requests are not canonicalized.
-	if r.Method == "CONNECT" {
+	if r.Method == MethodConnect {
 		// If r.URL.Path is /tree and its handler is not registered,
 		// the /tree -> /tree/ redirect applies to CONNECT requests
 		// but the path canonicalization does not.
@@ -3209,7 +3209,7 @@ func (sh serverHandler) ServeHTTP(rw ResponseWriter, req *Request) {
 	if handler == nil {
 		handler = DefaultServeMux
 	}
-	if !sh.srv.DisableGeneralOptionsHandler && req.RequestURI == "*" && req.Method == "OPTIONS" {
+	if !sh.srv.DisableGeneralOptionsHandler && req.RequestURI == "*" && req.Method == MethodOptions {
 		handler = globalOptionsHandler{}
 	}
 

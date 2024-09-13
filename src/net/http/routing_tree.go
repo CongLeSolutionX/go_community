@@ -137,9 +137,9 @@ func (n *routingNode) matchMethodAndPath(method, path string) (*routingNode, []s
 		// Exact match of method name.
 		return l, m
 	}
-	if method == "HEAD" {
+	if method == MethodHead {
 		// GET matches HEAD too.
-		if l, m := n.findChild("GET").matchPath(path, nil); l != nil {
+		if l, m := n.findChild(MethodGet).matchPath(path, nil); l != nil {
 			return l, m
 		}
 	}
@@ -221,8 +221,8 @@ func (root *routingNode) matchingMethods(host, path string, methodSet map[string
 		root.findChild(host).matchingMethodsPath(path, methodSet)
 	}
 	root.emptyChild.matchingMethodsPath(path, methodSet)
-	if methodSet["GET"] {
-		methodSet["HEAD"] = true
+	if methodSet[MethodGet] {
+		methodSet[MethodHead] = true
 	}
 }
 

@@ -420,7 +420,7 @@ func serveContent(w ResponseWriter, r *Request, name string, modtime time.Time, 
 	}
 	w.WriteHeader(code)
 
-	if r.Method != "HEAD" {
+	if r.Method != MethodHead {
 		io.CopyN(w, sendContent, sendSize)
 	}
 }
@@ -555,7 +555,7 @@ func checkIfNoneMatch(w ResponseWriter, r *Request) condResult {
 }
 
 func checkIfModifiedSince(r *Request, modtime time.Time) condResult {
-	if r.Method != "GET" && r.Method != "HEAD" {
+	if r.Method != MethodGet && r.Method != MethodHead {
 		return condNone
 	}
 	ims := r.Header.Get("If-Modified-Since")
@@ -576,7 +576,7 @@ func checkIfModifiedSince(r *Request, modtime time.Time) condResult {
 }
 
 func checkIfRange(w ResponseWriter, r *Request, modtime time.Time) condResult {
-	if r.Method != "GET" && r.Method != "HEAD" {
+	if r.Method != MethodGet && r.Method != MethodHead {
 		return condNone
 	}
 	ir := r.Header.get("If-Range")
@@ -649,7 +649,7 @@ func checkPreconditions(w ResponseWriter, r *Request, modtime time.Time) (done b
 	}
 	switch checkIfNoneMatch(w, r) {
 	case condFalse:
-		if r.Method == "GET" || r.Method == "HEAD" {
+		if r.Method == MethodGet || r.Method == MethodHead {
 			writeNotModified(w)
 			return true, ""
 		} else {

@@ -3512,9 +3512,9 @@ func http2validWireHeaderFieldName(v string) bool {
 
 func http2httpCodeString(code int) string {
 	switch code {
-	case 200:
+	case StatusOK:
 		return "200"
-	case 404:
+	case StatusNotFound:
 		return "404"
 	}
 	return strconv.Itoa(code)
@@ -6024,7 +6024,7 @@ func (sc *http2serverConn) newWriterAndRequest(st *http2stream, f *http2MetaHead
 		path:      f.PseudoValue("path"),
 	}
 
-	isConnect := rp.method == "CONNECT"
+	isConnect := rp.method == MethodConnect
 	if isConnect {
 		if rp.path != "" || rp.scheme != "" || rp.authority == "" {
 			return nil, nil, sc.countError("bad_connect", http2streamError(f.StreamID, http2ErrCodeProtocol))
@@ -6117,7 +6117,7 @@ func (sc *http2serverConn) newWriterAndRequestNoBody(st *http2stream, rp http2re
 
 	var url_ *url.URL
 	var requestURI string
-	if rp.method == "CONNECT" {
+	if rp.method == MethodConnect {
 		url_ = &url.URL{Host: rp.authority}
 		requestURI = rp.authority // mimic HTTP/1 server behavior
 	} else {
@@ -6484,14 +6484,14 @@ func (rws *http2responseWriterState) declareTrailer(k string) {
 // HEADER response.
 func (rws *http2responseWriterState) writeChunk(p []byte) (n int, err error) {
 	if !rws.wroteHeader {
-		rws.writeHeader(200)
+		rws.writeHeader(StatusOK)
 	}
 
 	if rws.handlerDone {
 		rws.promoteUndeclaredTrailers()
 	}
 
-	isHeadResp := rws.req.Method == "HEAD"
+	isHeadResp := rws.req.Method == MethodHead
 	if !rws.sentHeader {
 		rws.sentHeader = true
 		var ctype, clen string
@@ -6845,7 +6845,7 @@ func (w *http2responseWriter) write(lenData int, dataB []byte, dataS string) (n 
 		panic("Write called after Handler finished")
 	}
 	if !rws.wroteHeader {
-		w.WriteHeader(200)
+		w.WriteHeader(StatusOK)
 	}
 	if !http2bodyAllowedForStatus(rws.status) {
 		return 0, ErrBodyNotAllowed
@@ -6896,7 +6896,7 @@ func (w *http2responseWriter) Push(target string, opts *PushOptions) error {
 
 	// Default options.
 	if opts.Method == "" {
-		opts.Method = "GET"
+		opts.Method = MethodGet
 	}
 	if opts.Header == nil {
 		opts.Header = Header{}
@@ -6949,7 +6949,7 @@ func (w *http2responseWriter) Push(target string, opts *PushOptions) error {
 	// The RFC effectively limits promised requests to GET and HEAD:
 	// "Promised requests MUST be cacheable [GET, HEAD, or POST], and MUST be safe [GET or HEAD]"
 	// http://tools.ietf.org/html/rfc7540#section-8.2
-	if opts.Method != "GET" && opts.Method != "HEAD" {
+	if opts.Method != MethodGet && opts.Method != MethodHead {
 		return fmt.Errorf("method %q must be GET or HEAD", opts.Method)
 	}
 
@@ -8419,7 +8419,7 @@ func (cc *http2ClientConn) roundTrip(req *Request, streamf func(*http2clientStre
 		cc:                   cc,
 		ctx:                  ctx,
 		reqCancel:            req.Cancel,
-		isHead:               req.Method == "HEAD",
+		isHead:               req.Method == MethodHead,
 		reqBody:              req.Body,
 		reqBodyContentLength: http2actualContentLength(req),
 		trace:                httptrace.ContextClientTrace(ctx),
@@ -9119,7 +9119,7 @@ func (cc *http2ClientConn) encodeHeaders(req *Request, addGzipHeader bool, trail
 	}
 
 	var path string
-	if req.Method != "CONNECT" {
+	if req.Method != MethodConnect {
 		path = req.URL.RequestURI()
 		if !http2validPseudoPath(path) {
 			orig := path
@@ -9156,7 +9156,7 @@ func (cc *http2ClientConn) encodeHeaders(req *Request, addGzipHeader bool, trail
 			m = MethodGet
 		}
 		f(":method", m)
-		if req.Method != "CONNECT" {
+		if req.Method != MethodConnect {
 			f(":path", path)
 			f(":scheme", req.URL.Scheme)
 		}
@@ -9282,7 +9282,7 @@ func http2shouldSendReqContentLength(method string, contentLength int64) bool {
 	// For zero bodies, whether we send a content-length depends on the method.
 	// It also kinda doesn't matter for http2 either way, with END_STREAM.
 	switch method {
-	case "POST", "PUT", "PATCH":
+	case MethodPost, MethodPut, MethodPatch:
 		return true
 	default:
 		return false
