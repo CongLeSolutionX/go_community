@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c609e374_7e75b336",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-13T16:16:26Z",
+      "side": 1,
+      "message": "https://go.dev/doc/contribute#commit_messages",
+      "revId": "edfe2315c4367de686e3fdce22c6405a07756247",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07d4332f_4fdb36dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-13T16:16:26Z",
+      "side": 1,
+      "message": "For #61515.",
+      "revId": "edfe2315c4367de686e3fdce22c6405a07756247",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca23c18e_15bd1cc8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-13T16:16:26Z",
+      "side": 1,
+      "message": "This covers \"The benchmarking framework can record time and other metrics around only the benchmarked operation, so benchmarks no longer need to use ResetTimer or be careful about their setup.\" [1]\n\nBut this isn\u0027t really related to scaling, is it? The testing package will still have to call the benchmark function multiple times.\n\n[1] Unless there is teardown after the loop. Maybe the last call to Loop (the one that returns false) should call StopTimer?",
+      "revId": "edfe2315c4367de686e3fdce22c6405a07756247",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2f7a6fe_ebbd881e",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-13T16:16:26Z",
+      "side": 1,
+      "message": "Could we just check b.loopN \u003d\u003d b.N? (before decrementing)",
+      "revId": "edfe2315c4367de686e3fdce22c6405a07756247",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
