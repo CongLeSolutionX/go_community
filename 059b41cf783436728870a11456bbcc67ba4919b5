@@ -69,6 +69,24 @@
       "parentUuid": "b742ae9b_59d85f6e",
       "revId": "059b41cf783436728870a11456bbcc67ba4919b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efa8754f_3fc6d92e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3617945
+      },
+      "writtenOn": "2024-09-13T12:37:10Z",
+      "side": 1,
+      "message": "A mere JMP tranpoline segfaults.",
+      "parentUuid": "42ab7a94_37bd8207",
+      "revId": "059b41cf783436728870a11456bbcc67ba4919b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
