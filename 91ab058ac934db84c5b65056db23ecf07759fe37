@@ -94,6 +94,30 @@
       },
       "revId": "91ab058ac934db84c5b65056db23ecf07759fe37",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ed8917c_4b92d683",
+        "filename": "src/reflect/map_swiss.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 27296
+      },
+      "writtenOn": "2024-09-13T02:58:19Z",
+      "side": 1,
+      "message": "I removed unnecessary `abi.NoEscape`, also moved the required ones to the places where cause unexpected escapes. `SetIterKey` and `SetIterValue` test cases can be found in `test/escape_reflect.go`, and I have tested. \n\nKindly review again. Thanks!",
+      "parentUuid": "735a170a_e01af7e7",
+      "range": {
+        "startLine": 227,
+        "startChar": 9,
+        "endLine": 227,
+        "endChar": 29
+      },
+      "revId": "91ab058ac934db84c5b65056db23ecf07759fe37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
