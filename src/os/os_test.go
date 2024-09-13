@@ -2119,6 +2119,68 @@ func TestAppend(t *testing.T) {
 	}
 }
 
+// TestFileRDWRFlags tests the O_RDONLY, O_WRONLY, and O_RDWR flags.
+func TestFileRDWRFlags(t *testing.T) {
+	for _, test := range []struct {
+		name string
+		flag int
+	}{
+		{"O_RDONLY", O_RDONLY},
+		{"O_WRONLY", O_WRONLY},
+		{"O_RDWR", O_RDWR},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			t.Chdir(t.TempDir())
+			const filename = "f"
+			content := []byte("content")
+			if err := WriteFile(filename, content, 0666); err != nil {
+				t.Fatal(err)
+			}
+			f, err := OpenFile(filename, test.flag, 0)
+			if err != nil {
+				t.Fatal(err)
+			}
+			defer f.Close()
+			got, err := io.ReadAll(f)
+			if test.flag == O_WRONLY {
+				if err == nil {
+					t.Errorf("read file: %q, %v; want error", got, err)
+				}
+			} else {
+				if err != nil || !bytes.Equal(got, content) {
+					t.Errorf("read file: %q, %v; want %q, <nil>", got, err, content)
+				}
+			}
+			if _, err := f.Seek(0, 0); err != nil {
+				t.Fatalf("f.Seek: %v", err)
+			}
+			newcontent := []byte("CONTENT")
+			_, err = f.Write(newcontent)
+			if test.flag == O_RDONLY {
+				if err == nil {
+					t.Errorf("write file: succeeded, want error")
+				}
+			} else {
+				if err != nil {
+					t.Errorf("write file: %v, want success", err)
+				}
+			}
+			f.Close()
+			got, err = ReadFile(filename)
+			if err != nil {
+				t.Fatal(err)
+			}
+			want := content
+			if test.flag != O_RDONLY {
+				want = newcontent
+			}
+			if !bytes.Equal(got, want) {
+				t.Fatalf("after write, file contains %q, want %q", got, want)
+			}
+		})
+	}
+}
+
 func TestStatDirWithTrailingSlash(t *testing.T) {
 	t.Parallel()
 
