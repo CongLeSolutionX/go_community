@@ -1033,6 +1033,10 @@ func sync_fatal(s string) {
 	fatal(s)
 }
 
+// fatallk is held while printing the throw/fatal information and stack trace,
+// so that two concurrent fatal errors don't overlap their output.
+var fatallk mutex
+
 // throw triggers a fatal error that dumps a stack trace and exits.
 //
 // throw should be used for runtime-internal fatal errors where Go itself,
@@ -1058,6 +1062,8 @@ func sync_fatal(s string) {
 //go:linkname throw
 //go:nosplit
 func throw(s string) {
+	lock(&fatallk)
+
 	// Everything throw does should be recursively nosplit so it
 	// can be called even when it's unsafe to grow the stack.
 	systemstack(func() {
@@ -1079,6 +1085,8 @@ func throw(s string) {
 //
 //go:nosplit
 func fatal(s string) {
+	lock(&fatallk)
+
 	// Everything fatal does should be recursively nosplit so it
 	// can be called even when it's unsafe to grow the stack.
 	systemstack(func() {
