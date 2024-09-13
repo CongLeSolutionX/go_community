@@ -46,6 +46,7 @@ import "C"
 import (
 	"bytes"
 	"crypto/cipher"
+	"crypto/internal/alias"
 	"errors"
 	"runtime"
 	"strconv"
@@ -368,7 +369,7 @@ func (g *aesGCM) Open(dst, nonce, ciphertext, additionalData []byte) ([]byte, er
 	dst = dst[:n+len(ciphertext)-gcmTagSize]
 
 	// Check delayed until now to make sure len(dst) is accurate.
-	if inexactOverlap(dst[n:], ciphertext) {
+	if alias.InexactOverlap(dst[n:], ciphertext) {
 		panic("cipher: invalid buffer overlap")
 	}
 
@@ -384,17 +385,4 @@ func (g *aesGCM) Open(dst, nonce, ciphertext, additionalData []byte) ([]byte, er
 		return nil, errOpen
 	}
 	return dst[:n+int(outLen)], nil
-}
-
-func anyOverlap(x, y []byte) bool {
-	return len(x) > 0 && len(y) > 0 &&
-		uintptr(unsafe.Pointer(&x[0])) <= uintptr(unsafe.Pointer(&y[len(y)-1])) &&
-		uintptr(unsafe.Pointer(&y[0])) <= uintptr(unsafe.Pointer(&x[len(x)-1]))
-}
-
-func inexactOverlap(x, y []byte) bool {
-	if len(x) == 0 || len(y) == 0 || &x[0] == &y[0] {
-		return false
-	}
-	return anyOverlap(x, y)
 }
