@@ -51,6 +51,24 @@
       "message": "newm :\u003d maps.Clone(m)",
       "revId": "aa0ca61ffa126cd986ab109c4e36c25693c97a80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34dc52c7_0f4a2c7a",
+        "filename": "src/encoding/gob/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-13T21:02:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0928a7bd_2812d9ae",
+      "revId": "aa0ca61ffa126cd986ab109c4e36c25693c97a80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
