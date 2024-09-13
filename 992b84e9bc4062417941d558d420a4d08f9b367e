@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2baf8b4_835fd405",
+        "filename": "src/reflect/map_noswiss.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-13T20:49:13Z",
+      "side": 1,
+      "message": "This is a different kind of change than what is written in the change description.  It\u0027s not obvious to me why we need this.  If we need it, it should be in a different change, not this one.",
+      "revId": "992b84e9bc4062417941d558d420a4d08f9b367e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
