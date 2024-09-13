@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13e9b2ce_b4519a7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-13T18:15:21Z",
+      "side": 1,
+      "message": "Do we know when this was actually fixed? Switch to types2?",
+      "revId": "e9d736072d0e02b12b571bf9495984873fe2f9c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
