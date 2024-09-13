@@ -82,7 +82,7 @@ func checkaddr(ctxt *Link, p *Prog, a *Addr) {
 		}
 		return
 
-	case TYPE_REG:
+	case TYPE_REG, TYPE_REGINDEX:
 		// TODO(rsc): After fixing PINSRQ, check a.Offset != 0 too.
 		// TODO(rsc): After fixing SHRQ, check a.Index != 0 too.
 		if a.Scale != 0 || a.Name != 0 || a.Sym != nil {

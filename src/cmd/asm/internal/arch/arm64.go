@@ -309,25 +309,29 @@ func ARM64RegisterExtension(a *obj.Addr, ext string, reg, num int16, isAmount, i
 			if !isIndex {
 				return nil
 			}
-			a.Reg = arm64.REG_ELEM + (reg & 31) + ((arm64.ARNG_B & 15) << 5)
+			a.Type = obj.TYPE_REGINDEX
+			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_B & 15) << 5)
 			a.Index = num
 		case "H":
 			if !isIndex {
 				return nil
 			}
-			a.Reg = arm64.REG_ELEM + (reg & 31) + ((arm64.ARNG_H & 15) << 5)
+			a.Type = obj.TYPE_REGINDEX
+			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_H & 15) << 5)
 			a.Index = num
 		case "S":
 			if !isIndex {
 				return nil
 			}
-			a.Reg = arm64.REG_ELEM + (reg & 31) + ((arm64.ARNG_S & 15) << 5)
+			a.Type = obj.TYPE_REGINDEX
+			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_S & 15) << 5)
 			a.Index = num
 		case "D":
 			if !isIndex {
 				return nil
 			}
-			a.Reg = arm64.REG_ELEM + (reg & 31) + ((arm64.ARNG_D & 15) << 5)
+			a.Type = obj.TYPE_REGINDEX
+			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_D & 15) << 5)
 			a.Index = num
 		default:
 			return errors.New("unsupported simd register extension type: " + ext)

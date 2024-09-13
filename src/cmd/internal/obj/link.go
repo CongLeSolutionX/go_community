@@ -189,8 +189,8 @@ import (
 //	reg.<T>[index]
 //		Register element for ARM64
 //		Encoding:
-//			type = TYPE_REG
-//			reg = REG_ELEM + register + arrangement
+//			type = TYPE_REGINDEX
+//			reg = REG_ARNG + register + arrangement
 //			index = element index
 
 type Addr struct {
@@ -239,6 +239,7 @@ const (
 	TYPE_FCONST
 	TYPE_SCONST
 	TYPE_REG
+	TYPE_REGINDEX
 	TYPE_ADDR
 	TYPE_SHIFT
 	TYPE_REGREG
