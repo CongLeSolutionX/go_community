@@ -16,6 +16,24 @@
       "message": "This is a different kind of change than what is written in the change description.  It\u0027s not obvious to me why we need this.  If we need it, it should be in a different change, not this one.",
       "revId": "992b84e9bc4062417941d558d420a4d08f9b367e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61e3917f_33e41779",
+        "filename": "src/reflect/map_noswiss.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 27296
+      },
+      "writtenOn": "2024-09-14T07:28:21Z",
+      "side": 1,
+      "message": "agreed, it\u0027s a bit confusing for the change. But we can\u0027t remove `mapiterkey` without adding `abi.NoEscape` here coz we do have an associated testcase for escape analysis of reflect pkg, and it doesn\u0027t work if we just remove `mapiterkey` directly. Here is a code snippet for reproducing the issue:\n```\npackage main\n\nimport \"reflect\"\n\nfunc main() {\n\tm :\u003d map[int]int{1: 2}\n\tit :\u003d reflect.ValueOf(m).MapRange()\n\tprintall(it)\n}\n\nfunc printall(it *reflect.MapIter) {\n\tvar k, v int\n\tfor it.Next() {\n\t\treflect.ValueOf(\u0026k).Elem().SetIterKey(it)\n\t\treflect.ValueOf(\u0026v).Elem().SetIterValue(it)\n\t\tprintln(k, v)\n\t}\n}\n```\npreviously, no heap allocation needed for `m`, and `it` does not escape. \nIf we only remove `mapiterkey` it becomes\n```\nleaking param content: it\nmap[int]int{...} escapes to heap\n```\n\nSo, \nif we don\u0027t want to introduce `abi.NoEscape` here, we can keep `mapiterkey` and `mapitervalue` for `SetIterKey` and `SetIterValue`.\n\nOr,\nif you think adding `abi.NoEscape` makes sense, I would like to update the description about this.",
+      "parentUuid": "b2baf8b4_835fd405",
+      "revId": "992b84e9bc4062417941d558d420a4d08f9b367e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
