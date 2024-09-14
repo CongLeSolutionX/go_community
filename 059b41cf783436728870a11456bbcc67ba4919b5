@@ -106,6 +106,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df6c0d4e_89b3e2e7",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 3617945
+      },
+      "writtenOn": "2024-09-14T03:03:35Z",
+      "side": 1,
+      "message": "Without this change, you get a unhandled relocation error.\n```\ninternal/syscall/unix.__system_property_get_trampoline: unhandled relocation for libc___system_property_get (type 47 (SDYNIMPORT) rtype 8 (R_CALLARM))\n```\n(on ARM32)\n```\ninternal/syscall/unix.__system_property_get_trampoline: unhandled relocation for libc___system_property_get (type 47 (SDYNIMPORT) rtype 7 (R_CALL))\n```\n(on 386 and AMD64)\n\nAnd I don\u0027t use target.IsAndroid() because there is no such a method (see cmd/link/internal/ld/target.go).",
+      "parentUuid": "cc6529c4_d15a20c8",
+      "revId": "059b41cf783436728870a11456bbcc67ba4919b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af97675c_00f07251",
@@ -119,6 +137,24 @@
       "writtenOn": "2024-09-13T20:56:57Z",
       "side": 1,
       "message": "Please add a comment explaining why we need this.  Thanks.",
+      "revId": "059b41cf783436728870a11456bbcc67ba4919b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4873723c_737c4bd6",
+        "filename": "src/runtime/sys_libc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 3617945
+      },
+      "writtenOn": "2024-09-14T03:03:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af97675c_00f07251",
       "revId": "059b41cf783436728870a11456bbcc67ba4919b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
