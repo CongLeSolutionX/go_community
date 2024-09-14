@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a81c147_8af47df6",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 55285
+      },
+      "writtenOn": "2024-09-14T02:06:05Z",
+      "side": 1,
+      "message": "This would allow for a negative port. I would recommend using strconv.ParseUint(port[1:], 10, 16)\n\nThen you only need to check that err \u003d\u003d nil.",
+      "revId": "986da05de1f954d066cf7464be71a070cc206abe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e357d3f_2e732ca3",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 55285
+      },
+      "writtenOn": "2024-09-14T02:06:05Z",
+      "side": 1,
+      "message": "I would recommend adding a test for \"https://example.org:-1\".",
+      "revId": "986da05de1f954d066cf7464be71a070cc206abe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
