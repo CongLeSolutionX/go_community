@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51678518_0ceea008",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-15T02:04:05Z",
+      "side": 1,
+      "message": "Adding Cherry for the cmd/link change.  I\u0027m not clear on why we have a condition that checks beforehand whether a relocation is unhandled, and then assumes that we do in fact handle the relocation.  Why not report an error if the relocation really is unhandled?  I\u0027m sure it\u0027s fine but would appreciate a look.  Thanks.",
+      "revId": "d771f8e26735c4eb13f68ea8fa8c0294ca3a84ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
