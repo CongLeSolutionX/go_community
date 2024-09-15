@@ -52,6 +52,24 @@
       "parentUuid": "61e3917f_33e41779",
       "revId": "992b84e9bc4062417941d558d420a4d08f9b367e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75d35f2e_efb0e199",
+        "filename": "src/reflect/map_noswiss.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-15T03:16:17Z",
+      "side": 1,
+      "message": "To keep the same current semantic, and avoid confusion use of `abi.NoEscape`, see https://go-review.googlesource.com/c/go/+/613395 for example.",
+      "parentUuid": "2f5f6413_49d0d8c7",
+      "revId": "992b84e9bc4062417941d558d420a4d08f9b367e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
