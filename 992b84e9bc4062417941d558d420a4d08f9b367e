@@ -34,6 +34,24 @@
       "parentUuid": "b2baf8b4_835fd405",
       "revId": "992b84e9bc4062417941d558d420a4d08f9b367e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f5f6413_49d0d8c7",
+        "filename": "src/reflect/map_noswiss.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-15T02:17:44Z",
+      "side": 1,
+      "message": "I don\u0027t understand why the compiler thinks that \"it\" escapes in your test case.  I don\u0027t see why the compiler would think that iterkey escapes in SetIterKey if we don\u0027t use abi.NoEscape.  I guess it\u0027s because of the assignTo call, perhaps because of the possibility of a call to makeMethodValue.\n\nI\u0027m concerned that this change turns clear code that calls mapiterkey into unclear code that calls abi.NoEscape.\n\nIn any case please do update the change description.  Thanks.",
+      "parentUuid": "61e3917f_33e41779",
+      "revId": "992b84e9bc4062417941d558d420a4d08f9b367e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
