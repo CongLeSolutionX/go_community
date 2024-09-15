@@ -16,6 +16,23 @@
       "message": "Hello @khr@golang.org,\n\nI updated the changes to use a helper slice `memTable` to keep the remapping of memory operand for load-like instructions. The remapping is calculated on first reference when needed by sorting/partitioning routines and then re-used from the `memTable`. Please have a look at new version.\n\nThank you!",
       "revId": "78ce376f9a9b57afdcfe16d90551dc17132d5360",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb5bc692_901f1825",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-09-15T18:36:57Z",
+      "side": 1,
+      "message": "I\u0027ll look for some more benchmarks and maybe also other machine. Here are some current observations.\n\nThanks!",
+      "revId": "78ce376f9a9b57afdcfe16d90551dc17132d5360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
