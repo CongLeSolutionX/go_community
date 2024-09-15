@@ -70,6 +70,24 @@
       "parentUuid": "2f5f6413_49d0d8c7",
       "revId": "992b84e9bc4062417941d558d420a4d08f9b367e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64bbf364_5b4711a3",
+        "filename": "src/reflect/map_noswiss.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 27296
+      },
+      "writtenOn": "2024-09-15T15:25:08Z",
+      "side": 1,
+      "message": "Hi, Le. I think it\u0027s easy to keep the same current semantic， but it\u0027s hard to make it clear when we\u0027re using abi.NoEscape, actually for most cases it\u0027s not required.\n\nI updated the description, let\u0027s kindly review.",
+      "parentUuid": "75d35f2e_efb0e199",
+      "revId": "992b84e9bc4062417941d558d420a4d08f9b367e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
