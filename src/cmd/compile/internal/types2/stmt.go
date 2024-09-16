@@ -1048,22 +1048,57 @@ func rangeKeyVal(typ Type, allowVersion func(goVersion) bool) (key, val Type, ca
 		}
 		assert(typ.Recv() == nil)
 		// check iterator argument type
-		cb, _ := coreType(typ.Params().At(0).Type()).(*Signature)
+		var (
+			nfset int // number of func set entries
+			nkeys int // number of func set entries that have a key argument
+			nvals int // number of func set entries that have a value argument
+		)
+		var cause string // error cause
+		arg := typ.Params().At(0).Type()
+		if !underIs(arg, func(u Type) bool {
+			sig, _ := u.(*Signature)
+			switch {
+			case sig == nil:
+				cause = "argument is not func"
+				return false
+			case sig.Params().Len() > 2:
+				cause = "yield func has too many parameters"
+				return false
+			case sig.Results().Len() != 1 || !isBoolean(sig.Results().At(0).Type()):
+				cause = "yield func does not return bool"
+				return false
+			}
+			assert(sig.Recv() == nil)
+			nfset++
+			// determine key and value types, if any
+			n := sig.Params().Len()
+			if n >= 1 {
+				k := sig.Params().At(0).Type()
+				if key == nil || Identical(key, k) {
+					nkeys++
+					key = k
+				}
+			}
+			if n >= 2 {
+				v := sig.Params().At(1).Type()
+				if val == nil || Identical(val, v) {
+					nvals++
+					val = v
+				}
+			}
+			return true
+		}) {
+			return bad("func must be func(yield func(...) bool): " + cause)
+		}
+		// determine shared key and value types, if any
+		assert(nfset >= nkeys && nkeys >= nvals)
 		switch {
-		case cb == nil:
-			return bad("func must be func(yield func(...) bool): argument is not func")
-		case cb.Params().Len() > 2:
-			return bad("func must be func(yield func(...) bool): yield func has too many parameters")
-		case cb.Results().Len() != 1 || !isBoolean(cb.Results().At(0).Type()):
-			return bad("func must be func(yield func(...) bool): yield func does not return bool")
-		}
-		assert(cb.Recv() == nil)
-		// determine key and value types, if any
-		if cb.Params().Len() >= 1 {
-			key = cb.Params().At(0).Type()
-		}
-		if cb.Params().Len() >= 2 {
-			val = cb.Params().At(1).Type()
+		case nfset > nkeys:
+			// not all func set entries have a key or the key types are different
+			key = nil
+		case nkeys > nvals:
+			// not all func set entries have a value or the value types are different
+			val = nil
 		}
 		return key, val, "", true
 	}
