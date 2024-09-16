@@ -219,6 +219,8 @@ func (check *Checker) collectObjects() {
 	var methods []methodInfo // collected methods with valid receivers and non-blank _ names
 	var fileScopes []*Scope
 	for fileNo, file := range check.files {
+		check.version = asGoVersion(check.versions[file.Pos().FileBase()])
+
 		// The package identifier denotes the current package,
 		// but there is no corresponding package object.
 		check.recordDef(file.PkgName, nil)
