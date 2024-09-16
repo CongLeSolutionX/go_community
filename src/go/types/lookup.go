@@ -541,7 +541,8 @@ func (check *Checker) newAssertableTo(pos token.Pos, V, T Type, cause *string) b
 	if IsInterface(T) {
 		return true
 	}
-	return check.implements(pos, T, V, false, cause)
+	// FIXME pos?
+	return check.implements(T, V, false, cause)
 }
 
 // deref dereferences typ if it is a *Pointer (but not a *Named type
