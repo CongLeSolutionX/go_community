@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ab5af28_e9f58cec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-16T23:07:07Z",
+      "side": 1,
+      "message": "I haven\u0027t made types2 consistent yet, but let\u0027s review the change to go/types first. (Is there any tool to make this process easier? It\u0027s a real pain to do by hand...)\n\nI suspect there may be opportunities for further cleanups by establishing that Checker.version is always valid, decoupling it from the Info.FileVersions map which may contain \"raw\" version strings.",
+      "revId": "e1642226e8ac2b3952a316f12abbb7ce50f0c92b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
