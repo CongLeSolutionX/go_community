@@ -3234,3 +3234,33 @@ func setGotypesalias(t *testing.T, enable bool) {
 		t.Setenv("GODEBUG", "gotypesalias=0")
 	}
 }
+
+// TestVersionWithoutPos is a regression test for issue #69477,
+// in which the type checker would panic while attempting
+// to compute which file it is "in" based on syntax position.
+//
+// As a rule the type checker should not depend position
+// information for correctness, only for error messages and
+// Object.Pos. (Scope.LookupParent was a mistake.)
+//
+// The Checker now holds the effective version in a state variable.
+func TestVersionWithoutPos(t *testing.T) {
+	fset := token.NewFileSet()
+	f, _ := parser.ParseFile(fset, "a.go", "package p; const k = 123", 0)
+
+	// Set an invalid Pos on the BasicLit.
+	ast.Inspect(f, func(n ast.Node) bool {
+		if lit, ok := n.(*ast.BasicLit); ok {
+			lit.ValuePos = 99999
+		}
+		return true
+	})
+
+	// Type check. The checker will consult the effective
+	// version for the BasicLit 123. This used to panic.
+	pkg := NewPackage("p", "p")
+	check := NewChecker(&Config{}, fset, pkg, nil)
+	if err := check.Files([]*ast.File{f}); err != nil {
+		t.Fatal(err)
+	}
+}
