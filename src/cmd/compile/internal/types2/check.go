@@ -90,8 +90,9 @@ type dotImportKey struct {
 
 // An action describes a (delayed) action.
 type action struct {
-	f    func()      // action to be executed
-	desc *actionDesc // action description; may be nil, requires debug to be set
+	f       func()      // action to be executed
+	desc    *actionDesc // action description; may be nil, requires debug to be set
+	version goVersion   // applicable language version
 }
 
 // If debug is set, describef sets a printf-formatted description for action a.
@@ -119,7 +120,7 @@ type Checker struct {
 	ctxt *Context // context for de-duplicating instances
 	pkg  *Package
 	*Info
-	version goVersion              // accepted language version
+	version goVersion              // current accepted language version; changes across files
 	nextID  uint64                 // unique Id for type parameters (first valid Id is 1)
 	objMap  map[Object]*declInfo   // maps package-level objects and (non-interface) methods to declaration info
 	impMap  map[importKey]*Package // maps (import path, source directory) to (complete or fake) package
@@ -140,7 +141,7 @@ type Checker struct {
 	// (initialized by Files, valid only for the duration of check.Files;
 	// maps and lists are allocated on demand)
 	files         []*syntax.File             // list of package files
-	versions      map[*syntax.PosBase]string // maps files to version strings (each file has an entry); shared with Info.FileVersions if present
+	versions      map[*syntax.PosBase]string // maps files to goVersion strings (each file has an entry); shared with Info.FileVersions if present; may be unaltered Config.GoVersion
 	imports       []*PkgName                 // list of imported packages
 	dotImportMap  map[dotImportKey]*PkgName  // maps dot-imported objects to the package they were dot-imported through
 	brokenAliases map[*TypeName]bool         // set of aliases with broken (not yet determined) types
@@ -219,7 +220,7 @@ func (check *Checker) rememberUntyped(e syntax.Expr, lhs bool, mode operandMode,
 // via action.describef for debugging, if desired.
 func (check *Checker) later(f func()) *action {
 	i := len(check.delayed)
-	check.delayed = append(check.delayed, action{f: f})
+	check.delayed = append(check.delayed, action{f: f, version: check.version})
 	return &check.delayed[i]
 }
 
@@ -479,6 +480,7 @@ func (check *Checker) processDelayed(top int) {
 	// are processed in a delayed fashion) that may
 	// add more actions (such as nested functions), so
 	// this is a sufficiently bounded process.
+	savedVersion := check.version
 	for i := top; i < len(check.delayed); i++ {
 		a := &check.delayed[i]
 		if check.conf.Trace {
@@ -488,6 +490,8 @@ func (check *Checker) processDelayed(top int) {
 				check.trace(nopos, "-- delayed %p", a.f)
 			}
 		}
+		check.version = a.version // reestablish the effective Go version captured earlier
+
 		a.f() // may append to check.delayed
 		if check.conf.Trace {
 			fmt.Println()
@@ -495,6 +499,7 @@ func (check *Checker) processDelayed(top int) {
 	}
 	assert(top <= len(check.delayed)) // stack must not have shrunk
 	check.delayed = check.delayed[:top]
+	check.version = savedVersion
 }
 
 // cleanup runs cleanup for all collected cleaners.
