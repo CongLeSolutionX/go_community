@@ -88,6 +88,24 @@
       "parentUuid": "75d35f2e_efb0e199",
       "revId": "992b84e9bc4062417941d558d420a4d08f9b367e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d972856_3b6b7132",
+        "filename": "src/reflect/map_noswiss.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-16T19:03:00Z",
+      "side": 1,
+      "message": "I think the tests you\u0027re running into aren\u0027t really correct tests. (The tests in test/escape_reflect.go, like setiterkey1, right?)\nI think they should just be testing that the hiter does not escape. But they are currently also testing that the key/elem values don\u0027t escape. And I think that latter part is not important. Keys and values in maps are always heap-allocated, so their escapiness is irrelevant.\n\nMaybe there are other fields of hiter that we want to have not escape, like buckets, which might point to the stack if the map buckets were stack allocated. But I\u0027m not sure this test helps with that part.\n\nTL;DR maybe we just need to change those tests from \"it does not escape\" to \"leaking param content: it\", which means the hiter itself does not escape, but its fields might. Then we can get rid of the abi.NoEscape calls in this CL.",
+      "parentUuid": "64bbf364_5b4711a3",
+      "revId": "992b84e9bc4062417941d558d420a4d08f9b367e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
