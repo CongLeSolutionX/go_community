@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cc987a6_596a3ae7",
+        "filename": "src/cmd/go/internal/toolchain/exec.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-16T21:14:50Z",
+      "side": 1,
+      "message": "Could we add a space between the `dirContext` and the `(exe)`? I think it would read a little better.",
+      "range": {
+        "startLine": 35,
+        "startChar": 60,
+        "endLine": 35,
+        "endChar": 66
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84c99895_95003c50",
+        "filename": "src/cmd/go/internal/toolchain/exec.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-16T21:14:50Z",
+      "side": 1,
+      "message": "Hm, when dir !\u003d \"\" this prints, for example, `using go1.21.1 toolchain located in (/foo/bar/bin/go)`. I don\u0027t think we should have the parentheses in that case? and maybe it\u0027s more correct to say `located at`?\n\nMaybe when dir !\u003d \"\" we can say that the toolchain is from the cache or is downloaded? (Not quite true when TESTGO_VERSION_SWITCH is \"loop\" or \"mismatch\" but I don\u0027t think we need to special case that)",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 100
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cd39ae4_ea1ca4c3",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-16T21:14:50Z",
+      "side": 1,
+      "message": "I think it would be a little bit easier for us if we could check a bool when deciding to trace.\n\none trick that we use for the \"installgoroot\" and \"#goindex\" godebugs is to do the check once: that would look like\n\n     var traceToolchain \u003d godebug.New(#toolchaintrace\") \u003d\u003d 1\n\nthe \"fuzzdebug\" godebug has an accessor function: that would look like\n\n     var toolchaintrace \u003d godebug.New(\"#toolchaintrace\")\n     \n     func shouldTraceToolchain() { return toolchaintrace \u003d\u003d 1 }\n     \nthen we\u0027d check `traceToolchain` or `shouldTraceToolchain()` in the if statements.\n\nGoing the accessor route allows a change in behavior when the godebug\u0027s value changes, but we shouldn\u0027t be changing the godebug during the execution of the go command.",
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86084e64_b17c79b8",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-16T21:14:50Z",
+      "side": 1,
+      "message": "stray backslash?",
+      "range": {
+        "startLine": 5,
+        "startChar": 67,
+        "endLine": 5,
+        "endChar": 68
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39e872ba_7a32884c",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-16T21:14:50Z",
+      "side": 1,
+      "message": "We should use `env TESTGO_VERSION_SWITCH\u003dswitch` earlier here to avoid go version failing. (and then we can check its value)\n\nWe can switch it back to empty before the test case at line 99 so that we can test the logging of executing a binary in path",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 12
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "009ba472_51be5c46",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-16T21:14:50Z",
+      "side": 1,
+      "message": "`GOTOOLCHAIN` is set to auto by the script test framework, but I think it would still be nice to either explicitly set it or to add a comment mentioning that it\u0027s the default value that\u0027s set by the script test framework.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 115
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe2207e9_01ea0920",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-16T21:14:50Z",
+      "side": 1,
+      "message": "why do we need to re-set this before every test case?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 27
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccec2ae3_21e1ae5c",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-16T21:14:50Z",
+      "side": 1,
+      "message": "we should end the test early if we\u0027re running in short mode since we\u0027re doing a build",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 98
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7dfedb4_dfc78604",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-16T21:14:50Z",
+      "side": 1,
+      "message": "add the check for the `\\($WORK[\\\\/]bin[\\\\/]go1.22.0$GOEXE\\)`",
+      "range": {
+        "startLine": 108,
+        "startChar": 59,
+        "endLine": 108,
+        "endChar": 60
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d156bb8_45a54992",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-16T21:14:50Z",
+      "side": 1,
+      "message": "can we check for the the part of the message that includes the path? Even if we just do `\\(.*\\)`",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 48
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a08a0e2_4273099f",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-16T21:14:50Z",
+      "side": 1,
+      "message": "do we check for the output of this program?",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 0
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
