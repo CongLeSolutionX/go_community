@@ -33,6 +33,74 @@
       "message": "Ping on this. Please let me know if I should split this into two changes. Thanks!",
       "revId": "51b792ea46616601cbf9603e8b6adb1b9522d5df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00979176_f02bfd9e",
+        "filename": "doc/next/6-stdlib/99-minor/archive/66831.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-16T22:24:51Z",
+      "side": 1,
+      "message": "The `(*Writer).AddFS` implementations in both `archive/zip` and `archive/tar` now write a directory header for an empty directory.",
+      "revId": "51b792ea46616601cbf9603e8b6adb1b9522d5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "781b5736_4c37e5b2",
+        "filename": "src/archive/tar/writer_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-16T22:24:51Z",
+      "side": 1,
+      "message": "This formatting change makes this code harder to understand.  Let\u0027s not do this.",
+      "revId": "51b792ea46616601cbf9603e8b6adb1b9522d5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e66e2cd3_79ed0333",
+        "filename": "src/archive/tar/writer_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1345,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-16T22:24:51Z",
+      "side": 1,
+      "message": "I think we need to make sure that the right thing happens with fstest.MapFS if we don\u0027t have a subfolder directory listed.",
+      "revId": "51b792ea46616601cbf9603e8b6adb1b9522d5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc0805ca_f89f846b",
+        "filename": "src/archive/zip/writer_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-16T22:24:51Z",
+      "side": 1,
+      "message": "We shouldn\u0027t need to add an explicit subfolder here.",
+      "revId": "51b792ea46616601cbf9603e8b6adb1b9522d5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
