@@ -1006,66 +1006,150 @@ func (check *Checker) rangeStmt(inner stmtContext, s *syntax.ForStmt, rclause *s
 // If the range clause is not permitted, rangeKeyVal returns ok = false.
 // When ok = false, rangeKeyVal may also return a reason in cause.
 func rangeKeyVal(typ Type, allowVersion func(goVersion) bool) (key, val Type, cause string, ok bool) {
-	bad := func(cause string) (Type, Type, string, bool) {
-		return Typ[Invalid], Typ[Invalid], cause, false
+	var (
+		ntypes int // number of types
+		nkeys  int // number of types that produce a key
+		nvals  int // number of types that produce a value
+	)
+
+	if !underIs(typ, func(u Type) bool {
+		bad := func(s string) bool { cause = s; return false }
+
+		var k, v Type
+		switch u := arrayPtrDeref(u).(type) {
+		case nil:
+			return bad("empty typeset")
+		case *Basic:
+			switch {
+			case isString(u):
+				k, v = Typ[Int], universeRune
+			case isInteger(u):
+				if allowVersion != nil && !allowVersion(go1_22) {
+					return bad("requires go1.22 or later")
+				}
+				k = u // TODO this should be the actual type set element
+			default:
+				return false
+			}
+		case *Array:
+			k, v = Typ[Int], u.elem
+		case *Slice:
+			k, v = Typ[Int], u.elem
+		case *Map:
+			k, v = u.key, u.elem
+		case *Chan:
+			if u.dir == SendOnly {
+				return bad("receive from send-only channel")
+			}
+			k = u.elem
+		case *Signature:
+			if !buildcfg.Experiment.RangeFunc && allowVersion != nil && !allowVersion(go1_23) {
+				return bad("requires go1.23 or later")
+			}
+			// check iterator arity
+			switch {
+			case u.Params().Len() != 1:
+				return bad("func must be func(yield func(...) bool): wrong argument count")
+			case u.Results().Len() != 0:
+				return bad("func must be func(yield func(...) bool): unexpected results")
+			}
+			assert(u.Recv() == nil)
+			// argument must be a function
+			k, v, cause = signatureKeyVal(u.Params().At(0).Type())
+			if cause != "" {
+				return bad("func must be func(yield func(...) bool): " + cause)
+			}
+		default:
+			return false
+		}
+
+		if k != nil && (key == nil || Identical(key, k)) {
+			key = k
+			nkeys++
+		}
+
+		if v != nil && (val == nil || Identical(val, v)) {
+			val = v
+			nvals++
+		}
+
+		ntypes++
+		return true
+	}) {
+		return nil, nil, cause, false
 	}
 
-	orig := typ
-	switch typ := arrayPtrDeref(coreType(typ)).(type) {
-	case nil:
-		return bad("no core type")
-	case *Basic:
-		if isString(typ) {
-			return Typ[Int], universeRune, "", true // use 'rune' name
-		}
-		if isInteger(typ) {
-			if allowVersion != nil && !allowVersion(go1_22) {
-				return bad("requires go1.22 or later")
-			}
-			return orig, nil, "", true
-		}
-	case *Array:
-		return Typ[Int], typ.elem, "", true
-	case *Slice:
-		return Typ[Int], typ.elem, "", true
-	case *Map:
-		return typ.key, typ.elem, "", true
-	case *Chan:
-		if typ.dir == SendOnly {
-			return bad("receive from send-only channel")
-		}
-		return typ.elem, nil, "", true
-	case *Signature:
-		if !buildcfg.Experiment.RangeFunc && allowVersion != nil && !allowVersion(go1_23) {
-			return bad("requires go1.23 or later")
-		}
-		// check iterator arity
-		switch {
-		case typ.Params().Len() != 1:
-			return bad("func must be func(yield func(...) bool): wrong argument count")
-		case typ.Results().Len() != 0:
-			return bad("func must be func(yield func(...) bool): unexpected results")
-		}
-		assert(typ.Recv() == nil)
-		// check iterator argument type
-		cb, _ := coreType(typ.Params().At(0).Type()).(*Signature)
-		switch {
-		case cb == nil:
-			return bad("func must be func(yield func(...) bool): argument is not func")
-		case cb.Params().Len() > 2:
-			return bad("func must be func(yield func(...) bool): yield func has too many parameters")
-		case cb.Results().Len() != 1 || !isBoolean(cb.Results().At(0).Type()):
-			return bad("func must be func(yield func(...) bool): yield func does not return bool")
-		}
-		assert(cb.Recv() == nil)
-		// determine key and value types, if any
-		if cb.Params().Len() >= 1 {
-			key = cb.Params().At(0).Type()
-		}
-		if cb.Params().Len() >= 2 {
-			val = cb.Params().At(1).Type()
-		}
+	// determine shared key and value types, if any
+	assert(ntypes >= nkeys && nkeys >= nvals)
+	switch {
+	case ntypes > nkeys:
+		// not all func set entries have a key or the key types are different
+		return nil, nil, "", true
+	case nkeys > nvals:
+		// not all func set entries have a value or the value types are different
+		return key, nil, "", true
+	default:
 		return key, val, "", true
 	}
-	return
+}
+
+func signatureKeyVal(arg Type) (key, val Type, cause string) {
+	// check iterator argument type
+	var (
+		nfset int // number of func set entries
+		nkeys int // number of func set entries that have a key argument
+		nvals int // number of func set entries that have a value argument
+	)
+
+	if !underIs(arg, func(u Type) bool {
+		bad := func(s string) bool { cause = s; return false }
+
+		sig, _ := u.(*Signature)
+		switch {
+		case sig == nil:
+			return bad("argument is not func")
+		case sig.Params().Len() > 2:
+			return bad("yield func has too many parameters")
+		case sig.Results().Len() != 1 || !isBoolean(sig.Results().At(0).Type()):
+			return bad("yield func does not return bool")
+		}
+		assert(sig.Recv() == nil)
+
+		// determine key and value types, if any
+		n := sig.Params().Len()
+		if n > 0 {
+			k := sig.Params().At(0).Type()
+			if key == nil || Identical(key, k) {
+				key = k
+				nkeys++
+			}
+		}
+
+		if n > 1 {
+			v := sig.Params().At(1).Type()
+			if val == nil || Identical(val, v) {
+				val = v
+				nvals++
+			}
+		}
+
+		nfset++
+		return true
+	}) {
+		return nil, nil, cause
+	}
+
+	// determine shared key and value types, if any
+	assert(nfset >= nkeys && nkeys >= nvals)
+	switch {
+	case nfset > nkeys:
+		// not all func set entries have a key or the key types are different
+		return nil, nil, ""
+	case nkeys > nvals:
+		// not all func set entries have a value or the value types are different
+		return key, nil, ""
+	default:
+		// all entries have key and value arguments of identical types
+		return key, val, ""
+	}
 }

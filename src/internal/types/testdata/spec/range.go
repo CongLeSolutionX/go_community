@@ -130,12 +130,13 @@ func test() {
 }
 
 func _[T int | string](x T) {
-	for range x /* ERROR "cannot range over x (variable of type T constrained by int | string): no core type" */ {
+	for i := range x { // ok to range without value iteration variable
+		_ = i
 	}
 }
 
 func _[T int | int64](x T) {
-	for range x /* ERROR "cannot range over x (variable of type T constrained by int | int64): no core type" */ {
+	for range x { // ok to range without iteration variables
 	}
 }
 
