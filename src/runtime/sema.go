@@ -91,18 +91,30 @@ func sync_runtime_Semrelease(addr *uint32, handoff bool, skipframes int) {
 }
 
 //go:linkname sync_runtime_SemacquireMutex sync.runtime_SemacquireMutex
-func sync_runtime_SemacquireMutex(addr *uint32, lifo bool, skipframes int) {
-	semacquire1(addr, lifo, semaBlockProfile|semaMutexProfile, skipframes, waitReasonSyncMutexLock)
+func sync_runtime_SemacquireMutex(addr *uint32, lifo, synctest bool, skipframes int) {
+	reason := waitReasonSyncMutexLock
+	if synctest {
+		reason = waitReasonSynctestMutexLock
+	}
+	semacquire1(addr, lifo, semaBlockProfile|semaMutexProfile, skipframes, reason)
 }
 
 //go:linkname sync_runtime_SemacquireRWMutexR sync.runtime_SemacquireRWMutexR
-func sync_runtime_SemacquireRWMutexR(addr *uint32, lifo bool, skipframes int) {
-	semacquire1(addr, lifo, semaBlockProfile|semaMutexProfile, skipframes, waitReasonSyncRWMutexRLock)
+func sync_runtime_SemacquireRWMutexR(addr *uint32, lifo, synctest bool, skipframes int) {
+	reason := waitReasonSyncRWMutexRLock
+	if synctest {
+		reason = waitReasonSynctestRWMutexRLock
+	}
+	semacquire1(addr, lifo, semaBlockProfile|semaMutexProfile, skipframes, reason)
 }
 
 //go:linkname sync_runtime_SemacquireRWMutex sync.runtime_SemacquireRWMutex
-func sync_runtime_SemacquireRWMutex(addr *uint32, lifo bool, skipframes int) {
-	semacquire1(addr, lifo, semaBlockProfile|semaMutexProfile, skipframes, waitReasonSyncRWMutexLock)
+func sync_runtime_SemacquireRWMutex(addr *uint32, lifo, synctest bool, skipframes int) {
+	reason := waitReasonSyncRWMutexLock
+	if synctest {
+		reason = waitReasonSynctestRWMutexLock
+	}
+	semacquire1(addr, lifo, semaBlockProfile|semaMutexProfile, skipframes, reason)
 }
 
 //go:linkname poll_runtime_Semrelease internal/poll.runtime_Semrelease

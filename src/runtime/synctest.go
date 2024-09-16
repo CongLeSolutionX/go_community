@@ -112,6 +112,11 @@ func (sg *synctestGroup) raceaddr() unsafe.Pointer {
 	return unsafe.Pointer(sg)
 }
 
+//go:linkname synctestRunning internal/synctest.Running
+func synctestRunning() bool {
+	return getg().syncGroup != nil
+}
+
 //go:linkname synctestRun internal/synctest.Run
 func synctestRun(f func()) {
 	if debug.asynctimerchan.Load() != 0 {

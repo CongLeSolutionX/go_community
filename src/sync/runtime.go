@@ -21,9 +21,9 @@ func runtime_Semacquire(s *uint32)
 // The different forms of this function just tell the runtime how to present
 // the reason for waiting in a backtrace, and is used to compute some metrics.
 // Otherwise they're functionally identical.
-func runtime_SemacquireMutex(s *uint32, lifo bool, skipframes int)
-func runtime_SemacquireRWMutexR(s *uint32, lifo bool, skipframes int)
-func runtime_SemacquireRWMutex(s *uint32, lifo bool, skipframes int)
+func runtime_SemacquireMutex(s *uint32, lifo, synctest bool, skipframes int)
+func runtime_SemacquireRWMutexR(s *uint32, lifo, synctest bool, skipframes int)
+func runtime_SemacquireRWMutex(s *uint32, lifo, synctest bool, skipframes int)
 
 // Semrelease atomically increments *s and notifies a waiting goroutine
 // if one is blocked in Semacquire.

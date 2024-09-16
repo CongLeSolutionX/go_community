@@ -1074,6 +1074,9 @@ const (
 	waitReasonSynctestChanReceive                     // "chan receive (synctest)"
 	waitReasonSynctestChanSend                        // "chan send (synctest)"
 	waitReasonSynctestSelect                          // "select (synctest)"
+	waitReasonSynctestMutexLock                       // "sync.Mutex.Lock (synctest)"
+	waitReasonSynctestRWMutexRLock                    // "sync.RWMutex.RLock (synctest)"
+	waitReasonSynctestRWMutexLock                     // "sync.RWMutex.Lock (synctest)"
 )
 
 var waitReasonStrings = [...]string{
@@ -1119,6 +1122,9 @@ var waitReasonStrings = [...]string{
 	waitReasonSynctestChanReceive:   "chan receive (synctest)",
 	waitReasonSynctestChanSend:      "chan send (synctest)",
 	waitReasonSynctestSelect:        "select (synctest)",
+	waitReasonSynctestMutexLock:     "sync.Mutex.Lock (synctest)",
+	waitReasonSynctestRWMutexRLock:  "sync.RWMutex.RLock (synctest)",
+	waitReasonSynctestRWMutexLock:   "sync.RWMutex.Lock (synctest)",
 }
 
 func (w waitReason) String() string {
@@ -1131,7 +1137,10 @@ func (w waitReason) String() string {
 func (w waitReason) isMutexWait() bool {
 	return w == waitReasonSyncMutexLock ||
 		w == waitReasonSyncRWMutexRLock ||
-		w == waitReasonSyncRWMutexLock
+		w == waitReasonSyncRWMutexLock ||
+		w == waitReasonSynctestMutexLock ||
+		w == waitReasonSynctestRWMutexRLock ||
+		w == waitReasonSynctestRWMutexLock
 }
 
 func (w waitReason) isWaitingForGC() bool {
@@ -1163,18 +1172,21 @@ func (w waitReason) isIdleInSynctest() bool {
 
 // isIdleInSynctest indicates that a goroutine is considered idle by synctest.Wait.
 var isIdleInSynctest = [len(waitReasonStrings)]bool{
-	waitReasonChanReceiveNilChan:  true,
-	waitReasonChanSendNilChan:     true,
-	waitReasonSelectNoCases:       true,
-	waitReasonSemacquire:          true,
-	waitReasonSleep:               true,
-	waitReasonSyncCondWait:        true,
-	waitReasonCoroutine:           true,
-	waitReasonSynctestRun:         true,
-	waitReasonSynctestWait:        true,
-	waitReasonSynctestChanReceive: true,
-	waitReasonSynctestChanSend:    true,
-	waitReasonSynctestSelect:      true,
+	waitReasonChanReceiveNilChan:   true,
+	waitReasonChanSendNilChan:      true,
+	waitReasonSelectNoCases:        true,
+	waitReasonSemacquire:           true,
+	waitReasonSleep:                true,
+	waitReasonSyncCondWait:         true,
+	waitReasonCoroutine:            true,
+	waitReasonSynctestRun:          true,
+	waitReasonSynctestWait:         true,
+	waitReasonSynctestChanReceive:  true,
+	waitReasonSynctestChanSend:     true,
+	waitReasonSynctestSelect:       true,
+	waitReasonSynctestMutexLock:    true,
+	waitReasonSynctestRWMutexRLock: true,
+	waitReasonSynctestRWMutexLock:  true,
 }
 
 var (

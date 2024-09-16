@@ -12,6 +12,7 @@ package sync
 
 import (
 	"internal/race"
+	"internal/synctest"
 	"sync/atomic"
 	"unsafe"
 )
@@ -48,6 +49,7 @@ const (
 	mutexLocked = 1 << iota // mutex is locked
 	mutexWoken
 	mutexStarving
+	mutexSynctest
 	mutexWaiterShift = iota
 
 	// Mutex fairness.
@@ -81,8 +83,12 @@ const (
 // If the lock is already in use, the calling goroutine
 // blocks until the mutex is available.
 func (m *Mutex) Lock() {
+	bit := int32(mutexLocked)
+	if synctest.Running() {
+		bit |= mutexSynctest
+	}
 	// Fast path: grab unlocked mutex.
-	if atomic.CompareAndSwapInt32(&m.state, 0, mutexLocked) {
+	if atomic.CompareAndSwapInt32(&m.state, 0, bit) {
 		if race.Enabled {
 			race.Acquire(unsafe.Pointer(m))
 		}
@@ -106,7 +112,11 @@ func (m *Mutex) TryLock() bool {
 	// There may be a goroutine waiting for the mutex, but we are
 	// running now and can try to grab the mutex before that
 	// goroutine wakes up.
-	if !atomic.CompareAndSwapInt32(&m.state, old, old|mutexLocked) {
+	bit := int32(mutexLocked)
+	if synctest.Running() {
+		bit |= mutexSynctest
+	}
+	if !atomic.CompareAndSwapInt32(&m.state, old, old|bit) {
 		return false
 	}
 
@@ -122,6 +132,10 @@ func (m *Mutex) lockSlow() {
 	awoke := false
 	iter := 0
 	old := m.state
+	lockedBits := int32(mutexLocked)
+	if synctest.Running() {
+		lockedBits |= mutexSynctest
+	}
 	for {
 		// Don't spin in starvation mode, ownership is handed off to waiters
 		// so we won't be able to acquire the mutex anyway.
@@ -140,8 +154,8 @@ func (m *Mutex) lockSlow() {
 		}
 		new := old
 		// Don't try to acquire starving mutex, new arriving goroutines must queue.
-		if old&mutexStarving == 0 {
-			new |= mutexLocked
+		if old&(mutexLocked|mutexStarving) == 0 {
+			new |= lockedBits
 		}
 		if old&(mutexLocked|mutexStarving) != 0 {
 			new += 1 << mutexWaiterShift
@@ -170,7 +184,7 @@ func (m *Mutex) lockSlow() {
 			if waitStartTime == 0 {
 				waitStartTime = runtime_nanotime()
 			}
-			runtime_SemacquireMutex(&m.sema, queueLifo, 1)
+			runtime_SemacquireMutex(&m.sema, queueLifo, old&mutexSynctest != 0, 1)
 			starving = starving || runtime_nanotime()-waitStartTime > starvationThresholdNs
 			old = m.state
 			if old&mutexStarving != 0 {
@@ -178,10 +192,10 @@ func (m *Mutex) lockSlow() {
 				// ownership was handed off to us but mutex is in somewhat
 				// inconsistent state: mutexLocked is not set and we are still
 				// accounted as waiter. Fix that.
-				if old&(mutexLocked|mutexWoken) != 0 || old>>mutexWaiterShift == 0 {
+				if old&(mutexLocked|mutexSynctest|mutexWoken) != 0 || old>>mutexWaiterShift == 0 {
 					throw("sync: inconsistent mutex state")
 				}
-				delta := int32(mutexLocked - 1<<mutexWaiterShift)
+				delta := int32(lockedBits - 1<<mutexWaiterShift)
 				if !starving || old>>mutexWaiterShift == 1 {
 					// Exit starvation mode.
 					// Critical to do it here and consider wait time.
@@ -217,8 +231,13 @@ func (m *Mutex) Unlock() {
 		race.Release(unsafe.Pointer(m))
 	}
 
+	bit := int32(mutexLocked)
+	if synctest.Running() {
+		bit |= mutexSynctest
+	}
+
 	// Fast path: drop lock bit.
-	new := atomic.AddInt32(&m.state, -mutexLocked)
+	new := atomic.AddInt32(&m.state, -bit)
 	if new != 0 {
 		// Outlined slow path to allow inlining the fast path.
 		// To hide unlockSlow during tracing we skip one extra frame when tracing GoUnblock.
@@ -227,8 +246,15 @@ func (m *Mutex) Unlock() {
 }
 
 func (m *Mutex) unlockSlow(new int32) {
-	if (new+mutexLocked)&mutexLocked == 0 {
+	bit := int32(mutexLocked)
+	if synctest.Running() {
+		bit |= mutexSynctest
+	}
+	if (new+bit)&mutexLocked == 0 {
 		fatal("sync: unlock of unlocked mutex")
+	}
+	if synctest.Running() != ((new+bit)&mutexSynctest != 0) {
+		fatal("sync: unlocked mutex crossed synctest bubble boundary")
 	}
 	if new&mutexStarving == 0 {
 		old := new

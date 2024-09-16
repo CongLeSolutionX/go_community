@@ -52,3 +52,6 @@ func Run(f func())
 //
 //go:linkname Wait
 func Wait()
+
+//go:linkname Running
+func Running() bool
