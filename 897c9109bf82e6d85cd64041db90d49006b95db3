@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f96b5d91_2e2085df",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-16T21:59:57Z",
+      "side": 1,
+      "message": "} else if net.ParseIP(dtext).To4() \u003d\u003d nil {",
+      "revId": "897c9109bf82e6d85cd64041db90d49006b95db3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "452d8c61_89ccfabc",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-16T21:59:57Z",
+      "side": 1,
+      "message": "This comment seems misplaced now.",
+      "revId": "897c9109bf82e6d85cd64041db90d49006b95db3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
