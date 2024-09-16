@@ -6679,8 +6679,7 @@ RangeClause = [ ExpressionList "=" | IdentifierList ":=" ] "range" Expression .
 
 <p>
 The expression on the right in the "range" clause is called the <i>range expression</i>,
-its <a href="#Core_types">core type</a> must be
-an array, pointer to an array, slice, string, map, channel permitting
+which may be an array, pointer to an array, slice, string, map, channel permitting
 <a href="#Receive_operator">receive operations</a>, an integer, or
 a function with specific signature (see below).
 As with an assignment, if present the operands on the left must be
@@ -6787,6 +6786,13 @@ If the loop body terminates (such as by a <code>break</code> statement),
 <code>yield</code> returns false and must not be called again.
 </li>
 </ol>
+
+<p>
+If the type of the range expression is a
+<a href="#Type_parameter_declarations">type parameter</a>, the number of iteration
+variables available in the range clause depends on the types in the type parameter's
+type set as follows: TODO(gri) complete
+</p>
 
 <p>
 The iteration variables may be declared by the "range" clause using a form of
