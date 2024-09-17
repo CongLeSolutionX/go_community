@@ -237,6 +237,7 @@ func depthToShift(depth uint32) uint32 {
 func NewMap(mt *abi.SwissMapType, capacity uint64) *Map {
 	// Increase initial capacity to hold capacity entries without growing
 	// in the average case.
+	// TODO: don't increase <8 to >8
 	targetCapacity := (capacity * abi.SwissMapGroupSlots) / maxAvgGroupLoad
 
 	if targetCapacity < abi.SwissMapGroupSlots {
@@ -438,6 +439,9 @@ func (m *Map) getWithKeySmall(hash uintptr, key unsafe.Pointer) (unsafe.Pointer,
 		//i := match.first()
 
 		slotKey := g.key(m.typ, i)
+		if m.typ.IndirectKey() {
+			slotKey = *((*unsafe.Pointer)(slotKey))
+		}
 		//slotKey := unsafe.Pointer(uintptr(g.data) + slotOffset)
 //		if m.typ.Key.Size() == 16 && m.typ.Key.Kind() == abi.Struct {
 //			//if runtime_memequal128(key, slotKey) {
@@ -445,7 +449,11 @@ func (m *Map) getWithKeySmall(hash uintptr, key unsafe.Pointer) (unsafe.Pointer,
 //				return slotKey, g.elem(i), true
 //			}
 		if m.typ.Key.Equal(key, slotKey) {//&& (g.ctrls().get(i) & ctrlEmpty) != ctrlEmpty {
-			return slotKey, g.elem(m.typ, i), true
+			slotElem := g.elem(m.typ, i)
+			if m.typ.IndirectElem() {
+				slotElem = *((*unsafe.Pointer)(slotElem))
+			}
+			return slotKey, slotElem, true
 			//return slotKey, unsafe.Pointer(uintptr(slotKey) + g.typ.ElemOff), true
 		}
 		//match = match.removeFirst()
@@ -516,12 +524,18 @@ func (m *Map) putSlotSmall(hash uintptr, key unsafe.Pointer) unsafe.Pointer {
 		i := match.first()
 
 		slotKey := g.key(m.typ, i)
+		if m.typ.IndirectKey() {
+			slotKey = *((*unsafe.Pointer)(slotKey))
+		}
 		if m.typ.Key.Equal(key, slotKey) {
 			if m.typ.NeedKeyUpdate() {
 				typedmemmove(m.typ.Key, slotKey, key)
 			}
 
 			slotElem := g.elem(m.typ, i)
+			if m.typ.IndirectElem() {
+				slotElem = *((*unsafe.Pointer)(slotElem))
+			}
 
 			return slotElem
 		}
@@ -535,8 +549,19 @@ func (m *Map) putSlotSmall(hash uintptr, key unsafe.Pointer) unsafe.Pointer {
 		i := match.first()
 
 		slotKey := g.key(m.typ, i)
+		if m.typ.IndirectKey() {
+			kmem := newobject(m.typ.Key)
+			*(*unsafe.Pointer)(slotKey) = kmem
+			slotKey = kmem
+		}
 		typedmemmove(m.typ.Key, slotKey, key)
+
 		slotElem := g.elem(m.typ, i)
+		if m.typ.IndirectElem() {
+			emem := newobject(m.typ.Elem)
+			*(*unsafe.Pointer)(slotElem) = emem
+			slotElem = emem
+		}
 
 		g.ctrls().set(i, ctrl(h2(hash)))
 		m.dirLen++
@@ -560,9 +585,23 @@ func (m *Map) growToTable() {
 			// Empty or deleted
 			continue
 		}
+
 		key := g.key(m.typ, i)
+		if m.typ.IndirectKey() {
+			key = *((*unsafe.Pointer)(key))
+		}
+
 		elem := g.elem(m.typ, i)
+		if m.typ.IndirectElem() {
+			elem = *((*unsafe.Pointer)(elem))
+		}
+
 		hash := tab.typ.Hasher(key, m.seed)
+
+		// TODO(prattmic): For indirect key/elem, this is
+		// allocating new objects for key/elem. That is
+		// unnecessary; the new table could simply point to the
+		// existing object.
 		slotElem := tab.uncheckedPutSlot(hash, key)
 		typedmemmove(tab.typ.Elem, slotElem, elem)
 		tab.used++
@@ -611,11 +650,19 @@ func (m *Map) deleteSmall(hash uintptr, key unsafe.Pointer) {
 	for match != 0 {
 		i := match.first()
 		slotKey := g.key(m.typ, i)
+		if m.typ.IndirectKey() {
+			slotKey = *((*unsafe.Pointer)(slotKey))
+		}
 		if m.typ.Key.Equal(key, slotKey) {
 			m.used--
 
 			typedmemclr(m.typ.Key, slotKey)
-			typedmemclr(m.typ.Elem, g.elem(m.typ, i))
+
+			slotElem := g.elem(m.typ, i)
+			if m.typ.IndirectElem() {
+				slotElem = *((*unsafe.Pointer)(slotElem))
+			}
+			typedmemclr(m.typ.Elem, slotElem)
 
 			// We only have 1 group, so it is OK to immediately
 			// reuse deleted slots.

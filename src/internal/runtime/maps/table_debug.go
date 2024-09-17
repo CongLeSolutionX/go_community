@@ -35,6 +35,9 @@ func (t *table) checkInvariants() {
 				used++
 
 				key := g.key(t.typ, j)
+				if t.typ.IndirectKey() {
+					key = *((*unsafe.Pointer)(key))
+				}
 
 				// Can't lookup NaN.
 				if isNaN(t.typ.Key, key) {
