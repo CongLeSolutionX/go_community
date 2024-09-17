@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "349e95b7_7e5d027b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-17T20:42:31Z",
+      "side": 1,
+      "message": "Let\u0027s think about the dual print.",
+      "revId": "02e10d0530e083509b06a9eaa369106cb3893884",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
