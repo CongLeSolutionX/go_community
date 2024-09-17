@@ -83,6 +83,9 @@ var depsRules = `
 	< internal/stringslite
 	< internal/itoa
 	< internal/unsafeheader
+	< internal/race
+	< internal/msan
+	< internal/asan
 	< internal/runtime/sys
 	< internal/runtime/syscall
 	< internal/runtime/atomic
@@ -91,9 +94,6 @@ var depsRules = `
 	< internal/runtime/math
 	< runtime
 	< sync/atomic
-	< internal/race
-	< internal/msan
-	< internal/asan
 	< internal/weak
 	< sync
 	< internal/bisect
@@ -102,7 +102,7 @@ var depsRules = `
 	< errors
 	< internal/oserror;
 
-	cmp, internal/race, math/bits
+	cmp, runtime, math/bits
 	< iter
 	< maps, slices;
 
