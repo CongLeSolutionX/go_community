@@ -338,6 +338,24 @@
       ],
       "revId": "06e777689882bf1be4479a83599133486ca36e25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5b6a206_2ffdc661",
+        "filename": "src/cmd/cgo/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2212,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-09-17T19:22:01Z",
+      "side": 1,
+      "message": "See https://go.dev/cl/613082, I could roll it into this one but for purposes of \"is it good?\" I think it might be worth its own review.",
+      "parentUuid": "69a35269_e35d1138",
+      "revId": "06e777689882bf1be4479a83599133486ca36e25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
