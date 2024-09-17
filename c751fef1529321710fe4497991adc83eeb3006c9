@@ -129,6 +129,30 @@
       },
       "revId": "c751fef1529321710fe4497991adc83eeb3006c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22a92b09_c4815553",
+        "filename": "src/cmd/go/testdata/script/list_pkgconfig_error.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-17T14:34:09Z",
+      "side": 1,
+      "message": "Could we fit this into one regular expression for the line and just use `|` or `.*` for the parts that differ?",
+      "parentUuid": "cf4dfb0a_02d8b170",
+      "range": {
+        "startLine": 5,
+        "startChar": 6,
+        "endLine": 5,
+        "endChar": 7
+      },
+      "revId": "c751fef1529321710fe4497991adc83eeb3006c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
