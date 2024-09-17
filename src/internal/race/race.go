@@ -7,6 +7,7 @@
 package race
 
 import (
+	"internal/abi"
 	"unsafe"
 )
 
@@ -32,8 +33,14 @@ func Enable()
 //go:linkname Read
 func Read(addr unsafe.Pointer)
 
+//go:linkname ReadObjectPC
+func ReadObjectPC(t *abi.Type, addr unsafe.Pointer, callerpc, pc uintptr)
+
 //go:linkname Write
 func Write(addr unsafe.Pointer)
+
+//go:linkname WriteObjectPC
+func WriteObjectPC(t *abi.Type, addr unsafe.Pointer, callerpc, pc uintptr)
 
 //go:linkname ReadRange
 func ReadRange(addr unsafe.Pointer, len int)
