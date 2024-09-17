@@ -6,6 +6,7 @@ package ssa
 
 import (
 	"cmd/compile/internal/base"
+	"fmt"
 )
 
 // layout orders basic blocks in f with the goal of minimizing control flow instructions.
@@ -20,6 +21,7 @@ func layoutPGO(f *Func) {
 	if base.Flag.PgoBb != 1 {
 		return
 	}
+	fmt.Println("Inside PGOBB")
 	f.Blocks = layoutOrder(f, true)
 }
 
