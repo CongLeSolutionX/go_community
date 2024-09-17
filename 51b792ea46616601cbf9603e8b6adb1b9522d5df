@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b416e731_be3bbafa",
+        "filename": "doc/next/6-stdlib/99-minor/archive/66831.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5721
+      },
+      "writtenOn": "2024-09-17T03:55:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00979176_f02bfd9e",
+      "revId": "51b792ea46616601cbf9603e8b6adb1b9522d5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "781b5736_4c37e5b2",
@@ -65,6 +83,24 @@
       "writtenOn": "2024-09-16T22:24:51Z",
       "side": 1,
       "message": "This formatting change makes this code harder to understand.  Let\u0027s not do this.",
+      "revId": "51b792ea46616601cbf9603e8b6adb1b9522d5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "956fab54_fd204174",
+        "filename": "src/archive/tar/writer_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 5721
+      },
+      "writtenOn": "2024-09-17T03:55:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "781b5736_4c37e5b2",
       "revId": "51b792ea46616601cbf9603e8b6adb1b9522d5df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +122,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "557537ce_8c71c9d0",
+        "filename": "src/archive/tar/writer_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1345,
+      "author": {
+        "id": 5721
+      },
+      "writtenOn": "2024-09-17T03:55:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e66e2cd3_79ed0333",
+      "revId": "51b792ea46616601cbf9603e8b6adb1b9522d5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc0805ca_f89f846b",
@@ -99,6 +153,24 @@
       "writtenOn": "2024-09-16T22:24:51Z",
       "side": 1,
       "message": "We shouldn\u0027t need to add an explicit subfolder here.",
+      "revId": "51b792ea46616601cbf9603e8b6adb1b9522d5df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de596bf5_85699e35",
+        "filename": "src/archive/zip/writer_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 5721
+      },
+      "writtenOn": "2024-09-17T03:55:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc0805ca_f89f846b",
       "revId": "51b792ea46616601cbf9603e8b6adb1b9522d5df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
