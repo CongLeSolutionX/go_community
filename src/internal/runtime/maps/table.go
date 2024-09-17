@@ -217,12 +217,23 @@ func (t *table) getWithKey(typ *abi.SwissMapType, hash uintptr, key unsafe.Point
 			i := match.first()
 
 			slotKey := g.key(typ, i)
+			if typ.IndirectKey() {
+				slotKey = *((*unsafe.Pointer)(slotKey))
+			}
 			if typ.Key.Kind() == abi.Int32 {
 				if *(*int32)(key) == *(*int32)(slotKey) {
-					return slotKey, g.elem(typ, i), true
+					slotElem := g.elem(typ, i)
+					if typ.IndirectElem() {
+						slotElem = *((*unsafe.Pointer)(slotElem))
+					}
+					return slotKey, slotElem, true
 				}
 			} else if typ.Key.Equal(key, slotKey) {
-				return slotKey, g.elem(typ, i), true
+				slotElem := g.elem(typ, i)
+				if typ.IndirectElem() {
+					slotElem = *((*unsafe.Pointer)(slotElem))
+				}
+				return slotKey, slotElem, true
 			}
 			match = match.removeFirst()
 		}
@@ -247,12 +258,23 @@ func (t *table) getWithoutKey(typ *abi.SwissMapType, hash uintptr, key unsafe.Po
 			i := match.first()
 
 			slotKey := g.key(typ, i)
+			if typ.IndirectKey() {
+				slotKey = *((*unsafe.Pointer)(slotKey))
+			}
 			if typ.Key.Kind() == abi.Int32 {
 				if *(*int32)(key) == *(*int32)(slotKey) {
-					return g.elem(typ, i), true
+					slotElem := g.elem(typ, i)
+					if typ.IndirectElem() {
+						slotElem = *((*unsafe.Pointer)(slotElem))
+					}
+					return slotElem, true
 				}
 			} else if typ.Key.Equal(key, slotKey) {
-				return g.elem(typ, i), true
+				slotElem := g.elem(typ, i)
+				if typ.IndirectElem() {
+					slotElem = *((*unsafe.Pointer)(slotElem))
+				}
+				return slotElem, true
 			}
 			match = match.removeFirst()
 		}
@@ -290,12 +312,18 @@ func (t *table) PutSlot(m *Map, hash uintptr, key unsafe.Pointer) (unsafe.Pointe
 			i := match.first()
 
 			slotKey := g.key(m.typ, i)
+			if t.typ.IndirectKey() {
+				slotKey = *((*unsafe.Pointer)(slotKey))
+			}
 			if t.typ.Key.Equal(key, slotKey) {
 				if t.typ.NeedKeyUpdate() {
 					typedmemmove(t.typ.Key, slotKey, key)
 				}
 
 				slotElem := g.elem(m.typ, i)
+				if t.typ.IndirectElem() {
+					slotElem = *((*unsafe.Pointer)(slotElem))
+				}
 
 				t.checkInvariants()
 				return slotElem, true
@@ -340,8 +368,19 @@ func (t *table) PutSlot(m *Map, hash uintptr, key unsafe.Pointer) (unsafe.Pointe
 			// If there is room left to grow, just insert the new entry.
 			if t.growthLeft > 0 {
 				slotKey := g.key(m.typ, i)
+				if t.typ.IndirectKey() {
+					kmem := newobject(t.typ.Key)
+					*(*unsafe.Pointer)(slotKey) = kmem
+					slotKey = kmem
+				}
 				typedmemmove(t.typ.Key, slotKey, key)
+
 				slotElem := g.elem(m.typ, i)
+				if t.typ.IndirectElem() {
+					emem := newobject(t.typ.Elem)
+					*(*unsafe.Pointer)(slotElem) = emem
+					slotElem = emem
+				}
 
 				g.ctrls().set(i, ctrl(h2(hash)))
 				t.growthLeft--
@@ -387,8 +426,19 @@ func (t *table) uncheckedPutSlot(hash uintptr, key unsafe.Pointer) unsafe.Pointe
 			i := match.first()
 
 			slotKey := g.key(t.typ, i)
+			if t.typ.IndirectKey() {
+				kmem := newobject(t.typ.Key)
+				*(*unsafe.Pointer)(slotKey) = kmem
+				slotKey = kmem
+			}
 			typedmemmove(t.typ.Key, slotKey, key)
+
 			slotElem := g.elem(t.typ, i)
+			if t.typ.IndirectElem() {
+				emem := newobject(t.typ.Elem)
+				*(*unsafe.Pointer)(slotElem) = emem
+				slotElem = emem
+			}
 
 			if g.ctrls().get(i) == ctrlEmpty {
 				t.growthLeft--
@@ -409,13 +459,24 @@ func (t *table) Delete(m *Map, key unsafe.Pointer) {
 
 		for match != 0 {
 			i := match.first()
+
 			slotKey := g.key(t.typ, i)
+			if t.typ.IndirectKey() {
+				slotKey = *((*unsafe.Pointer)(slotKey))
+			}
+
 			if t.typ.Key.Equal(key, slotKey) {
 				t.used--
 				m.used--
 
+				// XXX: For indirect key/elem, clear pointer not value
 				typedmemclr(t.typ.Key, slotKey)
-				typedmemclr(t.typ.Elem, g.elem(t.typ, i))
+
+				slotElem := g.elem(t.typ, i)
+				if t.typ.IndirectElem() {
+					slotElem = *((*unsafe.Pointer)(slotElem))
+				}
+				typedmemclr(t.typ.Elem, slotElem)
 
 				// Only a full group can appear in the middle
 				// of a probe sequence (a group with at least
@@ -588,6 +649,9 @@ func (it *Iter) Next() {
 			}
 
 			key := g.key(it.m.typ, k)
+			if it.m.typ.IndirectKey() {
+				key = *((*unsafe.Pointer)(key))
+			}
 
 			// As below, if we have grown to a full map since Init,
 			// we continue to use the old group to decide the keys
@@ -602,6 +666,9 @@ func (it *Iter) Next() {
 					// See comment below.
 					if it.clearSeq == it.m.clearSeq && !it.m.typ.Key.Equal(key, key) {
 						elem = g.elem(it.m.typ, k)
+						if it.m.typ.IndirectElem() {
+							elem = *((*unsafe.Pointer)(elem))
+						}
 					} else {
 						continue
 					}
@@ -611,6 +678,9 @@ func (it *Iter) Next() {
 				}
 			} else {
 				elem = g.elem(it.m.typ, k)
+				if it.m.typ.IndirectElem() {
+					elem = *((*unsafe.Pointer)(elem))
+				}
 			}
 
 			it.entryIdx++
@@ -703,6 +773,9 @@ func (it *Iter) Next() {
 			}
 
 			key := g.key(it.m.typ, slotIdx)
+			if it.m.typ.IndirectKey() {
+				key = *((*unsafe.Pointer)(key))
+			}
 
 			// If the table has changed since the last
 			// call, then it has grown or split. In this
@@ -746,6 +819,9 @@ func (it *Iter) Next() {
 					// clear.
 					if it.clearSeq == it.m.clearSeq && !it.m.typ.Key.Equal(key, key) {
 						elem = g.elem(it.m.typ, slotIdx)
+						if it.m.typ.IndirectElem() {
+							elem = *((*unsafe.Pointer)(elem))
+						}
 					} else {
 						continue
 					}
@@ -755,6 +831,9 @@ func (it *Iter) Next() {
 				}
 			} else {
 				elem = g.elem(it.m.typ, slotIdx)
+				if it.m.typ.IndirectElem() {
+					elem = *((*unsafe.Pointer)(elem))
+				}
 			}
 
 			it.entryIdx++
@@ -839,8 +918,17 @@ func (t *table) split(m *Map) {
 				// Empty or deleted
 				continue
 			}
+
 			key := g.key(t.typ, j)
+			if t.typ.IndirectKey() {
+				key = *((*unsafe.Pointer)(key))
+			}
+
 			elem := g.elem(t.typ, j)
+			if t.typ.IndirectElem() {
+				elem = *((*unsafe.Pointer)(elem))
+			}
+
 			hash := t.typ.Hasher(key, t.seed)
 			var newTable *table
 			if hash&mask == 0 {
@@ -848,6 +936,10 @@ func (t *table) split(m *Map) {
 			} else {
 				newTable = right
 			}
+			// TODO(prattmic): For indirect key/elem, this is
+			// allocating new objects for key/elem. That is
+			// unnecessary; the new table could simply point to the
+			// existing object.
 			slotElem := newTable.uncheckedPutSlot(hash, key)
 			typedmemmove(newTable.typ.Elem, slotElem, elem)
 			newTable.used++
@@ -872,9 +964,23 @@ func (t *table) grow(m *Map, newCapacity uint64) {
 					// Empty or deleted
 					continue
 				}
+
 				key := g.key(t.typ, j)
+				if t.typ.IndirectKey() {
+					key = *((*unsafe.Pointer)(key))
+				}
+
 				elem := g.elem(t.typ, j)
+				if t.typ.IndirectElem() {
+					elem = *((*unsafe.Pointer)(elem))
+				}
+
 				hash := newTable.typ.Hasher(key, t.seed)
+
+				// TODO(prattmic): For indirect key/elem, this is
+				// allocating new objects for key/elem. That is
+				// unnecessary; the new table could simply point to the
+				// existing object.
 				slotElem := newTable.uncheckedPutSlot(hash, key)
 				typedmemmove(newTable.typ.Elem, slotElem, elem)
 				newTable.used++

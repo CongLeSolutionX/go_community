@@ -22,3 +22,6 @@ func typedmemclr(typ *abi.Type, ptr unsafe.Pointer)
 
 //go:linkname newarray
 func newarray(typ *abi.Type, n int) unsafe.Pointer
+
+//go:linkname newobject
+func newobject(typ *abi.Type) unsafe.Pointer

@@ -625,3 +625,44 @@ func TestMapZeroSizeSlot(t *testing.T) {
 		t.Errorf("elem address outside groups allocation; got %p want [%p, %p]", got, start, end)
 	}
 }
+
+func TestMapIndirect(t *testing.T) {
+	type big [abi.SwissMapMaxKeyBytes + abi.SwissMapMaxElemBytes]byte
+
+	m, _ := maps.NewTestMap[big, big](8)
+
+	key := big{}
+	elem := big{}
+	elem[0] = 128
+
+	for i := 0; i < 31; i++ {
+		key[0] += 1
+		elem[0] += 1
+		m.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+
+		if maps.DebugLog {
+			fmt.Printf("After put %d: %v\n", key, m)
+		}
+	}
+
+	if m.Used() != 31 {
+		t.Errorf("Used() used got %d want 31", m.Used())
+	}
+
+	key = big{}
+	elem = big{}
+	elem[0] = 128
+
+	for i := 0; i < 31; i++ {
+		key[0] += 1
+		elem[0] += 1
+		got, ok := m.Get(m.Type(), unsafe.Pointer(&key))
+		if !ok {
+			t.Errorf("Get(%d) got ok false want true", key)
+		}
+		gotElem := *(*big)(got)
+		if gotElem != elem {
+			t.Errorf("Get(%d) got elem %d want %d", key, gotElem, elem)
+		}
+	}
+}

@@ -81,7 +81,11 @@ func (m *Map) KeyFromFullGroup() unsafe.Pointer {
 				if g.ctrls().get(j) == ctrlDeleted {
 					continue
 				}
-				return g.key(m.typ, j)
+				slotKey := g.key(m.typ, j)
+				if m.typ.IndirectKey() {
+					slotKey = *((*unsafe.Pointer)(slotKey))
+				}
+				return slotKey
 			}
 		}
 	}
