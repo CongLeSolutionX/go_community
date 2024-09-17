@@ -413,6 +413,7 @@ func (ctxt *Link) traverseSyms(flag traverseFlag, fn func(*LSym)) {
 				fnNoNil(fi.Pcsp)
 				fnNoNil(fi.Pcfile)
 				fnNoNil(fi.Pcline)
+				fnNoNil(fi.Pcdisc)
 				fnNoNil(fi.Pcinline)
 				for _, d := range fi.Pcdata {
 					fnNoNil(d)

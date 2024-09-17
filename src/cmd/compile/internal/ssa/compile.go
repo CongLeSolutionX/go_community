@@ -457,7 +457,7 @@ commas. For example:
 var passes = [...]pass{
 	// TODO: combine phielim and copyelim into a single pass?
 	{name: "number lines", fn: numberLines, required: true},
-	//{name: "prof prop", fn: freqPropagate, required: true},
+	// {name: "prof prop", fn: freqPropagate, required: true},
 	{name: "early phielim", fn: phielim},
 	{name: "early copyelim", fn: copyelim},
 	{name: "early deadcode", fn: deadcode}, // remove generated dead code to avoid doing pointless work during opt

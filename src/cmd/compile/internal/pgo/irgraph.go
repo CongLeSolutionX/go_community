@@ -191,6 +191,10 @@ func New(profileFile string) (*Profile, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error processing pprof PGO profile: %w", err)
 	}
+	// fmt.Println("Printing NodeWeightMap...")
+	// for k, v := range profile.NodeWeightMap.Weight {
+	// 	fmt.Printf("Function: %s = %v\n", k, v)
+	// }
 	profile.updateFuncProf()
 	return profile, nil
 
@@ -433,7 +437,7 @@ func createNodeWeightMap(g *profile.Graph) (nodeWeightMap NodeWeightMap) {
 	nodeWeightMap.Weight = make(map[string]map[int64]int64)
 	for _, n := range g.Nodes {
 		canonicalName := n.Info.Name
-		columnno := int64(0) //int64(n.Info.Columnno)
+		columnno := int64(n.Info.Columnno)
 		if _, ok := nodeWeightMap.Weight[canonicalName]; ok {
 			nodeWeightMap.Weight[canonicalName][columnno] += n.FlatValue()
 		} else {

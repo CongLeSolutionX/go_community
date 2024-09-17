@@ -7017,6 +7017,11 @@ func (s *State) SetPos(pos src.XPos) {
 	s.pp.Pos = pos
 }
 
+// SetDisc sets the current source discriminator.
+func (s *State) SetDisc(d int64) {
+	s.pp.Disc = d
+}
+
 // Br emits a single branch instruction and returns the instruction.
 // Not all architectures need the returned instruction, but otherwise
 // the boilerplate is common to all.
@@ -7299,6 +7304,15 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 		s.bstart[b.ID] = s.pp.Next
 		s.lineRunStart = nil
 		s.SetPos(s.pp.Pos.WithNotStmt()) // It needs a non-empty Pos, but cannot be a statement boundary (yet).
+
+		// Use the basic block ID as discriminator. This is simple and
+		// obviously discriminates basic blocks.
+		//
+		// We may eventually want something more complex. e.g., this
+		// ends up in the pprof Column field. It would be nice if we
+		// could use the actual column if that was unique to a single
+		// basic block. N.B., column is available at Pos.Col().
+		s.SetDisc(int64(b.ID))
 
 		if idx, ok := argLiveBlockMap[b.ID]; ok && idx != argLiveIdx {
 			argLiveIdx = idx
@@ -7617,7 +7631,7 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 			} else {
 				s = "   " // most value and branch strings are 2-3 characters long
 			}
-			f.Logf(" %-6s\t%.5d (%s)\t%s\n", s, p.Pc, p.InnermostLineNumber(), p.InstructionString())
+			f.Logf(" %-6s\t%.5d (%s, %d)\t%s\n", s, p.Pc, p.InnermostLineNumber(), p.Disc, p.InstructionString())
 		}
 	}
 	if f.HTMLWriter != nil { // spew to ssa.html

@@ -20,6 +20,7 @@ func layoutPGO(f *Func) {
 	if base.Flag.PgoBb != 1 {
 		return
 	}
+	// fmt.Println("Inside PGOBB")
 	f.Blocks = layoutOrder(f, true)
 }
 
