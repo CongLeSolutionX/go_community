@@ -201,6 +201,30 @@
       },
       "revId": "c751fef1529321710fe4497991adc83eeb3006c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b334e708_a8068e24",
+        "filename": "src/cmd/go/testdata/script/list_pkgconfig_error.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-09-17T15:37:22Z",
+      "side": 1,
+      "message": "In my machine, I got\n```\nscript_test.go:159:\n            \u003e [!cgo] skip \u0027test verifies cgo pkg-config errors\u0027\n            [condition not met]\n            \u003e [!exec:pkg-config] skip \u0027test requires pkg-config tool\u0027\n            [condition not met]\n            \u003e ! go list -export .\n            [stdout]\n            example\n            [stderr]\n            # example\n            # [pkg-config --cflags  -- libnot-a-valid-cgo-library]\n            pkg-config: could not find package \u0027libnot-a-valid-cgo-library\u0027\n            [exit status 1]\n            # \u0027Package .* not found appears\u0027 in pkg-config and pkgconf; while\n            # \u0027could not find package .*\u0027 appears in u-config. See #68283. (0.000s)\n            \u003e stderr \u0027#^ example\\n#[pkg-config .*]\\n(.*\\n)*(Package .* not found)|(could not find package .*)\u0027\n        script_test.go:159: FAIL: testdata\\script\\list_pkgconfig_error.txt:7: stderr \u0027#^ example\\n#[pkg-config .*]\\n(.*\\n)*(Package .* not found)|(could not find package .*)\u0027: error parsing regexp: invalid character class range: `g-c`\n```",
+      "parentUuid": "9c662543_9fa9ae17",
+      "range": {
+        "startLine": 5,
+        "startChar": 6,
+        "endLine": 5,
+        "endChar": 7
+      },
+      "revId": "c751fef1529321710fe4497991adc83eeb3006c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
