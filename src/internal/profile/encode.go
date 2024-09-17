@@ -432,6 +432,12 @@ var lineDecoder = []decoder{
 	func(b *buffer, m message) error { return decodeUint64(b, &m.(*Line).functionIDX) },
 	// optional int64 line = 2
 	func(b *buffer, m message) error { return decodeInt64(b, &m.(*Line).Line) },
+	// optional int64 column = 3
+	func(b *buffer, m message) error {
+		err := decodeInt64(b, &m.(*Line).Column)
+		// fmt.Printf("Parsing a column number, got value %d\n", m.(*Line).Column)
+		return err
+	},
 }
 
 func (p *Function) decoder() []decoder {

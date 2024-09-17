@@ -151,6 +151,17 @@ func pctofileline(ctxt *Link, sym *LSym, oldval int32, p *Prog, phase int32, arg
 	return int32(f)
 }
 
+// pctodisc computes the discriminator to use at p.
+// or the line number (arg == 1) to use at p.
+// Because p.Disc applies to p, phase == 0 (before p)
+// takes care of the update.
+func pctodisc(ctxt *Link, sym *LSym, oldval int32, p *Prog, phase int32, arg interface{}) int32 {
+	if phase == 1 {
+		return oldval
+	}
+	return int32(p.Disc) // TODO: change Disc to int32
+}
+
 // pcinlineState holds the state used to create a function's inlining
 // tree and the PC-value table that maps PCs to nodes in that tree.
 type pcinlineState struct {
@@ -285,6 +296,7 @@ func linkpcln(ctxt *Link, cursym *LSym) {
 	pcln.Pcsp = funcpctab(ctxt, cursym, "pctospadj", pctospadj, nil)
 	pcln.Pcfile = funcpctab(ctxt, cursym, "pctofile", pctofileline, pcln)
 	pcln.Pcline = funcpctab(ctxt, cursym, "pctoline", pctofileline, nil)
+	pcln.Pcdisc = funcpctab(ctxt, cursym, "pctodisc", pctodisc, nil)
 
 	// Check that all the Progs used as inline markers are still reachable.
 	// See issue #40473.

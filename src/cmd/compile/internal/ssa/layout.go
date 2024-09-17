@@ -20,6 +20,7 @@ func layoutPGO(f *Func) {
 	if base.Flag.PgoBb != 1 {
 		return
 	}
+	// fmt.Println("Inside PGOBB")
 	f.Blocks = layoutOrder(f, true)
 }
 
@@ -66,19 +67,6 @@ func layoutOrder(f *Func, pgo bool) []*Block {
 		idToBlock[b.ID] = b
 		if b.Kind == BlockExit {
 			exit.add(b.ID)
-		} else if pgo && f.Entry.BBFreq.RawCount != 0 {
-			if b.BBFreq.RawCount == 0 {
-				hasZeroProfSucc := true
-				for _, s := range b.Succs {
-					if s.b.BBFreq.RawCount != 0 {
-						hasZeroProfSucc = false
-						break
-					}
-				}
-				if hasZeroProfSucc == true {
-					exit.add(b.ID)
-				}
-			}
 		}
 	}
 
@@ -186,16 +174,6 @@ blockloop:
 
 		if likely != nil && !scheduled[likely.ID] {
 			bid = likely.ID
-			continue
-		}
-		// If the succssor is the loop latch block with profile, the compiler
-		// should pick this block since it is likely to be taken.
-		if pgo && b.BBFreq.RawCount != 0 && len(b.Succs) == 1 &&
-			b.Succs[0].b.BBFreq.RawCount != 0 && !scheduled[b.Succs[0].b.ID] &&
-			loopnest != nil && loopnest.b2l[b.Succs[0].b.ID] != nil &&
-			len(b.Succs[0].b.Succs) == 1 &&
-			loopnest.b2l[b.Succs[0].b.ID].header == b.Succs[0].b.Succs[0].b {
-			bid = b.Succs[0].b.ID
 			continue
 		}
 

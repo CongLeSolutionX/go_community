@@ -110,9 +110,9 @@ func (n *Node) AddToEdgeDiv(to *Node, dv, v int64, residual, inline bool) {
 
 // NodeInfo contains the attributes for a node.
 type NodeInfo struct {
-	Name              string
-	Address           uint64
-	StartLine, Lineno int
+	Name                        string
+	Address                     uint64
+	StartLine, Lineno, Columnno int
 }
 
 // PrintableName calls the Node's Formatter function with a single space separator.
@@ -409,9 +409,10 @@ func nodeInfo(l *Location, line Line, objfile string, o *Options) *NodeInfo {
 		return &NodeInfo{Address: l.Address}
 	}
 	ni := &NodeInfo{
-		Address: l.Address,
-		Lineno:  int(line.Line),
-		Name:    line.Function.Name,
+		Address:  l.Address,
+		Lineno:   int(line.Line),
+		Columnno: int(line.Column),
+		Name:     line.Function.Name,
 	}
 	ni.StartLine = int(line.Function.StartLine)
 	return ni
