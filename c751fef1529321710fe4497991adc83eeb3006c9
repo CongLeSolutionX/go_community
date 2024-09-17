@@ -177,6 +177,30 @@
       },
       "revId": "c751fef1529321710fe4497991adc83eeb3006c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c662543_9fa9ae17",
+        "filename": "src/cmd/go/testdata/script/list_pkgconfig_error.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-17T15:05:19Z",
+      "side": 1,
+      "message": "Why can\u0027t we do something like:\n    \n    # \u0027Package .* not found appears\u0027 in pkg-config and pkgconf; while\n    # \u0027could not find package .*\u0027 appears in u-config. See #68283.\n    stderr \u0027#^ example\\n#[pkg-config .*]\\n(.*\\n)*(Package .* not found)|(could not find package .*)\u0027",
+      "parentUuid": "e71dd1c1_0f13abd9",
+      "range": {
+        "startLine": 5,
+        "startChar": 6,
+        "endLine": 5,
+        "endChar": 7
+      },
+      "revId": "c751fef1529321710fe4497991adc83eeb3006c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
