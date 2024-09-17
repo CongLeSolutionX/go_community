@@ -20,6 +20,9 @@ import (
 //go:linkname mapKeyError
 func mapKeyError(typ *abi.SwissMapType, p unsafe.Pointer) error
 
+//go:linkname fatal
+func fatal(s string)
+
 // Pull from runtime. It is important that is this the exact same copy as the
 // runtime because runtime.mapaccess1_fat compares the returned pointer with
 // &runtime.zeroVal[0].
@@ -34,7 +37,6 @@ var zeroVal [abi.ZeroValSize]byte
 // hold onto it for very long.
 //go:linkname runtime_mapaccess1 runtime.mapaccess1
 func runtime_mapaccess1(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsafe.Pointer {
-	// TODO: concurrent checks.
 	if race.Enabled && m != nil {
 		callerpc := sys.GetCallerPC()
 		pc := abi.FuncPCABIInternal(runtime_mapaccess1)
@@ -53,6 +55,10 @@ func runtime_mapaccess1(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsaf
 			panic(err) // see issue 23734
 		}
 		return unsafe.Pointer(&zeroVal[0])
+	}
+
+	if m.writing != 0 {
+		fatal("concurrent map read and map write")
 	}
 
 	hash := typ.Hasher(key, m.seed)
@@ -101,7 +107,6 @@ func runtime_mapaccess1(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsaf
 
 //go:linkname runtime_mapassign runtime.mapassign
 func runtime_mapassign(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsafe.Pointer {
-	// TODO: concurrent checks.
 	if m == nil {
 		// XXX
 		//panic(plainError("assignment to entry in nil map"))
@@ -119,15 +124,30 @@ func runtime_mapassign(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsafe
 	if asan.Enabled {
 		asan.Read(key, typ.Key.Size_)
 	}
+	if m.writing != 0 {
+		fatal("concurrent map writes")
+	}
 
 	hash := typ.Hasher(key, m.seed)
 
+	// Set writing after calling Hasher, since Hasher may panic, in which
+	// case we have not actually done a write.
+	m.writing ^= 1 // toggle, see comment on writing
+
 	if m.dirLen < 0 {
-		return m.putSlotSmall(hash, key)
+		slotElem := m.putSlotSmall(hash, key)
+
+		if m.writing == 0 {
+			fatal("concurrent map writes")
+		}
+		m.writing ^= 1
+
+		return slotElem
 	} else if m.dirLen == 0 {
 		m.growToTable()
 	}
 
+	var slotElem unsafe.Pointer
 outer:
 	for {
 		// Select table.
@@ -151,10 +171,10 @@ outer:
 						typedmemmove(t.typ.Key, slotKey, key)
 					}
 
-					slotElem := g.elem(typ, i)
+					slotElem = g.elem(typ, i)
 
 					t.checkInvariants()
-					return slotElem
+					break outer
 				}
 				match = match.removeFirst()
 			}
@@ -170,7 +190,7 @@ outer:
 
 					slotKey := g.key(typ, i)
 					typedmemmove(t.typ.Key, slotKey, key)
-					slotElem := g.elem(typ, i)
+					slotElem = g.elem(typ, i)
 
 					g.ctrls().set(i, ctrl(h2(hash)))
 					t.growthLeft--
@@ -178,7 +198,7 @@ outer:
 					m.used++
 
 					t.checkInvariants()
-					return slotElem
+					break outer
 				}
 
 				// TODO(prattmic): While searching the probe sequence,
@@ -201,4 +221,11 @@ outer:
 			}
 		}
 	}
+
+	if m.writing == 0 {
+		fatal("concurrent map writes")
+	}
+	m.writing ^= 1
+
+	return slotElem
 }
