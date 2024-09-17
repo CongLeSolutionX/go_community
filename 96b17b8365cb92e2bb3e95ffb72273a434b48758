@@ -47,6 +47,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfb10893_353d8055",
+        "filename": "src/cmd/go/internal/toolchain/exec.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-17T19:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cc987a6_596a3ae7",
+      "range": {
+        "startLine": 35,
+        "startChar": 60,
+        "endLine": 35,
+        "endChar": 66
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b78f4b5c_68b8f6a1",
+        "filename": "src/cmd/go/internal/toolchain/exec.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-17T19:33:53Z",
+      "side": 1,
+      "message": "Done. Changed to say from cache located at...",
+      "parentUuid": "84c99895_95003c50",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 100
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0cd39ae4_ea1ca4c3",
@@ -64,6 +112,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7a8ac03_27dbadf6",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-17T19:33:53Z",
+      "side": 1,
+      "message": "Nice! Changed to traceToolchain",
+      "parentUuid": "0cd39ae4_ea1ca4c3",
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86084e64_b17c79b8",
@@ -77,6 +143,30 @@
       "writtenOn": "2024-09-16T21:14:50Z",
       "side": 1,
       "message": "stray backslash?",
+      "range": {
+        "startLine": 5,
+        "startChar": 67,
+        "endLine": 5,
+        "endChar": 68
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8c58f04_8f3902e7",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-17T19:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86084e64_b17c79b8",
       "range": {
         "startLine": 5,
         "startChar": 67,
@@ -110,6 +200,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcacc545_7f005ff3",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-17T19:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39e872ba_7a32884c",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 12
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "009ba472_51be5c46",
@@ -123,6 +237,30 @@
       "writtenOn": "2024-09-16T21:14:50Z",
       "side": 1,
       "message": "`GOTOOLCHAIN` is set to auto by the script test framework, but I think it would still be nice to either explicitly set it or to add a comment mentioning that it\u0027s the default value that\u0027s set by the script test framework.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 115
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c28541da_60373136",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-17T19:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "009ba472_51be5c46",
       "range": {
         "startLine": 15,
         "startChar": 0,
@@ -156,6 +294,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e378c59_07bacc71",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-17T19:33:53Z",
+      "side": 1,
+      "message": "Updated to set once",
+      "parentUuid": "fe2207e9_01ea0920",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 27
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccec2ae3_21e1ae5c",
@@ -169,6 +331,30 @@
       "writtenOn": "2024-09-16T21:14:50Z",
       "side": 1,
       "message": "we should end the test early if we\u0027re running in short mode since we\u0027re doing a build",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 98
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70e3ff17_dcd81a3a",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-17T19:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccec2ae3_21e1ae5c",
       "range": {
         "startLine": 102,
         "startChar": 0,
@@ -202,6 +388,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d187e8e_0268aa7c",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-17T19:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7dfedb4_dfc78604",
+      "range": {
+        "startLine": 108,
+        "startChar": 59,
+        "endLine": 108,
+        "endChar": 60
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d156bb8_45a54992",
@@ -225,6 +435,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63d5cdea_ee765098",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-17T19:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d156bb8_45a54992",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 48
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a08a0e2_4273099f",
@@ -238,6 +472,30 @@
       "writtenOn": "2024-09-16T21:14:50Z",
       "side": 1,
       "message": "do we check for the output of this program?",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 0
+      },
+      "revId": "96b17b8365cb92e2bb3e95ffb72273a434b48758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e745f300_084300e3",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_godebug_trace.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-17T19:33:53Z",
+      "side": 1,
+      "message": "Yes. We do stderr \u0027running go1.22.0 from PATH\u0027",
+      "parentUuid": "6a08a0e2_4273099f",
       "range": {
         "startLine": 132,
         "startChar": 0,
