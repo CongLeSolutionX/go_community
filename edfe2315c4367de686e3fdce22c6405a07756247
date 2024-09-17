@@ -144,6 +144,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6e428861_af955f44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-17T21:30:46Z",
+      "side": 1,
+      "message": "It seems reasonable to me to call StopTimer at the end of the loop. If we do autoscaling we\u0027ll also need to do that.",
+      "parentUuid": "f62f19db_d39913f5",
+      "revId": "edfe2315c4367de686e3fdce22c6405a07756247",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b2f7a6fe_ebbd881e",
         "filename": "src/testing/benchmark.go",
         "patchSetId": 2
