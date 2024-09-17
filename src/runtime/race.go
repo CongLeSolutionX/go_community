@@ -168,6 +168,11 @@ func raceReadObjectPC(t *_type, addr unsafe.Pointer, callerpc, pc uintptr) {
 	}
 }
 
+//go:linkname race_ReadObjectPC internal/race.ReadObjectPC
+func race_ReadObjectPC(t *abi.Type, addr unsafe.Pointer, callerpc, pc uintptr) {
+	raceReadObjectPC(t, addr, callerpc, pc)
+}
+
 func raceWriteObjectPC(t *_type, addr unsafe.Pointer, callerpc, pc uintptr) {
 	kind := t.Kind_ & abi.KindMask
 	if kind == abi.Array || kind == abi.Struct {
@@ -179,6 +184,11 @@ func raceWriteObjectPC(t *_type, addr unsafe.Pointer, callerpc, pc uintptr) {
 		// address, as any write must write the first byte.
 		racewritepc(addr, callerpc, pc)
 	}
+}
+
+//go:linkname race_WriteObjectPC internal/race.WriteObjectPC
+func race_WriteObjectPC(t *abi.Type, addr unsafe.Pointer, callerpc, pc uintptr) {
+	raceWriteObjectPC(t, addr, callerpc, pc)
 }
 
 //go:noescape
