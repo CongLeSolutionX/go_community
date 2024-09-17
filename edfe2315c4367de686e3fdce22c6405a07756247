@@ -126,6 +126,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f62f19db_d39913f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-17T17:55:14Z",
+      "side": 1,
+      "message": "I\u0027m thinking of a case like:\n\n```\nfunc BenchmarkFoo(b *testing.B) {\n  ExpensiveSetUp()\n  defer ExpensiveTearDown()\n  \n  for b.Loop() {\n    ...\n  }\n}\n```\n\nIf we stop the timer on the last loop iteration then we won\u0027t count the time in `ExpensiveTearDown`. I think this is less common than expensive set up, but may still be worth excluding if it is easy.\n\ne.g., in https://go-review.googlesource.com/c/go/+/596295/8/src/runtime/map_benchmark_test.go in `benchmarkMapAssignGrowLatency` (Line 828), I sort a slice of length b.N after the loop. That is quite expensive and important to not count.",
+      "parentUuid": "30e86c86_46ffd7f6",
+      "revId": "edfe2315c4367de686e3fdce22c6405a07756247",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b2f7a6fe_ebbd881e",
         "filename": "src/testing/benchmark.go",
         "patchSetId": 2
