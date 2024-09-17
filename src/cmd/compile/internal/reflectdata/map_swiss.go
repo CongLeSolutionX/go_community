@@ -141,9 +141,12 @@ func SwissMapType() *types.Type {
 	//     directory []*table
 	//
 	//     globalDepth uint32
-	//     // N.B Padding
+	//     globalShift uint32
 	//
 	//     clearSeq uint64
+	//
+	//     writing uint8
+	//     // N.B. padding
 	// }
 	// must match internal/runtime/maps/map.go:Map.
 	fields := []*types.Field{
@@ -152,7 +155,9 @@ func SwissMapType() *types.Type {
 		makefield("seed", types.Types[types.TUINTPTR]),
 		makefield("directory", types.NewSlice(types.NewPtr(swissTableType()))),
 		makefield("globalDepth", types.Types[types.TUINT32]),
+		makefield("globalShift", types.Types[types.TUINT32]),
 		makefield("clearSeq", types.Types[types.TUINT64]),
+		makefield("writing", types.Types[types.TUINT8]),
 	}
 
 	n := ir.NewDeclNameAt(src.NoXPos, ir.OTYPE, ir.Pkgs.InternalMaps.Lookup("Map"))
@@ -163,9 +168,9 @@ func SwissMapType() *types.Type {
 	m.SetUnderlying(types.NewStruct(fields))
 	types.CalcSize(m)
 
-	// The size of Map should be 64 bytes on 64 bit
-	// and 40 bytes on 32 bit platforms.
-	if size := int64(2*8 + 6*types.PtrSize); m.Size() != size {
+	// The size of Map should be 72 bytes on 64 bit
+	// and 48 bytes on 32 bit platforms.
+	if size := int64(2*4 + 2*8 + 6*types.PtrSize); m.Size() != size {
 		base.Fatalf("internal/runtime/maps.Map size not correct: got %d, want %d", m.Size(), size)
 	}
 
