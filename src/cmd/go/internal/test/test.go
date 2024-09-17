@@ -600,6 +600,8 @@ var (
 	testBlockProfile, testCPUProfile, testMemProfile, testMutexProfile, testTrace string // profiling flag that limits test to one package
 
 	testODir = false
+
+	initialUmask int // umask at startup, set in an init() function on UNIX, always zero on non-UNIX
 )
 
 // testProfile returns the name of an arbitrary single-package profiling flag
@@ -1784,7 +1786,7 @@ func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bo
 		fmt.Fprintf(os.Stderr, "testcache: %s: test ID %x => %x\n", a.Package.ImportPath, id, testID)
 	}
 
-	// Load list of referenced environment variables and files
+	// Load list of referenced environment variables, files, and umask
 	// from last run of testID, and compute hash of that content.
 	data, entry, err := cache.GetBytes(cache.Default(), testID)
 	if !bytes.HasPrefix(data, testlogMagic) || data[len(data)-1] != '\n' {
@@ -1860,8 +1862,10 @@ var testlogMagic = []byte("# test log\n") // known to testing/internal/testdeps/
 func computeTestInputsID(a *work.Action, testlog []byte) (cache.ActionID, error) {
 	testlog = bytes.TrimPrefix(testlog, testlogMagic)
 	h := cache.NewHash("testInputs")
-	// The runtime always looks at GODEBUG, without telling us in the testlog.
+	// The runtime always looks at GODEBUG and the initial umask,
+	// without telling us in the testlog.
 	fmt.Fprintf(h, "env GODEBUG %x\n", hashGetenv("GODEBUG"))
+	fmt.Fprintf(h, "umask %03o\n", initialUmask)
 	pwd := a.Package.Dir
 	for _, line := range bytes.Split(testlog, []byte("\n")) {
 		if len(line) == 0 {

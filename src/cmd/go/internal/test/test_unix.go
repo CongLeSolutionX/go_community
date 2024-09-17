@@ -14,3 +14,9 @@ import (
 func isETXTBSY(err error) bool {
 	return errors.Is(err, syscall.ETXTBSY)
 }
+
+func init() {
+	// Record the initial umask for the cache.
+	initialUmask = syscall.Umask(0)
+	syscall.Umask(initialUmask)
+}
