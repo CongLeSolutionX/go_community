@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d198c02b_c3b6c675",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-17T20:25:17Z",
+      "side": 1,
+      "message": "We have seen lots of cases where changes in one function cause performance differences in other unrelated functions. We suspect these differences occur due to alignment changes or conflicts in the icache and other pc-keyed caches (e.g. the branch predictor).\n\nDavid even hacked up a bunch of CLs to do randomization during linking to try and tease apart these effects.\nhttps://go-review.googlesource.com/c/benchmarks/+/563895",
+      "parentUuid": "f8a3e755_9d945746",
+      "revId": "13a1561f0668703bd71be4fb100eeb41c30d03a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e533fe5e_fba553f2",
         "filename": "src/cmd/compile/internal/ssa/cse.go",
         "patchSetId": 1
