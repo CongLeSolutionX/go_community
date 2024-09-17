@@ -20,6 +20,9 @@ import (
 //go:linkname mapKeyError
 func mapKeyError(typ *abi.SwissMapType, p unsafe.Pointer) error
 
+//go:linkname fatal
+func fatal(s string)
+
 // Pushed from runtime in order to use runtime.plainError
 //
 //go:linkname errNilAssign
@@ -41,7 +44,6 @@ var zeroVal [abi.ZeroValSize]byte
 //
 //go:linkname runtime_mapaccess1 runtime.mapaccess1
 func runtime_mapaccess1(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsafe.Pointer {
-	// TODO: concurrent checks.
 	if race.Enabled && m != nil {
 		callerpc := sys.GetCallerPC()
 		pc := abi.FuncPCABIInternal(runtime_mapaccess1)
@@ -60,6 +62,10 @@ func runtime_mapaccess1(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsaf
 			panic(err) // see issue 23734
 		}
 		return unsafe.Pointer(&zeroVal[0])
+	}
+
+	if m.writing != 0 {
+		fatal("concurrent map read and map write")
 	}
 
 	hash := typ.Hasher(key, m.seed)
@@ -104,7 +110,6 @@ func runtime_mapaccess1(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsaf
 
 //go:linkname runtime_mapassign runtime.mapassign
 func runtime_mapassign(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsafe.Pointer {
-	// TODO: concurrent checks.
 	if m == nil {
 		panic(errNilAssign)
 	}
@@ -120,8 +125,15 @@ func runtime_mapassign(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsafe
 	if asan.Enabled {
 		asan.Read(key, typ.Key.Size_)
 	}
+	if m.writing != 0 {
+		fatal("concurrent map writes")
+	}
 
 	hash := typ.Hasher(key, m.seed)
+
+	// Set writing after calling Hasher, since Hasher may panic, in which
+	// case we have not actually done a write.
+	m.writing ^= 1 // toggle, see comment on writing
 
 	if m.dirPtr == nil {
 		m.growToSmall(typ)
@@ -129,13 +141,21 @@ func runtime_mapassign(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsafe
 
 	if m.dirLen == 0 {
 		if m.used < abi.SwissMapGroupSlots {
-			return m.putSlotSmall(typ, hash, key)
+			elem := m.putSlotSmall(typ, hash, key)
+
+			if m.writing == 0 {
+				fatal("concurrent map writes")
+			}
+			m.writing ^= 1
+
+			return elem
 		}
 
 		// Can't fit another entry, grow to full size map.
 		m.growToTable(typ)
 	}
 
+	var slotElem unsafe.Pointer
 outer:
 	for {
 		// Select table.
@@ -164,10 +184,10 @@ outer:
 						typedmemmove(typ.Key, slotKey, key)
 					}
 
-					slotElem := g.elem(typ, i)
+					slotElem = g.elem(typ, i)
 
 					t.checkInvariants(typ)
-					return slotElem
+					break outer
 				}
 				match = match.removeFirst()
 			}
@@ -196,7 +216,7 @@ outer:
 				if t.growthLeft > 0 {
 					slotKey := g.key(typ, i)
 					typedmemmove(typ.Key, slotKey, key)
-					slotElem := g.elem(typ, i)
+					slotElem = g.elem(typ, i)
 
 					g.ctrls().set(i, ctrl(h2(hash)))
 					t.growthLeft--
@@ -204,7 +224,7 @@ outer:
 					m.used++
 
 					t.checkInvariants(typ)
-					return slotElem
+					break outer
 				}
 
 				t.rehash(typ, m)
@@ -227,4 +247,11 @@ outer:
 			}
 		}
 	}
+
+	if m.writing == 0 {
+		fatal("concurrent map writes")
+	}
+	m.writing ^= 1
+
+	return slotElem
 }

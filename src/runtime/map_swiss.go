@@ -65,7 +65,6 @@ func makemap(t *abi.SwissMapType, hint int, m *maps.Map) *maps.Map {
 func mapaccess1(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) unsafe.Pointer
 
 func mapaccess2(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) (unsafe.Pointer, bool) {
-	// TODO: concurrent checks.
 	if raceenabled && m != nil {
 		callerpc := sys.GetCallerPC()
 		pc := abi.FuncPCABIInternal(mapaccess2)
@@ -116,7 +115,6 @@ func mapaccess2_fat(t *abi.SwissMapType, m *maps.Map, key, zero unsafe.Pointer) 
 func mapassign(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) unsafe.Pointer
 
 func mapdelete(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) {
-	// TODO: concurrent checks.
 	if raceenabled && m != nil {
 		callerpc := sys.GetCallerPC()
 		pc := abi.FuncPCABIInternal(mapdelete)
@@ -155,7 +153,6 @@ func mapiterinit(t *abi.SwissMapType, m *maps.Map, it *maps.Iter) {
 }
 
 func mapiternext(it *maps.Iter) {
-	// TODO: concurrent checks.
 	if raceenabled {
 		callerpc := sys.GetCallerPC()
 		racereadpc(unsafe.Pointer(it.Map()), callerpc, abi.FuncPCABIInternal(mapiternext))
@@ -166,7 +163,6 @@ func mapiternext(it *maps.Iter) {
 
 // mapclear deletes all keys from a map.
 func mapclear(t *abi.SwissMapType, m *maps.Map) {
-	// TODO: concurrent checks.
 	if raceenabled && m != nil {
 		callerpc := sys.GetCallerPC()
 		pc := abi.FuncPCABIInternal(mapclear)
