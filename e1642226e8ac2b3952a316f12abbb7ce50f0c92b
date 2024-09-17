@@ -34,6 +34,24 @@
       "parentUuid": "8ab5af28_e9f58cec",
       "revId": "e1642226e8ac2b3952a316f12abbb7ce50f0c92b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a9c5506_361c7483",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-17T16:23:37Z",
+      "side": 1,
+      "message": "That\u0027s fair.  Unfortunately I always intend to change go/types, so that\u0027s where I start editing. 😞",
+      "parentUuid": "fa807275_f971c5de",
+      "revId": "e1642226e8ac2b3952a316f12abbb7ce50f0c92b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
