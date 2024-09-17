@@ -263,14 +263,13 @@ func processProto(r io.Reader) (*Profile, error) {
 	if errors.Is(err, profile.ErrNoData) {
 		// Treat a completely empty file the same as a profile with no
 		// samples: nothing to do.
-		return nil, nil
+		return nil, fmt.Errorf("empty profile")
 	} else if err != nil {
 		return nil, fmt.Errorf("error parsing profile: %w", err)
 	}
 
 	if len(p.Sample) == 0 {
-		// We accept empty profiles, but there is nothing to do.
-		return nil, nil
+		return nil, fmt.Errorf("empty profile weights")
 	}
 
 	valueIndex := -1
@@ -321,7 +320,7 @@ func processPreprof(r io.Reader) (*Profile, error) {
 	}
 
 	if totalWeight == 0 {
-		return nil, nil // accept but ignore profile with no samples.
+		return nil, fmt.Errorf("empty profile weights")
 	}
 
 	// Create package-level call graph with weights from profile and IR.
