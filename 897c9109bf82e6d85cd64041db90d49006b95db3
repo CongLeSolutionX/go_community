@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a755971f_c82592fd",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 28576
+      },
+      "writtenOn": "2024-09-17T12:31:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f96b5d91_2e2085df",
+      "revId": "897c9109bf82e6d85cd64041db90d49006b95db3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "452d8c61_89ccfabc",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-09-16T21:59:57Z",
       "side": 1,
       "message": "This comment seems misplaced now.",
+      "revId": "897c9109bf82e6d85cd64041db90d49006b95db3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06bf8478_6da01c7c",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 28576
+      },
+      "writtenOn": "2024-09-17T12:31:16Z",
+      "side": 1,
+      "message": "Yeah, the comment was ahead of the \"if\" before, but when it changed to an \"else if\", putting it above the line feels even more wrong, as it is in the wrong code block.\n\nWith a little bit of Repeat Yourself, we could copy the \"return\" below, and then get a plain \"if\" again, which allows the comment to return to ahead of the \"if\".\n\nOr, I could rework the comment to suggest that the condition is true in this block, like \"do not accept any non IPv4 addresses\" or such.",
+      "parentUuid": "452d8c61_89ccfabc",
       "revId": "897c9109bf82e6d85cd64041db90d49006b95db3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
