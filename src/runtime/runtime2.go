@@ -921,6 +921,7 @@ type _func struct {
 	pcsp      uint32
 	pcfile    uint32
 	pcln      uint32
+	pcdisc    uint32
 	npcdata   uint32
 	cuOffset  uint32     // runtime.cutab offset of this function's CU
 	startLine int32      // line number of start of function (func keyword/TEXT directive)

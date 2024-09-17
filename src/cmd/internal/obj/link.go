@@ -308,6 +308,7 @@ type Prog struct {
 	Rel      *Prog     // for x86, arm back ends
 	Pc       int64     // for back ends or assembler: virtual or actual program counter, depending on phase
 	Pos      src.XPos  // source position of this instruction
+	Disc     int64     // source position discriminator of this instruction
 	Spadj    int32     // effect of instruction on stack pointer (increment or decrement amount)
 	As       As        // assembler opcode
 	Reg      int16     // 2nd source operand
@@ -968,6 +969,7 @@ type Pcln struct {
 	Pcsp      *LSym
 	Pcfile    *LSym
 	Pcline    *LSym
+	Pcdisc    *LSym
 	Pcinline  *LSym
 	Pcdata    []*LSym
 	Funcdata  []*LSym

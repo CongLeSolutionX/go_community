@@ -123,7 +123,8 @@ func readPprofFile(profileFile string, outputFile string, verbose bool) bool {
 				NodeMap[nodeinfo] = w
 			}
 		}
-		columnno := int64(0) // int64(n.Info.Columnno)
+		columnno := int64(n.Info.Columnno)
+		fmt.Printf("Got columnno %d at readPprofFile\n", columnno)
 		if _, ok := (NodeWeightMap)[canonicalName]; ok {
 			(NodeWeightMap)[canonicalName][columnno] += n.FlatValue()
 		} else {

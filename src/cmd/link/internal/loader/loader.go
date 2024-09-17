@@ -1939,7 +1939,7 @@ func (l *Loader) Pcsp(i Sym) Sym { return l.aux1(i, goobj.AuxPcsp) }
 
 // Returns all aux symbols of per-PC data for symbol i.
 // tmp is a scratch space for the pcdata slice.
-func (l *Loader) PcdataAuxs(i Sym, tmp []Sym) (pcsp, pcfile, pcline, pcinline Sym, pcdata []Sym) {
+func (l *Loader) PcdataAuxs(i Sym, tmp []Sym) (pcsp, pcfile, pcline, pcdisc, pcinline Sym, pcdata []Sym) {
 	pcdata = tmp[:0]
 	r, auxs := l.auxs(i)
 	for j := range auxs {
@@ -1949,6 +1949,8 @@ func (l *Loader) PcdataAuxs(i Sym, tmp []Sym) (pcsp, pcfile, pcline, pcinline Sy
 			pcsp = l.resolve(r, a.Sym())
 		case goobj.AuxPcline:
 			pcline = l.resolve(r, a.Sym())
+		case goobj.AuxPcdisc:
+			pcdisc = l.resolve(r, a.Sym())
 		case goobj.AuxPcfile:
 			pcfile = l.resolve(r, a.Sym())
 		case goobj.AuxPcinline:

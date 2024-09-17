@@ -69,6 +69,7 @@ type Progs struct {
 	Next       *obj.Prog  // next Prog
 	PC         int64      // virtual PC; count of Progs
 	Pos        src.XPos   // position to use for new Progs
+	Disc       int64      // discriminator to use for new Progs
 	CurFunc    *ir.Func   // fn these Progs are for
 	Cache      []obj.Prog // local progcache
 	CacheIndex int        // first free element of progcache
@@ -165,6 +166,7 @@ func (pp *Progs) Prog(as obj.As) *obj.Prog {
 		}
 		pp.Pos = pp.Pos.WithNotStmt()
 	}
+	p.Disc = pp.Disc
 	return p
 }
 
@@ -180,6 +182,7 @@ func (pp *Progs) Append(p *obj.Prog, as obj.As, ftype obj.AddrType, freg int16, 
 	pp.Clear(q)
 	q.As = as
 	q.Pos = p.Pos
+	q.Disc = p.Disc
 	q.From.Type = ftype
 	q.From.Reg = freg
 	q.From.Offset = foffset

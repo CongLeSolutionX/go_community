@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-const funcSize = 11 * 4 // funcSize is the size of the _func object in runtime/runtime2.go
+const funcSize = 12 * 4 // funcSize is the size of the _func object in runtime/runtime2.go
 
 // pclntab holds the state needed for pclntab generation.
 type pclntab struct {
@@ -474,7 +474,7 @@ func (state *pclntab) generatePctab(ctxt *Link, funcs []loader.Sym) {
 			seen[pcSym] = struct{}{}
 		}
 	}
-	var pcsp, pcline, pcfile, pcinline loader.Sym
+	var pcsp, pcfile, pcline, pcdisc, pcinline loader.Sym
 	var pcdata []loader.Sym
 	for _, s := range funcs {
 		fi := ldr.FuncInfo(s)
@@ -482,9 +482,9 @@ func (state *pclntab) generatePctab(ctxt *Link, funcs []loader.Sym) {
 			continue
 		}
 		fi.Preload()
-		pcsp, pcfile, pcline, pcinline, pcdata = ldr.PcdataAuxs(s, pcdata)
+		pcsp, pcfile, pcline, pcdisc, pcinline, pcdata = ldr.PcdataAuxs(s, pcdata)
 
-		pcSyms := []loader.Sym{pcsp, pcfile, pcline}
+		pcSyms := []loader.Sym{pcsp, pcfile, pcline, pcdisc}
 		for _, pcSym := range pcSyms {
 			saveOffset(pcSym)
 		}
@@ -629,7 +629,7 @@ func writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, inlSym
 	gofuncBase := ldr.SymValue(gofunc)
 	textStart := ldr.SymValue(ldr.Lookup("runtime.text", 0))
 	funcdata := []loader.Sym{}
-	var pcsp, pcfile, pcline, pcinline loader.Sym
+	var pcsp, pcfile, pcline, pcdisc, pcinline loader.Sym
 	var pcdata []loader.Sym
 
 	// Write the individual func objects.
@@ -638,7 +638,7 @@ func writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, inlSym
 		fi := ldr.FuncInfo(s)
 		if fi.Valid() {
 			fi.Preload()
-			pcsp, pcfile, pcline, pcinline, pcdata = ldr.PcdataAuxs(s, pcdata)
+			pcsp, pcfile, pcline, pcdisc, pcinline, pcdata = ldr.PcdataAuxs(s, pcdata)
 			startLine = fi.StartLine()
 		}
 
@@ -674,8 +674,9 @@ func writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, inlSym
 			off = sb.SetUint32(ctxt.Arch, off, uint32(ldr.SymValue(pcsp)))
 			off = sb.SetUint32(ctxt.Arch, off, uint32(ldr.SymValue(pcfile)))
 			off = sb.SetUint32(ctxt.Arch, off, uint32(ldr.SymValue(pcline)))
+			off = sb.SetUint32(ctxt.Arch, off, uint32(ldr.SymValue(pcdisc)))
 		} else {
-			off += 12
+			off += 16
 		}
 		off = sb.SetUint32(ctxt.Arch, off, uint32(numPCData(ldr, s, fi)))
 

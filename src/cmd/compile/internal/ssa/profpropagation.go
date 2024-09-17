@@ -387,6 +387,7 @@ func computeBlockWeights(f *Func, VisitedBlocks map[*Block]bool) bool {
 	e := f.Frontend()
 	for _, b := range f.Blocks {
 		if e.Func().BBFreqMap != nil {
+			fmt.Printf("Func BBFreqMap is non nil, checking bb ID %d for Func %s\n", b.ID, e.Func().LSym.Name)
 			if bbFreq, ok := e.Func().BBFreqMap[int64(b.ID)]; ok {
 				b.BBFreq.RawCount = int64(bbFreq)
 			}
@@ -441,10 +442,14 @@ func freqPropagate(f *Func) {
 	if base.Flag.PgoBb == 0 {
 		return
 	}
+	fmt.Println("Inside freqPropagate")
 	VisitedBlocks := make(map[*Block]bool)
 	var Changed = computeBlockWeights(f, VisitedBlocks)
 	if Changed == true {
 		setExitCount(f, VisitedBlocks)
 		propagateWeights(f, VisitedBlocks)
+	}
+	for b := range VisitedBlocks {
+		fmt.Printf("Block %d: %s %d\n", b.ID, b.Func.Name, b.BBFreq.RawCount)
 	}
 }
