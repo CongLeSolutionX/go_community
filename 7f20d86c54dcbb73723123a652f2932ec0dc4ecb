@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fae3527d_e1d35866",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-18T15:29:50Z",
+      "side": 1,
+      "message": "Where is r.refs set in the r.local case?",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 26
+      },
+      "revId": "7f20d86c54dcbb73723123a652f2932ec0dc4ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd97d22b_605c1e76",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-18T15:29:50Z",
+      "side": 1,
+      "message": "why don\u0027t we always do statLocal in the r.local case? is it so that we can return a \u0027revision does not exist locally error\u0027 rather than an \u0027unknown revision\u0027 error?",
+      "range": {
+        "startLine": 397,
+        "startChar": 0,
+        "endLine": 397,
+        "endChar": 84
+      },
+      "revId": "7f20d86c54dcbb73723123a652f2932ec0dc4ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
