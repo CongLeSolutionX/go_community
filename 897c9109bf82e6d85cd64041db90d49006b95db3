@@ -87,6 +87,24 @@
       "parentUuid": "06bf8478_6da01c7c",
       "revId": "897c9109bf82e6d85cd64041db90d49006b95db3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b0c0400_e707acaa",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 28576
+      },
+      "writtenOn": "2024-09-18T08:16:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48f0de3d_5e3cce2f",
+      "revId": "897c9109bf82e6d85cd64041db90d49006b95db3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
