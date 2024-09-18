@@ -54,6 +54,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31e71ed5_b046f512",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-09-18T18:27:05Z",
+      "side": 1,
+      "message": "That change and others have been restored. They\u0027re present in patchset 3 but not 4, so I must have clobbered them. Probably by switching computers, I\u0027m still not quite used to Gerrit.",
+      "parentUuid": "601fde79_6579bd99",
+      "revId": "169e94d759b9aed7fd200e97de8e6bbadc99eba3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bade15b5_e03451e4",
