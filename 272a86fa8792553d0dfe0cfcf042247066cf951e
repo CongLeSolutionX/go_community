@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d45cd55_0dcf7b57",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-09-18T19:09:17Z",
+      "side": 1,
+      "message": "I touch on this in another comment but this mechanism was totally new to me 😄 Maybe worth being a little bit more detailed here and saying something along the lines of:\n\n\"The kernel provides a pointer to 16 bytes of cryptographically random data in the auxiliary vector\u0027s AT_RANDOM entry when a program is executed.\" ?\n\nSeparately: how confident can we be that it\u0027s **cryptographically random data**? On my system the [man page](https://www.man7.org/linux/man-pages/man3/getauxval.3.html) only says it contains the address of sixteen bytes \"containing a random value\" without making any assertions about the provenance of the bytes. Is there some resource you\u0027re leaning on (docs, code inspection, etc) to feel confident with the assertion it\u0027s CSRNG data?\n\nUltimately maybe it doesn\u0027t matter since it looks like `runtime/rand.go` will fall-back to seeding with the current time if `AT_RANDOM` is no good.",
+      "revId": "272a86fa8792553d0dfe0cfcf042247066cf951e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb203b7d_f1e504fe",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-09-18T19:09:17Z",
+      "side": 1,
+      "message": "small typo here:\n\n```suggestion\n\t\t\t// already been used by libc at this point, and in particular glibc\n```",
+      "revId": "272a86fa8792553d0dfe0cfcf042247066cf951e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "963dc9cb_3e36e1a6",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-09-18T19:09:17Z",
+      "side": 1,
+      "message": "This feels a little ambiguous; the pointer is singular, but the data it points to is plural. However, the rest of the comment discusses \"this value\", \"the value\", etc. Suggest using value here for consistency:\n\n```suggestion\n\t\t\t// may use the value after we do.\n```",
+      "revId": "272a86fa8792553d0dfe0cfcf042247066cf951e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25e8b742_fc2f0e2b",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-09-18T19:09:17Z",
+      "side": 1,
+      "message": "This might be unnecessary, but it took me a bit of digging to learn about `AT_RANDOM` (TIL). \n\nPerhaps it\u0027s worth a mention of `man 3 getauxval` (or just `getauxval`) here, or in the commit message, to help others bootstrap additional context?",
+      "revId": "272a86fa8792553d0dfe0cfcf042247066cf951e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3b533a9_1d0446ed",
+        "filename": "src/runtime/os_openbsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-09-18T19:09:17Z",
+      "side": 1,
+      "message": "just checking: is this intended to be part of the diff? I\u0027m not sure what sort of policy the project has for TODO tags (e.g. should they ref. an issue)",
+      "revId": "272a86fa8792553d0dfe0cfcf042247066cf951e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
