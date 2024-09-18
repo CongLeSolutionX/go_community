@@ -48,6 +48,8 @@ func TestIntendedInlining(t *testing.T) {
 			"funcspdelta",
 			"getm",
 			"getMCache",
+			"heapSetTypeNoHeader",
+			"heapSetTypeSmallHeader",
 			"isDirectIface",
 			"itabHashFunc",
 			"nextslicecap",
