@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a984a919_acff73bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-18T18:36:07Z",
+      "side": 1,
+      "message": "Actually, I think this code is not sufficient. For instance, each time we encounter an Object we call check.objDecl that typechecks the respective declaration, which may be in a different file. In objDecl we need to switch to the correct version. This may require that we record the version in each object, or perhaps better, that we record the file in which the object is declared.",
+      "revId": "0df4d3785fb0ccae5f203e0e2174f2842e960cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b32c7569_4b91561f",
