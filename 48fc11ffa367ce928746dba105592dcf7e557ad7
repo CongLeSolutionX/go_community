@@ -33,6 +33,40 @@
       "message": "Thanks.  Adding new API like this requires going through the proposal process.  See https://go.dev/s/proposal.  Putting on hold until there is an accepted proposal.",
       "revId": "48fc11ffa367ce928746dba105592dcf7e557ad7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fecfb55_ceb5fae5",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-09-18T07:33:42Z",
+      "side": 1,
+      "message": "And the context passed to this function should be with this timeout applied.",
+      "revId": "48fc11ffa367ce928746dba105592dcf7e557ad7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fd468b1_90aa0dff",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-09-18T07:33:42Z",
+      "side": 1,
+      "message": "FYI, this change would also need some logic here.",
+      "revId": "48fc11ffa367ce928746dba105592dcf7e557ad7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
