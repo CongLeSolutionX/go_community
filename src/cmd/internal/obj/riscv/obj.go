@@ -1636,7 +1636,8 @@ var encodings = [ALAST & obj.AMask]encoding{
 	ASD & obj.AMask: sIEncoding,
 
 	// 7.1: CSR Instructions
-	ACSRRS & obj.AMask: iIIEncoding,
+	ACSRRS & obj.AMask:  iIIEncoding,
+	ACSRRSI & obj.AMask: iIIEncoding,
 
 	// 7.1: Multiplication Operations
 	AMUL & obj.AMask:    rIIIEncoding,
@@ -2445,6 +2446,39 @@ func instructionsForProg(p *obj.Prog) []*instruction {
 		case ARDINSTRET:
 			ins.imm = -1022
 		}
+
+	case ACSRRS, ACSRRSI:
+		if len(p.RestArgs) > 0 {
+			if p.RestArgs[0].Type != obj.TYPE_CONST {
+				p.Ctxt.Diag("%v: expected one immediate argument", p)
+				return nil
+			}
+			ins.as = ACSRRSI
+			imm := p.RestArgs[0].Offset
+			if imm < 0 || imm >= 32 {
+				p.Ctxt.Diag("%v: immediate out of range 0 to 32", p)
+				return nil
+			}
+			ins.rs1 = uint32(p.RestArgs[0].Offset) + REG_ZERO
+		}
+		if p.From.Type != obj.TYPE_SPECIAL {
+			p.Ctxt.Diag("%v: CSR name expected", p)
+			return nil
+		}
+		csrNum := SpecialOperand(p.From.Offset).Encode()
+		if csrNum < 0 || csrNum >= 1<<12 {
+			p.Ctxt.Diag("%v: Unknown CSR", p)
+			return nil
+		}
+		if _, ok := CSRs[uint16(csrNum)]; !ok {
+			p.Ctxt.Diag("%v: Unknown CSR", p)
+			return nil
+		}
+		ins.imm = csrNum
+		if ins.imm > 2047 {
+			ins.imm -= 4096
+		}
+		ins.rs2 = obj.REG_NONE
 
 	case AFENCE:
 		ins.rd, ins.rs1, ins.rs2 = REG_ZERO, REG_ZERO, obj.REG_NONE

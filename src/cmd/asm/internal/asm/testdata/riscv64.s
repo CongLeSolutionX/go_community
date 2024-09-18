@@ -172,6 +172,13 @@ start:
 	SD	X5, (X6)				// 23305300
 	SD	X5, 4(X6)				// 23325300
 
+       // 7.1: CSR Instructions
+	CSRRS   X0, CYCLE, X5	// CSRRS CYCLE, X0, X5	// f32200c0
+	CSRRS   X0, CYCLE, X0	// CSRRS CYCLE, X0, X0	// 732000c0
+	CSRRS   X10, CYCLE, X5	// CSRRS CYCLE, X10, X5	// f32205c0
+	CSRRS	$2, TIME, X5	// CSRRS  TIME, $2, X5  // f36211c0
+	CSRRSI  $2, TIME, X5	// CSRRSI TIME, $2, X5  // f36211c0
+
 	// 8.1: Base Counters and Timers (Zicntr)
 	RDCYCLE		X5				// f32200c0
 	RDTIME		X5				// f32210c0

@@ -10,10 +10,20 @@ import (
 	"cmd/internal/obj"
 )
 
+// SPCconv returns the string representation of a RISC-V special operand
+func SPCconv(a int64) string {
+	spc := SpecialOperand(a)
+	if spc >= SPOP_BEGIN && spc < SPOP_END {
+		return fmt.Sprintf("%s", spc)
+	}
+	return "SPC_??"
+}
+
 func init() {
 	obj.RegisterRegister(obj.RBaseRISCV, REG_END, RegName)
 	obj.RegisterOpcode(obj.ABaseRISCV, Anames)
 	obj.RegisterOpSuffix("riscv64", opSuffixString)
+	obj.RegisterSpecialOperands(int64(SPOP_BEGIN), int64(SPOP_END), SPCconv)
 }
 
 func RegName(r int) string {

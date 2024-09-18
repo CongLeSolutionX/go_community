@@ -771,6 +771,26 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 				prog.RegTo2 = a[2].Reg
 				break
 			}
+			// RISCV64 instructions that reference CSRs with symbolic names
+			if isImm, ok := arch.IsRISCV64CSRO(op); ok {
+				if a[0].Type == obj.TYPE_CONST {
+					prog.AddRestSourceArgs([]obj.Addr{a[0]})
+					prog.Reg = obj.REG_NONE
+				} else {
+					if isImm {
+						p.errorf("invalid value for first operand to %s instruction, must be a 5 bit unsigned immediate", op)
+						return
+					}
+					prog.Reg = p.getRegister(prog, op, &a[0])
+				}
+				if a[1].Type != obj.TYPE_SPECIAL {
+					p.errorf("invalid value for second operand to %s instruction, must be a CSR name", op)
+					return
+				}
+				prog.From = a[1]
+				prog.To = a[2]
+				break
+			}
 			prog.From = a[0]
 			prog.Reg = p.getRegister(prog, op, &a[1])
 			prog.To = a[2]
