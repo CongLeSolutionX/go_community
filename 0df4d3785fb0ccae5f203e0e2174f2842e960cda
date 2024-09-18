@@ -1,0 +1,183 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e01c66e6_3875dbb6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-18T18:28:32Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "0df4d3785fb0ccae5f203e0e2174f2842e960cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b32c7569_4b91561f",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-18T18:28:32Z",
+      "side": 1,
+      "message": "s/goVersion/language version/ ?\nthe map value is a string not a goVersion\n(strings are not \"sanitized\")",
+      "range": {
+        "startLine": 144,
+        "startChar": 59,
+        "endLine": 144,
+        "endChar": 68
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "a980cad9_b21e9626",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/types2/check.go",
+              "range": {
+                "startLine": 144,
+                "startChar": 0,
+                "endLine": 145,
+                "endChar": 0
+              },
+              "replacement": "\tversions      map[*syntax.PosBase]string // maps files to language version strings (each file has an entry); shared with Info.FileVersions if present; may be unaltered Config.GoVersion\n"
+            }
+          ]
+        }
+      ],
+      "revId": "0df4d3785fb0ccae5f203e0e2174f2842e960cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "543a1b5d_17e9a7dd",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-18T18:28:32Z",
+      "side": 1,
+      "message": "what\u0027s the reason for the empty line?\nleave away or swap lines 493/494",
+      "fixSuggestions": [
+        {
+          "fixId": "e18c7737_fb472903",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/types2/check.go",
+              "range": {
+                "startLine": 494,
+                "startChar": 0,
+                "endLine": 495,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "0df4d3785fb0ccae5f203e0e2174f2842e960cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86977380_afc78038",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-18T18:28:32Z",
+      "side": 1,
+      "message": "I don\u0027t understand \"when not type-checking syntax\"",
+      "range": {
+        "startLine": 86,
+        "startChar": 21,
+        "endLine": 86,
+        "endChar": 50
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "aa1df9cd_f36cfa27",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/types2/instantiate.go",
+              "range": {
+                "startLine": 86,
+                "startChar": 0,
+                "endLine": 87,
+                "endChar": 0
+              },
+              "replacement": "// check may be nil (when not type-checking syntax); pos is used only if check is non-nil.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "0df4d3785fb0ccae5f203e0e2174f2842e960cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cd4a8e9_fcca85ee",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-18T18:28:32Z",
+      "side": 1,
+      "message": "maybe remove ()\u0027s",
+      "fixSuggestions": [
+        {
+          "fixId": "69496770_5fbd8fb7",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/types2/lookup.go",
+              "range": {
+                "startLine": 6,
+                "startChar": 0,
+                "endLine": 7,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "src/cmd/compile/internal/types2/lookup.go",
+              "range": {
+                "startLine": 9,
+                "startChar": 0,
+                "endLine": 12,
+                "endChar": 0
+              },
+              "replacement": "import \"bytes\"\n"
+            }
+          ]
+        }
+      ],
+      "revId": "0df4d3785fb0ccae5f203e0e2174f2842e960cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
