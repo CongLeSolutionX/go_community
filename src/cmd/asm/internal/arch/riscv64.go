@@ -26,3 +26,36 @@ func IsRISCV64AMO(op obj.As) bool {
 	}
 	return false
 }
+
+// IsRISCV64CSRO reports whether the op is an instruction that uses
+// CSR symbolic names and whether that instruction expects a register
+// or an immediate source operand.
+func IsRISCV64CSRO(op obj.As) (imm bool, ok bool) {
+	switch op {
+	case riscv.ACSRRWI, riscv.ACSRRSI, riscv.ACSRRCI:
+		imm = true
+		fallthrough
+	case riscv.ACSRRW, riscv.ACSRRS, riscv.ACSRRC:
+		ok = true
+	}
+	return
+}
+
+var riscv64SpecialOperand map[string]riscv.SpecialOperand
+
+// GetRISCV64SpecialOperand returns the internal representation of a special operand.
+func GetRISCV64SpecialOperand(name string) riscv.SpecialOperand {
+	if riscv64SpecialOperand == nil {
+		// Generate the mapping automatically when the first time the function is called.
+		riscv64SpecialOperand = map[string]riscv.SpecialOperand{}
+
+		// Add the CSRs
+		for csrCode, csrName := range riscv.CSRs {
+			riscv64SpecialOperand[csrName] = riscv.SpecialOperand(int64(csrCode) + int64(riscv.SPOP_CSR_BEGIN))
+		}
+	}
+	if opd, ok := riscv64SpecialOperand[name]; ok {
+		return opd
+	}
+	return riscv.SPOP_END
+}

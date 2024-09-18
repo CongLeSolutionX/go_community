@@ -1260,3 +1260,35 @@ const (
 	// U-type instructions.
 	UTypeImmMask = 0xfffff000
 )
+
+// SpecialOperand represents a special RISC-V operand such as a CSR name.
+type SpecialOperand int64
+
+const (
+	SPOP_BEGIN     SpecialOperand = obj.SpecialOperandRISCVBase
+	SPOP_CSR_BEGIN SpecialOperand = obj.SpecialOperandRISCVBase
+	SPOP_CSR_END   SpecialOperand = SPOP_CSR_BEGIN + 4096
+	SPOP_END       SpecialOperand = SPOP_CSR_END
+)
+
+// String returns the textual representation of a SpecialOperand.
+func (i SpecialOperand) String() string {
+	if i < SPOP_CSR_BEGIN || i >= SPOP_CSR_END {
+		return ""
+	}
+	if csrName, ok := CSRs[uint16(i-SPOP_CSR_BEGIN)]; ok {
+		return csrName
+	}
+	return ""
+}
+
+// Encode returns the underlying integer value of the SpecialOperand.
+// As all SpecialOperands, including those of other architectures,
+// share a single value space, we need to translate their values
+// before encoding them.
+func (i SpecialOperand) Encode() int64 {
+	if i >= SPOP_CSR_BEGIN && i < SPOP_CSR_END {
+		return int64(i - SPOP_CSR_BEGIN)
+	}
+	return 0
+}

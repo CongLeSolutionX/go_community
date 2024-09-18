@@ -3,6 +3,9 @@
 // license that can be found in the LICENSE file.
 
 TEXT errors(SB),$0
+	CSRRS	X0, CYCLE			// ERROR "CSR name expected"
+	CSRRSI  $32, TIME, X15			// ERROR "immediate out of range 0 to 32"
+	CSRRS	$-1, TIME, X15			// ERROR "immediate out of range 0 to 32"
 	MOV	$errors(SB), (X5)		// ERROR "address load must target register"
 	MOV	$8(SP), (X5)			// ERROR "address load must target register"
 	MOVB	$8(SP), X5			// ERROR "unsupported address load"

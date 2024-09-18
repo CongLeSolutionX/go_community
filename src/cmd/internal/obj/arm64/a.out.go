@@ -1055,8 +1055,8 @@ type SpecialOperand int
 
 const (
 	// PRFM
-	SPOP_PLDL1KEEP SpecialOperand = iota     // must be the first one
-	SPOP_BEGIN     SpecialOperand = iota - 1 // set as the lower bound
+	SPOP_PLDL1KEEP SpecialOperand = obj.SpecialOperandARMBase + iota     // must be the first one
+	SPOP_BEGIN     SpecialOperand = obj.SpecialOperandARMBase + iota - 1 // set as the lower bound
 	SPOP_PLDL1STRM
 	SPOP_PLDL2KEEP
 	SPOP_PLDL2STRM

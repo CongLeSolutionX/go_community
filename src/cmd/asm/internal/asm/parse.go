@@ -21,6 +21,7 @@ import (
 	"cmd/asm/internal/lex"
 	"cmd/internal/obj"
 	"cmd/internal/obj/arm64"
+	"cmd/internal/obj/riscv"
 	"cmd/internal/obj/x86"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
@@ -402,6 +403,15 @@ func (p *Parser) operand(a *obj.Addr) {
 		case sys.ARM64:
 			// arm64 special operands.
 			if opd := arch.GetARM64SpecialOperand(name); opd != arm64.SPOP_END {
+				a.Type = obj.TYPE_SPECIAL
+				a.Offset = int64(opd)
+				break
+			}
+			// We have a symbol. Parse $sym±offset(symkind)
+			p.symbolReference(a, p.qualifySymbol(name), prefix)
+		case sys.RISCV64:
+			// riscv64 special operands.
+			if opd := arch.GetRISCV64SpecialOperand(name); opd != riscv.SPOP_END {
 				a.Type = obj.TYPE_SPECIAL
 				a.Offset = int64(opd)
 				break
