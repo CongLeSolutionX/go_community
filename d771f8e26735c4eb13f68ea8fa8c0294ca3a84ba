@@ -57,6 +57,30 @@
       },
       "revId": "d771f8e26735c4eb13f68ea8fa8c0294ca3a84ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00b7f0e6_6d1002fd",
+        "filename": "src/internal/syscall/unix/version_android.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 3617945
+      },
+      "writtenOn": "2024-09-18T10:50:54Z",
+      "side": 1,
+      "message": "I chose this approach because I want it to work even if cgo is disabled, and it seems that the cgo-based approach doesn\u0027t work for the Go toolchain itself.\n\nI understand that this adds a dependency on libc.so, but since Android mandates PIE, we depend on the dynamic linker anyway. So depending also on libc.so is not a big problem, I think.",
+      "parentUuid": "2f9dae37_ae4d2cb0",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 82
+      },
+      "revId": "d771f8e26735c4eb13f68ea8fa8c0294ca3a84ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
