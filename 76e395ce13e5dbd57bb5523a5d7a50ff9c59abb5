@@ -93,6 +93,30 @@
       },
       "revId": "76e395ce13e5dbd57bb5523a5d7a50ff9c59abb5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8423f5ff_6ef50ed5",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-18T19:12:21Z",
+      "side": 1,
+      "message": "Oh sorry I made a mistake! the bytes.Buffer is a reader! we should be able to pass the buffer as the second argument to io.Copy",
+      "parentUuid": "5d0e7932_03b66612",
+      "range": {
+        "startLine": 262,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 55
+      },
+      "revId": "76e395ce13e5dbd57bb5523a5d7a50ff9c59abb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
