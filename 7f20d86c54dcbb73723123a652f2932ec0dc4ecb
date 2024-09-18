@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a006d559_d94a4819",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-18T20:07:43Z",
+      "side": 1,
+      "message": "As of now we don\u0027t set it. In the future we could probably parse \"git show-ref --tags\" and cache the output in memory but this would probably be a bit of refactoring.\nFor now I think we can leave it as a placeholder otherwise I can change it to return nil, nil if you think that\u0027s better.\nAdded a comment.",
+      "parentUuid": "fae3527d_e1d35866",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 26
+      },
+      "revId": "7f20d86c54dcbb73723123a652f2932ec0dc4ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dd97d22b_605c1e76",
         "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2024-09-18T15:29:50Z",
       "side": 1,
       "message": "why don\u0027t we always do statLocal in the r.local case? is it so that we can return a \u0027revision does not exist locally error\u0027 rather than an \u0027unknown revision\u0027 error?",
+      "range": {
+        "startLine": 397,
+        "startChar": 0,
+        "endLine": 397,
+        "endChar": 84
+      },
+      "revId": "7f20d86c54dcbb73723123a652f2932ec0dc4ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f055a8c9_29c6a5d9",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-18T20:07:43Z",
+      "side": 1,
+      "message": "Yes. And also I moved the check further down so that we can loadLocalTags and potentially loadRefs in the future.",
+      "parentUuid": "dd97d22b_605c1e76",
       "range": {
         "startLine": 397,
         "startChar": 0,
