@@ -81,6 +81,30 @@
       },
       "revId": "d771f8e26735c4eb13f68ea8fa8c0294ca3a84ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f37c1da6_53e8d7e8",
+        "filename": "src/internal/syscall/unix/version_android.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-09-18T15:56:30Z",
+      "side": 1,
+      "message": "It\u0027s not just the dependency of libc.so. Once libc is involved, it may affect things like thread-local storage, thread creation, signals, etc. On other platforms, e.g. Darwin, we use libc for not just syscalls, but also thread creation, managing TLS, etc.. I don\u0027t say this couldn\u0027t work, but it is certainly an unexplored territory.\n\nI think it is okay to say for pure-Go binaries like the toolchain, just don\u0027t use pidfd. And we only consider this for the cgo case.\n\nOr, is there any other way to check the version? Like, parsing auxv or some sysctl?\n\nAlso, does CL 592078 or something along the line help? We can test if pidfd actually works before using it.",
+      "parentUuid": "00b7f0e6_6d1002fd",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 82
+      },
+      "revId": "d771f8e26735c4eb13f68ea8fa8c0294ca3a84ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
