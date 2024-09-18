@@ -145,8 +145,8 @@ func (c *Converter) Exited(err error) {
 
 const (
 	markFraming  byte = 'V' &^ '@' // ^V: framing
-	markErrBegin byte = 'N' &^ '@' // ^N: start of error
-	markErrEnd   byte = 'O' &^ '@' // ^O: end of error
+	markErrBegin byte = 'O' &^ '@' // ^O: start of error
+	markErrEnd   byte = 'N' &^ '@' // ^N: end of error
 )
 
 var (
