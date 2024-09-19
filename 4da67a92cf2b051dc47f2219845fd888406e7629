@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "828f31a7_395b6c58",
+        "filename": "src/net/ip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-19T23:32:46Z",
+      "side": 1,
+      "message": "It seems like this will waste a bit of memory in the common case.  We should either figure out the expected memory and allocate that, or just allocate 16 bytes or so and waste memory in the less common case.",
+      "revId": "4da67a92cf2b051dc47f2219845fd888406e7629",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e421b14a_8a9314aa",
+        "filename": "src/net/ip.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-19T23:32:46Z",
+      "side": 1,
+      "message": "Don\u0027t always allocate a large slice.",
+      "revId": "4da67a92cf2b051dc47f2219845fd888406e7629",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
