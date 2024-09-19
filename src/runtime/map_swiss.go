@@ -43,6 +43,9 @@ func checkHint(t *abi.SwissMapType, hint int) uint64 {
 	}
 
 	capacity := uint64(hint)
+	return capacity
+
+	// XXX: merge with target capacity stuff in NewMap.
 
 	// Ensure a groups allocation for a capacity this high doesn't exceed
 	// the maximum allocation size.
