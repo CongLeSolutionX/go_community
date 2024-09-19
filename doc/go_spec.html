@@ -2171,8 +2171,10 @@ non-<a href="#Blank_identifier">blank</a> <a href="#MethodName">method name</a>.
 <h2 id="Blocks">Blocks</h2>
 
 <p>
-A <i>block</i> is a possibly empty sequence of declarations and statements
-within matching brace brackets.
+The term <i>block</i> has two meanings, syntactic and semantic.
+
+Syntactically, a block is a possibly empty sequence of
+declarations and statements within matching brace brackets.
 </p>
 
 <pre class="ebnf">
@@ -2181,31 +2183,69 @@ StatementList = { Statement ";" } .
 </pre>
 
 <p>
-In addition to explicit blocks in the source code, there are implicit blocks:
+Semantically, a block is a mapping from names to declarations that
+affects a particular region of source code.
+
+The lexical environment of a Go program is a tree of nested semantic blocks,
+and this structure influences the <a href="#Declarations_and_scope">scope</a>
+of each declaration.
+</p>
+
+<p>
+Semantic blocks are determined by the syntax.
+  
+Some correspond to explicit brace brackets in the source:
+</p>
+<ol>
+<!--
+Syntactic blocks that are semantic blocks:
+BlockStmt, IfStmt.Body, ForStmt.Body, RangeStmt.Body
+
+Syntactic blocks that are not semantic blocks:
+{FuncLit,SwitchStmt,TypeSwitchStmt,SelectStmt,FuncDecl}.Body
+-->
+        <li>A block statement.</li>
+  
+	<li>The body of an <a href="#If_statements">"if"</a>,
+	    <a href="#For_statements">"for"</a>, or
+	    <a href="#Switch_statements">"switch"</a>
+	    statement.</li>
+</ol>
+
+<p>
+Other semantic blocks are implied by a syntactic construct:
 </p>
 
 <ol>
-	<li>The <i>universe block</i> encompasses all Go source text.</li>
-
-	<li>Each <a href="#Packages">package</a> has a <i>package block</i> containing all
-	    Go source text for that package.</li>
-
-	<li>Each file has a <i>file block</i> containing all Go source text
+	<li>Each file has a <i>file block</i> that affects all source text
 	    in that file.</li>
+
+	<li>Each <a href="#Function_declarations">function declaration</a>,
+	    <a href="#Function_literals">function literal</a>,
+	    or <a href="#Function_types">function type</a>
+	    has a <i>function block</i> that affects the extent
+	    of that syntactic construct.</li>
 
 	<li>Each <a href="#If_statements">"if"</a>,
 	    <a href="#For_statements">"for"</a>, and
 	    <a href="#Switch_statements">"switch"</a>
-	    statement is considered to be in its own implicit block.</li>
+	    statement has a block that affects the entire extent of that statement.</li>
 
 	<li>Each clause in a <a href="#Switch_statements">"switch"</a>
 	    or <a href="#Select_statements">"select"</a> statement
-	    acts as an implicit block.</li>
+	    has a block that affects the entire extent of that clause.</li>
 </ol>
 
 <p>
-Blocks nest and influence <a href="#Declarations_and_scope">scoping</a>.
+Some semantic blocks do not correspond to any syntax at all:
 </p>
+
+<ol>
+	<li>Each <a href="#Packages">package</a> has a <i>package
+	    block</i> that affects all the files of that package.</li>
+	
+	<li>The <i>universe block</i> affects the entire Go program.</li>
+</ol>
 
 
 <h2 id="Declarations_and_scope">Declarations and scope</h2>
