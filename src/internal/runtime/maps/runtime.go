@@ -25,3 +25,6 @@ func newarray(typ *abi.Type, n int) unsafe.Pointer
 
 //go:linkname newobject
 func newobject(typ *abi.Type) unsafe.Pointer
+
+//go:linkname fatal
+func fatal(s string)
