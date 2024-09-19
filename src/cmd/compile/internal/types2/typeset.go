@@ -147,7 +147,7 @@ func (s *_TypeSet) is(f func(*term) bool) bool {
 // underIs calls f with the underlying types of the specific type terms
 // of s and reports whether all calls to f returned true. If there are
 // no specific terms, underIs returns the result of f(nil).
-func (s *_TypeSet) underIs(f func(Type) bool) bool {
+func (s *_TypeSet) underIs_(f func(Type) bool) bool {
 	if !s.hasTerms() {
 		return f(nil)
 	}
