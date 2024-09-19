@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "006fc6ce_cb5d60a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-19T22:46:23Z",
+      "side": 1,
+      "message": "Can you pull into a separate CL not stacked on any other CLs?  We should be able to review and commit this independently, and before, the others.  Thanks.",
+      "revId": "213e1220cd89dde3f90b0349e043d70263c6f441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
