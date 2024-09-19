@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package sha256 implements the SHA224 and SHA256 hash algorithms as defined
+// Package sha256 implements the SHA-224 and SHA-256 hash algorithms as defined
 // in FIPS 180-4.
 package sha256
 
@@ -19,13 +19,13 @@ func init() {
 	crypto.RegisterHash(crypto.SHA256, New)
 }
 
-// The size of a SHA256 checksum in bytes.
+// The size of a SHA-256 checksum in bytes.
 const Size = 32
 
-// The size of a SHA224 checksum in bytes.
+// The size of a SHA-224 checksum in bytes.
 const Size224 = 28
 
-// The blocksize of SHA256 and SHA224 in bytes.
+// The block size of SHA-256 and SHA-224 in bytes.
 const BlockSize = 64
 
 const (
@@ -141,7 +141,7 @@ func (d *digest) Reset() {
 	d.len = 0
 }
 
-// New returns a new [hash.Hash] computing the SHA256 checksum. The Hash
+// New returns a new [hash.Hash] computing the SHA-256 checksum. The Hash
 // also implements [encoding.BinaryMarshaler], [encoding.BinaryAppender] and
 // [encoding.BinaryUnmarshaler] to marshal and unmarshal the internal
 // state of the hash.
@@ -154,7 +154,7 @@ func New() hash.Hash {
 	return d
 }
 
-// New224 returns a new [hash.Hash] computing the SHA224 checksum. The Hash
+// New224 returns a new [hash.Hash] computing the SHA-224 checksum. The Hash
 // also implements [encoding.BinaryMarshaler], [encoding.BinaryAppender] and
 // [encoding.BinaryUnmarshaler] to marshal and unmarshal the internal
 // state of the hash.
@@ -250,7 +250,7 @@ func (d *digest) checkSum() [Size]byte {
 	return digest
 }
 
-// Sum256 returns the SHA256 checksum of the data.
+// Sum256 returns the SHA-256 checksum of the data.
 func Sum256(data []byte) [Size]byte {
 	if boring.Enabled {
 		return boring.SHA256(data)
@@ -261,7 +261,7 @@ func Sum256(data []byte) [Size]byte {
 	return d.checkSum()
 }
 
-// Sum224 returns the SHA224 checksum of the data.
+// Sum224 returns the SHA-224 checksum of the data.
 func Sum224(data []byte) [Size224]byte {
 	if boring.Enabled {
 		return boring.SHA224(data)

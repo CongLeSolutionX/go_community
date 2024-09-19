@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// SHA256 hash algorithm. See FIPS 180-2.
-
 package sha256
 
 import (
@@ -276,31 +274,14 @@ var largeUnmarshalTests = []unmarshalTest{
 	},
 }
 
-func safeSum(h hash.Hash) (sum []byte, err error) {
-	defer func() {
-		if r := recover(); r != nil {
-			err = fmt.Errorf("sum panic: %v", r)
-		}
-	}()
-
-	return h.Sum(nil), nil
-}
 func TestLargeHashes(t *testing.T) {
 	for i, test := range largeUnmarshalTests {
-
 		h := New()
 		if err := h.(encoding.BinaryUnmarshaler).UnmarshalBinary([]byte(test.state)); err != nil {
 			t.Errorf("test %d could not unmarshal: %v", i, err)
 			continue
 		}
-
-		sum, err := safeSum(h)
-		if err != nil {
-			t.Errorf("test %d could not sum: %v", i, err)
-			continue
-		}
-
-		if fmt.Sprintf("%x", sum) != test.sum {
+		if sum := h.Sum(nil); fmt.Sprintf("%x", sum) != test.sum {
 			t.Errorf("test %d sum mismatch: expect %s got %x", i, test.sum, sum)
 		}
 	}
@@ -310,16 +291,15 @@ func TestAllocations(t *testing.T) {
 	if boring.Enabled {
 		t.Skip("BoringCrypto doesn't allocate the same way as stdlib")
 	}
-	in := []byte("hello, world!")
-	out := make([]byte, 0, Size)
-	h := New()
-	n := int(testing.AllocsPerRun(10, func() {
+	if n := testing.AllocsPerRun(10, func() {
+		in := []byte("hello, world!")
+		out := make([]byte, 0, Size)
+		h := New()
 		h.Reset()
 		h.Write(in)
 		out = h.Sum(out[:0])
-	}))
-	if n > 0 {
-		t.Errorf("allocs = %d, want 0", n)
+	}); n > 0 {
+		t.Errorf("allocs = %v, want 0", n)
 	}
 }
 
