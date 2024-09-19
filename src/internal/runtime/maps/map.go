@@ -447,48 +447,25 @@ func (m *Map) getWithKeySmall(hash uintptr, key unsafe.Pointer) (unsafe.Pointer,
 	h2 := uint8(h2(hash))
 	ctrls := *g.ctrls()
 
-	//match := g.ctrls().matchH2(h2(hash))
-
-	//for match != 0 {
-	//offset := groupSlotsOffset + g.typ.SlotSize
-	//slotKey := unsafe.Pointer(uintptr(g.data) + groupSlotsOffset)
-	//for i := uint32(0); i < 8; i++ {
-	//lastOffset := groupSlotsOffset + g.typ.SlotSize * 8
-	//for slotOffset := uintptr(groupSlotsOffset); slotOffset < lastOffset; slotOffset += g.typ.SlotSize {
 	for i := uint32(0); i < 8; i++ {
 		c := uint8(ctrls)
 		ctrls >>= 8
 		if c != h2 {
-			//slotKey = unsafe.Pointer(uintptr(slotKey) + g.typ.SlotSize)
 			continue
 		}
-		//if (g.ctrls().get(i) & ctrlEmpty) == ctrlEmpty {
-		//	// Empty or deleted
-		//	slotKey = unsafe.Pointer(uintptr(slotKey) + g.typ.SlotSize)
-		//	continue
-		//}
-		//i := match.first()
 
 		slotKey := g.key(m.typ, i)
 		if m.typ.IndirectKey() {
 			slotKey = *((*unsafe.Pointer)(slotKey))
 		}
-		//slotKey := unsafe.Pointer(uintptr(g.data) + slotOffset)
-		//if m.typ.Key.Size() == 16 && m.typ.Key.Kind() == abi.Struct {
-		//	//if runtime_memequal128(key, slotKey) {
-		//	if *(*[2]int64)(key) == *(*[2]int64)(slotKey) {
-		//		return slotKey, g.elem(i), true
-		//	}
-		if m.typ.Key.Equal(key, slotKey) { //&& (g.ctrls().get(i) & ctrlEmpty) != ctrlEmpty {
+
+		if m.typ.Key.Equal(key, slotKey) {
 			slotElem := g.elem(m.typ, i)
 			if m.typ.IndirectElem() {
 				slotElem = *((*unsafe.Pointer)(slotElem))
 			}
 			return slotKey, slotElem, true
-			//return slotKey, unsafe.Pointer(uintptr(slotKey) + g.typ.ElemOff), true
 		}
-		//match = match.removeFirst()
-		//slotKey = unsafe.Pointer(uintptr(slotKey) + g.typ.SlotSize)
 	}
 
 	return nil, nil, false
