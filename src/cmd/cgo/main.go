@@ -102,8 +102,9 @@ type Call struct {
 
 // A Lit refers to a composite literal of a C.xxx type in the AST.
 type Lit struct {
-	Lit  *ast.CompositeLit
-	Done bool
+	Lit    *ast.CompositeLit
+	TypeOf typeContext
+	Done   bool
 }
 
 // A Ref refers to an expression of the form C.xxx in the AST.

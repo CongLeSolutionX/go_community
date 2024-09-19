@@ -88,6 +88,32 @@ var ptrTests = []ptrTest{
 		fail:    false,
 	},
 	{
+		// Implicit struct type, within slice of struct.
+		name:    "sliceOfStruct",
+		c:       `struct s6a { int x; int y; }; void f6a(struct s6a *p) {}`,
+		imports: []string{"unsafe"},
+		body:    `s := []C.struct_s6a{{1,2}}; C.f6a(&s[0])`,
+		fail:    false,
+	},
+	{
+		// Implicit struct type, within map of struct
+		name:    "mapOfStruct",
+		c:       `struct s6k { int x; int y; }; struct s6v { int x; int y; int z; }; void f6k(struct s6k *p) {}; void f6v(struct s6v *p) {}`,
+		imports: []string{"unsafe"},
+		body:    `s := map[C.struct_s6k]C.struct_s6v{{1,2}:{3,4,5},{6,7}:{8,9,10}}; for k,v := range s {C.f6k(&k); C.f6v(&v)}`,
+		fail:    false,
+	},
+	{
+		// Implicit struct type, within slice of map of struct
+		// Also includes a "false positive" untyped compound literal that should be left alone.
+		name:    "sliceOfmapOfStruct",
+		c:       `struct s6sk { int x; int y; }; struct s6sv { int x; int y; int z; }; void f6sk(struct s6sk *p) {}; void f6sv(struct s6sv *p) {}`,
+		imports: []string{"unsafe"},
+		body:    `ss:= [][]C.int{{1, 2}, {3, 4}}; s := []map[C.struct_s6sk]C.struct_s6sv{{{ss[0][0],2}:{3,4,5},{6,7}:{8,9,10}}}; for k,v := range s[0] {C.f6sk(&k); C.f6sv(&v)}`,
+		fail:    false,
+	},
+
+	{
 		// Passing the address of a slice with a Go pointer.
 		name:    "sliceptr1",
 		c:       `void f7(void **p) {}`,

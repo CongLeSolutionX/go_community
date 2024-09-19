@@ -11,7 +11,7 @@ import (
 	"go/token"
 )
 
-func (f *File) walkUnexpected(x interface{}, context astContext, visit func(*File, interface{}, astContext)) {
+func (f *File) walkUnexpected(x interface{}, context astContext, typeOf typeContext, visit func(*File, interface{}, astContext, typeContext)) {
 	error_(token.NoPos, "unexpected type %T in walk", x)
 	panic("unexpected type")
 }

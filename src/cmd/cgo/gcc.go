@@ -801,18 +801,99 @@ func (p *Package) prewriteLits(f *File) {
 	}
 }
 
-func typeFor(cType string) *Type {
-	ty := typedef["_Ctype_struct_"+cType]
-	if ty != nil {
-		return ty
+func typeForExpr(e ast.Expr) *Type {
+	switch x := e.(type) {
+	case *ast.SelectorExpr:
+		if l, ok := x.X.(*ast.Ident); ok && l.Name == "C" {
+			cType := x.Sel.Name
+			if ty := typedef["_Ctype_struct_"+cType]; ty != nil {
+				return ty
+			}
+			return typedef["_Ctype_"+cType]
+		}
+		return nil
+	case *ast.Ident:
+		return typedef[x.Name]
 	}
-	ty = typedef["_Ctype_"+cType]
-	return ty
+	return nil
+}
+
+func typeFor(lit *Lit) *Type {
+	if lit.Lit.Type != nil {
+		sel := lit.Lit.Type.(*ast.SelectorExpr)
+		cType := sel.Sel.Name
+		if ty := typedef["_Ctype_struct_"+cType]; ty != nil {
+			return ty
+		}
+		return typedef["_Ctype_"+cType]
+	}
+	t := lit.TypeOf.ty
+	if t == nil {
+		return nil
+	}
+	p := lit.TypeOf.path
+	for len(p) > 0 {
+		i := -1  // not a valid field index
+		s := ";" // not a valid field name
+		switch x := p[0].(type) {
+		case int:
+			i = x
+		case string:
+			s = x
+		default:
+			return nil
+		}
+
+		switch x := t.(type) {
+		case *ast.ArrayType:
+			t = x.Elt
+
+		// Not actually a case?
+		case *ast.StructType:
+			// Count non-"_" fields looking for some kind of match
+		structLoop:
+			for _, fl := range x.Fields.List {
+				for _, f := range fl.Names {
+					if f.Name == "_" {
+						continue
+					}
+					if f.Name == s || i == 0 {
+						t = fl.Type
+						break structLoop
+					}
+					i--
+				}
+			}
+
+		case *ast.MapType:
+			if i == 0 {
+				t = x.Key
+			} else {
+				t = x.Value
+			}
+		case *ast.Ident, *ast.SelectorExpr:
+			ty := typeForExpr(t)
+			if ty == nil {
+				return nil
+			}
+			t = ty.Go
+			continue // do not consume a path element
+
+		default:
+			return nil
+		}
+		p = p[1:]
+	}
+	return typeForExpr(t)
 }
 
 func (p *Package) prewriteLit(lit *Lit) {
-	sel := lit.Lit.Type.(*ast.SelectorExpr)
-	ty := typeFor(sel.Sel.Name)
+	ty := typeFor(lit)
+	if ty == nil {
+		// interior typeless compound literals could have nothing at all to do with cgo.  Leave them alone.
+		lit.Done = true
+		return
+	}
 	fields := ty.Go.(*ast.StructType).Fields.List
 	j := 0
 	for _, fs := range fields {
@@ -839,8 +920,7 @@ func (p *Package) rewriteLits(f *File) {
 }
 
 func (p *Package) rewriteLit(f *File, lit *Lit) {
-	sel := lit.Lit.Type.(*ast.SelectorExpr)
-	ty := typeFor(sel.Sel.Name)
+	ty := typeFor(lit)
 	fields := ty.Go.(*ast.StructType).Fields.List
 	j := 0
 	for _, fs := range fields {
@@ -876,7 +956,7 @@ func (p *Package) rewriteCalls(f *File) bool {
 			if nu {
 				needsUnsafe = true
 			}
-			f.walk(call.Call, ctxExpr, (*File).doneLiteral)
+			f.walk(call.Call, ctxExpr, nilTC, (*File).doneLiteral)
 		}
 	}
 	return needsUnsafe
@@ -1197,7 +1277,7 @@ func (p *Package) hasPointer(f *File, t ast.Expr, top bool) bool {
 // If addPosition is true, add position info to the idents of C names in arg.
 func (p *Package) mangle(f *File, arg *ast.Expr, addPosition bool) (ast.Expr, bool) {
 	needsUnsafe := false
-	f.walk(arg, ctxExpr, func(f *File, arg interface{}, context astContext) {
+	f.walk(arg, ctxExpr, nilTC, func(f *File, arg interface{}, context astContext, typeOf typeContext) {
 		px, ok := arg.(*ast.Expr)
 		if !ok {
 			return
