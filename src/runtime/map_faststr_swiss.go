@@ -12,21 +12,10 @@ import (
 	"unsafe"
 )
 
-func mapaccess1_faststr(t *abi.SwissMapType, m *maps.Map, ky string) unsafe.Pointer {
-	throw("mapaccess1_faststr unimplemented")
-	panic("unreachable")
-}
+func mapaccess1_faststr(t *abi.SwissMapType, m *maps.Map, ky string) unsafe.Pointer
 
-func mapaccess2_faststr(t *abi.SwissMapType, m *maps.Map, ky string) (unsafe.Pointer, bool) {
-	throw("mapaccess2_faststr unimplemented")
-	panic("unreachable")
-}
+func mapaccess2_faststr(t *abi.SwissMapType, m *maps.Map, ky string) (unsafe.Pointer, bool)
 
-func mapassign_faststr(t *abi.SwissMapType, m *maps.Map, s string) unsafe.Pointer {
-	throw("mapassign_faststr unimplemented")
-	panic("unreachable")
-}
+func mapassign_faststr(t *abi.SwissMapType, m *maps.Map, s string) unsafe.Pointer
 
-func mapdelete_faststr(t *abi.SwissMapType, m *maps.Map, ky string) {
-	throw("mapdelete_faststr unimplemented")
-}
+func mapdelete_faststr(t *abi.SwissMapType, m *maps.Map, ky string)
