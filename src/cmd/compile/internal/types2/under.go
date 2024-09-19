@@ -18,11 +18,12 @@ func under(t Type) Type {
 // If typ is a type parameter, underIs returns the result of typ.underIs(f).
 // Otherwise, underIs returns the result of f(under(typ)).
 func underIs(typ Type, f func(Type) bool) bool {
-	typ = Unalias(typ)
-	if tpar, _ := typ.(*TypeParam); tpar != nil {
-		return tpar.underIs(f)
-	}
-	return f(under(typ))
+	var ok bool
+	typeset(typ, func(_, u Type) bool {
+		ok = f(u)
+		return ok
+	})
+	return ok
 }
 
 // typeset is an iterator over the (type/underlying type) pairs of the
@@ -53,7 +54,7 @@ func coreType(t Type) Type {
 	}
 
 	var su Type
-	if tpar.underIs(func(u Type) bool {
+	if underIs(tpar, func(u Type) bool {
 		if u == nil {
 			return false
 		}
@@ -84,7 +85,7 @@ func coreString(t Type) Type {
 
 	var su Type
 	hasString := false
-	if tpar.underIs(func(u Type) bool {
+	if underIs(tpar, func(u Type) bool {
 		if u == nil {
 			return false
 		}
