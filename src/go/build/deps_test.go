@@ -445,9 +445,12 @@ var depsRules = `
 	sync/atomic < crypto/internal/boring/bcache, crypto/internal/boring/fipstls;
 	crypto/internal/boring/sig, crypto/internal/boring/fipstls < crypto/tls/fipsonly;
 
+	NONE < crypto/internal/impl;
+
 	# CRYPTO is core crypto algorithms - no cgo, fmt, net.
 	crypto/internal/boring/sig,
 	crypto/internal/boring/syso,
+	crypto/internal/impl,
 	golang.org/x/sys/cpu,
 	hash, embed
 	< crypto
@@ -642,7 +645,7 @@ var depsRules = `
 	FMT
 	< internal/txtar;
 
-	CRYPTO-MATH, testing
+	CRYPTO-MATH, testing, internal/testenv
 	< crypto/internal/cryptotest;
 
 	# v2 execution trace parser.
