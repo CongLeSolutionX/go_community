@@ -20,9 +20,6 @@ import (
 //go:linkname mapKeyError
 func mapKeyError(typ *abi.SwissMapType, p unsafe.Pointer) error
 
-//go:linkname fatal
-func fatal(s string)
-
 // Pull from runtime. It is important that is this the exact same copy as the
 // runtime because runtime.mapaccess1_fat compares the returned pointer with
 // &runtime.zeroVal[0].
