@@ -16,6 +16,23 @@
       "message": "Just updated; @iant@golang.org please take another look thanks!",
       "revId": "519a3b0f7b214d27726a0dccba5db7cc83fc692e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b600939d_e1f07ce3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-09-20T17:21:09Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "519a3b0f7b214d27726a0dccba5db7cc83fc692e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
