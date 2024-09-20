@@ -207,6 +207,10 @@ func runtime_mapassign(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsafe
 	// case we have not actually done a write.
 	m.writing ^= 1 // toggle, see comment on writing
 
+	if m.dirPtr == nil {
+		m.growToSmall()
+	}
+
 	if m.dirLen < 0 {
 		slotElem := m.putSlotSmall(hash, key)
 
