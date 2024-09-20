@@ -6,13 +6,22 @@
 
 package sha256
 
-import "internal/cpu"
+import (
+	"crypto/internal/impl"
+	"internal/cpu"
+)
+
+var useSHA256 = cpu.S390X.HasSHA256
+
+func init() {
+	impl.Register("crypto/sha256", "CPACF", &useSHA256)
+}
 
 //go:noescape
 func blockS390X(dig *digest, p []byte)
 
 func block(dig *digest, p []byte) {
-	if cpu.S390X.HasSHA256 {
+	if useSHA256 {
 		blockS390X(dig, p)
 	} else {
 		blockGeneric(dig, p)
