@@ -16,6 +16,24 @@
       "message": "Can you pull into a separate CL not stacked on any other CLs?  We should be able to review and commit this independently, and before, the others.  Thanks.",
       "revId": "213e1220cd89dde3f90b0349e043d70263c6f441",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6a38092_241dc22f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-09-20T16:20:07Z",
+      "side": 1,
+      "message": "I think this would combine with its predecessor, and the two together would convert C.whatever positional struct literals into keyword literals.\n\nHere\u0027s that CL: https://go.dev/cl/614695",
+      "parentUuid": "006fc6ce_cb5d60a4",
+      "revId": "213e1220cd89dde3f90b0349e043d70263c6f441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
