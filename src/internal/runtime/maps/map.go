@@ -241,19 +241,29 @@ func depthToShift(depth uint32) uint32 {
 func NewMap(mt *abi.SwissMapType, capacity uint64) *Map {
 	// Increase initial capacity to hold capacity entries without growing
 	// in the average case.
-	// TODO: don't increase <8 to >8
-	targetCapacity := (capacity * abi.SwissMapGroupSlots) / maxAvgGroupLoad
-
-	if targetCapacity < abi.SwissMapGroupSlots {
-		// TODO: temporary to simplify initial implementation.
-		targetCapacity = abi.SwissMapGroupSlots
+	var targetCapacity uint64
+	if capacity <= abi.SwissMapGroupSlots {
+		// Small map can fill all 8 slots. We set the target to 0 here
+		// because an 8 slot small map is what the first assignment to
+		// an empty map will allocate anyway. Whether we allocate here
+		// or in the first assignment makes no difference. And if there
+		// is a chance that the caller won't write at all then it is
+		// better to delay.
+		targetCapacity = 0
+	} else {
+		targetCapacity = (capacity * abi.SwissMapGroupSlots) / maxAvgGroupLoad
 	}
+
 	dirSize := (targetCapacity + maxTableCapacity - 1) / maxTableCapacity
 	dirSize, overflow := alignUpPow2(dirSize)
 	if overflow {
 		panic("rounded-up capacity overflows uint64")
 	}
 	globalDepth := uint32(sys.TrailingZeros64(dirSize))
+	if targetCapacity == 0 {
+		// TrailingZeros64 returns 64 for 0.
+		globalDepth = 0
+	}
 
 	m := &Map{
 		typ: mt,
@@ -267,7 +277,8 @@ func NewMap(mt *abi.SwissMapType, capacity uint64) *Map {
 		globalShift: depthToShift(globalDepth),
 	}
 
-	if targetCapacity > abi.SwissMapGroupSlots {
+	if targetCapacity > 0 {
+		// Full map.
 		directory := make([]*table, dirSize)
 
 		for i := range directory {
@@ -278,16 +289,6 @@ func NewMap(mt *abi.SwissMapType, capacity uint64) *Map {
 		m.dirPtr = unsafe.Pointer(&directory[0])
 		m.dirLen = len(directory)
 		m.dirCap = cap(directory)
-	} else {
-		grp := newGroups(mt, 1)
-		m.dirPtr = grp.data
-		m.dirLen = -8 // used as growthLeft
-		m.dirCap = 0
-
-		g := groupReference{
-			data: m.dirPtr,
-		}
-		g.ctrls().setEmpty()
 	}
 
 	return m
@@ -379,6 +380,10 @@ func (m *Map) Get(typ *abi.SwissMapType, key unsafe.Pointer) (unsafe.Pointer, bo
 }
 
 func (m *Map) getWithKey(typ *abi.SwissMapType, key unsafe.Pointer) (unsafe.Pointer, unsafe.Pointer, bool) {
+	if m.Used() == 0 {
+		return nil, nil, false
+	}
+
 	if m.writing != 0 {
 		fatal("concurrent map read and map write")
 	}
@@ -394,6 +399,10 @@ func (m *Map) getWithKey(typ *abi.SwissMapType, key unsafe.Pointer) (unsafe.Poin
 }
 
 func mapGetWithoutKey(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) (unsafe.Pointer, bool) {
+	if m.Used() == 0 {
+		return nil, false
+	}
+
 	if m.writing != 0 {
 		fatal("concurrent map read and map write")
 	}
@@ -463,6 +472,10 @@ func (m *Map) PutSlot(key unsafe.Pointer) unsafe.Pointer {
 	// Set writing after calling Hasher, since Hasher may panic, in which
 	// case we have not actually done a write.
 	m.writing ^= 1 // toggle, see comment on writing
+
+	if m.dirPtr == nil {
+		m.growToSmall()
+	}
 
 	if m.dirLen < 0 {
 		elem := m.putSlotSmall(hash, key)
@@ -554,6 +567,18 @@ func (m *Map) putSlotSmall(hash uintptr, key unsafe.Pointer) unsafe.Pointer {
 	panic("small map with negative dirLen has no empty slot")
 }
 
+func (m *Map) growToSmall() {
+	grp := newGroups(m.typ, 1)
+	m.dirPtr = grp.data
+	m.dirLen = -8 // used as growthLeft
+	m.dirCap = 0
+
+	g := groupReference{
+		data: m.dirPtr,
+	}
+	g.ctrls().setEmpty()
+}
+
 func (m *Map) growToTable() {
 	tab := newTable(m.typ, 2*abi.SwissMapGroupSlots, 0, 0)
 
@@ -598,6 +623,11 @@ func (m *Map) growToTable() {
 }
 
 func (m *Map) Delete(key unsafe.Pointer) {
+	// XXX: duplicated in mapdelete
+	if m.Used() == 0 {
+		return
+	}
+
 	if m.writing != 0 {
 		fatal("concurrent map writes")
 	}
@@ -657,6 +687,11 @@ func (m *Map) deleteSmall(hash uintptr, key unsafe.Pointer) {
 
 // Clear deletes all entries from the map resulting in an empty map.
 func (m *Map) Clear() {
+	// XXX: duplicated
+	if m.Used() == 0 {
+		return
+	}
+
 	if m.writing != 0 {
 		fatal("concurrent map writes")
 	}

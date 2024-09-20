@@ -215,6 +215,10 @@ func runtime_mapassign_faststr(typ *abi.SwissMapType, m *Map, key string) unsafe
 	// case we have not actually done a write.
 	m.writing ^= 1 // toggle, see comment on writing
 
+	if m.dirPtr == nil {
+		m.growToSmall()
+	}
+
 	if m.dirLen < 0 {
 		slotElem := m.putSlotSmallFastStr(hash, key)
 
