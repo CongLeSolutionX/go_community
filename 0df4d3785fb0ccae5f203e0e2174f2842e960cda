@@ -76,6 +76,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e4d99e1_031882e2",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-20T17:39:43Z",
+      "side": 1,
+      "message": "Done. I think it would be good as a followup to decouple checker.version (sanitized) from Info.FileVersions (raw).",
+      "parentUuid": "b32c7569_4b91561f",
+      "range": {
+        "startLine": 144,
+        "startChar": 59,
+        "endLine": 144,
+        "endChar": 68
+      },
+      "revId": "0df4d3785fb0ccae5f203e0e2174f2842e960cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "543a1b5d_17e9a7dd",
@@ -107,6 +131,24 @@
           ]
         }
       ],
+      "revId": "0df4d3785fb0ccae5f203e0e2174f2842e960cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28a00530_8788daf4",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-20T17:39:43Z",
+      "side": 1,
+      "message": "\u003e what\u0027s the reason for the empty line?\n\nA minor reaction to gofmt\u0027s common indentation of the two unrelated comments. Done.",
+      "parentUuid": "543a1b5d_17e9a7dd",
       "revId": "0df4d3785fb0ccae5f203e0e2174f2842e960cda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -154,6 +196,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9a829160_b4c617a6",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-20T17:39:43Z",
+      "side": 1,
+      "message": "Many functions seem to take a checker (or be methods of *checker) even though it may be nil, and the rationale seems to be that they are invoked in two phases:\n\n1. when type-checking the syntax of a package, checker !\u003d nil.\n2. when performing \"arithmetic\" on fully-baked types (e.g. instantiation, Identical, etc), the checker is nil.\n\nCan you think of a better way to express this distinction?",
+      "parentUuid": "86977380_afc78038",
+      "range": {
+        "startLine": 86,
+        "startChar": 21,
+        "endLine": 86,
+        "endChar": 50
+      },
+      "revId": "0df4d3785fb0ccae5f203e0e2174f2842e960cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7cd4a8e9_fcca85ee",
         "filename": "src/cmd/compile/internal/types2/lookup.go",
         "patchSetId": 4
@@ -193,6 +259,24 @@
           ]
         }
       ],
+      "revId": "0df4d3785fb0ccae5f203e0e2174f2842e960cda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32525981_0a50bedb",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-20T17:39:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cd4a8e9_fcca85ee",
       "revId": "0df4d3785fb0ccae5f203e0e2174f2842e960cda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
