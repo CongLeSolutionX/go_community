@@ -36,6 +36,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2847e64_6645f916",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3617945
+      },
+      "writtenOn": "2024-09-20T02:36:17Z",
+      "side": 1,
+      "message": "Abandoned\n\nAbandoning in favor of CL 614277.",
+      "revId": "d771f8e26735c4eb13f68ea8fa8c0294ca3a84ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f9dae37_ae4d2cb0",
@@ -121,6 +138,30 @@
       "side": 1,
       "message": "Testing pidfd is annoying, because on old versions Android calling the pidfd system call causes the process to get a SIGSYS signal.  That said, perhaps we could find out what happens if we explicitly ignore SIGSYS and then call pidfd.  Would it return ENOSYS in that case?  That might be a simpler fix, and wouldn\u0027t require knowing the android version.",
       "parentUuid": "f37c1da6_53e8d7e8",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 82
+      },
+      "revId": "d771f8e26735c4eb13f68ea8fa8c0294ca3a84ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "655c5f26_b85d6f3c",
+        "filename": "src/internal/syscall/unix/version_android.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 3617945
+      },
+      "writtenOn": "2024-09-20T02:36:17Z",
+      "side": 1,
+      "message": "I thought ignoring signal would need more effort as Go has no functionality to ignore signals temporarily.\nAfter reading your comment, I found that it can be implemented easily by modifying sighandler. Thanks.",
+      "parentUuid": "5fd90722_8d7e70c2",
       "range": {
         "startLine": 46,
         "startChar": 0,
