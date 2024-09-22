@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28b90405_2caf691b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-09-22T18:21:45Z",
+      "side": 1,
+      "message": "FYI submitting this is waiting for https://go.dev/cl/611615 (which is higher in the stack).",
+      "revId": "3d0fabf879f088e56c17831c2883b9314200c0ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
