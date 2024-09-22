@@ -12,6 +12,9 @@ import (
 	"unsafe"
 )
 
+//go:linkname vgetrandom runtime.vgetrandom
+func vgetrandom(p []byte, flags uint32) (ret int, supported bool)
+
 var getrandomUnsupported atomic.Bool
 
 // GetRandomFlag is a flag supported by the getrandom system call.
@@ -21,6 +24,14 @@ type GetRandomFlag uintptr
 func GetRandom(p []byte, flags GetRandomFlag) (n int, err error) {
 	if len(p) == 0 {
 		return 0, nil
+	}
+	ret, supported := vgetrandom(p, uint32(flags))
+	if supported {
+		n = ret
+		if ret < 0 {
+			err = syscall.Errno(-ret)
+		}
+		return
 	}
 	if getrandomUnsupported.Load() {
 		return 0, syscall.ENOSYS
