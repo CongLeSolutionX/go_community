@@ -704,3 +704,15 @@ TEXT runtime·sbrk0(SB),NOSPLIT,$0-8
 	SYSCALL
 	MOVQ	AX, ret+0(FP)
 	RET
+
+// ssize_t vgetrandom(void *buf, size_t len, unsigned long flags, void *opaque_state, size_t opaque_len)
+TEXT runtime·vgetrandom(SB),NOSPLIT,$0-48
+	MOVQ	buf+0(FP), DI
+	MOVQ	len+8(FP), SI
+	MOVL	flags+16(FP), DX
+	MOVQ	opaque_state+24(FP), CX
+	MOVQ	opaque_len+32(FP), R8
+	MOVQ	runtime·vdsoGetrandomSym(SB), AX
+	CALL	AX
+	MOVQ	AX, ret+40(FP)
+	RET

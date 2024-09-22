@@ -344,6 +344,7 @@ func osinit() {
 	ncpu = getproccount()
 	physHugePageSize = getHugePageSize()
 	osArchInit()
+	vgrndInit()
 }
 
 var urandom_dev = []byte("/dev/urandom\x00")
@@ -400,6 +401,10 @@ func unminit() {
 // Called from exitm, but not from drop, to undo the effect of thread-owned
 // resources in minit, semacreate, or elsewhere. Do not take locks after calling this.
 func mdestroy(mp *m) {
+	if mp.vdsoGetRandomState != 0 {
+		vgrndPutState(mp.vdsoGetRandomState)
+		mp.vdsoGetRandomState = 0
+	}
 }
 
 // #ifdef GOARCH_386
