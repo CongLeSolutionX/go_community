@@ -704,3 +704,13 @@ TEXT runtime·sbrk0(SB),NOSPLIT,$0-8
 	SYSCALL
 	MOVQ	AX, ret+0(FP)
 	RET
+
+// ssize_t vgetrandom1(void *buf, size_t len, unsigned int flags, void *opaque_state, size_t opaque_len)
+TEXT runtime·vgetrandom1<ABIInternal>(SB),NOSPLIT,$0-0
+	MOVQ	SI, R8 // opaque_len
+	MOVL	CX, DX // flags
+	MOVQ	DI, CX // opaque_state
+	MOVQ	BX, SI // len
+	MOVQ	AX, DI // buf
+	MOVQ	runtime·vdsoGetrandomSym(SB), AX
+	JMP	AX
