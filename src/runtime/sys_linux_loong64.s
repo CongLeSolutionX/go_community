@@ -657,3 +657,8 @@ TEXT runtime·socket(SB),$0-20
 	MOVV	R0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.go
 	MOVW	R0, ret+16(FP) // for vet
 	RET
+
+// ssize_t vgetrandom1(void *buf, size_t len, unsigned int flags, void *opaque_state, size_t opaque_len)
+TEXT runtime·vgetrandom1<ABIInternal>(SB),NOSPLIT|NOFRAME,$0-0
+	MOVV	runtime·vdsoGetrandomSym(SB), R19
+	JMP	(R19)
