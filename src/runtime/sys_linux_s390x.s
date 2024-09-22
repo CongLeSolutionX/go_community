@@ -604,3 +604,20 @@ TEXT runtime·socket(SB),$0-20
 	MOVD	$0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.go
 	MOVW	R0, ret+16(FP)
 	RET
+
+// func vgetrandom1(buf *byte, length uintptr, flags uint32, state uintptr, stateSize uintptr) int
+TEXT runtime·vgetrandom1(SB),NOSPLIT,$0-48
+	MOVD	buf+0(FP), R2
+	MOVD	length+8(FP), R3
+	MOVW	flags+16(FP), R4
+	MOVD	state+24(FP), R5
+	MOVD	stateSize+32(FP), R6
+	MOVD	R15, R7
+	SUB	$160, R15
+	MOVD	$~7, R1
+	AND	R1, R15
+	MOVD	runtime·vdsoGetrandomSym(SB), R1
+	BL	R1
+	MOVD	R7, R15
+	MOVD	R2, ret+40(FP)
+	RET
