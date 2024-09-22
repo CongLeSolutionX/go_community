@@ -2500,12 +2500,15 @@ func (w *writer) exprType(iface types2.Type, typ syntax.Expr) {
 
 	if w.Bool(iface != nil && !iface.Underlying().(*types2.Interface).Empty()) {
 		w.itab(tv.Type, iface)
+
+		info := w.p.typIdx(iface, w.dict)
+		w.Bool(info.derived) // iface derived
 	} else {
 		w.rtype(tv.Type)
-
-		info := w.p.typIdx(tv.Type, w.dict)
-		w.Bool(info.derived)
 	}
+
+	info := w.p.typIdx(tv.Type, w.dict)
+	w.Bool(info.derived)
 }
 
 // isInterface reports whether typ is known to be an interface type.

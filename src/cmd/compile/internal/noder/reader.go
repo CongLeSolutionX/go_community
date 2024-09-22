@@ -3229,8 +3229,15 @@ func (r *reader) exprType() ir.Node {
 
 	if r.Bool() {
 		typ, rtype, _, _, itab = r.itab(pos)
+		iDerived := r.Bool() // iface derived, see (*writer).exprType
+		derived := r.Bool()
+		if !iDerived && !derived {
+			return ir.TypeNode(typ)
+		}
 		if !typ.IsInterface() {
 			rtype = nil // TODO(mdempsky): Leave set?
+		} else if !derived { // typ is iface, and not derived
+			return ir.TypeNode(typ)
 		}
 	} else {
 		typ, rtype = r.rtype0(pos)
