@@ -2502,10 +2502,10 @@ func (w *writer) exprType(iface types2.Type, typ syntax.Expr) {
 		w.itab(tv.Type, iface)
 	} else {
 		w.rtype(tv.Type)
-
-		info := w.p.typIdx(tv.Type, w.dict)
-		w.Bool(info.derived)
 	}
+
+	info := w.p.typIdx(tv.Type, w.dict)
+	w.Bool(info.derived)
 }
 
 // isInterface reports whether typ is known to be an interface type.
