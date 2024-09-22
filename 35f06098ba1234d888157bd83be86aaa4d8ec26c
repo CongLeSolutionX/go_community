@@ -69,6 +69,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e613ef2_5ade0140",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1154,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-09-22T14:28:44Z",
+      "side": 1,
+      "message": "Done. I applied the fix you suggested. It\u0027d be nice to write a test case for this situation, but right now profstackdepth can\u0027t be controlled at runtime, so it\u0027s a bit tricky.",
+      "parentUuid": "bc18db71_83d44c71",
+      "revId": "35f06098ba1234d888157bd83be86aaa4d8ec26c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41160c39_2b98a76a",
@@ -82,6 +100,24 @@
       "writtenOn": "2024-09-09T12:41:11Z",
       "side": 1,
       "message": "I notice this tests passes consistently for me with `GOMAXPROCS\u003d1`, if I revert the fix. I guess because there isn\u0027t necessarily any runtime lock contention, and this test is relying on `runtime._LostContendedRuntimeLock` being in the profile? Not sure of a better way to do it, though. I guess as long as at least one of the runners reliably triggers runtime lock contention (and we do `runtime._LostContendedRuntimeLock` rather than the full stack) this test should catch a future regression? Or we could assert that `MutexProfile` stacks have `runtime.goexit` as the root frame?",
+      "revId": "35f06098ba1234d888157bd83be86aaa4d8ec26c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "baab6123_ee98a651",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1332,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-09-22T14:28:44Z",
+      "side": 1,
+      "message": "\u003e I notice this tests passes consistently for me with GOMAXPROCS\u003d1, if I revert the fix.\n\nThanks for pointing this out!\n\n\u003e Or we could assert that MutexProfile stacks have runtime.goexit as the root frame?\n\nThat\u0027s what I ended up doing. It made the test simpler and more robust 🙇🏻‍♂️",
+      "parentUuid": "41160c39_2b98a76a",
       "revId": "35f06098ba1234d888157bd83be86aaa4d8ec26c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -103,6 +139,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5dbed4f_37eea2fd",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-09-22T14:28:44Z",
+      "side": 1,
+      "message": "Done. Thx!",
+      "parentUuid": "e03b27ae_ae41a5c8",
+      "revId": "35f06098ba1234d888157bd83be86aaa4d8ec26c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c35fc38d_e72947f8",
@@ -116,6 +170,24 @@
       "writtenOn": "2024-09-09T12:41:11Z",
       "side": 1,
       "message": "If I revert the fix, the failure message here is `MutexProfile stack \";\" not found in proto:`. It\u0027s not clear to me what\u0027s missing just from that message. Perhaps also log the stacks from the `MutexProfile` on failure so it\u0027s easier to compare the outputs?",
+      "revId": "35f06098ba1234d888157bd83be86aaa4d8ec26c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b658c22e_fdcea153",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1387,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-09-22T14:28:44Z",
+      "side": 1,
+      "message": "Done. This code has been removed.",
+      "parentUuid": "c35fc38d_e72947f8",
       "revId": "35f06098ba1234d888157bd83be86aaa4d8ec26c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
