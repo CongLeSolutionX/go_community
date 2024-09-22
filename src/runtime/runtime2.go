@@ -596,6 +596,8 @@ type m struct {
 	vdsoSP uintptr // SP for traceback while in VDSO call (0 if not in call)
 	vdsoPC uintptr // PC for traceback while in VDSO call
 
+	vgetrandomState uintptr // opaque state for VDSO getrandom
+
 	// preemptGen counts the number of completed preemption
 	// signals. This is used to detect when a preemption is
 	// requested, but fails.
