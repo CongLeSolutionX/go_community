@@ -785,3 +785,8 @@ TEXT runtime·sbrk0(SB),NOSPLIT,$0-8
 	SVC
 	MOVD	R0, ret+0(FP)
 	RET
+
+// ssize_t vgetrandom1(void *buf, size_t len, unsigned int flags, void *opaque_state, size_t opaque_len)
+TEXT runtime·vgetrandom1<ABIInternal>(SB),NOSPLIT|NOFRAME,$0-0
+	MOVD	runtime·vdsoGetrandomSym(SB), R15
+	JMP	(R15)
