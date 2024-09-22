@@ -611,9 +611,11 @@ Architecture-specific environment variables:
 		For GOARCH=arm64, the ARM64 architecture for which to compile.
 		Valid values are v8.0 (default), v8.{1-9}, v9.{0-5}.
 		The value can be followed by an option specifying extensions implemented by target hardware.
-		Valid options are ,lse and ,crypto.
+		Valid options are ,lse , ,crypto and ,func_align_32.
 		Note that some extensions are enabled by default starting from a certain GOARM64 version;
 		for example, lse is enabled by default starting from v8.1.
+		func_align_32 is an option to force aligning all functions to 32-bytes, it might be helpful to
+		get more stable performance measuremetns, while it has certain overhead for code size.
 	GO386
 		For GOARCH=386, how to implement floating point instructions.
 		Valid values are sse2 (default), softfloat.
