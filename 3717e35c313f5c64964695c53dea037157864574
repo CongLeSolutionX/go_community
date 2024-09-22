@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6955f596_16102cfc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-09-22T03:50:56Z",
+      "side": 1,
+      "message": "See https://pkg.go.dev/testing#hdr-Benchmarks and https://pkg.go.dev/golang.org/x/perf/cmd/benchstat, Go language has a standard benchmark and benchmark compareble tools, In optimizing the performance of CL, it is usually used to show the benchmark, please use it, thanks.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 16
+      },
+      "revId": "3717e35c313f5c64964695c53dea037157864574",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a0b4a4fe_5007535b",
         "filename": "src/runtime/vgetrandom_linux.go",
         "patchSetId": 2
