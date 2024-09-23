@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad812ebc_9cf62e0f",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-23T15:31:04Z",
+      "side": 1,
+      "message": "Do I understand correctly that this doesn\u0027t strictly need to be tied to a single thread, as long as only one thread uses it at a time?\n\nIf so, I think we could put this on the P instead of the M and we wouldn\u0027t need to allocate as many.\n\n(But I wouldn\u0027t do that in this CL. That is a very minor optimization, and this is simpler)",
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "249b4043_91cad52a",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-23T15:31:04Z",
+      "side": 1,
+      "message": "nit: note that is a pointer to some allocation \"pointer to opaque state for VDSO getrandom, allocated with mmap\".?",
+      "range": {
+        "startLine": 599,
+        "startChar": 25,
+        "endLine": 599,
+        "endChar": 59
+      },
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16e3df88_169d27b0",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-23T15:31:04Z",
+      "side": 1,
+      "message": "nit: Put in mOS (os_linux.go), as it isn\u0027t needed on other OSes.",
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2dd9c6d_48eccdf3",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-23T15:31:04Z",
+      "side": 1,
+      "message": "I\u0027m curious how much difference ABIInternal made to the benchmark? I don\u0027t hate it, but the ABI0 version was definitely easier to read. 😊\n\n(The tail call (JMP) is also going to make stack traces slightly misleading)",
+      "range": {
+        "startLine": 709,
+        "startChar": 24,
+        "endLine": 709,
+        "endChar": 37
+      },
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21085749_3202a8e2",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-23T15:31:04Z",
+      "side": 1,
+      "message": "This will want the stack switch and mp.vdsoPC/SP handling used for other VDSO calls. See https://cs.opensource.google/go/go/+/master:src/runtime/sys_linux_amd64.s;l\u003d224\n\nRight now this is never called on g0, so the \"only switch if on mp.curg\" bit is unnecessary (we\u0027ll always be on mp.curg), it might be good to include just for consistency.",
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a68976b_9ece1b90",
+        "filename": "src/runtime/vgetrandom_linux.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-23T15:31:04Z",
+      "side": 1,
+      "message": "We\u0027ve been standardizing on doing these as push linknames, rather than pull linkname, as you have here. (See the docs I\u0027m adding in CL 609715, notably the \"Handshake\" section).\n\ni.e., define a function here that uses linkname to set the symbol name in the unix package.\n\n```\n//go:linkname unix_vgetrandom internal/syscall/unix.vgetrandom\nfunc unix_vgetrandom(p []byte, flags uint32) (ret int, supported bool) {\n  return vgetrandom(p, flags)\n}\n```",
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc6f00d7_f71b4180",
+        "filename": "src/runtime/vgetrandom_linux.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-23T15:31:04Z",
+      "side": 1,
+      "message": "Why do we still make a call when len(p) \u003d\u003d 0?",
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
