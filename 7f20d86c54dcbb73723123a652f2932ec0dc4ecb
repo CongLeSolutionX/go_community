@@ -72,6 +72,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e363e43e_ba1d8ce4",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-23T17:47:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc5212a5_b489129d",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 26
+      },
+      "revId": "7f20d86c54dcbb73723123a652f2932ec0dc4ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd97d22b_605c1e76",
