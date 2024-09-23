@@ -262,7 +262,7 @@ outer:
 				if key == *(*uint32)(slotKey) {
 					slotElem = g.elem(typ, i)
 
-					t.checkInvariants()
+					t.checkInvariants(m)
 					break outer
 				}
 				match = match.removeFirst()
@@ -314,7 +314,7 @@ outer:
 					t.used++
 					m.used++
 
-					t.checkInvariants()
+					t.checkInvariants(m)
 					break outer
 				}
 
