@@ -891,10 +891,36 @@ func TestAllocations(t *testing.T) {
 	if n := testing.AllocsPerRun(10, func() {
 		in := []byte("hello, world!")
 		out := make([]byte, 0, Size)
-		h := New()
-		h.Reset()
-		h.Write(in)
-		out = h.Sum(out[:0])
+
+		{
+			h := New()
+			h.Reset()
+			h.Write(in)
+			out = h.Sum(out[:0])
+		}
+		{
+			h := New512_224()
+			h.Reset()
+			h.Write(in)
+			out = h.Sum(out[:0])
+		}
+		{
+			h := New512_256()
+			h.Reset()
+			h.Write(in)
+			out = h.Sum(out[:0])
+		}
+		{
+			h := New384()
+			h.Reset()
+			h.Write(in)
+			out = h.Sum(out[:0])
+		}
+
+		Sum512(in)
+		Sum384(in)
+		Sum512_224(in)
+		Sum512_256(in)
 	}); n > 0 {
 		t.Errorf("allocs = %v, want 0", n)
 	}
