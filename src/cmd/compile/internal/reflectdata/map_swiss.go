@@ -100,7 +100,6 @@ func swissTableType() *types.Type {
 	// type table struct {
 	//     used uint64
 	//     typ  unsafe.Pointer // *abi.SwissMapType
-	//     seed uintptr
 	//
 	//     index int
 	//
@@ -116,7 +115,6 @@ func swissTableType() *types.Type {
 	fields := []*types.Field{
 		makefield("used", types.Types[types.TUINT64]),
 		makefield("typ", types.Types[types.TUNSAFEPTR]),
-		makefield("seed", types.Types[types.TUINTPTR]),
 		makefield("index", types.Types[types.TINT]),
 		makefield("groups_data", types.Types[types.TUNSAFEPTR]),
 		makefield("groups_lengthMask", types.Types[types.TUINT64]),
@@ -133,9 +131,9 @@ func swissTableType() *types.Type {
 	table.SetUnderlying(types.NewStruct(fields))
 	types.CalcSize(table)
 
-	// The size of table should be 72 bytes on 64 bit
-	// and 52 bytes on 32 bit platforms.
-	if size := int64(5*8 + 4*types.PtrSize); table.Size() != size {
+	// The size of table should be 64 bytes on 64 bit
+	// and 48 bytes on 32 bit platforms.
+	if size := int64(5*8 + 3*types.PtrSize); table.Size() != size {
 		base.Fatalf("internal/runtime/maps.table size not correct: got %d, want %d", table.Size(), size)
 	}
 

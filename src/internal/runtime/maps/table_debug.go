@@ -12,7 +12,7 @@ import (
 
 const debugLog = false
 
-func (t *table) checkInvariants() {
+func (t *table) checkInvariants(m *Map) {
 	if !debugLog {
 		return
 	}
@@ -45,12 +45,12 @@ func (t *table) checkInvariants() {
 					continue
 				}
 
-				if _, ok := t.Get(key); !ok {
-					hash := t.typ.Hasher(key, t.seed)
+				if _, ok := t.Get(m, key); !ok {
+					hash := t.typ.Hasher(key, m.seed)
 					print("invariant failed: slot(", i, "/", j, "): key ")
 					dump(key, t.typ.Key.Size_)
 					print(" not found [hash=", hash, ", h2=", h2(hash), " h1=", h1(hash), "]\n")
-					t.Print(t.typ)
+					t.Print(m)
 					panic("invariant failed: slot: key not found")
 				}
 			}
@@ -59,32 +59,30 @@ func (t *table) checkInvariants() {
 
 	if used != t.used {
 		print("invariant failed: found ", used, " used slots, but used count is ", t.used, "\n")
-		t.Print(t.typ)
+		t.Print(m)
 		panic("invariant failed: found mismatched used slot count")
 	}
 
 	growthLeft := (t.capacity*maxAvgGroupLoad)/abi.SwissMapGroupSlots - t.used - deleted
 	if growthLeft != t.growthLeft {
 		print("invariant failed: found ", t.growthLeft, " growthLeft, but expected ", growthLeft, "\n")
-		t.Print(t.typ)
+		t.Print(m)
 		panic("invariant failed: found mismatched growthLeft")
 	}
 	if deleted != t.tombstones() {
 		print("invariant failed: found ", deleted, " tombstones, but expected ", t.tombstones(), "\n")
-		t.Print(t.typ)
+		t.Print(m)
 		panic("invariant failed: found mismatched tombstones")
 	}
 
 	if empty == 0 {
 		print("invariant failed: found no empty slots (violates probe invariant)\n")
-		t.Print(t.typ)
+		t.Print(m)
 		panic("invariant failed: found no empty slots (violates probe invariant)")
 	}
 }
-
-func (t *table) Print(typ *abi.SwissMapType) {
+func (t *table) Print(m *Map) {
 	print(`table{
-	seed: `, t.seed, `
 	index: `, t.index, `
 	localDepth: `, t.localDepth, `
 	capacity: `, t.capacity, `
@@ -96,7 +94,7 @@ func (t *table) Print(typ *abi.SwissMapType) {
 	for i := uint64(0); i <= t.groups.lengthMask; i++ {
 		print("\t\tgroup ", i, "\n")
 
-		g := t.groups.group(typ, i)
+		g := t.groups.group(m.typ, i)
 		ctrls := g.ctrls()
 		for j := uint32(0); j < abi.SwissMapGroupSlots; j++ {
 			print("\t\t\tslot ", j, "\n")
@@ -113,10 +111,10 @@ func (t *table) Print(typ *abi.SwissMapType) {
 			}
 
 			print("\t\t\t\tkey  ")
-			dump(g.key(typ, j), t.typ.Key.Size_)
+			dump(g.key(m.typ, j), t.typ.Key.Size_)
 			println("")
 			print("\t\t\t\telem ")
-			dump(g.elem(typ, j), t.typ.Elem.Size_)
+			dump(g.elem(m.typ, j), t.typ.Elem.Size_)
 			println("")
 		}
 	}
