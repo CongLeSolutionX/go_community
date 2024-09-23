@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4690efb_11fd42fa",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 61734
+      },
+      "writtenOn": "2024-09-23T23:15:30Z",
+      "side": 1,
+      "message": "I believe the previous approach was clearer. Instead of checking if IsBoolFlag returns true, wouldn\u0027t it make more sense to eliminate the return value entirely and simply check for the existence of the method? If a flag implements IsBoolFlag, it should inherently represent a boolean flag. The idea of implementing IsBoolFlag but returning false seems counterintuitive—why would something claim to be a boolean flag but then not behave like one? If it’s not a boolean flag, why implement IsBoolFlag in the first place?",
+      "range": {
+        "startLine": 555,
+        "startChar": 0,
+        "endLine": 555,
+        "endChar": 1
+      },
+      "revId": "2d741947d8931325576427b3699d1af20e7be7cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
