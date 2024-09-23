@@ -12,7 +12,7 @@ import (
 
 const debugLog = false
 
-func (t *table) checkInvariants() {
+func (t *table) checkInvariants(m *Map) {
 	if !debugLog {
 		return
 	}
@@ -44,7 +44,7 @@ func (t *table) checkInvariants() {
 					continue
 				}
 
-				if _, ok := t.Get(key); !ok {
+				if _, ok := t.Get(m, key); !ok {
 					//hash := t.typ.Hasher(key, t.seed)
 					//panic(fmt.Sprintf("invariant failed: slot(%d/%d): key %v not found [hash=%#x, h2=%#02x h1=%#07x]\n%v",
 					//i, j, hexdump(key, t.typ.Key.Size_), hash, h2(hash), h1(hash), t))

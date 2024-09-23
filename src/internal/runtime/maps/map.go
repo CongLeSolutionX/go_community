@@ -264,10 +264,7 @@ func NewMap(mt *abi.SwissMapType, capacity uint64) *Map {
 	m := &Map{
 		typ: mt,
 
-		//TODO
-		//seed: uintptr(rand()),
-
-		//directory: make([]*table, dirSize),
+		seed: uintptr(rand()),
 
 		globalDepth: globalDepth,
 		globalShift: depthToShift(globalDepth),
@@ -641,6 +638,13 @@ func (m *Map) Delete(key unsafe.Pointer) {
 		m.directoryAt(idx).Delete(m, key)
 	}
 
+	if m.used == 0 {
+		// Reset the hash seed to make it more difficult for attackers
+		// to repeatedly trigger hash collisions. See
+		// https://go.dev/issue/25237.
+		m.seed = uintptr(rand())
+	}
+
 	if m.writing == 0 {
 		fatal("concurrent map writes")
 	}
@@ -709,6 +713,10 @@ func (m *Map) Clear() {
 		m.clearSeq++
 		// TODO: shrink directory?
 	}
+
+	// Reset the hash seed to make it more difficult for attackers to
+	// repeatedly trigger hash collisions. See https://go.dev/issue/25237.
+	m.seed = uintptr(rand())
 
 	if m.writing == 0 {
 		fatal("concurrent map writes")

@@ -38,8 +38,6 @@ type table struct {
 	// simplicity.
 	typ *abi.SwissMapType
 
-	seed uintptr
-
 	// The number of bits used by directory lookups above this table. Note
 	// that this may be less then globalDepth, if the directory has grown
 	// but this table has not yet been split.
@@ -82,8 +80,6 @@ func newTable(mt *abi.SwissMapType, capacity uint64, index int, localDepth uint3
 
 	t := &table{
 		typ: mt,
-		//TODO
-		//seed:       uintptr(rand()),
 
 		index:      index,
 		localDepth: localDepth,
@@ -159,10 +155,10 @@ func (t *table) Used() uint64 {
 
 // Get performs a lookup of the key that key points to. It returns a pointer to
 // the element, or false if the key doesn't exist.
-func (t *table) Get(key unsafe.Pointer) (unsafe.Pointer, bool) {
+func (t *table) Get(m *Map, key unsafe.Pointer) (unsafe.Pointer, bool) {
 	// TODO(prattmic): We could avoid hashing in a variety of special
 	// cases. e.g., one entry maps.
-	hash := t.typ.Hasher(key, t.seed)
+	hash := m.typ.Hasher(key, m.seed)
 	_, elem, ok := t.getWithKey(t.typ, hash, key)
 	return elem, ok
 }
@@ -323,7 +319,7 @@ func (t *table) PutSlot(m *Map, hash uintptr, key unsafe.Pointer) (unsafe.Pointe
 					slotElem = *((*unsafe.Pointer)(slotElem))
 				}
 
-				t.checkInvariants()
+				t.checkInvariants(m)
 				return slotElem, true
 			}
 			match = match.removeFirst()
@@ -385,7 +381,7 @@ func (t *table) PutSlot(m *Map, hash uintptr, key unsafe.Pointer) (unsafe.Pointe
 				t.used++
 				m.used++
 
-				t.checkInvariants()
+				t.checkInvariants(m)
 				return slotElem, true
 			}
 
@@ -448,7 +444,7 @@ func (t *table) uncheckedPutSlot(hash uintptr, key unsafe.Pointer) unsafe.Pointe
 }
 
 func (t *table) Delete(m *Map, key unsafe.Pointer) {
-	hash := t.typ.Hasher(key, t.seed)
+	hash := t.typ.Hasher(key, m.seed)
 
 	seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
 	for ; ; seq = seq.next() {
@@ -491,7 +487,7 @@ func (t *table) Delete(m *Map, key unsafe.Pointer) {
 					g.ctrls().set(i, ctrlDeleted)
 				}
 
-				t.checkInvariants()
+				t.checkInvariants(m)
 				return
 			}
 			match = match.removeFirst()
@@ -523,12 +519,6 @@ func (t *table) Clear() {
 
 	t.used = 0
 	t.resetGrowthLeft()
-
-	// Reset the hash seed to make it more difficult for attackers to
-	// repeatedly trigger hash collisions. See issue
-	// https://github.com/golang/go/issues/25237.
-	// TODO
-	//t.seed = uintptr(rand())
 }
 
 type Iter struct {
@@ -935,7 +925,7 @@ func (t *table) split(m *Map) {
 				elem = *((*unsafe.Pointer)(elem))
 			}
 
-			hash := t.typ.Hasher(key, t.seed)
+			hash := m.typ.Hasher(key, m.seed)
 			var newTable *table
 			if hash&mask == 0 {
 				newTable = left
@@ -981,7 +971,7 @@ func (t *table) grow(m *Map, newCapacity uint64) {
 					elem = *((*unsafe.Pointer)(elem))
 				}
 
-				hash := newTable.typ.Hasher(key, t.seed)
+				hash := m.typ.Hasher(key, m.seed)
 
 				// TODO(prattmic): For indirect key/elem, this is
 				// allocating new objects for key/elem. That is
@@ -994,7 +984,7 @@ func (t *table) grow(m *Map, newCapacity uint64) {
 		}
 	}
 
-	newTable.checkInvariants()
+	newTable.checkInvariants(m)
 	m.replaceTable(newTable)
 }
 
