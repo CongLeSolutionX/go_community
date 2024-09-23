@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cfa8c20_4b323f43",
+        "filename": "src/internal/syscall/unix/getrandom.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-09-23T11:59:35Z",
+      "side": 1,
+      "message": "Note that returning an error that\u0027s not ENOSYS or EINTR from here will crash the program after CL 608175 and friends (and returning 0, nil in a loop will cause an infinite loop). Is that an ok assumption for the vDSO?",
+      "revId": "eb84e0598572d7b5df90dbc6eb2bfce61e096f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdffbd4b_285128e5",
+        "filename": "src/internal/syscall/unix/getrandom.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-09-23T11:59:35Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tif ret \u003c 0 {\n\t\t\treturn 0, syscall.Errno(-ret)\n\t\t}\n\t\treturn ret, nil\n```\n\nnit: return n \u003d 0 on error. It\u0027s not required, but the safer these code paths the better.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 8
+      },
+      "revId": "eb84e0598572d7b5df90dbc6eb2bfce61e096f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd408521_6f687bb9",
+        "filename": "src/runtime/vgetrandom_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-09-23T11:59:35Z",
+      "side": 1,
+      "message": "I think this exposes it to applications, which isn\u0027t great. Do we have a within-stdlib-only mechanism for linkname? (See https://go.dev/doc/go1.23#linker)",
+      "revId": "eb84e0598572d7b5df90dbc6eb2bfce61e096f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
