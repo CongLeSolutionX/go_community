@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da5d52ce_9504de4b",
+        "filename": "src/internal/syscall/unix/getrandom.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-23T12:24:50Z",
+      "side": 1,
+      "message": "The vDSO at the moment returns ENOSYS, succeeds, or passes its arguments along to the syscall and returns whatever the syscall does.\n\nI\u0027m not sure I want to commit to that forever, for any of the interfaces. I\u0027d be hesitant to encourage ossifying the apis like that.",
+      "parentUuid": "4cfa8c20_4b323f43",
+      "revId": "eb84e0598572d7b5df90dbc6eb2bfce61e096f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdffbd4b_285128e5",
@@ -41,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e59312a_4a967f85",
+        "filename": "src/internal/syscall/unix/getrandom.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-23T12:24:50Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "cdffbd4b_285128e5",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 8
+      },
+      "revId": "eb84e0598572d7b5df90dbc6eb2bfce61e096f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd408521_6f687bb9",
@@ -54,6 +96,24 @@
       "writtenOn": "2024-09-23T11:59:35Z",
       "side": 1,
       "message": "I think this exposes it to applications, which isn\u0027t great. Do we have a within-stdlib-only mechanism for linkname? (See https://go.dev/doc/go1.23#linker)",
+      "revId": "eb84e0598572d7b5df90dbc6eb2bfce61e096f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df9a23ba_aca4ba22",
+        "filename": "src/runtime/vgetrandom_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-23T12:24:50Z",
+      "side": 1,
+      "message": "That\u0027s what the vDSO code already does for sharing its symbol resolutions from runtime to syscall. So I think this is fine. It\u0027s not actually exposing it in a sanctioned way; it\u0027s still the normal linkname internal glue, which I see you\u0027ve used too for your fatal handlers, because that\u0027s how these things are done within the runtime.",
+      "parentUuid": "fd408521_6f687bb9",
       "revId": "eb84e0598572d7b5df90dbc6eb2bfce61e096f44",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
