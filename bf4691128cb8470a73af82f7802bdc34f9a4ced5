@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "99c82768_e63f3e36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-23T22:46:04Z",
+      "side": 1,
+      "message": "Thanks a bunch for the review. I\u0027m responding here to a few of the conversational aspects. When I\u0027m home and at my computer again, I\u0027ll fix up the code changes and reply ack\u0027ing the rest of your comments.",
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ad812ebc_9cf62e0f",
         "filename": "src/runtime/runtime2.go",
         "patchSetId": 10
@@ -60,6 +77,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f4f6ea98_7ac03708",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-23T22:46:04Z",
+      "side": 1,
+      "message": "Right, I had the same thought process. Putting it in a P sounds reasonable, but potentially kind of tricky, so I thought that\u0027d be an optimization for later, if indeed that\u0027s what\u0027s wanted. CPU-locality probably results in fewer cache misses too.\n\nRegarding allocations, though, each state is 144 bytes, and mmap() has 4k (or 16k) page-sized granularity. Right now I allocate in chunks of ncpus, because that\u0027s a good approximation on how many will be required, and turns out to be true in Go where the number of threads is capped to GOMAXPROCS which defaults to that, iirc. But because it\u0027s at page-size granularity, on _most_ systems, but certainly not big servers, this winds up over-provisioning anyway. So I don\u0027t think changing to a P would do _that_ much. But that can be an optimization we study next, after this lands.",
+      "parentUuid": "ad812ebc_9cf62e0f",
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c2dd9c6d_48eccdf3",
         "filename": "src/runtime/sys_linux_amd64.s",
         "patchSetId": 10
@@ -71,6 +106,30 @@
       "writtenOn": "2024-09-23T15:31:04Z",
       "side": 1,
       "message": "I\u0027m curious how much difference ABIInternal made to the benchmark? I don\u0027t hate it, but the ABI0 version was definitely easier to read. 😊\n\n(The tail call (JMP) is also going to make stack traces slightly misleading)",
+      "range": {
+        "startLine": 709,
+        "startChar": 24,
+        "endLine": 709,
+        "endChar": 37
+      },
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "faa4c750_889b408e",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-23T22:46:04Z",
+      "side": 1,
+      "message": "It actually got a few percentage points better, so it wasn\u0027t nothing. Also, I like being able to have the tail call.\n\nI was mildly annoyed writing it that Go didn\u0027t roll with normal sys-v ABI, so I had to do this shuffle. Otherwise the function could have been just a jump!",
+      "parentUuid": "c2dd9c6d_48eccdf3",
       "range": {
         "startLine": 709,
         "startChar": 24,
@@ -100,6 +159,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "54f87c7e_3b34eb0a",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-23T22:46:04Z",
+      "side": 1,
+      "message": "I saw this, groaned, and thought, \"do I have to? :(\" and then I saw the vdso gettimeofday trampoline which _doesn\u0027t_ do this, so I thought maybe I could get away with not doing it. I probably should check particulars, but from memory, vgetrandom() should only use 80ish bytes of stack. I see that comment about hardening stuff adding extra junk. I\u0027ll build a kernel with that and see if it blows up getrandom like it evidently did clock_gettime. Because if I have to switch stacks, not only does the code get slower and more complex, but then the nice tail call goes away. So if I can avoid this, I\u0027d like to. Will look into it.",
+      "parentUuid": "21085749_3202a8e2",
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a68976b_9ece1b90",
         "filename": "src/runtime/vgetrandom_linux.go",
         "patchSetId": 10
@@ -117,6 +194,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e0a0a6b_48e11175",
+        "filename": "src/runtime/vgetrandom_linux.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-23T22:46:04Z",
+      "side": 1,
+      "message": "The thing is, we also need to expose this to x/sys/unix, so I think the \"pull\" linkname might actually be necessary here. Otherwise folks have no way of calling getrandom() in a complete way outside of using the crypto/rand interface, which might not be universally desirable.",
+      "parentUuid": "3a68976b_9ece1b90",
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc6f00d7_f71b4180",
         "filename": "src/runtime/vgetrandom_linux.go",
         "patchSetId": 10
@@ -128,6 +223,24 @@
       "writtenOn": "2024-09-23T15:31:04Z",
       "side": 1,
       "message": "Why do we still make a call when len(p) \u003d\u003d 0?",
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cad0cce_02606e17",
+        "filename": "src/runtime/vgetrandom_linux.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-23T22:46:04Z",
+      "side": 1,
+      "message": "At early boot on dysfunctional systems, calling getrandom(NULL, 0, 0) will block until the RNG is ready and then return, and calling getrandom(NULL, 0, GRND_NONBLOCK) will query whether the RNG is ready and return a value indicating that.\n\nThere\u0027s actually a bug in internal/syscall/unix where this logic is short-circuited in the entry point. I intend to send a bugfix for this.",
+      "parentUuid": "fc6f00d7_f71b4180",
       "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
