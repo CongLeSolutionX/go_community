@@ -22,6 +22,30 @@
       },
       "revId": "2d741947d8931325576427b3699d1af20e7be7cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a615ffaf_32659661",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-23T23:31:36Z",
+      "side": 1,
+      "message": "Thanks, but 1) this was submitted two years ago; 2) this addresses https://go.dev/issue/53473 which is about the case you describe.  We aren\u0027t going to change it back again at this point.",
+      "parentUuid": "d4690efb_11fd42fa",
+      "range": {
+        "startLine": 555,
+        "startChar": 0,
+        "endLine": 555,
+        "endChar": 1
+      },
+      "revId": "2d741947d8931325576427b3699d1af20e7be7cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
