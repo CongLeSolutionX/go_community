@@ -90,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9663cb56_e11127f7",
+        "filename": "src/internal/syscall/unix/getrandom.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-23T15:13:46Z",
+      "side": 1,
+      "message": "I\u0027ll read that thread and its tributaries and chime in if I have anything to add or object to after reading.\n\nFor the purposes of this CL, though, vgetrandom()\u003d\u003dgetrandom() in behaviors and return values and such, and any deviation from each other would be a bug.",
+      "parentUuid": "1df68708_f547f1fd",
+      "revId": "eb84e0598572d7b5df90dbc6eb2bfce61e096f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdffbd4b_285128e5",
