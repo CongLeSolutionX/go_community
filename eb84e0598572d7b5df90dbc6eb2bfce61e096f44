@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "408d11ad_d50e386a",
+        "filename": "src/internal/syscall/unix/getrandom.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-09-23T13:14:51Z",
+      "side": 1,
+      "message": "How are we supposed to handle unknown errors? We used to fall back to /dev/urandom and that turned out to be masking EINTR which we should have been handling by looping instead, so I am not a fan of going back to that. (Also the fallback might not stay around forever. Maybe one day Synology will update their kernels.)",
+      "parentUuid": "da5d52ce_9504de4b",
+      "revId": "eb84e0598572d7b5df90dbc6eb2bfce61e096f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdffbd4b_285128e5",
@@ -132,6 +150,24 @@
       "side": 1,
       "message": "Also x/sys/unix is gonna have to hook up to it in the same way.",
       "parentUuid": "df9a23ba_aca4ba22",
+      "revId": "eb84e0598572d7b5df90dbc6eb2bfce61e096f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74e0020e_1f91d5e8",
+        "filename": "src/runtime/vgetrandom_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-09-23T13:14:51Z",
+      "side": 1,
+      "message": "I figured we\u0027d not want to expand the set of pushed symbols after Go 1.23, but fair enough on x/sys/unix.",
+      "parentUuid": "8093a31c_3803e993",
       "revId": "eb84e0598572d7b5df90dbc6eb2bfce61e096f44",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
