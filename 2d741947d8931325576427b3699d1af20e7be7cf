@@ -46,6 +46,30 @@
       },
       "revId": "2d741947d8931325576427b3699d1af20e7be7cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d9a7550_122ee272",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 61734
+      },
+      "writtenOn": "2024-09-23T23:58:15Z",
+      "side": 1,
+      "message": "Thank you for your prompt response. My point was actually about the boolFlag interface itself and its usages, which includes this case as well. I apologize for the time lag in bringing this up, but this MR seemed like the most relevant and recent place to address it. The original boolFlag merge request dates back around 12 years ago. :)Given that it was a resolved issue, I thought this would be an appropriate place to comment. However, if this discussion would be better suited to a new counter issue, please let me know, and I\u0027ll open one.",
+      "parentUuid": "a615ffaf_32659661",
+      "range": {
+        "startLine": 555,
+        "startChar": 0,
+        "endLine": 555,
+        "endChar": 1
+      },
+      "revId": "2d741947d8931325576427b3699d1af20e7be7cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
