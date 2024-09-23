@@ -54,6 +54,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92568c99_47a03e3c",
+        "filename": "src/internal/syscall/unix/getrandom.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-23T13:23:27Z",
+      "side": 1,
+      "message": "Isn\u0027t it considered normal to return those to the user? Readers return errors and so do syscalls and that\u0027s normal.\n\nI\u0027m not saying it makes sense to add more error conditions to the kernel\u0027s implementation of getrandom() in the future. But it also seems unusual to commit to that never happening.",
+      "parentUuid": "408d11ad_d50e386a",
+      "revId": "eb84e0598572d7b5df90dbc6eb2bfce61e096f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdffbd4b_285128e5",
