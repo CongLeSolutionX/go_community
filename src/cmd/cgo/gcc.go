@@ -1254,6 +1254,9 @@ func (p *Package) hasPointer(f *File, t ast.Expr, top bool) bool {
 		if goTypes[t.Name] != nil {
 			return false
 		}
+		if t.Name == "structs.HostLayout" {
+			return false
+		}
 		// We can't figure out the type. Conservative
 		// approach is to assume it has a pointer.
 		return true
@@ -3197,10 +3200,10 @@ func (c *typeConv) Struct(dt *dwarf.StructType, pos token.Pos) (expr *ast.Struct
 	// Minimum alignment for a struct is 1 byte.
 	align = 1
 
-	var buf strings.Builder
+	var buf strings.Builder // for C syntax
 	buf.WriteString("struct {")
-	fld := make([]*ast.Field, 0, 2*len(dt.Field)+1) // enough for padding around every field
-	sizes := make([]int64, 0, 2*len(dt.Field)+1)
+	fld := make([]*ast.Field, 0, 2*len(dt.Field)+2) // enough for padding around every field and a prefix type
+	sizes := make([]int64, 0, 2*len(dt.Field)+2)
 	off := int64(0)
 
 	// Rename struct fields that happen to be named Go keywords into
@@ -3234,6 +3237,9 @@ func (c *typeConv) Struct(dt *dwarf.StructType, pos token.Pos) (expr *ast.Struct
 	}
 
 	anon := 0
+	// begin with use-host-conventions layout field
+	fld = append(fld, &ast.Field{Names: []*ast.Ident{c.Ident("_")}, Type: ast.NewIdent("structs.HostLayout")}) // TODO need type for structs.HostLayout
+	sizes = append(sizes, 0)
 	for _, f := range dt.Field {
 		name := f.Name
 		ft := f.Type

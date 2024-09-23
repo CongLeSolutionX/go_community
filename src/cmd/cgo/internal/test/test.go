@@ -1220,7 +1220,7 @@ func testCheckConst(t *testing.T) {
 	// The test is that this compiles successfully.
 	p := C.malloc(C.size_t(unsafe.Sizeof(C.int(0))))
 	defer C.free(p)
-	C.CheckConstFunc(&C.CheckConstStruct{(*C.int)(p)}, C.CheckConstVal)
+	C.CheckConstFunc(&C.CheckConstStruct{p: (*C.int)(p)}, C.CheckConstVal)
 }
 
 // duplicate symbol
@@ -1648,7 +1648,9 @@ func test7560(t *testing.T) {
 	// There should not be a field named 'y'.
 	var v C.misaligned
 	rt := reflect.TypeOf(&v).Elem()
-	if rt.NumField() != 2 || rt.Field(0).Name != "x" || rt.Field(1).Name != "_" {
+	// adding structs.HostLayout increments test indices by one
+	hlPad := 1
+	if rt.NumField() != hlPad+2 || rt.Field(hlPad).Name != "x" || rt.Field(hlPad+1).Name != "_" {
 		t.Errorf("unexpected fields in C.misaligned:\n")
 		for i := 0; i < rt.NumField(); i++ {
 			t.Logf("%+v\n", rt.Field(i))
