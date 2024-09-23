@@ -108,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebf008c5_cf452aa1",
+        "filename": "src/internal/syscall/unix/getrandom.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-23T15:21:11Z",
+      "side": 1,
+      "message": "There are some additional errors vgetrandom() might return related to the added two arguments, for getting the params block on unsupported systems (which the Go code in this CL handles) or trying to pass in a page-straddled opaque states (which can only occur due to a programming bug). Other issues that vgetrandom() has -- such as being called reentrantly with the same opaque -- are handled by just using the vanilla syscall. So we\u0027re good there.",
+      "parentUuid": "9663cb56_e11127f7",
+      "revId": "eb84e0598572d7b5df90dbc6eb2bfce61e096f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdffbd4b_285128e5",
