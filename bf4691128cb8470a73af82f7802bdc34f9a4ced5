@@ -303,6 +303,24 @@
       "parentUuid": "fc6f00d7_f71b4180",
       "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d76ce66a_d41494fe",
+        "filename": "src/runtime/vgetrandom_linux.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-24T01:13:02Z",
+      "side": 1,
+      "message": "Okay I sent something in for fixing this: https://go-review.googlesource.com/c/go/+/615315\n\nMarking this comment as resolved as a result.",
+      "parentUuid": "9cad0cce_02606e17",
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
