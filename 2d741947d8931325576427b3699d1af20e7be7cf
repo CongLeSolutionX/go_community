@@ -70,6 +70,30 @@
       },
       "revId": "2d741947d8931325576427b3699d1af20e7be7cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4eb97a4_415ff172",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-24T02:36:05Z",
+      "side": 1,
+      "message": "This is committed change.  It\u0027s not a useful place to discuss anything new.\n\nAnd I can\u0027t honestly recommend discussing it anywhere else because we aren\u0027t going to change it.  If you want to talk about it, I recommend a forum such as golang-nuts.  See https://go.dev/wiki/Questions.",
+      "parentUuid": "5d9a7550_122ee272",
+      "range": {
+        "startLine": 555,
+        "startChar": 0,
+        "endLine": 555,
+        "endChar": 1
+      },
+      "revId": "2d741947d8931325576427b3699d1af20e7be7cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
