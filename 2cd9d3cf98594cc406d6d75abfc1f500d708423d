@@ -39,6 +39,30 @@
       },
       "revId": "2cd9d3cf98594cc406d6d75abfc1f500d708423d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ffc0801_e32ab47d",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 17
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-24T19:45:02Z",
+      "side": 1,
+      "message": "Hmm... I tried aligning R15 to 16 bytes, putting the callee into R12, and restoring R0 and R15 on return. But it still crashes when calling in a loop. Hum.",
+      "parentUuid": "cde63174_32f2cb20",
+      "range": {
+        "startLine": 763,
+        "startChar": 36,
+        "endLine": 763,
+        "endChar": 39
+      },
+      "revId": "2cd9d3cf98594cc406d6d75abfc1f500d708423d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
