@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f00270f1_3f22227b",
+        "filename": "src/internal/syscall/unix/getrandom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-24T01:44:44Z",
+      "side": 1,
+      "message": "nit: probably just do `buf :\u003d unsafe.SliceData(p)`.",
+      "revId": "af0f2fb3ad5ecf1647cad6bd288af2fb7e068f79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
