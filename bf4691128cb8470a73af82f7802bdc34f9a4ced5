@@ -217,6 +217,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "269e63fa_d24c8d8f",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-24T01:02:16Z",
+      "side": 1,
+      "message": "The kernel option mentioned in that code comment and related CL, `CONFIG_OPTIMIZE_INLINING\u003dn`, has been entirely removed from the kernel, and is now always on: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id\u003dac7c3e4ff401b304489a031938dbeaab585bfe0a and https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id\u003d889b3c1245de48ed0cacf7aebb25c489d3e4a3e9\n\nIn addition, the actual issue that marcan found -- his Gentoo Hardened toolchain was enabling `-fstack-check` -- also isn\u0027t an issue, and the fact that it ever was one was considered to be a bug by kernel developers, and so this was flipped off forcibly in the kernel build by Linus himself, noting specifically Gentoo Hardened: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id\u003d3ce120b16cc548472f80cf8644f90eda958cf1b6\n\nSo I think this is a big nothing burger problem, and the original complicated stack switching stuff in `nanotime1` can probably be removed too, because this was only ever a transient kernel bug, not Go bug.\n\nAnyway, regardless of whether you remove the complexity for `nanotime1` as I\u0027m suggesting, there\u0027s no point in adding the complexity to a feature that will only ever be used on newer fixed kernels. So I\u0027ll mark this as resolved and keep things as-is.",
+      "parentUuid": "54f87c7e_3b34eb0a",
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a68976b_9ece1b90",
