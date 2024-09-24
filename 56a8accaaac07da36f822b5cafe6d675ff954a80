@@ -52,6 +52,24 @@
       "parentUuid": "10c4d873_fea84f8d",
       "revId": "56a8accaaac07da36f822b5cafe6d675ff954a80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4e7425c_88f281c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-24T21:35:21Z",
+      "side": 1,
+      "message": "That error generally means that some pointer is being hidden from the GC, the thing it points to is garbage collected, and then that pointer is discovered later. From experience, the common ways this can happen is if the ptr/nonptr information is not correct for a stack frame, or if write barriers are somehow not happening when they should.",
+      "parentUuid": "0df4de33_a03d9263",
+      "revId": "56a8accaaac07da36f822b5cafe6d675ff954a80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
