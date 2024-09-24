@@ -34,6 +34,24 @@
       "parentUuid": "f00270f1_3f22227b",
       "revId": "af0f2fb3ad5ecf1647cad6bd288af2fb7e068f79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acd4c1be_2a49dda5",
+        "filename": "src/internal/syscall/unix/getrandom.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-24T01:50:43Z",
+      "side": 1,
+      "message": "We only bump the bootstrap to use go1.20 since go1.22, so there’re many palaces in the std havent used possible new functions yet.",
+      "parentUuid": "7f42bc7e_1dfa285b",
+      "revId": "af0f2fb3ad5ecf1647cad6bd288af2fb7e068f79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
