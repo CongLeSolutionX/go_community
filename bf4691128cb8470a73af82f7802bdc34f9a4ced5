@@ -270,6 +270,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8c6d98e_559bce0a",
+        "filename": "src/runtime/vgetrandom_linux.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-24T01:34:08Z",
+      "side": 1,
+      "message": "CL 615335 has now been submitted, which indicates why this needs to be a \"pull\" rather than a \"push\", so marking this comment as resolved.",
+      "parentUuid": "7e0a0a6b_48e11175",
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc6f00d7_f71b4180",
