@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8de7b903_948acef2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-09-24T17:50:33Z",
+      "side": 1,
+      "message": "Off to the races 🚀\n\nOne meta-question: I notice we\u0027re losing some defensive `boring.Unreachable()` calls in the `Write()` and `Sum()` impls that are lifted into the FIPS packages. \n\nThe FIPS types shouldn\u0027t be in-play when `boring.Enabled` is true since the x/crypto/ constructors return different concrete types, so I buy the argument they aren\u0027t necessary, but based on my reading of the code this was also true beforehand and yet the guards were there. \n\nI\u0027m guessing that you decided to drop them to avoid needing to bless `boring` as an allowed import from the new FIPS packages. Is that accurate? Maybe worth calling this out in the commit message if so?",
+      "revId": "e9bbb81e3ee73e18b2a5f27897c2994cdd256f19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f989091_ccbf2a23",
+        "filename": "src/crypto/internal/fips/sha512/sha512.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-09-24T17:50:33Z",
+      "side": 1,
+      "message": "typo: \"size512 is the size512, in bytes\" -\u003e \"// size512 is the size, in bytes\"",
+      "revId": "e9bbb81e3ee73e18b2a5f27897c2994cdd256f19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e4245c1_5f4cc0e6",
+        "filename": "src/crypto/internal/fips/sha512/sha512.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-09-24T17:50:33Z",
+      "side": 1,
+      "message": "I think `size` at the end of this comment should be `size512`.",
+      "revId": "e9bbb81e3ee73e18b2a5f27897c2994cdd256f19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17c0cab7_eacb62a4",
+        "filename": "src/crypto/internal/fips/sha512/sha512.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-09-24T17:50:33Z",
+      "side": 1,
+      "message": "in practice I don\u0027t think it matters much since this is an internal invariant, but since this function is already fallible perhaps this panic should be a `return nil, errors.New(...)`? This also feels more consistent with `UnmarshalBinary`.",
+      "revId": "e9bbb81e3ee73e18b2a5f27897c2994cdd256f19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28d2fd46_2eb016ac",
+        "filename": "src/crypto/sha256/sha256_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-09-24T17:50:33Z",
+      "side": 1,
+      "message": "same very nit-picky feedback that the `Sum` calls aren\u0027t ordered to match the `New()` calls.",
+      "revId": "e9bbb81e3ee73e18b2a5f27897c2994cdd256f19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8493da8_05cf7d27",
+        "filename": "src/crypto/sha512/sha512_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-09-24T17:50:33Z",
+      "side": 1,
+      "message": "very nit-picky nit: The `Sum` invocations are out-of-order with respect to the order of `h` construction/use above.",
+      "revId": "e9bbb81e3ee73e18b2a5f27897c2994cdd256f19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7eb913a0_e3f7a3db",
+        "filename": "src/go/types/stdlib_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-09-24T17:50:33Z",
+      "side": 1,
+      "message": "noting here that I double-checked the results of `find ./ -wholename \u0027*/_asm\u0027` don\u0027t include anything unexpected relative to the 360..369 deletions and the algorithms being moved in this CR. Nice tidy :-)",
+      "revId": "e9bbb81e3ee73e18b2a5f27897c2994cdd256f19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
