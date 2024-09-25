@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "12599c46_75ea9d44",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 22
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-25T17:39:31Z",
+      "side": 1,
+      "message": "What stack do you see being used?\n\nArguments are passed in regs, using ABIInternal.",
+      "parentUuid": "3b625cc1_aefb0eb6",
+      "range": {
+        "startLine": 762,
+        "startChar": 50,
+        "endLine": 762,
+        "endChar": 54
+      },
+      "revId": "85af329cff62e74678e5e28dd14810bf3c7d6c41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1b60dabc_83999908",
         "filename": "src/runtime/sys_linux_ppc64x.s",
         "patchSetId": 22
@@ -37,6 +61,24 @@
       "writtenOn": "2024-09-25T13:44:08Z",
       "side": 1,
       "message": "I think this should follow the layout of the other ppc64x vdso wrappers for maintaining runtime state during signals while executing the vdso.\n\ng (r30) is a nonvolatile register, it should be preserved by the callee.  I think you might be taking a signal while inside the vdso.",
+      "revId": "85af329cff62e74678e5e28dd14810bf3c7d6c41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51a58bcf_6bdc9d55",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 22
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-25T17:39:31Z",
+      "side": 1,
+      "message": "That\u0027s why I store it in R14 during execution and restore after.",
+      "parentUuid": "1b60dabc_83999908",
       "revId": "85af329cff62e74678e5e28dd14810bf3c7d6c41",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
