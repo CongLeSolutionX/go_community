@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae22a4a7_7225b15f",
+        "filename": "src/cmd/go/internal/auth/netrc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-25T20:05:43Z",
+      "side": 1,
+      "message": "nit: use same capitalization for windows as line 94",
+      "range": {
+        "startLine": 82,
+        "startChar": 25,
+        "endLine": 82,
+        "endChar": 26
+      },
+      "revId": "a6b3af6e52f25568bb520a7dbc63a1089cec9842",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
