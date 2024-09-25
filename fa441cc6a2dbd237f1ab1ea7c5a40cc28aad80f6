@@ -70,6 +70,24 @@
       "message": "_Back in my day..._ Er, what I mean is... Last time I was submitting a lot of stuff through here, if somebody +2\u0027d it, then I could submit after. Now it appears there\u0027s some two googler rule? What do I need to do to get the second +1 from a googler?",
       "revId": "fa441cc6a2dbd237f1ab1ea7c5a40cc28aad80f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f963dde6_e1ba4aef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-25T17:44:37Z",
+      "side": 1,
+      "message": "The CL will be in a queue that visible to Googlers to indicate that this requires another vote from them.\n\nOr you could actively request in golang-dev.",
+      "parentUuid": "e0935ab6_76ed1751",
+      "revId": "fa441cc6a2dbd237f1ab1ea7c5a40cc28aad80f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
