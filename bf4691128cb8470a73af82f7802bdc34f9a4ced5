@@ -237,6 +237,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "233f4ca2_e4b0eb19",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-25T15:29:51Z",
+      "side": 1,
+      "message": "Huh, I never noticed that `syscall.Gettimeofday` doesn\u0027t do this. I suspect that is because almost no one ever calls `syscall.Gettimeofday`...\n\nThat\u0027s good that the stack space stuff is fixed, thanks for looking into that! It sounds safe to avoid switching stacks.\n\nThat said, I think we still want to set vdsoPC / vdsoSP. Those are used to enable traceback when a SIGPROF lands in the VDSO. See CL 97315.\n\nI think we also need to align SP to a 16 byte boundary for the C ABI? (Also missing from Gettimeofday...)",
+      "parentUuid": "269e63fa_d24c8d8f",
+      "revId": "bf4691128cb8470a73af82f7802bdc34f9a4ced5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a68976b_9ece1b90",
         "filename": "src/runtime/vgetrandom_linux.go",
         "patchSetId": 10
