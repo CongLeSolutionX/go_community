@@ -34,6 +34,23 @@
       "parentUuid": "36eada22_99e49d3d",
       "revId": "f578f4d312528ce60e09ee491830132f115649b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7282aa47_07437962",
+        "filename": "src/internal/zstd/zstd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-25T13:41:09Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me that this is better, because it will always allocate a 1M slice that is immediately discarded.  I wrote the original code on the assumption that many skipped frames will be smaller, and there is no reason to allocate 1M of garbage.\n\nLooking at this again a different approach might be io.CopyN(io.Discard, r.r, size).",
+      "revId": "f578f4d312528ce60e09ee491830132f115649b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
