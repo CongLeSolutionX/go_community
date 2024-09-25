@@ -336,6 +336,24 @@
       "parentUuid": "67ac7a79_2eca9364",
       "revId": "5283cf7bf32bd84d92a132a79ad758473c92cd25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "004e6e08_21febc3c",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3238,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-25T22:04:51Z",
+      "side": 1,
+      "message": "Good point. I kept the no-panic test in go/types and added a test based on your example to both go/types and types2, verifying that both fail before this CL.\n\nThanks.",
+      "parentUuid": "198f88d8_99dfd50c",
+      "revId": "5283cf7bf32bd84d92a132a79ad758473c92cd25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
