@@ -36,6 +36,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66c5a719_55744313",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2024-09-25T14:26:29Z",
+      "side": 1,
+      "message": "I used io.CopyN to replace the previous code",
+      "revId": "f578f4d312528ce60e09ee491830132f115649b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7282aa47_07437962",
@@ -49,6 +66,24 @@
       "writtenOn": "2024-09-25T13:41:09Z",
       "side": 1,
       "message": "It\u0027s not clear to me that this is better, because it will always allocate a 1M slice that is immediately discarded.  I wrote the original code on the assumption that many skipped frames will be smaller, and there is no reason to allocate 1M of garbage.\n\nLooking at this again a different approach might be io.CopyN(io.Discard, r.r, size).",
+      "revId": "f578f4d312528ce60e09ee491830132f115649b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa83f267_8b89e478",
+        "filename": "src/internal/zstd/zstd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2024-09-25T14:26:29Z",
+      "side": 1,
+      "message": "io.CopyN(io.Discard, r.r, size) would be much better.\n\nThere is a problem with the previous assumption that if size is 1.5M, then 0.5M extra bytes are read. This is because skip is defined as 1M in the for, and is not reallocated after jumping out of the loop.",
+      "parentUuid": "7282aa47_07437962",
       "revId": "f578f4d312528ce60e09ee491830132f115649b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
