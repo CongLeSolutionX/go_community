@@ -2574,8 +2574,8 @@ func (mux *ServeMux) Handler(r *Request) (h Handler, pattern string) {
 	if use121 {
 		return mux.mux121.findHandler(r)
 	}
-	h, p, _, _ := mux.findHandler(r)
-	return h, p
+	h, pattern, r.pat, r.matches = mux.findHandler(r)
+	return
 }
 
 // findHandler finds a handler for a request.

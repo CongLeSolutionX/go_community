@@ -302,6 +302,7 @@ var serveMuxRegister = []struct {
 }{
 	{"/dir/", serve(200)},
 	{"/search", serve(201)},
+	{"/wildcard/{wildcard}", HandlerFunc(checkWildcardHandler)},
 	{"codesearch.google.com/search", serve(202)},
 	{"codesearch.google.com/", serve(203)},
 	{"example.com/", HandlerFunc(checkQueryStringHandler)},
@@ -311,6 +312,16 @@ var serveMuxRegister = []struct {
 func serve(code int) HandlerFunc {
 	return func(w ResponseWriter, r *Request) {
 		w.WriteHeader(code)
+	}
+}
+
+// checkWildcardHandler checks whether the path wildcard named "wildcard"
+// is a non-empty string and sends a 200 response code, 500 otherwise.
+func checkWildcardHandler(w ResponseWriter, r *Request) {
+	if r.PathValue("wildcard") != "" {
+		w.WriteHeader(200)
+	} else {
+		w.WriteHeader(500)
 	}
 }
 
@@ -355,6 +366,7 @@ var serveMuxTests = []struct {
 	{"GET", "google.com", "/dir/..", 301, ""},
 	{"GET", "google.com", "/dir/..", 301, ""},
 	{"GET", "google.com", "/dir/./file", 301, "/dir/"},
+	{"GET", "google.com", "/wildcard/foo", 200, "/wildcard/{wildcard}"},
 
 	// The /foo -> /foo/ redirect applies to CONNECT requests
 	// but the path canonicalization does not.
