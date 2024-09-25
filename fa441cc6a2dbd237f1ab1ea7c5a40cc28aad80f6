@@ -53,6 +53,23 @@
       "message": "+Filippo for visibility.\n\nLGTM. It seems to me that the only caller (in crypto/rand) will never call this with an empty p anyway. If that changes, this could change the semantics of crypto/rand.Read.",
       "revId": "fa441cc6a2dbd237f1ab1ea7c5a40cc28aad80f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0935ab6_76ed1751",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-25T17:41:19Z",
+      "side": 1,
+      "message": "_Back in my day..._ Er, what I mean is... Last time I was submitting a lot of stuff through here, if somebody +2\u0027d it, then I could submit after. Now it appears there\u0027s some two googler rule? What do I need to do to get the second +1 from a googler?",
+      "revId": "fa441cc6a2dbd237f1ab1ea7c5a40cc28aad80f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
