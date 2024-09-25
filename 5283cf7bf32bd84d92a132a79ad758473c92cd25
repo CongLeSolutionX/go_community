@@ -318,6 +318,24 @@
       "parentUuid": "3f36fc5b_cf4be4d3",
       "revId": "5283cf7bf32bd84d92a132a79ad758473c92cd25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "198f88d8_99dfd50c",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3238,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-25T19:44:56Z",
+      "side": 1,
+      "message": "Sure, but this test really tests that the version is correctly determined independent of the source pos. So even in types2 you could construct an incorrect source that might crash allowVersion before this change.\n\nMake the source code something that actually needs the version. This is somewhat tricky because the file version will be 1.21 if set to something below. Maybe:\n\n\"//go:build go1.22\\npackage p; func _(f func(func() bool)) { for range f {} }\"\n\nand then set the Config version to 1.21 (before range-over-func was permitted).\nThis will test that the file version is picked up correctly (by accepting this program) even in the presence of an invalid position.\n\nAlternatively, if you want to make this test just about the go/types issue, call it TestIssue69477 instead. Put an empty Test of the same name into types2 with a comment // go/types test only , or the like. This way it\u0027s clear for another reader that leaving the test out was intentional.",
+      "parentUuid": "67ac7a79_2eca9364",
+      "revId": "5283cf7bf32bd84d92a132a79ad758473c92cd25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

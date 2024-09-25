@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e9caca8_01381d2a",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-25T19:44:56Z",
+      "side": 1,
+      "message": "I don\u0027t understand why decl can be nil.",
+      "range": {
+        "startLine": 17,
+        "startChar": 15,
+        "endLine": 17,
+        "endChar": 18
+      },
+      "revId": "64e6cb4b58b85986e16e4316303e9b5771cb39fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
