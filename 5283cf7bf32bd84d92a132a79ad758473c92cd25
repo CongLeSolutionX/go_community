@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "de09a2f4_594e7e97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-25T16:52:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd6cfd82_cab9f312",
+      "revId": "5283cf7bf32bd84d92a132a79ad758473c92cd25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "fd526500_b6979b50",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -80,6 +98,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a68d1ec6_7303763c",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-25T16:52:11Z",
+      "side": 1,
+      "message": "Done. I moved it into the environment; much cleaner.",
+      "parentUuid": "37cfcaef_42835fc6",
+      "revId": "5283cf7bf32bd84d92a132a79ad758473c92cd25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27d8fa58_0aa4547a",
@@ -111,6 +147,24 @@
           ]
         }
       ],
+      "revId": "5283cf7bf32bd84d92a132a79ad758473c92cd25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1f6b479_5a722a63",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-25T16:52:11Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "27d8fa58_0aa4547a",
       "revId": "5283cf7bf32bd84d92a132a79ad758473c92cd25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -160,6 +214,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f8751b0_a23049b9",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-25T16:52:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "246849f7_3e0b32eb",
+      "revId": "5283cf7bf32bd84d92a132a79ad758473c92cd25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0238e6ae_e78c81d5",
@@ -195,6 +267,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "525345df_01209846",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-25T16:52:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0238e6ae_e78c81d5",
+      "revId": "5283cf7bf32bd84d92a132a79ad758473c92cd25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f36fc5b_cf4be4d3",
@@ -208,6 +298,24 @@
       "writtenOn": "2024-09-25T15:40:35Z",
       "side": 1,
       "message": "This test is missing the types2 source",
+      "revId": "5283cf7bf32bd84d92a132a79ad758473c92cd25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67ac7a79_2eca9364",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3238,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-25T16:52:11Z",
+      "side": 1,
+      "message": "I wasn\u0027t convinced it made sense in types2, since the syntax tree is never mutated beyond what comes out of the parser.",
+      "parentUuid": "3f36fc5b_cf4be4d3",
       "revId": "5283cf7bf32bd84d92a132a79ad758473c92cd25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
