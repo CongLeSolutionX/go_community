@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54e4170f_bb522a58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-25T22:38:59Z",
+      "side": 1,
+      "message": "LGTM but please address the comments below before submitting.\nOverall, I think this is a vast improvement over the machinery we had before. Thanks for doing it!",
+      "revId": "1abdd24d19ab8b4148762acbb71f9c6ecb7e5e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41488ca0_0bcc493a",
+        "filename": "src/cmd/compile/internal/types2/api_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3209,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-25T22:38:59Z",
+      "side": 1,
+      "message": "Please add here (free-standing comment). This will eliminate questions down the road when somebody wonders why the files are not symmetric.\n\n// This test function only exists for go/types.\n// func TestVersionIssue69477(t *testing.T)",
+      "revId": "1abdd24d19ab8b4148762acbb71f9c6ecb7e5e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b368436_e705a1c6",
+        "filename": "src/cmd/compile/internal/types2/api_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3214,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-25T22:38:59Z",
+      "side": 1,
+      "message": "s/depend/depend on/",
+      "range": {
+        "startLine": 3214,
+        "startChar": 41,
+        "endLine": 3214,
+        "endChar": 47
+      },
+      "revId": "1abdd24d19ab8b4148762acbb71f9c6ecb7e5e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7becbbd_cfb63558",
+        "filename": "src/cmd/compile/internal/types2/api_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3220,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-25T22:38:59Z",
+      "side": 1,
+      "message": "do you need the var _ int ? I think you only care about the file version.",
+      "range": {
+        "startLine": 3220,
+        "startChar": 52,
+        "endLine": 3220,
+        "endChar": 53
+      },
+      "revId": "1abdd24d19ab8b4148762acbb71f9c6ecb7e5e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "198c20fd_bdd363c9",
+        "filename": "src/cmd/compile/internal/types2/api_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3227,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-25T22:38:59Z",
+      "side": 1,
+      "message": "there are no generic aliases here",
+      "revId": "1abdd24d19ab8b4148762acbb71f9c6ecb7e5e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7242c266_421ab8f8",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-25T22:38:59Z",
+      "side": 1,
+      "message": "I would put this field first - it\u0027s part of the \"context\" in which f executes. (desc is optional, so it\u0027s odd for version to come after an optional field)",
+      "revId": "1abdd24d19ab8b4148762acbb71f9c6ecb7e5e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3635fbed_849881fc",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-25T22:38:59Z",
+      "side": 1,
+      "message": "set check before f (see comment above)",
+      "fixSuggestions": [
+        {
+          "fixId": "a5a341c2_3ad149de",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/types2/check.go",
+              "range": {
+                "startLine": 223,
+                "startChar": 0,
+                "endLine": 224,
+                "endChar": 0
+              },
+              "replacement": "\tcheck.delayed \u003d append(check.delayed, action{version: check.version, f: f})\n"
+            }
+          ]
+        }
+      ],
+      "revId": "1abdd24d19ab8b4148762acbb71f9c6ecb7e5e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bda1ba50_88767f6f",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-25T22:38:59Z",
+      "side": 1,
+      "message": "s/FIXME/TODO/ (more common to look for TODO)\n\nI think the code is correct as is (check.version is set correctly), but it needs a bit more investigation.",
+      "range": {
+        "startLine": 36,
+        "startChar": 29,
+        "endLine": 36,
+        "endChar": 34
+      },
+      "revId": "1abdd24d19ab8b4148762acbb71f9c6ecb7e5e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b607b6d_acb36487",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3262,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-25T22:38:59Z",
+      "side": 1,
+      "message": "see comments in types2 code",
+      "revId": "1abdd24d19ab8b4148762acbb71f9c6ecb7e5e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc5bc56c_34c71a58",
+        "filename": "src/go/types/version.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-25T22:38:59Z",
+      "side": 1,
+      "message": "It may now be possible to generate this file from the types2 source. (For a follow-up CL.)",
+      "fixSuggestions": [
+        {
+          "fixId": "e4d9aa9f_b2961115",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/go/types/version.go",
+              "range": {
+                "startLine": 5,
+                "startChar": 0,
+                "endLine": 5,
+                "endChar": 0
+              },
+              "replacement": "// TODO(gri) consider generating this file from types2 source\n\n"
+            }
+          ]
+        }
+      ],
+      "revId": "1abdd24d19ab8b4148762acbb71f9c6ecb7e5e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
