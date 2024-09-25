@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2714335_3a282069",
+        "filename": "src/cmd/go/internal/auth/netrc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-25T20:02:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18deba9b_bf6dee50",
+      "range": {
+        "startLine": 86,
+        "startChar": 45,
+        "endLine": 88,
+        "endChar": 3
+      },
+      "revId": "804adaa28559e147b3a884c5a82c3303b0907e01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efac472c_6fd8a9b8",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1f89ba9_5a25d874",
+        "filename": "src/cmd/go/internal/auth/netrc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-25T20:02:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efac472c_6fd8a9b8",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 32
+      },
+      "revId": "804adaa28559e147b3a884c5a82c3303b0907e01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8214089_adfc7492",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-09-25T16:39:33Z",
       "side": 1,
       "message": "On non-windows platforms, if .netrc doesn\u0027t exist, this will return \"\", nil. I think maybe we can avoid the stat of the standard file and return `filepath.Join(dir, \".netrc\"), nil` on line 92",
+      "range": {
+        "startLine": 97,
+        "startChar": 12,
+        "endLine": 97,
+        "endChar": 25
+      },
+      "revId": "804adaa28559e147b3a884c5a82c3303b0907e01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e777d432_f5e032fd",
+        "filename": "src/cmd/go/internal/auth/netrc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-09-25T20:02:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8214089_adfc7492",
       "range": {
         "startLine": 97,
         "startChar": 12,
