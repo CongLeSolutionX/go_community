@@ -65,6 +65,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce243d99_4079bba8",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 26
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-25T23:32:46Z",
+      "side": 1,
+      "message": "I dropped it down to 16 successfully.",
+      "parentUuid": "1fc7235c_1c584ea5",
+      "range": {
+        "startLine": 762,
+        "startChar": 54,
+        "endLine": 762,
+        "endChar": 56
+      },
+      "revId": "a9c071863248e337cb8dc72c9c8e68ee2c319381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d83f118_eb45333d",
@@ -137,6 +161,30 @@
       "side": 1,
       "message": "Did I screw that up? It seems to work in testing...\n\nThe ppc vDSO sled sets CR0[S] and negates the already negative return value on failure. My intent is to negate it back if it\u0027s set. I thought bit 3 would be CR0\u0027s so bit, and 0b101 was \"jump if true, predict likely\". What\u0027d I miss?",
       "parentUuid": "82fd6e80_cd375a60",
+      "range": {
+        "startLine": 806,
+        "startChar": 1,
+        "endLine": 806,
+        "endChar": 3
+      },
+      "revId": "a9c071863248e337cb8dc72c9c8e68ee2c319381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b55ffb83_895ca197",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 26
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-25T23:32:46Z",
+      "side": 1,
+      "message": "Oh lord have mercy - Go\u0027s assembler reversed the arguments. Flipping those and disassembling shows that this is the same as the BNS mnemonic, which Go\u0027s assembler doesn\u0027t have, but it\u0027s all the same anyway. Will reverse those arguments and we\u0027re all good.",
+      "parentUuid": "dbea0821_71014172",
       "range": {
         "startLine": 806,
         "startChar": 1,
