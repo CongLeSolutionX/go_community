@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1fc7235c_1c584ea5",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 26
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-25T22:14:20Z",
+      "side": 1,
+      "message": "In ABI0, 48 would be the correct number - 5 for args, 1 for return val. Since this is informational, I figured I\u0027d keep it the same, at 48\n\nRe:32 - I\u0027ll see if I can drop it back to 16.",
+      "parentUuid": "ee194e8b_0c2cf8c0",
+      "range": {
+        "startLine": 762,
+        "startChar": 54,
+        "endLine": 762,
+        "endChar": 56
+      },
+      "revId": "a9c071863248e337cb8dc72c9c8e68ee2c319381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d83f118_eb45333d",
         "filename": "src/runtime/sys_linux_ppc64x.s",
         "patchSetId": 26
@@ -54,6 +78,24 @@
       "writtenOn": "2024-09-25T21:55:00Z",
       "side": 1,
       "message": "Do these need to be saved onto the stack? R14-R30 can be used to preserve things across the vdso call.",
+      "revId": "a9c071863248e337cb8dc72c9c8e68ee2c319381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8dc2159_0026e789",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 26
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-25T22:14:20Z",
+      "side": 1,
+      "message": "In order to be reentrant, they\u0027re stored on the stack. Same thing other vdso trampolines do too.",
+      "parentUuid": "3d83f118_eb45333d",
       "revId": "a9c071863248e337cb8dc72c9c8e68ee2c319381",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -71,6 +113,30 @@
       "writtenOn": "2024-09-25T21:55:00Z",
       "side": 1,
       "message": "This assembles to `bdzf 4*cr1+gt,...`. That doesn\u0027t seem right. What is this checking?",
+      "range": {
+        "startLine": 806,
+        "startChar": 1,
+        "endLine": 806,
+        "endChar": 3
+      },
+      "revId": "a9c071863248e337cb8dc72c9c8e68ee2c319381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbea0821_71014172",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 26
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-25T22:14:20Z",
+      "side": 1,
+      "message": "Did I screw that up? It seems to work in testing...\n\nThe ppc vDSO sled sets CR0[S] and negates the already negative return value on failure. My intent is to negate it back if it\u0027s set. I thought bit 3 would be CR0\u0027s so bit, and 0b101 was \"jump if true, predict likely\". What\u0027d I miss?",
+      "parentUuid": "82fd6e80_cd375a60",
       "range": {
         "startLine": 806,
         "startChar": 1,
