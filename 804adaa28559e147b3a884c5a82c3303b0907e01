@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18deba9b_bf6dee50",
+        "filename": "src/cmd/go/internal/auth/netrc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-25T16:39:33Z",
+      "side": 1,
+      "message": "I don\u0027t think we should report the legacyPathErr if we end up falling back to the `.netrc` file. It\u0027s not really relavant anymore. Maybe we can report it here if it\u0027s not nil and it\u0027s not `os.IsNotExist` and otherwise suppress it.",
+      "range": {
+        "startLine": 86,
+        "startChar": 45,
+        "endLine": 88,
+        "endChar": 3
+      },
+      "revId": "804adaa28559e147b3a884c5a82c3303b0907e01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efac472c_6fd8a9b8",
+        "filename": "src/cmd/go/internal/auth/netrc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-25T16:39:33Z",
+      "side": 1,
+      "message": "Hmm if we\u0027re not on Windows it\u0027s not a fallback. Maybe we can say something like\n\n    Use the .netrc file (fall back to it if we\u0027re on Windows).",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 32
+      },
+      "revId": "804adaa28559e147b3a884c5a82c3303b0907e01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8214089_adfc7492",
+        "filename": "src/cmd/go/internal/auth/netrc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-25T16:39:33Z",
+      "side": 1,
+      "message": "On non-windows platforms, if .netrc doesn\u0027t exist, this will return \"\", nil. I think maybe we can avoid the stat of the standard file and return `filepath.Join(dir, \".netrc\"), nil` on line 92",
+      "range": {
+        "startLine": 97,
+        "startChar": 12,
+        "endLine": 97,
+        "endChar": 25
+      },
+      "revId": "804adaa28559e147b3a884c5a82c3303b0907e01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
