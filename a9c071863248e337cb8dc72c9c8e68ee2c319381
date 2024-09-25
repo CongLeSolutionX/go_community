@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d922b80_cfd7e285",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-25T21:35:16Z",
+      "side": 1,
+      "message": "Alright, I think I\u0027ve got everything set now:\n\n- g is stored on the signal handler\u0027s stack on non-x86\n- sp and pc are stored to the right members to satisfy the profiler\n- stacks are aligned\n- argument sizes are documented\n\nPlease take a look and let me know what you think.",
+      "revId": "a9c071863248e337cb8dc72c9c8e68ee2c319381",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
