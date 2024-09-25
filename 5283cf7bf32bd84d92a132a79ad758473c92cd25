@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd526500_b6979b50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-25T15:21:47Z",
+      "side": 1,
+      "message": "This CL is ready for another pass.",
+      "revId": "5283cf7bf32bd84d92a132a79ad758473c92cd25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
