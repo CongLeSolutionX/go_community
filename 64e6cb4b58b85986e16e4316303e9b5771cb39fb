@@ -22,6 +22,30 @@
       },
       "revId": "64e6cb4b58b85986e16e4316303e9b5771cb39fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e716a383_497c590b",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-25T19:47:54Z",
+      "side": 1,
+      "message": "Never mind. It can happen for function literals if they are with a nil decl.\nNot sure about the TODO below yet.",
+      "parentUuid": "5e9caca8_01381d2a",
+      "range": {
+        "startLine": 17,
+        "startChar": 15,
+        "endLine": 17,
+        "endChar": 18
+      },
+      "revId": "64e6cb4b58b85986e16e4316303e9b5771cb39fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
