@@ -2574,8 +2574,9 @@ func (mux *ServeMux) Handler(r *Request) (h Handler, pattern string) {
 	if use121 {
 		return mux.mux121.findHandler(r)
 	}
-	h, p, _, _ := mux.findHandler(r)
-	return h, p
+	h, pattern, r.pat, r.matches = mux.findHandler(r)
+	r.Pattern = pattern
+	return
 }
 
 // findHandler finds a handler for a request.
@@ -2738,12 +2739,7 @@ func (mux *ServeMux) ServeHTTP(w ResponseWriter, r *Request) {
 		w.WriteHeader(StatusBadRequest)
 		return
 	}
-	var h Handler
-	if use121 {
-		h, _ = mux.mux121.findHandler(r)
-	} else {
-		h, r.Pattern, r.pat, r.matches = mux.findHandler(r)
-	}
+	h, _ := mux.Handler(r)
 	h.ServeHTTP(w, r)
 }
 
