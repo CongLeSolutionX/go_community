@@ -22,6 +22,30 @@
       },
       "revId": "261f950b48bdbe2db60a8f00088be96b5dd3f0fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dd80a13_a7bb2b4d",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 58169
+      },
+      "writtenOn": "2024-09-26T16:36:16Z",
+      "side": 1,
+      "message": "\u003e func(int, int, int, int, a int, int int)\n\nthe error message for this is `int redeclared in this block`, as the first 4 `int` are treated as variables. The unnamed parameter could only happen at the last because `a,b, c int` will be recognized as a list of variables. So the first one doesn\u0027t apply to the case here.\n\nFor the second one, I agree with you that the real issue is caused by the mixing usage, and the \"variable declaration is incomplete\" only provides one of the possible fix, while we have 2 possible fixes:\n\n- remove the variable declaration: `func(int, string`\n- complete the function decl: `func(a int, b string)` or `func(a int, string []byte)`\n\n\nGiven the error case that all the parameters before are the named one and only the last one is unnamed, it\u0027s reasonable to expect it should be a named parameter as well.\n\nThe problem of the current message is it reports the position of the unnamed parameter, and under such case all the parameters before the position are named parameters. The position of `s` in `func(a int, string)` is mis-leading because we will only encounter this error when we first meet a unnamed parameter(all the parameters before will be recognized as named parameter even though it\u0027s not intended).\n\nBut generally, i think the `mixing` error is enough and usually this kind of error could be awared by users quickly. If you feel it\u0027s not an improvement, it\u0027s also fine to abandon this CL.\n\nBut anyway, thanks for your reviewing, i have learned a lot from you",
+      "parentUuid": "3c812112_a8ec7877",
+      "range": {
+        "startLine": 1000,
+        "startChar": 11,
+        "endLine": 1000,
+        "endChar": 61
+      },
+      "revId": "261f950b48bdbe2db60a8f00088be96b5dd3f0fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
