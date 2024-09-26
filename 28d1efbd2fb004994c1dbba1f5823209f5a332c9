@@ -16,6 +16,24 @@
       "message": "The associated issue is about an error message; why are we changing the spec?\n\nIMHO the existing wording here is perfectly clear.",
       "revId": "28d1efbd2fb004994c1dbba1f5823209f5a332c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31a5dc18_f1ff1ac6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58169
+      },
+      "writtenOn": "2024-09-26T14:31:21Z",
+      "side": 1,
+      "message": "The spec only talks about _names (IdentifierList) must either all be present or all be absent_, the \"names\" here is hard to match with \"function named parameter declaration\" in the error message.\n\nProbably my change makes the spec verbose, but my motivation is to help users to figure out the issue by themselves by searching \"named parameter declaration\" or \"parameter declaration\". Then they will find the limitation stated in go spec.\n\nCurrently, the \"parameter declaration\" appears in the \"type parameter declaration\" only, I hope we can find it in the \"Function types\" section as well.\n\nThanks:)",
+      "parentUuid": "7c65bd85_9f1df1da",
+      "revId": "28d1efbd2fb004994c1dbba1f5823209f5a332c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
