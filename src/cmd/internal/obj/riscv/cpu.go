@@ -372,11 +372,8 @@ const (
 
 	// 8.1: Base Counters and Timers (Zicntr)
 	ARDCYCLE
-	ARDCYCLEH
 	ARDTIME
-	ARDTIMEH
 	ARDINSTRET
-	ARDINSTRETH
 
 	// 13.1: Multiplication Operations
 	AMUL
@@ -740,12 +737,9 @@ const (
 // Any instructions not listed here are assumed to either be non-unary or to read
 // from its argument.
 var unaryDst = map[obj.As]bool{
-	ARDCYCLE:    true,
-	ARDCYCLEH:   true,
-	ARDTIME:     true,
-	ARDTIMEH:    true,
-	ARDINSTRET:  true,
-	ARDINSTRETH: true,
+	ARDCYCLE:   true,
+	ARDTIME:    true,
+	ARDINSTRET: true,
 }
 
 // Instruction encoding masks.
