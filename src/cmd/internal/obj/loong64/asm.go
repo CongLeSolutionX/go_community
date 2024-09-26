@@ -295,7 +295,7 @@ var optab = []Optab{
 	{AMOVBU, C_TLS_IE, C_NONE, C_NONE, C_REG, C_NONE, 57, 16, 0, 0},
 	{AMOVWU, C_TLS_IE, C_NONE, C_NONE, C_REG, C_NONE, 57, 16, 0, 0},
 
-	{AWORD, C_LCON, C_NONE, C_NONE, C_NONE, C_NONE, 40, 4, 0, 0},
+	{AWORD, C_LCON, C_NONE, C_NONE, C_NONE, C_NONE, 46, 4, 0, 0},
 	{AWORD, C_DCON, C_NONE, C_NONE, C_NONE, C_NONE, 61, 4, 0, 0},
 
 	{AMOVV, C_GOTADDR, C_NONE, C_NONE, C_REG, C_NONE, 65, 8, 0, 0},
@@ -326,6 +326,20 @@ var optab = []Optab{
 	{AMOVD, C_ROFF, C_NONE, C_NONE, C_FREG, C_NONE, 21, 4, 0, 0},
 	{AVMOVQ, C_ROFF, C_NONE, C_NONE, C_VREG, C_NONE, 21, 4, 0, 0},
 	{AXVMOVQ, C_ROFF, C_NONE, C_NONE, C_XREG, C_NONE, 21, 4, 0, 0},
+
+	{AVMOVQ, C_REG, C_NONE, C_NONE, C_ELEM, C_NONE, 37, 4, 0, 0},
+	{AVMOVQ, C_ELEM, C_NONE, C_NONE, C_REG, C_NONE, 38, 4, 0, 0},
+	{AXVMOVQ, C_REG, C_NONE, C_NONE, C_ELEM, C_NONE, 37, 4, 0, 0},
+	{AXVMOVQ, C_ELEM, C_NONE, C_NONE, C_REG, C_NONE, 38, 4, 0, 0},
+
+	{AXVMOVQ, C_XREG, C_NONE, C_NONE, C_ELEM, C_NONE, 41, 4, 0, 0},
+	{AXVMOVQ, C_ELEM, C_NONE, C_NONE, C_XREG, C_NONE, 42, 4, 0, 0},
+
+	{AVMOVQ, C_REG, C_NONE, C_NONE, C_ARNG, C_NONE, 39, 4, 0, 0},
+	{AXVMOVQ, C_REG, C_NONE, C_NONE, C_ARNG, C_NONE, 39, 4, 0, 0},
+	{AXVMOVQ, C_XREG, C_NONE, C_NONE, C_ARNG, C_NONE, 40, 4, 0, 0},
+
+	{AVMOVQ, C_ELEM, C_NONE, C_NONE, C_ARNG, C_NONE, 43, 4, 0, 0},
 
 	{obj.APCALIGN, C_SCON, C_NONE, C_NONE, C_NONE, C_NONE, 0, 0, 0, 0},
 	{obj.APCDATA, C_LCON, C_NONE, C_NONE, C_LCON, C_NONE, 0, 0, 0, 0},
@@ -397,6 +411,49 @@ func IsAtomicInst(as obj.As) bool {
 	_, ok := atomicInst[as]
 
 	return ok
+}
+
+var specialLsxMovInst = map[string][]uint32{
+	// inst_name    op_code      index_mask
+	"vinsgr2vr.b":    {0x01CBAE << 14, 0xf},
+	"vinsgr2vr.h":    {0x03975E << 13, 0x7},
+	"vinsgr2vr.w":    {0x072EBE << 12, 0x3},
+	"vinsgr2vr.d":    {0x0E5D7E << 11, 0x1},
+	"vpickve2gr.b":   {0x01CBBE << 14, 0xf},
+	"vpickve2gr.h":   {0x03977E << 13, 0x7},
+	"vpickve2gr.w":   {0x072EFE << 12, 0x3},
+	"vpickve2gr.d":   {0x0E5DFE << 11, 0x1},
+	"vpickve2gr.bu":  {0x01CBCE << 14, 0xf},
+	"vpickve2gr.hu":  {0x03979E << 13, 0x7},
+	"vpickve2gr.wu":  {0x072F3E << 12, 0x3},
+	"vpickve2gr.du":  {0x0E5E7E << 11, 0x1},
+	"vreplgr2vr.b":   {0x1CA7C0 << 10, 0x0},
+	"vreplgr2vr.h":   {0x1CA7C1 << 10, 0x0},
+	"vreplgr2vr.w":   {0x1CA7C2 << 10, 0x0},
+	"vreplgr2vr.d":   {0x1CA7C3 << 10, 0x0},
+	"vreplvei.b":     {0x01CBDE << 14, 0xf},
+	"vreplvei.h":     {0x0397BE << 13, 0x7},
+	"vreplvei.w":     {0x072F7E << 12, 0x3},
+	"vreplvei.d":     {0x0E5EFE << 11, 0x1},
+	"xvinsgr2vr.w":   {0x03B75E << 13, 0x7},
+	"xvinsgr2vr.d":   {0x076EBE << 12, 0x3},
+	"xvpickve2gr.w":  {0x03B77E << 13, 0x7},
+	"xvpickve2gr.d":  {0x076EFE << 12, 0x3},
+	"xvpickve2gr.wu": {0x03B79E << 13, 0x7},
+	"xvpickve2gr.du": {0x076F3E << 12, 0x3},
+	"xvreplgr2vr.b":  {0x1DA7C0 << 10, 0x0},
+	"xvreplgr2vr.h":  {0x1DA7C1 << 10, 0x0},
+	"xvreplgr2vr.w":  {0x1DA7C2 << 10, 0x0},
+	"xvreplgr2vr.d":  {0x1DA7C3 << 10, 0x0},
+	"xvreplve0.b":    {0x1DC1C0 << 10, 0x0},
+	"xvreplve0.h":    {0x1DC1E0 << 10, 0x0},
+	"xvreplve0.w":    {0x1DC1F0 << 10, 0x0},
+	"xvreplve0.d":    {0x1DC1F8 << 10, 0x0},
+	"xvreplve0.q":    {0x1DC1FC << 10, 0x0},
+	"xvinsve0.w":     {0x03B7FE << 13, 0x7},
+	"xvinsve0.d":     {0x076FFE << 12, 0x3},
+	"xvpickve.w":     {0x03B81E << 13, 0x7},
+	"xvpickve.d":     {0x07703E << 12, 0x3},
 }
 
 // pcAlignPadLength returns the number of bytes required to align pc to alignedValue,
@@ -827,6 +884,10 @@ func (c *ctxt0) rclass(r int16) int {
 		return C_VREG
 	case REG_X0 <= r && r <= REG_X31:
 		return C_XREG
+	case r >= REG_ARNG && r < REG_ELEM:
+		return C_ARNG
+	case r >= REG_ELEM && r < REG_ELEM_END:
+		return C_ELEM
 	}
 
 	return C_GOK
@@ -1659,7 +1720,249 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o2 = OP_RRR(c.oprrr(add), uint32(r), uint32(REGTMP), uint32(REGTMP))
 		o3 = OP_12IRR(c.opirr(-p.As), uint32(v), uint32(REGTMP), uint32(p.To.Reg))
 
-	case 40: // word
+	case 37: // vmov Rn, Vd.<T>[index]
+		arng_type := (p.To.Reg >> EXT_TYPE_SHIFT) & EXT_TYPE_MASK
+		inst_key := ""
+
+		switch p.As {
+		case AVMOVQ:
+			switch arng_type {
+			case ARNG_B:
+				inst_key = "vinsgr2vr.b"
+			case ARNG_H:
+				inst_key = "vinsgr2vr.h"
+			case ARNG_W:
+				inst_key = "vinsgr2vr.w"
+			case ARNG_V:
+				inst_key = "vinsgr2vr.d"
+			}
+
+		case AXVMOVQ:
+			switch arng_type {
+			case ARNG_W:
+				inst_key = "xvinsgr2vr.w"
+			case ARNG_V:
+				inst_key = "xvinsgr2vr.d"
+			}
+		}
+
+		v, ok := specialLsxMovInst[inst_key]
+		if !ok {
+			c.ctxt.Diag("illegal arng type combination: %v\n", p)
+		}
+
+		Rj := uint32(p.From.Reg & EXT_REG_MASK)
+		Vd := uint32(p.To.Reg & EXT_REG_MASK)
+		index := uint32(p.To.Index)
+		c.checkindex(p, index, v[1])
+
+		o1 = v[0] | (index << 10) | (Rj << 5) | Vd
+
+	case 38: // vmov Vd.<T>[index], Rn
+		arng_type := (p.From.Reg >> EXT_TYPE_SHIFT) & EXT_TYPE_MASK
+		inst_key := ""
+
+		switch p.As {
+		case AVMOVQ:
+			switch arng_type {
+			case ARNG_B:
+				inst_key = "vpickve2gr.b"
+			case ARNG_H:
+				inst_key = "vpickve2gr.h"
+			case ARNG_W:
+				inst_key = "vpickve2gr.w"
+			case ARNG_V:
+				inst_key = "vpickve2gr.d"
+			case ARNG_BU:
+				inst_key = "vpickve2gr.bu"
+			case ARNG_HU:
+				inst_key = "vpickve2gr.hu"
+			case ARNG_WU:
+				inst_key = "vpickve2gr.wu"
+			case ARNG_VU:
+				inst_key = "vpickve2gr.du"
+			}
+
+		case AXVMOVQ:
+			switch arng_type {
+			case ARNG_W:
+				inst_key = "xvpickve2gr.w"
+			case ARNG_V:
+				inst_key = "xvpickve2gr.d"
+			case ARNG_WU:
+				inst_key = "xvpickve2gr.wu"
+			case ARNG_VU:
+				inst_key = "xvpickve2gr.du"
+			}
+		}
+
+		v, ok := specialLsxMovInst[inst_key]
+		if !ok {
+			c.ctxt.Diag("illegal arng type combination: %v\n", p)
+		}
+
+		Vj := uint32(p.From.Reg & EXT_REG_MASK)
+		Rd := uint32(p.To.Reg & EXT_REG_MASK)
+		index := uint32(p.From.Index)
+		c.checkindex(p, index, v[1])
+
+		o1 = v[0] | (index << 10) | (Vj << 5) | Rd
+
+	case 39: // vmov Rn, Vd.<T>
+		arng_type := (p.To.Reg >> EXT_TYPE_SHIFT) & EXT_TYPE_MASK
+		inst_key := ""
+
+		switch p.As {
+		case AVMOVQ:
+			switch arng_type {
+			case ARNG_16B:
+				inst_key = "vreplgr2vr.b"
+			case ARNG_8H:
+				inst_key = "vreplgr2vr.h"
+			case ARNG_4W:
+				inst_key = "vreplgr2vr.w"
+			case ARNG_2V:
+				inst_key = "vreplgr2vr.d"
+			}
+
+		case AXVMOVQ:
+			switch arng_type {
+			case ARNG_32B:
+				inst_key = "xvreplgr2vr.b"
+			case ARNG_16H:
+				inst_key = "xvreplgr2vr.h"
+			case ARNG_8W:
+				inst_key = "xvreplgr2vr.w"
+			case ARNG_4V:
+				inst_key = "xvreplgr2vr.d"
+			}
+		}
+
+		v, ok := specialLsxMovInst[inst_key]
+		if !ok {
+			c.ctxt.Diag("illegal arng type combination: %v\n", p)
+		}
+
+		Rj := uint32(p.From.Reg & EXT_REG_MASK)
+		Vd := uint32(p.To.Reg & EXT_REG_MASK)
+		o1 = v[0] | (Rj << 5) | Vd
+
+	case 40: // vmov  xj, xd.<T>
+		arng_type := (p.To.Reg >> EXT_TYPE_SHIFT) & EXT_TYPE_MASK
+		inst_key := ""
+
+		switch p.As {
+		case AVMOVQ:
+		case AXVMOVQ:
+			switch arng_type {
+			case ARNG_32B:
+				inst_key = "xvreplve0.b"
+			case ARNG_16H:
+				inst_key = "xvreplve0.h"
+			case ARNG_8W:
+				inst_key = "xvreplve0.w"
+			case ARNG_4V:
+				inst_key = "xvreplve0.d"
+			case ARNG_2Q:
+				inst_key = "xvreplve0.q"
+			}
+		}
+
+		v, ok := specialLsxMovInst[inst_key]
+		if !ok {
+			c.ctxt.Diag("illegal arng type combination: %v\n", p)
+		}
+
+		Xj := uint32(p.From.Reg & EXT_REG_MASK)
+		Xd := uint32(p.To.Reg & EXT_REG_MASK)
+		o1 = v[0] | (Xj << 5) | Xd
+
+	case 41: // vmov  xj, xd.<T>[index]
+		arng_type := (p.To.Reg >> EXT_TYPE_SHIFT) & EXT_TYPE_MASK
+		inst_key := ""
+
+		switch p.As {
+		case AVMOVQ:
+		case AXVMOVQ:
+			switch arng_type {
+			case ARNG_W:
+				inst_key = "xvinsve0.w"
+			case ARNG_V:
+				inst_key = "xvinsve0.d"
+			}
+		}
+
+		v, ok := specialLsxMovInst[inst_key]
+		if !ok {
+			c.ctxt.Diag("illegal arng type combination: %v\n", p)
+		}
+
+		Xj := uint32(p.From.Reg & EXT_REG_MASK)
+		Xd := uint32(p.To.Reg & EXT_REG_MASK)
+		index := uint32(p.To.Index)
+		c.checkindex(p, index, v[1])
+
+		o1 = v[0] | (index << 10) | (Xj << 5) | Xd
+
+	case 42: // vmov  xj.<T>[index], xd
+		arng_type := (p.From.Reg >> EXT_TYPE_SHIFT) & EXT_TYPE_MASK
+		inst_key := ""
+
+		switch p.As {
+		case AVMOVQ:
+		case AXVMOVQ:
+			switch arng_type {
+			case ARNG_W:
+				inst_key = "xvpickve.w"
+			case ARNG_V:
+				inst_key = "xvpickve.d"
+			}
+		}
+
+		v, ok := specialLsxMovInst[inst_key]
+		if !ok {
+			c.ctxt.Diag("illegal arng type combination: %v\n", p)
+		}
+
+		Xj := uint32(p.From.Reg & EXT_REG_MASK)
+		Xd := uint32(p.To.Reg & EXT_REG_MASK)
+		index := uint32(p.From.Index)
+		c.checkindex(p, index, v[1])
+		o1 = v[0] | (index << 10) | (Xj << 5) | Xd
+
+	case 43: // vmov  vj.<T>[index], vd.<T>
+		from_arng_type := (p.From.Reg >> EXT_TYPE_SHIFT) & EXT_TYPE_MASK
+		to_arng_type := (p.To.Reg >> EXT_TYPE_SHIFT) & EXT_TYPE_MASK
+		inst_key := ""
+
+		switch p.As {
+		case AVMOVQ:
+			switch {
+			case (from_arng_type == ARNG_B) && (to_arng_type == ARNG_16B):
+				inst_key = "vreplvei.b"
+			case (from_arng_type == ARNG_H) && (to_arng_type == ARNG_8H):
+				inst_key = "vreplvei.h"
+			case (from_arng_type == ARNG_W) && (to_arng_type == ARNG_4W):
+				inst_key = "vreplvei.w"
+			case (from_arng_type == ARNG_V) && (to_arng_type == ARNG_2V):
+				inst_key = "vreplvei.d"
+			}
+		case AXVMOVQ:
+			c.ctxt.Diag("unsupported op %v\n", p)
+		}
+
+		v, ok := specialLsxMovInst[inst_key]
+		if !ok {
+			c.ctxt.Diag("illegal arng type combination: %v\n", p)
+		}
+
+		vj := uint32(p.From.Reg & EXT_REG_MASK)
+		vd := uint32(p.To.Reg & EXT_REG_MASK)
+		index := uint32(p.From.Index)
+		c.checkindex(p, index, v[1])
+		o1 = v[0] | (index << 10) | (vj << 5) | vd
+
+	case 46: // word
 		o1 = uint32(c.regoff(&p.From))
 
 	case 49:
@@ -1861,6 +2164,13 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	out[2] = o3
 	out[3] = o4
 	out[4] = o5
+}
+
+// checkindex checks if index >= 0 && index <= maxindex
+func (c *ctxt0) checkindex(p *obj.Prog, index uint32, mask uint32) {
+	if (index & ^mask) != 0 {
+		c.ctxt.Diag("register element index out of range 0 to %d: %v", mask, p)
+	}
 }
 
 func (c *ctxt0) vregoff(a *obj.Addr) int64 {
