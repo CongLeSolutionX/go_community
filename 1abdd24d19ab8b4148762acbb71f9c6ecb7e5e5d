@@ -199,6 +199,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a373e36_02638754",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-26T14:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7242c266_421ab8f8",
+      "revId": "1abdd24d19ab8b4148762acbb71f9c6ecb7e5e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3635fbed_849881fc",
@@ -234,6 +252,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a66579aa_db4de77d",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-26T14:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3635fbed_849881fc",
+      "revId": "1abdd24d19ab8b4148762acbb71f9c6ecb7e5e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bda1ba50_88767f6f",
@@ -257,6 +293,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ef5b066_66feb924",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-26T14:11:15Z",
+      "side": 1,
+      "message": "Done.\n\n(BTW: I use FIXME to mean \"resolve this question during review, do not submit\".)",
+      "parentUuid": "bda1ba50_88767f6f",
+      "range": {
+        "startLine": 36,
+        "startChar": 29,
+        "endLine": 36,
+        "endChar": 34
+      },
+      "revId": "1abdd24d19ab8b4148762acbb71f9c6ecb7e5e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b607b6d_acb36487",
@@ -270,6 +330,24 @@
       "writtenOn": "2024-09-25T22:38:59Z",
       "side": 1,
       "message": "see comments in types2 code",
+      "revId": "1abdd24d19ab8b4148762acbb71f9c6ecb7e5e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0dd8389_704ca6b3",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3262,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-26T14:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b607b6d_acb36487",
       "revId": "1abdd24d19ab8b4148762acbb71f9c6ecb7e5e5d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
