@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1aff724a_c210ee00",
+        "filename": "src/os/file_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-09-26T16:29:52Z",
+      "side": 1,
+      "message": "He",
+      "revId": "4cc29f8d4a68847612352073b15f24a12d75af16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
