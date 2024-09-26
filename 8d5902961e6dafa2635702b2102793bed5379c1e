@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd5019fa_1b2a4f60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-26T20:42:01Z",
+      "side": 1,
+      "message": "`Fixes #66078`\n\nmove this after line 18/before line 20",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "8d5902961e6dafa2635702b2102793bed5379c1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "32b2aa87_9d17dc46",
@@ -48,6 +71,29 @@
       "writtenOn": "2024-09-25T15:15:09Z",
       "side": 1,
       "message": "Hi Michael, when you have time, could you please review the PR, thank you!",
+      "revId": "8d5902961e6dafa2635702b2102793bed5379c1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c87b9844_3d8ca89a",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-26T20:42:01Z",
+      "side": 1,
+      "message": "Why are we making copies of the `token.Position`s? Do we modify them later?\n\n(Same question for the other places we make copies of them)",
+      "range": {
+        "startLine": 591,
+        "startChar": 0,
+        "endLine": 591,
+        "endChar": 25
+      },
       "revId": "8d5902961e6dafa2635702b2102793bed5379c1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
