@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c812112_a8ec7877",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-26T16:05:06Z",
+      "side": 1,
+      "message": "I don\u0027t think this message is an improvement.\n\nConsider:\n\n  func(int, int, int, int, a int, int int)\n  \nIn this case, the problem is not that the declaration is incomplete, but that it has a surplus name on one of the parameters. The current error message is better.\n  \nOr:\n\n  func(a int, string)\n  \nIn this case, the problem is a mix of styles; again the current message is better.\n\nI can\u0027t think of a wording that improves the message for \"func(a int, b)\" without hurting the cases above. (The type checker can obviously do better.)",
+      "range": {
+        "startLine": 1000,
+        "startChar": 11,
+        "endLine": 1000,
+        "endChar": 61
+      },
+      "revId": "261f950b48bdbe2db60a8f00088be96b5dd3f0fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
