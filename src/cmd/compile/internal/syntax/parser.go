@@ -2094,7 +2094,7 @@ func (p *parser) paramList(name *Name, typ Expr, close token, requireNames bool)
 					}
 				}
 			} else {
-				msg = "mixed named and unnamed parameters"
+				msg = "function named parameter declaration is incomplete"
 			}
 			p.syntaxErrorAt(errPos, msg)
 		}
