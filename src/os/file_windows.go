@@ -289,6 +289,8 @@ func Link(oldname, newname string) error {
 func Symlink(oldname, newname string) error {
 	panic("quim")
 
+	haha
+
 	// '/' does not work in link's content
 	oldname = filepathlite.FromSlash(oldname)
 
