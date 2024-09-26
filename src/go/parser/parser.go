@@ -997,7 +997,7 @@ func (p *parser) parseParameterList(name0 *ast.Ident, typ0 ast.Expr, closing tok
 					}
 				}
 			} else {
-				msg = "mixed named and unnamed parameters"
+				msg = "function named parameter declaration is incomplete"
 			}
 			p.error(errPos, msg)
 		}
