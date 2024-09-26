@@ -356,3 +356,23 @@ lable2:
 	FSCALEBD	F4, F5, F6	// a6101101
 	FLOGBF		F4, F5		// 85241401
 	FLOGBD		F4, F5		// 85281401
+
+	// VSTX/VLDX/XVSTX/XVLDX instructions
+	VMOVQ		V2, (R5)(R5)    // a2144438
+	VMOVQ		(R4)(R5), V2    // 82144038
+	XVMOVQ		X2, (R4)(R5)    // 82144c38
+	XVMOVQ		(R4)(R5), X2    // 82144838
+
+	// VST/VLD/XVST/XVLD instructions
+	VMOVQ		V2, (R4)        // 8200402c
+	VMOVQ		V2, 3(R4)       // 820c402c
+	VMOVQ		V2, 2040(R4)    // 82e05f2c
+	VMOVQ		V2, -2040(R4)   // 8220602c
+	VMOVQ		V2, y+16(FP)    // 0260402c
+	VMOVQ		V2, x+2030(FP)  // 02d85f2c
+	VMOVQ		(R4), V2        // 8200002c
+	VMOVQ		3(R4), V2       // 820c002c
+	VMOVQ		2044(R4), V2    // 82f01f2c
+	VMOVQ		-2044(R4), V2   // 8210202c
+	VMOVQ		y+16(FP), V2    // 0260002c
+	VMOVQ		x+2030(FP), V2  // 02d81f2c

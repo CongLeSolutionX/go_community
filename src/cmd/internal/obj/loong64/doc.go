@@ -19,7 +19,16 @@ BU            = 8 bit unsigned
 F (float)     = 32 bit float
 D (double)    = 64 bit float
 
-2. Align directive
+2. Bit width represented by vector instruction prefix
+V  (LSX)  = 128 bit
+XV (LASX) = 256 bit
+
+Examples:
+
+	VMOVQ  (R2), V1 // Load 128 bit memory data into V1 register
+	XVMOVQ (R2), X1 // Load 256 bit memory data into X1 register
+
+3. Align directive
 Go asm supports the PCALIGN directive, which indicates that the next instruction should
 be aligned to a specified boundary by padding with NOOP instruction. The alignment value
 supported on loong64 must be a power of 2 and in the range of [8, 2048].
@@ -49,6 +58,10 @@ start:
 1. All generial-prupose register names are written as Rn.
 
 2. All floating-point register names are written as Fn.
+
+3. All LSX register names are written as Vn.
+
+4. All LASX register names are written as Xn.
 
 # Argument mapping rules
 
