@@ -1231,12 +1231,12 @@ ParameterDecl  = [ IdentifierList ] [ "..." ] Type .
 </pre>
 
 <p>
-Within a list of parameters or results, the names (IdentifierList)
-must either all be present or all be absent. If present, each name
+Within a list of parameter declarations or results, the names (IdentifierList)
+must either all be present or all be absent. If present, each name of the named parameter declarations
 stands for one item (parameter or result) of the specified type and
 all non-<a href="#Blank_identifier">blank</a> names in the signature
 must be <a href="#Uniqueness_of_identifiers">unique</a>.
-If absent, each type stands for one item of that type.
+If absent, each type of the unnamed parameter declarations stands for one item of that type.
 Parameter and result
 lists are always parenthesized except that if there is exactly
 one unnamed result it may be written as an unparenthesized type.
