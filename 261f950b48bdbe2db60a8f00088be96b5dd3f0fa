@@ -46,6 +46,30 @@
       },
       "revId": "261f950b48bdbe2db60a8f00088be96b5dd3f0fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32b5ce00_d3a41dd0",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-26T16:45:41Z",
+      "side": 1,
+      "message": "\u003e the error message for this is int redeclared in this block\n\nSorry, in my haste I missed the comma between the last two \"int\"s. With it, the parser emits the \"mixed\" message.\n\n\n\u003e Given the error case that all the parameters before are the named one and only the last one is unnamed, it\u0027s reasonable to expect it should be a named parameter as well.\n\nI agree; and we could refine the existing error to \"unnamed parameter follows named paramter\" or somesuch, but it still wouldn\u0027t help us identify which part (name or type) is missing. If the type is a qualified identifier (e.g. io.Reader), then it\u0027s obviously a type; if it was a capitalized name, we might heuristically guess that it is a type, not a parameter name; but in the bug you actually encountered, the \"type\" was a lower case identifier, so neither of these refinements would have helped.\n\n\n\u003e But generally, i think the mixing error is enough and usually this kind of error could be awared by users quickly. If you feel it\u0027s not an improvement, it\u0027s also fine to abandon this CL.\n\nI haven\u0027t seen any approach yet that would be a real improvement yet here, so I am inclined to abandon it.\n\n\n\u003e But anyway, thanks for your reviewing, i have learned a lot from you\n\nYou\u0027re welcome. Thanks for trying to improve the parser.",
+      "parentUuid": "0dd80a13_a7bb2b4d",
+      "range": {
+        "startLine": 1000,
+        "startChar": 11,
+        "endLine": 1000,
+        "endChar": 61
+      },
+      "revId": "261f950b48bdbe2db60a8f00088be96b5dd3f0fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
