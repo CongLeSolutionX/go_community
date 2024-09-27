@@ -16,6 +16,91 @@
       "message": "Thanks! I was going to update this.",
       "revId": "9693dc111e1b51bd595ca077cb7430e61a777f80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e88f8499_01349c12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-09-27T11:17:01Z",
+      "side": 1,
+      "message": "A few section numbers are incorrect and there are some inconsistencies between the two files that mention the section numbers.",
+      "revId": "9693dc111e1b51bd595ca077cb7430e61a777f80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5427aeb8_b3e21f9b",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscv64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-09-27T11:17:01Z",
+      "side": 1,
+      "message": "21.7, 21.6 is \"Double-Precision Floating-Point Compare Instructions\".  cpu.go has the correct value.",
+      "revId": "9693dc111e1b51bd595ca077cb7430e61a777f80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8173e37_81f04980",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscv64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-09-27T11:17:01Z",
+      "side": 1,
+      "message": "This is also 28.4.2.  28.4.3 is Zbc.",
+      "revId": "9693dc111e1b51bd595ca077cb7430e61a777f80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5c43f32_6eea630c",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-09-27T11:17:01Z",
+      "side": 1,
+      "message": "This should be 14.4 I think.  It is correct in riscv64.s.",
+      "revId": "9693dc111e1b51bd595ca077cb7430e61a777f80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efb6b899_74a0bcfa",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-09-27T11:17:01Z",
+      "side": 1,
+      "message": "3.3.1.  This is correct in risv64.s.",
+      "revId": "9693dc111e1b51bd595ca077cb7430e61a777f80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
