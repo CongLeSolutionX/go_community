@@ -54,6 +54,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc0229b5_14be82a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-27T21:07:16Z",
+      "side": 1,
+      "message": "At the end of this CL series, an empty map is 72 bytes, which I believe could be reduced to 52 bytes by removing redundant fields. More might be trickier.\n\nA 1 entry map[uint64]uint64 is 72 (Map) + 136 (Group) \u003d 208 bytes with the \"small map optimization\" later CL. Without that optimization it would be 72 (Map) + 56 (table) + 136 (Group) \u003d 264 bytes.",
+      "parentUuid": "00125ab7_fb9a5f98",
+      "revId": "ac1f5ee8934d9bb98055cfef110ecf018a4653d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d519055f_6a369206",
