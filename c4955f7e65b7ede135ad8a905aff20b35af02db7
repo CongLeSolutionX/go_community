@@ -16,6 +16,57 @@
       "message": "Hey Michael - looks like Paul\u0027s good with the ppc part now. If the rest looks generally good to you, could you +2 it (as you\u0027ve been most involved with the nuts and bolts of the review)? And maybe some other Googler too?",
       "revId": "c4955f7e65b7ede135ad8a905aff20b35af02db7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddecef3a_3faf401b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-27T18:58:50Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "c4955f7e65b7ede135ad8a905aff20b35af02db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9218e2e_983466f0",
+        "filename": "src/runtime/vgetrandom_linux.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-27T18:58:50Z",
+      "side": 1,
+      "message": "Please add a note that this is linknamed from x/sys/unix.",
+      "revId": "c4955f7e65b7ede135ad8a905aff20b35af02db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28f0f8f2_2af7ba16",
+        "filename": "src/runtime/vgetrandom_linux.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-09-27T18:58:50Z",
+      "side": 1,
+      "message": "Is there any good reason for the mmap to fail? I wonder if we should just crash on error? Or at least mark vgetrandom as permanently broken? As-is, we\u0027ll end up calling mmap and getrandom on every single call if mmap is broken.\n\n(If we decide to change this it could be a follow-up CL)",
+      "revId": "c4955f7e65b7ede135ad8a905aff20b35af02db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
