@@ -70,6 +70,24 @@
       "parentUuid": "cad7e439_dc9659b0",
       "revId": "d6417bc128116179ea38ea42c5b413881ac0f8f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d592e6f_959b6587",
+        "filename": "test/fixedbugs/issue69434.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-27T15:34:03Z",
+      "side": 1,
+      "message": "I guess my question is, is this really because it is growing the stack, or is it enough to just have a call that requires a spill/restore around it, or adjusts the inlining threshold of the calling function, or something else?\n\nIf it really is because of stack growth, then making it deeper would help keep the test from being flaky.",
+      "parentUuid": "f4bae391_548b8e5d",
+      "revId": "d6417bc128116179ea38ea42c5b413881ac0f8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
