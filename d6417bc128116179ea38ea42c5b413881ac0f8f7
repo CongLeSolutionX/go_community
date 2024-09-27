@@ -106,6 +106,24 @@
       "parentUuid": "1d592e6f_959b6587",
       "revId": "d6417bc128116179ea38ea42c5b413881ac0f8f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b574261_c29622dc",
+        "filename": "test/fixedbugs/issue69434.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-09-27T21:07:16Z",
+      "side": 1,
+      "message": "That seems like a pretty big hammer, as that copies the stack at every possible preemption point. But I guess that\u0027s fine for just one test.",
+      "parentUuid": "1457c6cb_bfc9b5a9",
+      "revId": "d6417bc128116179ea38ea42c5b413881ac0f8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
