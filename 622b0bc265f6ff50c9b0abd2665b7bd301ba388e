@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb434b72_6cacecaa",
+        "filename": "src/go/types/check.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-27T18:10:14Z",
+      "side": 1,
+      "message": "CheckExpr, Eval\n\nAnd rename it to checkExprPos to make clear that it\u0027s not a normal \"where the checker is right now\" position.",
+      "range": {
+        "startLine": 76,
+        "startChar": 108,
+        "endLine": 76,
+        "endChar": 112
+      },
+      "revId": "622b0bc265f6ff50c9b0abd2665b7bd301ba388e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
