@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a9bf3e6_ac1ea000",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-27T13:58:27Z",
+      "side": 1,
+      "message": "Hey Michael - looks like Paul\u0027s good with the ppc part now. If the rest looks generally good to you, could you +2 it (as you\u0027ve been most involved with the nuts and bolts of the review)? And maybe some other Googler too?",
+      "revId": "c4955f7e65b7ede135ad8a905aff20b35af02db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
