@@ -87,6 +87,30 @@
       },
       "revId": "261f950b48bdbe2db60a8f00088be96b5dd3f0fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16fba338_3323f706",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 58169
+      },
+      "writtenOn": "2024-09-27T02:35:01Z",
+      "side": 1,
+      "message": "understood, we cannot improve the \"mixing...\" error better without involving the type checker. I have abandoned this CL and another CL in `internal/syntax`. \n\nthanks a lot.",
+      "parentUuid": "32b5ce00_d3a41dd0",
+      "range": {
+        "startLine": 1000,
+        "startChar": 11,
+        "endLine": 1000,
+        "endChar": 61
+      },
+      "revId": "261f950b48bdbe2db60a8f00088be96b5dd3f0fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
