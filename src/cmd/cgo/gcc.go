@@ -224,10 +224,12 @@ func (p *Package) Translate(f *File) {
 		}
 	}
 	p.prepareNames(f)
+	p.prewriteLits(f)
 	if p.rewriteCalls(f) {
 		// Add `import _cgo_unsafe "unsafe"` after the package statement.
 		f.Edit.Insert(f.offset(f.AST.Name.End()), "; import _cgo_unsafe \"unsafe\"")
 	}
+	p.rewriteLits(f)
 	p.rewriteRef(f)
 }
 
@@ -791,6 +793,165 @@ func (f *File) isMangledName(s string) bool {
 	})
 }
 
+// prewriteLits modifies the AST of the composite literal in case it is
+// emitted as part of a gofmt in call rewriting.
+func (p *Package) prewriteLits(f *File) {
+	for _, lit := range f.Lits {
+		p.prewriteLit(lit)
+	}
+}
+
+// typeForExpr0 retrieves the *Type (not *ast.Type) for an Expr,
+// if it is present in the typedef map.
+func typeForExpr0(e ast.Expr) *Type {
+	switch x := e.(type) {
+	case *ast.SelectorExpr:
+		if l, ok := x.X.(*ast.Ident); ok && l.Name == "C" {
+			cType := x.Sel.Name
+			if ty := typedef["_Ctype_struct_"+cType]; ty != nil {
+				return ty
+			}
+			return typedef["_Ctype_"+cType]
+		}
+		return nil
+	case *ast.Ident:
+		return typedef[x.Name]
+	}
+	return nil
+}
+
+func typeForExpr(e ast.Expr) *Type {
+	for {
+		ty := typeForExpr0(e)
+		if ty == nil {
+			return ty
+		}
+		if _, ok := ty.Go.(*ast.StructType); ok {
+			return ty
+		}
+		e = ty.Go
+	}
+}
+
+// typeFor attempts to determine the *Type of a composite literal,
+// using either the type on the literal itself, or outer type and
+// path context.  Because the outer types and paths are constructed
+// in the absence of type information, sometimes this will return nil,
+// and that is not (necessarily) an error.
+// E.g., [][]int{ {1,2}, {3,4} } <-- there is no cgo type involved here.
+func typeFor(lit *Lit) *Type {
+	if lit.Lit.Type != nil {
+		return typeForExpr(lit.Lit.Type)
+	}
+	t := lit.TypeOf.ty
+	if t == nil {
+		return nil
+	}
+	p := lit.TypeOf.path
+	for len(p) > 0 {
+		i := -1  // not a valid field index
+		s := ";" // not a valid field name
+		switch x := p[0].(type) {
+		case int:
+			i = x
+		case string:
+			s = x
+		default:
+			return nil
+		}
+
+		switch x := t.(type) {
+		case *ast.ArrayType:
+			t = x.Elt
+
+		// Not actually a case?
+		case *ast.StructType:
+			// Count non-"_" fields looking for some kind of match
+		structLoop:
+			for _, fl := range x.Fields.List {
+				for _, f := range fl.Names {
+					if f.Name == "_" {
+						continue
+					}
+					if f.Name == s || i == 0 {
+						t = fl.Type
+						break structLoop
+					}
+					i--
+				}
+			}
+
+		case *ast.MapType:
+			if i == 0 {
+				t = x.Key
+			} else {
+				t = x.Value
+			}
+		case *ast.Ident, *ast.SelectorExpr:
+			ty := typeForExpr(t)
+			if ty == nil {
+				return nil
+			}
+			t = ty.Go
+			continue // do not consume a path element
+
+		default:
+			return nil
+		}
+		p = p[1:]
+	}
+	return typeForExpr(t)
+}
+
+func (p *Package) prewriteLit(lit *Lit) {
+	ty := typeFor(lit)
+	if ty == nil {
+		// interior typeless compound literals could have nothing at all to do with cgo.  Leave them alone.
+		lit.Done = true
+		return
+	}
+	j := 0
+	for _, fs := range ty.Go.(*ast.StructType).Fields.List {
+		for _, fieldName := range fs.Names {
+			if fieldName.Name == "_" {
+				continue
+			}
+			init := lit.Lit.Elts[j]
+			// prepend fieldName.Name+":"
+			lit.Lit.Elts[j] = &ast.KeyValueExpr{Key: ast.NewIdent(fieldName.Name), Colon: init.Pos(), Value: init}
+			j++
+		}
+	}
+}
+
+func (p *Package) rewriteLits(f *File) {
+	for _, lit := range f.Lits {
+		if lit.Done {
+			continue
+		}
+		p.rewriteLit(f, lit)
+		lit.Done = true
+	}
+}
+
+func (p *Package) rewriteLit(f *File, lit *Lit) {
+	ty := typeFor(lit)
+	j := 0
+	for _, fs := range ty.Go.(*ast.StructType).Fields.List {
+		for _, fieldName := range fs.Names {
+			if fieldName.Name == "_" {
+				continue
+			}
+
+			init := lit.Lit.Elts[j].(*ast.KeyValueExpr).Value // it got rewritten to KVExpr in prewriteLit
+			j++
+			pos := f.offset(init.Pos())
+			// just splice in the tag.
+			f.Edit.Replace(pos, pos, fieldName.Name+":")
+		}
+	}
+}
+
 // rewriteCalls rewrites all calls that pass pointers to check that
 // they follow the rules for passing pointers between Go and C.
 // This reports whether the package needs to import unsafe as _cgo_unsafe.
@@ -809,6 +970,7 @@ func (p *Package) rewriteCalls(f *File) bool {
 			if nu {
 				needsUnsafe = true
 			}
+			f.walk(call.Call, ctxExpr, nilTC, (*File).doneLiteral)
 		}
 	}
 	return needsUnsafe
@@ -1092,6 +1254,9 @@ func (p *Package) hasPointer(f *File, t ast.Expr, top bool) bool {
 		if goTypes[t.Name] != nil {
 			return false
 		}
+		if t.Name == "structs.HostLayout" {
+			return false
+		}
 		// We can't figure out the type. Conservative
 		// approach is to assume it has a pointer.
 		return true
@@ -1126,7 +1291,7 @@ func (p *Package) hasPointer(f *File, t ast.Expr, top bool) bool {
 // If addPosition is true, add position info to the idents of C names in arg.
 func (p *Package) mangle(f *File, arg *ast.Expr, addPosition bool) (ast.Expr, bool) {
 	needsUnsafe := false
-	f.walk(arg, ctxExpr, func(f *File, arg interface{}, context astContext) {
+	f.walk(arg, ctxExpr, nilTC, func(f *File, arg any, context astContext, typeOf typeContext) {
 		px, ok := arg.(*ast.Expr)
 		if !ok {
 			return
@@ -2400,7 +2565,7 @@ func (tr *TypeRepr) Empty() bool {
 // Set modifies the type representation.
 // If fargs are provided, repr is used as a format for fmt.Sprintf.
 // Otherwise, repr is used unprocessed as the type representation.
-func (tr *TypeRepr) Set(repr string, fargs ...interface{}) {
+func (tr *TypeRepr) Set(repr string, fargs ...any) {
 	tr.Repr = repr
 	tr.FormatArgs = fargs
 }
@@ -2674,7 +2839,7 @@ func (c *typeConv) loadType(dtype dwarf.Type, pos token.Pos, parent string) *Typ
 			// so execute the basic things that the struct case would do
 			// other than try to determine a Go representation.
 			tt := *t
-			tt.C = &TypeRepr{"%s %s", []interface{}{dt.Kind, tag}}
+			tt.C = &TypeRepr{"%s %s", []any{dt.Kind, tag}}
 			// We don't know what the representation of this struct is, so don't let
 			// anyone allocate one on the Go side. As a side effect of this annotation,
 			// pointers to this type will not be considered pointers in Go. They won't
@@ -2704,7 +2869,7 @@ func (c *typeConv) loadType(dtype dwarf.Type, pos token.Pos, parent string) *Typ
 			t.Align = align
 			tt := *t
 			if tag != "" {
-				tt.C = &TypeRepr{"struct %s", []interface{}{tag}}
+				tt.C = &TypeRepr{"struct %s", []any{tag}}
 			}
 			tt.Go = g
 			if c.incompleteStructs[tag] {
@@ -3035,10 +3200,10 @@ func (c *typeConv) Struct(dt *dwarf.StructType, pos token.Pos) (expr *ast.Struct
 	// Minimum alignment for a struct is 1 byte.
 	align = 1
 
-	var buf strings.Builder
+	var buf strings.Builder // for C syntax
 	buf.WriteString("struct {")
-	fld := make([]*ast.Field, 0, 2*len(dt.Field)+1) // enough for padding around every field
-	sizes := make([]int64, 0, 2*len(dt.Field)+1)
+	fld := make([]*ast.Field, 0, 2*len(dt.Field)+2) // enough for padding around every field and a prefix type
+	sizes := make([]int64, 0, 2*len(dt.Field)+2)
 	off := int64(0)
 
 	// Rename struct fields that happen to be named Go keywords into
@@ -3072,6 +3237,9 @@ func (c *typeConv) Struct(dt *dwarf.StructType, pos token.Pos) (expr *ast.Struct
 	}
 
 	anon := 0
+	// begin with use-host-conventions layout field
+	fld = append(fld, &ast.Field{Names: []*ast.Ident{c.Ident("_")}, Type: &ast.StructType{Fields: &ast.FieldList{}}}) // empty struct, not host layout
+	sizes = append(sizes, 0)
 	for _, f := range dt.Field {
 		name := f.Name
 		ft := f.Type

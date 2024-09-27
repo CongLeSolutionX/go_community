@@ -11,15 +11,15 @@ import (
 	"go/token"
 )
 
-func (f *File) walkUnexpected(x interface{}, context astContext, visit func(*File, interface{}, astContext)) {
+func (f *File) walkUnexpected(x interface{}, context astContext, typeOf typeContext, visit func(*File, interface{}, astContext, typeContext)) {
 	switch n := x.(type) {
 	default:
 		error_(token.NoPos, "unexpected type %T in walk", x)
 		panic("unexpected type")
 
 	case *ast.IndexListExpr:
-		f.walk(&n.X, ctxExpr, visit)
-		f.walk(n.Indices, ctxExpr, visit)
+		f.walk(&n.X, ctxExpr, typeOf, visit)
+		f.walk(n.Indices, ctxExpr, typeOf, visit)
 	}
 }
 
