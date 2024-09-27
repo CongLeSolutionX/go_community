@@ -54,6 +54,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8b409978_a935cec3",
+        "filename": "src/runtime/vgetrandom_linux.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-27T19:23:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9218e2e_983466f0",
+      "revId": "c4955f7e65b7ede135ad8a905aff20b35af02db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "28f0f8f2_2af7ba16",
         "filename": "src/runtime/vgetrandom_linux.go",
         "patchSetId": 32
@@ -65,6 +83,24 @@
       "writtenOn": "2024-09-27T18:58:50Z",
       "side": 1,
       "message": "Is there any good reason for the mmap to fail? I wonder if we should just crash on error? Or at least mark vgetrandom as permanently broken? As-is, we\u0027ll end up calling mmap and getrandom on every single call if mmap is broken.\n\n(If we decide to change this it could be a follow-up CL)",
+      "revId": "c4955f7e65b7ede135ad8a905aff20b35af02db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "835f6bc3_63d01040",
+        "filename": "src/runtime/vgetrandom_linux.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-27T19:23:27Z",
+      "side": 1,
+      "message": "Certain transient OOM situations, I suppose, or maybe an LSM doing weird mmap() policing. In general MAP_DROPPABLE mappings shouldn\u0027t really fail though. If the error is transient, though, falling back to the syscall once isn\u0027t that bad. If it\u0027s not transient, it should indeed be permanently disabled. Hm. I wonder which scenario is more likely.",
+      "parentUuid": "28f0f8f2_2af7ba16",
       "revId": "c4955f7e65b7ede135ad8a905aff20b35af02db7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
