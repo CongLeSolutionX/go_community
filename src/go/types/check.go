@@ -73,7 +73,6 @@ type environment struct {
 	decl          *declInfo              // package-level declaration whose init expression/function body is checked
 	scope         *Scope                 // top-most scope for lookups
 	version       goVersion              // current accepted language version; changes across files
-	pos           token.Pos              // if valid, identifiers are looked up as if at position pos (used by Eval)
 	iota          constant.Value         // value of iota in a constant declaration; nil otherwise
 	errpos        positioner             // if set, identifier position of a constant with inherited initializer
 	inTParamList  bool                   // set if inside a type parameter list
@@ -81,6 +80,9 @@ type environment struct {
 	isPanic       map[*ast.CallExpr]bool // set of panic call expressions (used for termination check)
 	hasLabel      bool                   // set if a function makes use of labels (only ~1% of functions); unused outside functions
 	hasCallOrRecv bool                   // set if an expression contains a function call or channel receive operation
+
+	// go/types only
+	pos token.Pos // if valid, identifiers are looked up as if at position pos (used by Eval)
 }
 
 // lookupScope looks up name in the current environment and if an object
