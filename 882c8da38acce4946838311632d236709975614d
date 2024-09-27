@@ -164,6 +164,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "870a8701_918d118b",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3234,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-27T09:46:12Z",
+      "side": 1,
+      "message": "I know, I’m the one who fixed that issue, FYI.\n\nWhat I refer to that we may still return OTYPE even if iface derived is true. Is that code allowed? Do we have a test case to cover it?\n\nIf we could find an example to cover that case, that would be great.",
+      "parentUuid": "f2c98853_6bff8e62",
+      "revId": "882c8da38acce4946838311632d236709975614d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfd8be6a_51dd1e9c",
         "filename": "src/cmd/compile/internal/noder/reader.go",
         "patchSetId": 2
