@@ -108,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbb3b51b_be063406",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3234,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-27T05:06:38Z",
+      "side": 1,
+      "message": "Ah ok, I missed the case that the first info is for iface type.",
+      "parentUuid": "3e848abd_7f5e1243",
+      "revId": "882c8da38acce4946838311632d236709975614d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfd8be6a_51dd1e9c",
