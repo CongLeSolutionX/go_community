@@ -90,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e848abd_7f5e1243",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3234,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2024-09-27T04:25:32Z",
+      "side": 1,
+      "message": "The first info is for iface, and the second one is for tv.Type. Maybe I should name the first one ifaceInfo, should I?",
+      "parentUuid": "ba72f0a3_f1a44a3a",
+      "revId": "882c8da38acce4946838311632d236709975614d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfd8be6a_51dd1e9c",
