@@ -16,6 +16,24 @@
       "message": "That\u0027s not a lot of stack growing 😊\nMaybe this just needs a call to an empty but go:noinline function?",
       "revId": "d6417bc128116179ea38ea42c5b413881ac0f8f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8a759ed_8508754d",
+        "filename": "test/fixedbugs/issue69434.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-27T00:07:32Z",
+      "side": 1,
+      "message": "Yeah, but I want to make it clear that the stack is growing, so we are moving to new one, thus the old stale pointer is invalid.\n\nIf the stack is not moved, then the code still run fine.",
+      "parentUuid": "4ef0daeb_b2a9bc92",
+      "revId": "d6417bc128116179ea38ea42c5b413881ac0f8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
