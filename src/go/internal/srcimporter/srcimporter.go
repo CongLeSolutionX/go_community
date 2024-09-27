@@ -107,7 +107,6 @@ func (p *Importer) ImportFrom(path, srcDir string, mode types.ImportMode) (*type
 
 	var filenames []string
 	filenames = append(filenames, bp.GoFiles...)
-	filenames = append(filenames, bp.CgoFiles...)
 
 	files, err := p.parseFiles(bp.Dir, filenames)
 	if err != nil {
@@ -134,11 +133,11 @@ func (p *Importer) ImportFrom(path, srcDir string, mode types.ImportMode) (*type
 			conf.FakeImportC = true
 		} else {
 			setUsesCgo(&conf)
-			file, err := p.cgo(bp)
+			cgofiles, err := p.cgo(bp)
 			if err != nil {
 				return nil, fmt.Errorf("error processing cgo for package %q: %w", bp.ImportPath, err)
 			}
-			files = append(files, file)
+			files = append(files, cgofiles...)
 		}
 	}
 
@@ -198,7 +197,7 @@ func (p *Importer) parseFiles(dir string, filenames []string) ([]*ast.File, erro
 	return files, nil
 }
 
-func (p *Importer) cgo(bp *build.Package) (*ast.File, error) {
+func (p *Importer) cgo(bp *build.Package) ([]*ast.File, error) {
 	tmpdir, err := os.MkdirTemp("", "srcimporter")
 	if err != nil {
 		return nil, err
@@ -236,11 +235,28 @@ func (p *Importer) cgo(bp *build.Package) (*ast.File, error) {
 
 	cmd := exec.Command(args[0], args[1:]...)
 	cmd.Dir = bp.Dir
-	if err := cmd.Run(); err != nil {
+	if co, err := cmd.CombinedOutput(); err != nil {
 		return nil, fmt.Errorf("go tool cgo: %w", err)
+	} else if len(co) > 0 {
+		fmt.Fprintf(os.Stderr, "CGO step output is:\n%s", string(co))
 	}
 
-	return parser.ParseFile(p.fset, filepath.Join(tmpdir, "_cgo_gotypes.go"), nil, parser.SkipObjectResolution)
+	var afs []*ast.File
+
+	af, err := parser.ParseFile(p.fset, filepath.Join(tmpdir, "_cgo_gotypes.go"), nil, parser.SkipObjectResolution)
+	if err != nil {
+		return nil, err
+	}
+	afs = append(afs, af)
+	for _, fn := range bp.CgoFiles {
+		cgofn := fn[:len(fn)-2] + "cgo1.go"
+		af, err := parser.ParseFile(p.fset, filepath.Join(tmpdir, cgofn), nil, parser.SkipObjectResolution)
+		if err != nil {
+			return nil, err
+		}
+		afs = append(afs, af)
+	}
+	return afs, nil
 }
 
 // context-controlled file system operations
