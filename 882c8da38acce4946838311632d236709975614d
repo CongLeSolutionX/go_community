@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ba72f0a3_f1a44a3a",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3234,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-27T03:58:36Z",
+      "side": 1,
+      "message": "I dont get it.\n\nWhat I mean is that in writer.go, you always write the same info.derived for both iDrived and derived, no?",
+      "parentUuid": "ea4a82a2_f904b7fb",
+      "revId": "882c8da38acce4946838311632d236709975614d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfd8be6a_51dd1e9c",
         "filename": "src/cmd/compile/internal/noder/reader.go",
         "patchSetId": 2
