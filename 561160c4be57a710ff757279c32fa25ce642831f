@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46578271_63bcdcee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-09-27T17:33:18Z",
+      "side": 1,
+      "message": "more info see https://go-review.googlesource.com/c/go/+/616099?checksRunsSelected\u003dgotip-linux-loong64\u0026tab\u003dchecks",
+      "revId": "561160c4be57a710ff757279c32fa25ce642831f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
