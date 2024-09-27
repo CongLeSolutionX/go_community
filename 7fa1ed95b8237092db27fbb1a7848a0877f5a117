@@ -106,6 +106,24 @@
       "parentUuid": "5087ea69_583d899a",
       "revId": "7fa1ed95b8237092db27fbb1a7848a0877f5a117",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fb49b4b_62a29356",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 30
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-27T00:08:42Z",
+      "side": 1,
+      "message": "The same file I linked above:\n\n\n/*\n * The macro sets two stack frames, one for the caller and one for the callee\n * because there are no requirement for the caller to set a stack frame when\n * calling VDSO so it may have omitted to set one, especially on PPC64\n */",
+      "parentUuid": "d5bbf9da_33b2b4ce",
+      "revId": "7fa1ed95b8237092db27fbb1a7848a0877f5a117",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
