@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "567c0c70_f5273467",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-09-27T18:07:42Z",
+      "side": 1,
+      "message": "With this CL, I believe types2 removed the last vestiges of position-dependent lookups.",
+      "revId": "32f1d0f7ba66864df0498b78b1cfd052d03e0c6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
