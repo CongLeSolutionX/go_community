@@ -180,6 +180,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36153753_38694f13",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3234,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2024-09-27T11:38:44Z",
+      "side": 1,
+      "message": "I\u0027m very glad you noticed this logic, and I think it is a special optimization. When the target of a type assertion is a non derived interface, we only need to obtain the *runtime._type from iface.itab, So there\u0027s no need to worry about whether iface is derived. Am I right to think so? I have added two tests, please see if this works?",
+      "parentUuid": "870a8701_918d118b",
+      "revId": "882c8da38acce4946838311632d236709975614d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfd8be6a_51dd1e9c",
