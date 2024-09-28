@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9dc200e_24a2df17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-28T13:08:40Z",
+      "side": 1,
+      "message": "Could you explain why and how we\u0027re changing the testing package? I realize that this information may be in the attached issue, but the CL description should by itself be enough to motivate the change and give a technical overview (if the comments in the code are not sufficient).",
+      "revId": "ab77ecd085d5b6c7471317994119969e357cc068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa4c1d53_33dcf84e",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-28T13:08:40Z",
+      "side": 1,
+      "message": "Use same declaration as in test2json?\n\nMore importantly, we could use a comment somewhere that gives an overview of the framing strategy.",
+      "revId": "ab77ecd085d5b6c7471317994119969e357cc068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb3924af_15e717bf",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-09-28T13:08:40Z",
+      "side": 1,
+      "message": "Don\u0027t we need to escape occurrences of ^O in the filename and in s (L832)? It would be good to add a test case that exercises an error message containing all ASCII values.",
+      "range": {
+        "startLine": 822,
+        "startChar": 29,
+        "endLine": 822,
+        "endChar": 33
+      },
+      "revId": "ab77ecd085d5b6c7471317994119969e357cc068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
