@@ -124,6 +124,24 @@
       "parentUuid": "1457c6cb_bfc9b5a9",
       "revId": "d6417bc128116179ea38ea42c5b413881ac0f8f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c6b8efa_6c021fd5",
+        "filename": "test/fixedbugs/issue69434.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-28T00:32:10Z",
+      "side": 1,
+      "message": "Yeah, but it proves that moving the stack is the culprit and the requirement for the test, and it is not run more reliably, no fragile.",
+      "parentUuid": "0b574261_c29622dc",
+      "revId": "d6417bc128116179ea38ea42c5b413881ac0f8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
