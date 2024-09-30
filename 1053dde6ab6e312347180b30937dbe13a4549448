@@ -106,6 +106,24 @@
       "parentUuid": "e5e8d26f_d0fd7589",
       "revId": "1053dde6ab6e312347180b30937dbe13a4549448",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a7d4309_4fce7b47",
+        "filename": "src/runtime/rand.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-09-30T17:03:45Z",
+      "side": 1,
+      "message": "Also the same issue will affect x/sys/unix, mailed CL 616795.",
+      "parentUuid": "aa5fde13_ee23a4de",
+      "revId": "1053dde6ab6e312347180b30937dbe13a4549448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
