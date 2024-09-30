@@ -197,6 +197,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "60231fda_6a79462c",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-30T23:45:00Z",
+      "side": 1,
+      "message": "I\u0027m thinking that in mexit we write\n\n    var pending int32\n    for {\n        old :\u003d atomic.Load(\u0026m.signalPending)\n        new :\u003d old | 2\n        if atomic.Cas(\u0026m.signalPending, old, new) {\n            pending \u003d old\n            break\n        }\n    }\n    // At this point preemptM will no longer change signalPending.\n    // pending is non-zero if it was already set.\n    if pending !\u003d 0 {\n        atomic.Xadd(\u0026pendingPreemptSignals, -1)\n    }\n\npreemptM is unchanged: we if pendingPreemptSignals is 0, we set it to 1.  If pendingPreemptSignals \u0026 1 !\u003d 0 then we are already sending a signal.  If pendingPreemptSignals \u0026 2 !\u003d 0 then the thread is exiting and we should not send a signal.\n\nIn doSigPreempt we do\n\n    for {\n       old :\u003d atomic.Load(\u0026gp.m.signalPending)\n       if old\u00261 \u003d\u003d 0 {\n           // No signal pending; thread is exiting.\n           break\n       }\n       new \u003d old \u0026^ 1\n       if atomic.Cas(\u0026gp.m.SignalPending, old, new) {\n           atomic.Xadd(\u0026pendingPreemptSignals, -1)\n           break\n       }\n    }",
+      "parentUuid": "b4c7a8bf_b30b6513",
+      "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8544878b_22cd213e",
         "filename": "src/runtime/signal_unix.go",
         "patchSetId": 1
@@ -243,6 +261,24 @@
       "writtenOn": "2024-09-30T23:07:09Z",
       "side": 1,
       "message": "Does this case indicate that some m now has its signalPending set wrong (since we just received the signal destined for it) and will remain unpreemptable?\n\nIf so, this causes a problem if we iterate ms looking for pending signals.",
+      "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c75e2439_1969616f",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-09-30T23:45:00Z",
+      "side": 1,
+      "message": "I think you\u0027re right.  This code has to do whatever doSigPreempt does.",
+      "parentUuid": "258639e3_a384327f",
       "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
