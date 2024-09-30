@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ae9f712_fd8cd311",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-09-30T17:27:09Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "30db4a4aff6a64739e93ccceb76af5175925cc1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b19ebea_51372eb6",
+        "filename": "src/README.vendor",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-09-30T17:27:09Z",
+      "side": 1,
+      "message": "I think we can say \"Otherwise, the results are undefined.\"\n\n(In general, the go command supports working on standard library packages in its own GOROOT. Working outside of its own GOROOT means it\u0027s not really the standard library, and somewhat indistinguishable from a module that happens to be named \u0027cmd\u0027 or \u0027std\u0027.)",
+      "range": {
+        "startLine": 37,
+        "startChar": 29,
+        "endLine": 38,
+        "endChar": 16
+      },
+      "revId": "30db4a4aff6a64739e93ccceb76af5175925cc1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
