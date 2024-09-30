@@ -88,12 +88,8 @@ func vgetrandom(p []byte, flags uint32) (ret int, supported bool) {
 
 	mp := acquirem()
 	if mp.vgetrandomState == 0 {
-		state := vgetrandomGetState()
-		if state == 0 {
-			releasem(mp)
-			return -1, false
-		}
-		mp.vgetrandomState = state
+		releasem(mp)
+		return -1, false
 	}
 
 	ret = vgetrandom1(unsafe.SliceData(p), uintptr(len(p)), flags, mp.vgetrandomState, vgetrandomAlloc.stateSize)

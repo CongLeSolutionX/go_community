@@ -126,7 +126,11 @@ func rand32() uint32 {
 //
 //go:nosplit
 //go:linkname rand
-func rand() uint64 {
+func rand() (r uint64) {
+	byteSlice := unsafe.Slice((*byte)(noescape(unsafe.Pointer(&r))), unsafe.Sizeof(r))
+	if n, supported := vgetrandom(byteSlice, 1 /* GRND_NONBLOCK */); supported && n == len(byteSlice) {
+		return
+	}
 	// Note: We avoid acquirem here so that in the fast path
 	// there is just a getg, an inlined c.Next, and a return.
 	// The performance difference on a 16-core AMD is
