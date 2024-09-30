@@ -198,6 +198,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20582e92_1d50eea8",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3234,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-09-30T19:44:16Z",
+      "side": 1,
+      "message": "After thinking more about this, I think a simpler solution is just using the static type if possible. That way, we don\u0027t have to change the writer/reader, or worrying about the derived interface logic.\n\nI will send a CL shortly.",
+      "parentUuid": "36153753_38694f13",
+      "revId": "882c8da38acce4946838311632d236709975614d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfd8be6a_51dd1e9c",
