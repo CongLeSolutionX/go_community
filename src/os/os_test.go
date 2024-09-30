@@ -3317,24 +3317,7 @@ func TestCopyFS(t *testing.T) {
 	if err := fstest.TestFS(tmpFsys, "a", "b", "dir/x"); err != nil {
 		t.Fatal("TestFS:", err)
 	}
-	if err := fs.WalkDir(fsys, ".", func(path string, d fs.DirEntry, err error) error {
-		if d.IsDir() {
-			return nil
-		}
-
-		data, err := fs.ReadFile(fsys, path)
-		if err != nil {
-			return err
-		}
-		newData, err := fs.ReadFile(tmpFsys, path)
-		if err != nil {
-			return err
-		}
-		if !bytes.Equal(data, newData) {
-			return errors.New("file " + path + " contents differ")
-		}
-		return nil
-	}); err != nil {
+	if err := verifyCopyFS(t, fsys, tmpFsys); err != nil {
 		t.Fatal("comparing two directories:", err)
 	}
 
@@ -3363,24 +3346,7 @@ func TestCopyFS(t *testing.T) {
 	if err := fstest.TestFS(tmpFsys, "william", "carl", "daVinci", "einstein", "dir/newton"); err != nil {
 		t.Fatal("TestFS:", err)
 	}
-	if err := fs.WalkDir(fsys, ".", func(path string, d fs.DirEntry, err error) error {
-		if d.IsDir() {
-			return nil
-		}
-
-		data, err := fs.ReadFile(fsys, path)
-		if err != nil {
-			return err
-		}
-		newData, err := fs.ReadFile(tmpFsys, path)
-		if err != nil {
-			return err
-		}
-		if !bytes.Equal(data, newData) {
-			return errors.New("file " + path + " contents differ")
-		}
-		return nil
-	}); err != nil {
+	if err := verifyCopyFS(t, fsys, tmpFsys); err != nil {
 		t.Fatal("comparing two directories:", err)
 	}
 
@@ -3391,6 +3357,101 @@ func TestCopyFS(t *testing.T) {
 			"any existing file in the destination directory (in memory filesystem), "+
 			"got: %v, expected any error that indicates <file exists>", err)
 	}
+}
+
+// verifyCopyFS checks the content and permission of each file inside copied FS to ensure
+// the copied files satisfy the convention stipulated in CopyFS.
+func verifyCopyFS(t *testing.T, originFS, copiedFS fs.FS) error {
+	tmpDir := filepath.Join(t.TempDir(), "test")
+	// umask doesn't apply to the wasip and windows and there is no general way to get masked perm,
+	// so create a dir and a file to compare the permission after umask if any
+	if err := Mkdir(tmpDir, ModePerm); err != nil {
+		return fmt.Errorf("failed to mkdir: %w", err)
+	}
+	dirStat, err := Stat(tmpDir)
+	if err != nil {
+		return fmt.Errorf("failed to state dir %s: %s", tmpDir, err)
+	}
+	wantDirMode := dirStat.Mode()
+
+	f, err := Create(filepath.Join(tmpDir, "tmp"))
+	if err != nil {
+		return fmt.Errorf("failed to create file %s: %s", filepath.Join(tmpDir, "tmp"), err)
+	}
+	wantFileRWStat, err := f.Stat()
+	if err != nil {
+		return fmt.Errorf("failed to state file %s: %s", f.Name(), err)
+	}
+
+	return fs.WalkDir(originFS, ".", func(path string, d fs.DirEntry, err error) error {
+		if d.IsDir() {
+			// the dir . is not the dir created by CopyFS so skip to check its permission
+			if d.Name() == "." {
+				return nil
+			}
+
+			tmpDirEntry, err := copiedFS.Open(path)
+			if err != nil {
+				return err
+			}
+			dinfo, err := tmpDirEntry.Stat()
+			if err != nil {
+				return err
+			}
+
+			if dinfo.Mode() != wantDirMode {
+				return fmt.Errorf("expected dir '%s' has permission %v but got %v",
+					d.Name(), wantDirMode, dinfo.Mode())
+			}
+			return nil
+		}
+
+		fInfo, err := originFS.Open(path)
+		if err != nil {
+			return err
+		}
+		defer fInfo.Close()
+		tmpInfo, err := copiedFS.Open(path)
+		if err != nil {
+			return err
+		}
+		defer tmpInfo.Close()
+
+		// verify the file contents are the same
+		data, err := io.ReadAll(fInfo)
+		if err != nil {
+			return err
+		}
+		newData, err := io.ReadAll(tmpInfo)
+		if err != nil {
+			return err
+		}
+		if !bytes.Equal(data, newData) {
+			return errors.New("file " + path + " contents differ")
+		}
+
+		fStat, err := fInfo.Stat()
+		if err != nil {
+			return err
+		}
+		tmpStat, err := tmpInfo.Stat()
+		if err != nil {
+			return err
+		}
+
+		// check whether the executable permission is inherited from original FS
+		if fStat.Mode()&0111 != tmpStat.Mode()&0111 {
+			return fmt.Errorf("file %s execution permissions differ, expected %v but got %v",
+				path, fStat.Mode(), tmpStat.Mode())
+		}
+
+		rwMode := tmpStat.Mode() &^ 0111 // unset the executable permission from file mode
+		if rwMode != wantFileRWStat.Mode() {
+			return fmt.Errorf("copied file %s doesn't have correct permission, expected %v but got %v",
+				path, wantFileRWStat.Mode(), tmpStat.Mode())
+		}
+		return nil
+	})
 }
 
 func TestCopyFSWithSymlinks(t *testing.T) {
