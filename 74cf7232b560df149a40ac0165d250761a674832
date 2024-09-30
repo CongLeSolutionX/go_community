@@ -70,6 +70,30 @@
       },
       "revId": "74cf7232b560df149a40ac0165d250761a674832",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00eececb_4e29f9a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-30T19:54:35Z",
+      "side": 1,
+      "message": "Yes, got it. I just tried to edit the description directly, but it does not allow me to do it and with an error message:\nError 403: modifying commit message not permitted",
+      "parentUuid": "2e1377a1_8dc9fc5d",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "74cf7232b560df149a40ac0165d250761a674832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
