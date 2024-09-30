@@ -179,6 +179,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b4c7a8bf_b30b6513",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-09-30T23:07:09Z",
+      "side": 1,
+      "message": "I don\u0027t see how to make adding a flag to m.signalsPending work.\n\nIf mexit sets a flag, then it still needs to decrement pendingPreemptSignals if there\u0027s a pending signal, because preemptM didn\u0027t see the flag. But preemptM might be decrementing pendingPreemptSignals if it sees that preemption is blocked.\n\nIf we iterate `allm` in syscall_runtime_BeforeExec, then I think it:\n1. Sets a bit in mp.signalPending for every m, indicating preemption is disabled.\n2. Loops until no m has a signal pending.\n\nDo we need to acquire any locks when iterating `allm`? I see that some code just atomically loads \u0026allm, but I don\u0027t understand how iterating through `mp.alllink` is safe in that case.",
+      "parentUuid": "0e4e7c3f_aa9b5e2f",
+      "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8544878b_22cd213e",
         "filename": "src/runtime/signal_unix.go",
         "patchSetId": 1
@@ -208,6 +226,23 @@
       "side": 1,
       "message": "Oops, I forgot to set signalPending back to 0. I believe this is safe, through the same reasoning as decrementing pendingPreemptSignals. Fixed.",
       "parentUuid": "8544878b_22cd213e",
+      "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "258639e3_a384327f",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-09-30T23:07:09Z",
+      "side": 1,
+      "message": "Does this case indicate that some m now has its signalPending set wrong (since we just received the signal destined for it) and will remain unpreemptable?\n\nIf so, this causes a problem if we iterate ms looking for pending signals.",
       "revId": "04f0f9d5806ef8d8033e672df12a9f91fd228284",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
