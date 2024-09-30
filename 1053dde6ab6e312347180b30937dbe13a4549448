@@ -124,6 +124,24 @@
       "parentUuid": "aa5fde13_ee23a4de",
       "revId": "1053dde6ab6e312347180b30937dbe13a4549448",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cef92e5f_9f9402af",
+        "filename": "src/runtime/rand.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-09-30T22:12:36Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0a7d4309_4fce7b47",
+      "revId": "1053dde6ab6e312347180b30937dbe13a4549448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
