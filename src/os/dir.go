@@ -177,7 +177,7 @@ func CopyFS(dir string, fsys fs.FS) error {
 		if err != nil {
 			return err
 		}
-		w, err := OpenFile(newPath, O_CREATE|O_EXCL|O_WRONLY, 0666|info.Mode()&0777)
+		w, err := OpenFile(newPath, O_CREATE|O_EXCL|O_WRONLY, 0666|info.Mode())
 		if err != nil {
 			return err
 		}
