@@ -379,6 +379,7 @@ func libpreinit() {
 func mpreinit(mp *m) {
 	mp.gsignal = malg(32 * 1024) // Linux wants >= 2K
 	mp.gsignal.m = mp
+	mp.vgetrandomState = vgetrandomGetState()
 }
 
 func gettid() uint32
