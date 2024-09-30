@@ -190,6 +190,30 @@
       },
       "revId": "74cf7232b560df149a40ac0165d250761a674832",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2958ce76_854aa0e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-09-30T21:37:00Z",
+      "side": 1,
+      "message": "Got it, it is weird, I did not see the markdown from my side.",
+      "parentUuid": "cfbe3f8f_ec8d7302",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "74cf7232b560df149a40ac0165d250761a674832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
