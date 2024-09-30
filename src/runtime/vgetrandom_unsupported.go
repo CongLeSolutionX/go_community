@@ -14,5 +14,6 @@ func vgetrandom(p []byte, flags uint32) (ret int, supported bool) {
 }
 
 func vgetrandomPutState(state uintptr) {}
+func vgetrandomGetState() uintptr      { return 0 }
 
 func vgetrandomInit() {}
