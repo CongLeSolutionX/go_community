@@ -39,6 +39,30 @@
       },
       "revId": "30db4a4aff6a64739e93ccceb76af5175925cc1f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8b222a7_bad7f226",
+        "filename": "src/README.vendor",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 51904
+      },
+      "writtenOn": "2024-09-30T17:41:41Z",
+      "side": 1,
+      "message": "Sounds good, updated.",
+      "parentUuid": "8b19ebea_51372eb6",
+      "range": {
+        "startLine": 37,
+        "startChar": 29,
+        "endLine": 38,
+        "endChar": 16
+      },
+      "revId": "30db4a4aff6a64739e93ccceb76af5175925cc1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
