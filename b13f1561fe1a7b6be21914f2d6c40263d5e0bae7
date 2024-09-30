@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03b5c83d_5ea4a95f",
+        "filename": "src/os/dir.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 58169
+      },
+      "writtenOn": "2024-09-30T10:43:46Z",
+      "side": 1,
+      "message": "because we have `if !d.Type().IsRegular()` guards in L167, it\u0027s safe to skip the `\u00260777` as it\u0027s the same with `info.Mode()`. CMIIW, thanks",
+      "revId": "b13f1561fe1a7b6be21914f2d6c40263d5e0bae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

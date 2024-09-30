@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68664c56_696e23e0",
+        "filename": "src/os/testdata/dirfs/dir/x",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58169
+      },
+      "writtenOn": "2024-09-30T10:43:46Z",
+      "side": 0,
+      "message": "I\u0027m not sure whether it\u0027s proper to grant the executable for testing here, but I found some test cases are doing so as well(`find . -type f -perm +111`), so I change x\u0027s permission.",
+      "revId": "2bffb8b3fb2d9137ccfa87fc35137371b86a2e96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
