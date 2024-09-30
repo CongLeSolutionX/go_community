@@ -361,6 +361,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe9dfbb5_5fbc18a3",
+        "filename": "src/cmd/compile/internal/noder/rewrite.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-09-30T14:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b062eb89_2f038216",
+      "range": {
+        "startLine": 191,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 12
+      },
+      "revId": "a962c015f7359bda029eef7e0e5747bc15298d27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85cc589c_45b371ae",
@@ -467,6 +491,24 @@
           ]
         }
       ],
+      "revId": "a962c015f7359bda029eef7e0e5747bc15298d27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7572871_292644bc",
+        "filename": "src/cmd/compile/internal/noder/rewrite.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-09-30T14:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17703300_d1b7c760",
       "revId": "a962c015f7359bda029eef7e0e5747bc15298d27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
