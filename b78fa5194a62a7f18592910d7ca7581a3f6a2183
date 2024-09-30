@@ -16,6 +16,24 @@
       "message": "It\u0027s a little bit unfortunate that these constant values end up duplicated but since they\u0027re definitional and won\u0027t change I think I agree that promoting the internal versions to exported visibility just to use them here is excessive.",
       "revId": "b78fa5194a62a7f18592910d7ca7581a3f6a2183",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cf48605_f80e6103",
+        "filename": "src/crypto/sha512/sha512.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-09-30T14:03:47Z",
+      "side": 0,
+      "message": "Also in the godoc `Size \u003d 64` looks better and more useful than `Size \u003d sha512.Size`.",
+      "parentUuid": "cc81a8c9_64f5a5fd",
+      "revId": "b78fa5194a62a7f18592910d7ca7581a3f6a2183",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

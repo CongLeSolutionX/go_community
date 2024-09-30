@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7954935a_bbcb5288",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-09-30T14:03:47Z",
+      "side": 1,
+      "message": "Yeah we definitely don\u0027t want the module to import the boring package, both for a validation posture, and because we want to remove it, and we have to keep anything imported by the module around.\n\nThe defensive checks feel less necessary now that\u0027s easy to see that the types from the FIPS module package is not exposed under boring.Enabled.",
+      "parentUuid": "8de7b903_948acef2",
+      "revId": "e9bbb81e3ee73e18b2a5f27897c2994cdd256f19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f989091_ccbf2a23",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-09-24T17:50:33Z",
       "side": 1,
       "message": "typo: \"size512 is the size512, in bytes\" -\u003e \"// size512 is the size, in bytes\"",
+      "revId": "e9bbb81e3ee73e18b2a5f27897c2994cdd256f19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "940188eb_35d96fd2",
+        "filename": "src/crypto/internal/fips/sha512/sha512.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-09-30T14:03:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f989091_ccbf2a23",
       "revId": "e9bbb81e3ee73e18b2a5f27897c2994cdd256f19",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40828bba_7bd463e8",
+        "filename": "src/crypto/internal/fips/sha512/sha512.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-09-30T14:03:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e4245c1_5f4cc0e6",
+      "revId": "e9bbb81e3ee73e18b2a5f27897c2994cdd256f19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17c0cab7_eacb62a4",
@@ -65,6 +119,24 @@
       "writtenOn": "2024-09-24T17:50:33Z",
       "side": 1,
       "message": "in practice I don\u0027t think it matters much since this is an internal invariant, but since this function is already fallible perhaps this panic should be a `return nil, errors.New(...)`? This also feels more consistent with `UnmarshalBinary`.",
+      "revId": "e9bbb81e3ee73e18b2a5f27897c2994cdd256f19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0258f93d_0478410a",
+        "filename": "src/crypto/internal/fips/sha512/sha512.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-09-30T14:03:47Z",
+      "side": 1,
+      "message": "If this is hit something went catastrophically and plainly wrong, and returning nil and an error that might be overlooked doesn\u0027t feel like the right action. In general I prefer to avoid panics where it\u0027s not clear it\u0027s unreachable, but here it\u0027s pretty safe.\n\nUnmarshalBinary is very different: the errors are due to an incorrect input.",
+      "parentUuid": "17c0cab7_eacb62a4",
       "revId": "e9bbb81e3ee73e18b2a5f27897c2994cdd256f19",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -116,6 +188,24 @@
       "writtenOn": "2024-09-24T17:50:33Z",
       "side": 1,
       "message": "noting here that I double-checked the results of `find ./ -wholename \u0027*/_asm\u0027` don\u0027t include anything unexpected relative to the 360..369 deletions and the algorithms being moved in this CR. Nice tidy :-)",
+      "revId": "e9bbb81e3ee73e18b2a5f27897c2994cdd256f19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9c4bcfb_eec0a018",
+        "filename": "src/go/types/stdlib_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-09-30T14:03:47Z",
+      "side": 1,
+      "message": "\u003c3",
+      "parentUuid": "7eb913a0_e3f7a3db",
       "revId": "e9bbb81e3ee73e18b2a5f27897c2994cdd256f19",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
