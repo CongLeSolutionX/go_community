@@ -166,6 +166,30 @@
       },
       "revId": "74cf7232b560df149a40ac0165d250761a674832",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfbe3f8f_ec8d7302",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-30T21:04:18Z",
+      "side": 1,
+      "message": "Weird- I still see it when I click the edit button on the first comment in github.",
+      "parentUuid": "ea6c5d30_2eb60335",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "74cf7232b560df149a40ac0165d250761a674832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
