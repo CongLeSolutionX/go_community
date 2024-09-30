@@ -118,6 +118,30 @@
       },
       "revId": "74cf7232b560df149a40ac0165d250761a674832",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9135a40_0781e64a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-30T20:02:04Z",
+      "side": 1,
+      "message": "I think you need to edit the first comment in the pull request to remove the markdown formatting on the link. (I still see the link on the first comment on the pull request).",
+      "parentUuid": "ca6462c7_d37e545a",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "74cf7232b560df149a40ac0165d250761a674832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
