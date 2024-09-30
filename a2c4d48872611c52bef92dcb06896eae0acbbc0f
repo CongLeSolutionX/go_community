@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62397229_1b817b7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-09-30T10:42:36Z",
+      "side": 1,
+      "message": "Good catch, I didn\u0027t think about that case!",
+      "revId": "a2c4d48872611c52bef92dcb06896eae0acbbc0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "850aa2b7_8f083735",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-09-30T10:42:36Z",
+      "side": 1,
+      "message": "good idea!",
+      "revId": "a2c4d48872611c52bef92dcb06896eae0acbbc0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fe3224f_3f79c29c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-09-30T10:42:36Z",
+      "side": 1,
+      "message": "Thank you for these two fixes, they look good to me!",
+      "revId": "a2c4d48872611c52bef92dcb06896eae0acbbc0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
