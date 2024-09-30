@@ -161,6 +161,30 @@
       },
       "revId": "8d5902961e6dafa2635702b2102793bed5379c1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8df8d8f0_f5433ff2",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-09-30T15:09:21Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s necessary. Could we change all of these to not make copies?",
+      "parentUuid": "ee426337_fc7b14e8",
+      "range": {
+        "startLine": 591,
+        "startChar": 0,
+        "endLine": 591,
+        "endChar": 25
+      },
+      "revId": "8d5902961e6dafa2635702b2102793bed5379c1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
