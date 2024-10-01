@@ -11,6 +11,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"runtime"
 	"strconv"
 	"strings"
 	"text/scanner"
@@ -77,7 +78,23 @@ func NewParser(ctxt *obj.Link, ar *arch.Arch, lexer lex.TokenReader) *Parser {
 // and turn it into a recoverable panic.
 var panicOnError bool
 
+// traceError when set will add a stack trace to the error message produced by errorf
+// to help determine the source of the assembler error. The stack trace starts from the
+// caller of errorf. The number of lines in the trace can be adjusted with the traceSize
+// constant.
+var traceError bool
+
+const traceSize = 3
+
 func (p *Parser) errorf(format string, args ...interface{}) {
+	if traceError {
+		format += "\nerror origin:\n"
+		for i := 0; i < traceSize; i++ {
+			_, fileName, fileLine, _ := runtime.Caller(i + 1)
+			format += "    " + fileName + ":" + strconv.Itoa(fileLine) + "\n"
+		}
+	}
+
 	if panicOnError {
 		panic(fmt.Errorf(format, args...))
 	}

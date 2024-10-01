@@ -38,10 +38,14 @@ func testEndToEnd(t *testing.T, goarch, file string) {
 	ctxt.IsAsm = true
 	defer ctxt.Bso.Flush()
 	failed := false
+
+	traceError = true
+	defer func() { traceError = false }()
 	ctxt.DiagFunc = func(format string, args ...interface{}) {
 		failed = true
 		t.Errorf(format, args...)
 	}
+
 	pList.Firstpc, ok = parser.Parse()
 	if !ok || failed {
 		t.Errorf("asm: %s assembly failed", goarch)
