@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c13827dc_66e517e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-10-01T20:12:31Z",
+      "side": 1,
+      "message": "LGTM, but I\u0027ll let gri +2.",
+      "revId": "340b8d02a7fa389343e97949ab02c162ec75a924",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4008253d_bc7f7a8a",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-10-01T20:12:31Z",
+      "side": 1,
+      "message": "// len(specs) \u003e 1 \u003d\u003e Rparen.IsValid()",
+      "revId": "340b8d02a7fa389343e97949ab02c162ec75a924",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab90f162_9e40cfd9",
+        "filename": "src/go/ast/internal/tests/sortimports_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-10-01T20:12:31Z",
+      "side": 1,
+      "message": "It\u0027s not clear what is the expected result, nor what the wrong result might have been. Could you add some commentary?",
+      "range": {
+        "startLine": 109,
+        "startChar": 1,
+        "endLine": 115,
+        "endChar": 2
+      },
+      "revId": "340b8d02a7fa389343e97949ab02c162ec75a924",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
