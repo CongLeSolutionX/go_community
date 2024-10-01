@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6574690_3d868d14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-10-01T05:04:49Z",
+      "side": 1,
+      "message": "Hi Michael, the two comments have been addressed. It is ready for another round review.",
+      "revId": "29847e102c096e132bc0d893554b4269e86f4ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
