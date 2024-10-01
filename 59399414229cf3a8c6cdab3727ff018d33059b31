@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82bd63e9_6588a0dc",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3381,
+      "author": {
+        "id": 58169
+      },
+      "writtenOn": "2024-10-01T03:30:12Z",
+      "side": 1,
+      "message": "my bad, i have missed that wasm doesn\u0027t have perm concept and windows doesn\u0027t have `syscall.Umask`. I have pushed a new patch set to create a dir and a file to get the expected permission after umask if any.\n\nChecking whether the executable permission is inherited is necessary, but checking os behavior seems nice to have but not necessary. But I think there is no harm to add it, so I have added in the new patch set.",
+      "revId": "59399414229cf3a8c6cdab3727ff018d33059b31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
