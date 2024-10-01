@@ -51,6 +51,24 @@
       "message": "IMO it would be more friendly for callers to lower the `windows.NTStatus` into a `syscall.Errno` using something like `rtlNtStatusToDosErrorNoTeb`. This way callers can continue using the error types that they are already used to.",
       "revId": "6c2c96093097c45c12f207e52f2660450acf4754",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "404035f6_2a7dfa40",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-01T19:47:37Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s much nicer than maintaining a mapping here.",
+      "parentUuid": "c2ee1d71_559b4813",
+      "revId": "6c2c96093097c45c12f207e52f2660450acf4754",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
