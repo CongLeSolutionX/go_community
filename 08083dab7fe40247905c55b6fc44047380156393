@@ -16,6 +16,24 @@
       "message": "So, we\u0027re talking 0.6320ns vs 3.4520ns per op. That is obviously worse. But I\u0027m wondering how much that matters. Both are pretty small.\n\nIs there a \"standard\" benchmark for Go \"in general\" that I could run to see if it makes a difference?",
       "revId": "08083dab7fe40247905c55b6fc44047380156393",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b54ffd45_4c3ba758",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-01T19:39:58Z",
+      "side": 1,
+      "message": "There are general benchmarks, but AFAIK runtime.rand() is used in hard to predict places like maps, where we could definitely encounter applications with unusual patterns we didn\u0027t think of. 5x is a lot. We went to quite the distance to make the current thing fast (https://go.dev/blog/chacha8rand).\n\nAlso, the case for this is not very compelling, which makes it hard to justify spending the performance/break budget: we are not even sure we need cryptographic randomness from runtime.rand(), and anyway we\u0027d only have it on recent Linux, so we couldn\u0027t rely on it.\n\nI think the vDSO in crypto/rand is amazing, but I don\u0027t think we should land this.",
+      "parentUuid": "97d56bfc_8a7fcab5",
+      "revId": "08083dab7fe40247905c55b6fc44047380156393",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
