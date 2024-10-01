@@ -209,6 +209,30 @@
       },
       "revId": "8d5902961e6dafa2635702b2102793bed5379c1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb88c76e_2c9ee58c",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-10-01T05:02:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a939d3ff_dd6f3181",
+      "range": {
+        "startLine": 591,
+        "startChar": 0,
+        "endLine": 591,
+        "endChar": 25
+      },
+      "revId": "8d5902961e6dafa2635702b2102793bed5379c1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
