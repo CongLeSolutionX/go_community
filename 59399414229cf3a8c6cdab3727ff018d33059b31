@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "93ca457d_560b5a8d",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3365,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-01T17:24:25Z",
+      "side": 1,
+      "message": "It\u0027s confusing to use the name tmpDir for a a directory that is not the same as TempDir.  Call this testDir or seomthing.",
+      "revId": "59399414229cf3a8c6cdab3727ff018d33059b31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82bd63e9_6588a0dc",
         "filename": "src/os/os_test.go",
         "patchSetId": 4
@@ -14,6 +31,126 @@
       "writtenOn": "2024-10-01T03:30:12Z",
       "side": 1,
       "message": "my bad, i have missed that wasm doesn\u0027t have perm concept and windows doesn\u0027t have `syscall.Umask`. I have pushed a new patch set to create a dir and a file to get the expected permission after umask if any.\n\nChecking whether the executable permission is inherited is necessary, but checking os behavior seems nice to have but not necessary. But I think there is no harm to add it, so I have added in the new patch set.",
+      "revId": "59399414229cf3a8c6cdab3727ff018d33059b31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "051da18b_19509873",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3381,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-01T17:24:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "82bd63e9_6588a0dc",
+      "revId": "59399414229cf3a8c6cdab3727ff018d33059b31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c22321d5_e1d7c69f",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3381,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-01T17:24:25Z",
+      "side": 1,
+      "message": "add \"defer f.Close()\".",
+      "revId": "59399414229cf3a8c6cdab3727ff018d33059b31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0488f5d4_f434760a",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3383,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-01T17:24:25Z",
+      "side": 1,
+      "message": "s/state/stat/",
+      "revId": "59399414229cf3a8c6cdab3727ff018d33059b31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2035c622_447793c3",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3388,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-01T17:24:25Z",
+      "side": 1,
+      "message": "s/skip to check/skip checking/",
+      "revId": "59399414229cf3a8c6cdab3727ff018d33059b31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff474659_caaadf7a",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3393,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-01T17:24:25Z",
+      "side": 1,
+      "message": "I don\u0027t see a reason to call Open here.  Just use fs.Stat.",
+      "revId": "59399414229cf3a8c6cdab3727ff018d33059b31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3c76034_22a3c08b",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3403,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-01T17:24:25Z",
+      "side": 1,
+      "message": "s/\u0027%s\u0027/%q/\n\nThe convention for errors is got/want, so something like\n\ndir %q mode is %v, want %v",
+      "revId": "59399414229cf3a8c6cdab3727ff018d33059b31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab31b0d2_aef5d0a7",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3450,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-01T17:24:25Z",
+      "side": 1,
+      "message": "file %q mode is %v, want %v",
       "revId": "59399414229cf3a8c6cdab3727ff018d33059b31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
