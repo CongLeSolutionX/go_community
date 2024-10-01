@@ -175,6 +175,8 @@ done; unset IFS
 if [[ ! -x "$GOROOT_BOOTSTRAP/bin/go" ]]; then
 	echo "ERROR: Cannot find $GOROOT_BOOTSTRAP/bin/go." >&2
 	echo "Set \$GOROOT_BOOTSTRAP to a working Go tree >= Go $bootgo." >&2
+	echo "If you have Go installed, try:" >&2
+	echo "  go install golang.org/dl/go$bootgo@latest && go$bootgo download" >&2
 	exit 1
 fi
 # Get the exact bootstrap toolchain version to help with debugging.
