@@ -127,6 +127,7 @@ type CmdFlags struct {
 	WB                 bool         "help:\"enable write barrier\"" // TODO: remove
 	PgoProfile         string       "help:\"read profile or pre-process profile from `file`\""
 	ErrorURL           bool         "help:\"print explanatory URL with error message if applicable\""
+	BbShuffle          bool         "help:\"enable basic block shuffling pass\""
 
 	// Configuration derived from flags; not a flag itself.
 	Cfg struct {

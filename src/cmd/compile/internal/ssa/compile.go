@@ -505,6 +505,7 @@ var passes = [...]pass{
 	{name: "late nilcheck", fn: nilcheckelim2},
 	{name: "flagalloc", fn: flagalloc, required: true}, // allocate flags register
 	{name: "regalloc", fn: regalloc, required: true},   // allocate int & float registers + stack slots
+	{name: "layoutshuffle", fn: layoutshuffle},
 	{name: "loop rotate", fn: loopRotate},
 	{name: "trim", fn: trim}, // remove empty blocks
 }
@@ -582,6 +583,8 @@ var passOrder = [...]constraint{
 	{"late fuse", "memcombine"},
 	// memcombine is a arch-independent pass.
 	{"memcombine", "lower"},
+	// layoutshuffle must happen after regalloc.
+	{"regalloc", "layoutshuffle"},
 }
 
 func init() {
