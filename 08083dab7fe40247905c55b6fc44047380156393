@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97d56bfc_8a7fcab5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2024-10-01T19:22:16Z",
+      "side": 1,
+      "message": "So, we\u0027re talking 0.6320ns vs 3.4520ns per op. That is obviously worse. But I\u0027m wondering how much that matters. Both are pretty small.\n\nIs there a \"standard\" benchmark for Go \"in general\" that I could run to see if it makes a difference?",
+      "revId": "08083dab7fe40247905c55b6fc44047380156393",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
