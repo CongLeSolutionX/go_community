@@ -178,6 +178,9 @@ goto :eof
 :bootstrapfail
 echo ERROR: Cannot find %GOROOT_BOOTSTRAP%\bin\go.exe
 echo Set GOROOT_BOOTSTRAP to a working Go tree ^>= Go %bootgo%.
+echo If you have Go installed, try:
+echo   go install golang.org/dl/go%bootgo%@latest
+echo   go%bootgo% download
 
 :fail
 set GOBUILDFAIL=1
