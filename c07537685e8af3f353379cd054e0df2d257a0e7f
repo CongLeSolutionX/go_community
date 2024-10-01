@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4c94ddd_1a2d67ef",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-10-01T20:36:16Z",
+      "side": 1,
+      "message": "could we revert the spacing we added here?",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 55
+      },
+      "revId": "c07537685e8af3f353379cd054e0df2d257a0e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "589b3a60_18da30e6",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-10-01T20:36:16Z",
+      "side": 1,
+      "message": "could we rename this to `pos`",
+      "range": {
+        "startLine": 330,
+        "startChar": 6,
+        "endLine": 330,
+        "endChar": 11
+      },
+      "revId": "c07537685e8af3f353379cd054e0df2d257a0e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e93b5d0b_d1e2e437",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-10-01T20:36:16Z",
+      "side": 1,
+      "message": "I think we should switch ImportStack to be a `[]ImportInfo`. Then this could be\n\n`return slices.Clone(*s)`",
+      "range": {
+        "startLine": 596,
+        "startChar": 0,
+        "endLine": 605,
+        "endChar": 10
+      },
+      "revId": "c07537685e8af3f353379cd054e0df2d257a0e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79d8eb61_6bbe97a0",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-10-01T20:36:16Z",
+      "side": 1,
+      "message": "why is this necessary? do we ever expect s[i] to be nil?",
+      "range": {
+        "startLine": 646,
+        "startChar": 0,
+        "endLine": 648,
+        "endChar": 3
+      },
+      "revId": "c07537685e8af3f353379cd054e0df2d257a0e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1018630_00454e94",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 1476,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-10-01T20:36:16Z",
+      "side": 1,
+      "message": "should this be an \"or\"?\n`if p.Error.ImportStack !\u003d nil || p.Error !\u003d nil \u0026\u0026 !p.Error.IsImportCycle \u0026\u0026 stk.shorterThan(p.Error.ImportStack.Pkgs()) {`",
+      "range": {
+        "startLine": 1476,
+        "startChar": 22,
+        "endLine": 1476,
+        "endChar": 48
+      },
+      "revId": "c07537685e8af3f353379cd054e0df2d257a0e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2d88beb_728d6d4a",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-10-01T20:36:16Z",
+      "side": 1,
+      "message": "I don\u0027t think we need pkgToFiles. Can\u0027t we set the pos here?\n\n```\nstk \u003d append(stk, \u0026importInfo{\n    Pkg: p.ImportPath,\n    Pos: extractFirstImport(importerOf[p].Internal.Build.ImportPos[p.ImportPath]),\n})\n```",
+      "range": {
+        "startLine": 550,
+        "startChar": 0,
+        "endLine": 560,
+        "endChar": 5
+      },
+      "revId": "c07537685e8af3f353379cd054e0df2d257a0e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc7e6644_73bcfe03",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-10-01T20:36:16Z",
+      "side": 1,
+      "message": "Isn\u0027t file[0] already a base name due to line 558?",
+      "range": {
+        "startLine": 576,
+        "startChar": 30,
+        "endLine": 576,
+        "endChar": 38
+      },
+      "revId": "c07537685e8af3f353379cd054e0df2d257a0e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
