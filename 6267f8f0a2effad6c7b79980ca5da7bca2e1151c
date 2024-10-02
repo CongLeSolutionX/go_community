@@ -1,0 +1,307 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab723bb7_e48240ff",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T23:19:33Z",
+      "side": 1,
+      "message": "Can we get rid of this second \"internal\" path element?",
+      "range": {
+        "startLine": 90,
+        "startChar": 25,
+        "endLine": 90,
+        "endChar": 33
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86581170_55dd4fb7",
+        "filename": "src/internal/runtime/maps/map.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T23:19:33Z",
+      "side": 1,
+      "message": "(which we have to do anyway, even if all 64 bits of hash match)",
+      "range": {
+        "startLine": 51,
+        "startChar": 44,
+        "endLine": 51,
+        "endChar": 45
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3b54014_d7e1c966",
+        "filename": "src/internal/runtime/maps/map.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T23:19:33Z",
+      "side": 1,
+      "message": "Do we prioritize tombstones over empty slots during insertion?\nI guess that can never happen, once we fill all the slots we\u0027ll never have an empty slot again.",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c958f09f_84f8e795",
+        "filename": "src/internal/runtime/maps/map.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T23:19:33Z",
+      "side": 1,
+      "message": "Should this comment be moved to runtime/internal/maps/table.go:table?",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e67b30b5_6e6066e0",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T23:19:33Z",
+      "side": 1,
+      "message": "map?",
+      "range": {
+        "startLine": 22,
+        "startChar": 67,
+        "endLine": 22,
+        "endChar": 73
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb44290e_c2aa820d",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T23:19:33Z",
+      "side": 1,
+      "message": "This is a bit confusing. The way I look at it, we would want to compare\n\n#used + #tombstones \u003c\u003d loadFactor * capacity\n\nI see that as including tombstones, not \"not including tombstones\".\n\nI think you\u0027re saying the same thing though. This field is \"loadFactor * capacity - #used - #tombstones\".\nMaybe just a clearer comment would help.",
+      "range": {
+        "startLine": 45,
+        "startChar": 49,
+        "endLine": 46,
+        "endChar": 37
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15719e86_4d89b8c9",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T23:19:33Z",
+      "side": 1,
+      "message": "Kind of unfortunate that we need to use this space for every map.",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0bca0c2_2151c023",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T23:19:33Z",
+      "side": 1,
+      "message": "Invariant: call only when map is completely empty (no entries, no tombstones)?",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6df90de7_b0cae35c",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T23:19:33Z",
+      "side": 1,
+      "message": "TODO: special cases where we don\u0027t need to hash. e.g. one group maps with int keys, or one entry maps with string keys. Or empty maps.",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cd300c2_2453e7f5",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T23:19:33Z",
+      "side": 1,
+      "message": "This should go after the next step.",
+      "range": {
+        "startLine": 159,
+        "startChar": 48,
+        "endLine": 160,
+        "endChar": 39
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad02a6c4_9e3777fa",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T23:19:33Z",
+      "side": 1,
+      "message": "If match is already of a type that has methods, then maybe this should be !match.empty().",
+      "range": {
+        "startLine": 224,
+        "startChar": 6,
+        "endLine": 224,
+        "endChar": 16
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b28f2896_0721c73e",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T23:19:33Z",
+      "side": 1,
+      "message": "If uncheckedPutSlot is only used immediately after a rehash, then there won\u0027t be any deleted entries.",
+      "range": {
+        "startLine": 310,
+        "startChar": 21,
+        "endLine": 310,
+        "endChar": 40
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab56bfcd_d74b361f",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T23:19:33Z",
+      "side": 1,
+      "message": "I would think that this would be an error (throw).\nUnless we can reach this state via reflect somehow?",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51ce7656_92457f64",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T23:19:33Z",
+      "side": 1,
+      "message": "maybe this should be it.offset/abi.SwissMapGroupSlots?\nOtherwise it is kind of weird to use the same bits for the group offset and the slot offset.",
+      "range": {
+        "startLine": 486,
+        "startChar": 38,
+        "endLine": 486,
+        "endChar": 47
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e71605f2_2bd9a408",
+        "filename": "src/internal/runtime/maps/table_debug.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T23:19:33Z",
+      "side": 1,
+      "message": "This isn\u0027t quite right. Things like struct{float64;int} with a NaN in the first field are also unequal to themselves.\n\n(It is ok for now for testing, but add a TODO.)",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
