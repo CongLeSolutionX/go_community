@@ -40,11 +40,14 @@ const (
 	fingWake
 )
 
-var finlock mutex  // protects the following variables
-var fing *g        // goroutine that runs finalizers
-var finq *finblock // list of finalizers that are to be executed
-var finc *finblock // cache of free blocks
-var finptrmask [_FinBlockSize / goarch.PtrSize / 8]byte
+// This runs in sweep. Can't allocate heap memory when sweep is running.
+var (
+	finlock    mutex     // protects the following variables
+	fing       *g        // goroutine that runs finalizers
+	finq       *finblock // list of finalizers that are to be executed
+	finc       *finblock // cache of free blocks
+	finptrmask [_FinBlockSize / goarch.PtrSize / 8]byte
+)
 
 var allfin *finblock // list of all blocks
 
@@ -172,7 +175,7 @@ func finalizercommit(gp *g, lock unsafe.Pointer) bool {
 	return true
 }
 
-// This is the goroutine that runs all of the finalizers.
+// This is the goroutine that runs all of the finalizers and cleanups.
 func runfinq() {
 	var (
 		frame    unsafe.Pointer
@@ -202,6 +205,25 @@ func runfinq() {
 			for i := fb.cnt; i > 0; i-- {
 				f := &fb.fin[i-1]
 
+				// in the case that the finalizer contains a cleanup fint is set to nil.
+				if f.fint == nil {
+					var cleanup func()
+					fn := unsafe.Pointer(f.fn)
+					cleanup = *(*func())(unsafe.Pointer(&fn))
+					fingStatus.Or(fingRunningFinalizer)
+					cleanup()
+					fingStatus.And(^fingRunningFinalizer)
+
+					f.fn = nil
+					f.arg = nil
+					f.ot = nil
+					f.arg = nil
+					atomic.Store(&fb.cnt, i-1)
+					KeepAlive(cleanup)
+					KeepAlive(fn)
+					continue
+				}
+
 				var regs abi.RegArgs
 				// The args may be passed in registers or on stack. Even for
 				// the register case, we still need the spill slots.
@@ -221,9 +243,6 @@ func runfinq() {
 					framecap = framesz
 				}
 
-				if f.fint == nil {
-					throw("missing type in runfinq")
-				}
 				r := frame
 				if argRegs > 0 {
 					r = unsafe.Pointer(&regs.Ints)
@@ -234,6 +253,7 @@ func runfinq() {
 					// confusing the write barrier.
 					*(*[2]uintptr)(frame) = [2]uintptr{}
 				}
+				//if f.fint != nil {
 				switch f.fint.Kind_ & abi.KindMask {
 				case abi.Pointer:
 					// direct use of pointer
@@ -262,6 +282,7 @@ func runfinq() {
 				f.fn = nil
 				f.arg = nil
 				f.ot = nil
+
 				atomic.Store(&fb.cnt, i-1)
 			}
 			next := fb.next
