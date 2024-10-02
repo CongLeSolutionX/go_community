@@ -13,6 +13,7 @@ package sha3_test
 import (
 	"bytes"
 	"compress/flate"
+	"crypto/internal/cryptotest"
 	"crypto/internal/fips"
 	. "crypto/internal/fips/sha3"
 	"encoding"
@@ -132,6 +133,9 @@ type KeccakKats struct {
 // ShortMsgKATs from https://github.com/gvanas/KeccakCodePackage
 // (The testvectors are stored in keccakKats.json.deflate due to their length.)
 func TestKeccakKats(t *testing.T) {
+	cryptotest.TestAllImplementations(t, "crypto/sha3", testKeccakKats)
+}
+func testKeccakKats(t *testing.T) {
 	// Read the KATs.
 	deflated, err := os.Open(katFilename)
 	if err != nil {
@@ -199,6 +203,9 @@ func TestKeccakKats(t *testing.T) {
 
 // TestKeccak does a basic test of the non-standardized Keccak hash functions.
 func TestKeccak(t *testing.T) {
+	cryptotest.TestAllImplementations(t, "crypto/sha3", testKeccak)
+}
+func testKeccak(t *testing.T) {
 	tests := []struct {
 		fn   func() *Digest
 		data []byte
@@ -229,6 +236,9 @@ func TestKeccak(t *testing.T) {
 
 // TestShakeSum tests that the output of Sum matches the output of Read.
 func TestShakeSum(t *testing.T) {
+	cryptotest.TestAllImplementations(t, "crypto/sha3", testShakeSum)
+}
+func testShakeSum(t *testing.T) {
 	tests := [...]struct {
 		name        string
 		hash        *SHAKE
@@ -258,6 +268,9 @@ func TestShakeSum(t *testing.T) {
 // TestUnalignedWrite tests that writing data in an arbitrary pattern with
 // small input buffers.
 func TestUnalignedWrite(t *testing.T) {
+	cryptotest.TestAllImplementations(t, "crypto/sha3", testUnalignedWrite)
+}
+func testUnalignedWrite(t *testing.T) {
 	buf := sequentialBytes(0x10000)
 	for alg, df := range testDigests {
 		d := df()
@@ -314,6 +327,9 @@ func TestUnalignedWrite(t *testing.T) {
 
 // TestAppend checks that appending works when reallocation is necessary.
 func TestAppend(t *testing.T) {
+	cryptotest.TestAllImplementations(t, "crypto/sha3", testAppend)
+}
+func testAppend(t *testing.T) {
 	d := New224()
 
 	for capacity := 2; capacity <= 66; capacity += 64 {
@@ -332,6 +348,9 @@ func TestAppend(t *testing.T) {
 
 // TestAppendNoRealloc tests that appending works when no reallocation is necessary.
 func TestAppendNoRealloc(t *testing.T) {
+	cryptotest.TestAllImplementations(t, "crypto/sha3", testAppendNoRealloc)
+}
+func testAppendNoRealloc(t *testing.T) {
 	buf := make([]byte, 1, 200)
 	d := New224()
 	d.Write([]byte{0xcc})
@@ -345,6 +364,9 @@ func TestAppendNoRealloc(t *testing.T) {
 // TestSqueezing checks that squeezing the full output a single time produces
 // the same output as repeatedly squeezing the instance.
 func TestSqueezing(t *testing.T) {
+	cryptotest.TestAllImplementations(t, "crypto/sha3", testSqueezing)
+}
+func testSqueezing(t *testing.T) {
 	for algo, v := range testShakes {
 		d0 := v.constructor([]byte(v.defAlgoName), []byte(v.defCustomStr))
 		d0.Write([]byte(testString))
@@ -382,6 +404,9 @@ func sequentialBytes(size int) []byte {
 }
 
 func TestReset(t *testing.T) {
+	cryptotest.TestAllImplementations(t, "crypto/sha3", testReset)
+}
+func testReset(t *testing.T) {
 	out1 := make([]byte, 32)
 	out2 := make([]byte, 32)
 
@@ -403,6 +428,9 @@ func TestReset(t *testing.T) {
 }
 
 func TestClone(t *testing.T) {
+	cryptotest.TestAllImplementations(t, "crypto/sha3", testClone)
+}
+func testClone(t *testing.T) {
 	out1 := make([]byte, 16)
 	out2 := make([]byte, 16)
 
@@ -513,13 +541,15 @@ func TestCSHAKEAccumulated(t *testing.T) {
 	//    }
 	//    console.log(bytesToHex(acc.xof(32)));
 	//
-	t.Run("cSHAKE128", func(t *testing.T) {
-		testCSHAKEAccumulated(t, NewCShake128, 168,
-			"bb14f8657c6ec5403d0b0e2ef3d3393497e9d3b1a9a9e8e6c81dbaa5fd809252")
-	})
-	t.Run("cSHAKE256", func(t *testing.T) {
-		testCSHAKEAccumulated(t, NewCShake256, 136,
-			"0baaf9250c6e25f0c14ea5c7f9bfde54c8a922c8276437db28f3895bdf6eeeef")
+	cryptotest.TestAllImplementations(t, "crypto/sha3", func(t *testing.T) {
+		t.Run("cSHAKE128", func(t *testing.T) {
+			testCSHAKEAccumulated(t, NewCShake128, 168,
+				"bb14f8657c6ec5403d0b0e2ef3d3393497e9d3b1a9a9e8e6c81dbaa5fd809252")
+		})
+		t.Run("cSHAKE256", func(t *testing.T) {
+			testCSHAKEAccumulated(t, NewCShake256, 136,
+				"0baaf9250c6e25f0c14ea5c7f9bfde54c8a922c8276437db28f3895bdf6eeeef")
+		})
 	})
 }
 
@@ -552,6 +582,9 @@ func testCSHAKEAccumulated(t *testing.T, newCShake func(N, S []byte) *SHAKE, rat
 }
 
 func TestCSHAKELargeS(t *testing.T) {
+	cryptotest.TestAllImplementations(t, "crypto/sha3", testCSHAKELargeS)
+}
+func testCSHAKELargeS(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping test in short mode.")
 	}
@@ -580,16 +613,18 @@ func TestCSHAKELargeS(t *testing.T) {
 }
 
 func TestMarshalUnmarshal(t *testing.T) {
-	t.Run("SHA3-224", func(t *testing.T) { testMarshalUnmarshal(t, New224()) })
-	t.Run("SHA3-256", func(t *testing.T) { testMarshalUnmarshal(t, New256()) })
-	t.Run("SHA3-384", func(t *testing.T) { testMarshalUnmarshal(t, New384()) })
-	t.Run("SHA3-512", func(t *testing.T) { testMarshalUnmarshal(t, New512()) })
-	t.Run("SHAKE128", func(t *testing.T) { testMarshalUnmarshal(t, NewShake128()) })
-	t.Run("SHAKE256", func(t *testing.T) { testMarshalUnmarshal(t, NewShake256()) })
-	t.Run("cSHAKE128", func(t *testing.T) { testMarshalUnmarshal(t, NewCShake128([]byte("N"), []byte("S"))) })
-	t.Run("cSHAKE256", func(t *testing.T) { testMarshalUnmarshal(t, NewCShake256([]byte("N"), []byte("S"))) })
-	t.Run("Keccak-256", func(t *testing.T) { testMarshalUnmarshal(t, NewLegacyKeccak256()) })
-	t.Run("Keccak-512", func(t *testing.T) { testMarshalUnmarshal(t, NewLegacyKeccak512()) })
+	cryptotest.TestAllImplementations(t, "crypto/sha3", func(t *testing.T) {
+		t.Run("SHA3-224", func(t *testing.T) { testMarshalUnmarshal(t, New224()) })
+		t.Run("SHA3-256", func(t *testing.T) { testMarshalUnmarshal(t, New256()) })
+		t.Run("SHA3-384", func(t *testing.T) { testMarshalUnmarshal(t, New384()) })
+		t.Run("SHA3-512", func(t *testing.T) { testMarshalUnmarshal(t, New512()) })
+		t.Run("SHAKE128", func(t *testing.T) { testMarshalUnmarshal(t, NewShake128()) })
+		t.Run("SHAKE256", func(t *testing.T) { testMarshalUnmarshal(t, NewShake256()) })
+		t.Run("cSHAKE128", func(t *testing.T) { testMarshalUnmarshal(t, NewCShake128([]byte("N"), []byte("S"))) })
+		t.Run("cSHAKE256", func(t *testing.T) { testMarshalUnmarshal(t, NewCShake256([]byte("N"), []byte("S"))) })
+		t.Run("Keccak-256", func(t *testing.T) { testMarshalUnmarshal(t, NewLegacyKeccak256()) })
+		t.Run("Keccak-512", func(t *testing.T) { testMarshalUnmarshal(t, NewLegacyKeccak512()) })
+	})
 }
 
 // TODO(filippo): move this to crypto/internal/cryptotest.
