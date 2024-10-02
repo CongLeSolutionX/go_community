@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "12d78f13_d2ab68fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-10-02T23:56:35Z",
+      "side": 1,
+      "message": "I added motivation (largely copied from the issue) and a technical overview. To be clear, the motivation and design was established by the Go team and other contributors, not me. I\u0027m simply implementing their proposal since it aids my work.",
+      "parentUuid": "c9dc200e_24a2df17",
+      "revId": "ab77ecd085d5b6c7471317994119969e357cc068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fa4c1d53_33dcf84e",
         "filename": "src/testing/testing.go",
         "patchSetId": 6
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "64af48e2_ad6dfb4e",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-10-02T23:56:35Z",
+      "side": 1,
+      "message": "It seems like it would be valuable to move at least the const declarations to a shared internal package to prevent issues with them getting out of sync, though maybe that should be in a different CL?\n\nAs far as a comment, I\u0027m not sure where that should live for visibility. Maybe part of the docs for `NewConverter`? WRT the content, as far as I can tell the framing strategy is basically \"Put special markers in the output stream so test2json can capture them\". It\u0027s not a design that appeals to me but I\u0027m just here to implement it.",
+      "parentUuid": "fa4c1d53_33dcf84e",
+      "revId": "ab77ecd085d5b6c7471317994119969e357cc068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb3924af_15e717bf",
         "filename": "src/testing/testing.go",
         "patchSetId": 6
@@ -48,6 +84,30 @@
       "writtenOn": "2024-09-28T13:08:40Z",
       "side": 1,
       "message": "Don\u0027t we need to escape occurrences of ^O in the filename and in s (L832)? It would be good to add a test case that exercises an error message containing all ASCII values.",
+      "range": {
+        "startLine": 822,
+        "startChar": 29,
+        "endLine": 822,
+        "endChar": 33
+      },
+      "revId": "ab77ecd085d5b6c7471317994119969e357cc068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "746079e8_d9b0901c",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-10-02T23:56:35Z",
+      "side": 1,
+      "message": "Testing all ASCII values via a script test is messy due to needing to \nescape quotes, regex metacharacters, etc. So instead I wrote a test that\n outputs every ASCII value up to 0x20, since that covers all the \nnon-printing characters other than 0x7f.\n\nAlso, the existing framing mechanism does not escape ^V. The following:\n\n```\nfunc TestASCII(t *T) {\n\tt.Log(\"\\x16\")\n}\n```\n\nproduces these outputs:\n\n```\n{...,\"Output\":\"\u003d\u003d\u003d RUN   TestFoo\\n\",\"OutputType\":\"frame\"}\n{...,\"Output\":\"    sub_test.go:25: \"}\n{...,\"Output\":\"\\n\"}\n{...,\"Output\":\"--- PASS: TestFoo (0.00s)\\n\",\"OutputType\":\"frame\"}\n```\n\n^V is elided from the output and also causes a pseudo line break in terms of how output is split between events. I am also escaping ^V, but only within errors so this bug still exists.",
+      "parentUuid": "bb3924af_15e717bf",
       "range": {
         "startLine": 822,
         "startChar": 29,
