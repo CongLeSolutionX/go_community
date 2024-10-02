@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d38aebd_9a41cd40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-10-02T00:40:01Z",
+      "side": 1,
+      "message": "The failure here is due to a new error reported by the type checker and with that the a gopls test is failing. @adonovan@google.com: suggestions?",
+      "revId": "3289a764e95d189795ad2261c7b51d4bd239d170",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
