@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0852599_0ef6dfc3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2024-10-02T18:58:32Z",
+      "side": 1,
+      "message": "Thanks for the reviews! Could one of you please submit this? I don\u0027t have permission.",
+      "revId": "ee0f18181b909fb680d00a28b61dd966f02dacb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
