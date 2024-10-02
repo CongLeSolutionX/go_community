@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a1cdf27_a872c3ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T15:21:15Z",
+      "side": 1,
+      "message": "Could you mark this CL as WIP in the UI? https://gerritcodereview-test.gsrc.io/marking-a-change-as-a-wip.html\nThat will prevent it from coming up on review queues.",
+      "revId": "32e399185efa680b2c4c5ffb95b6ca36a09d8629",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
