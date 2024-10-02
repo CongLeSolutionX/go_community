@@ -33,6 +33,24 @@
       "message": "Is this going to be used only for amd64?\n\n(I worry that not all architectures have this instruction.)",
       "revId": "9f33f79e93bad17bd4c27581e0f5246abae37ac2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f50ba2d_99c2dc1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-10-02T16:40:32Z",
+      "side": 1,
+      "message": "I\u0027d like something _like_ this on all architectures, and when Xchg8 is available I\u0027d like to use it.\n\nIt\u0027s in support of the \"spinbit\" mutex implementation (CL 601597), which I\u0027d like to enable on all platforms (first GOOS\u003dlinux, then other futex platforms, then the lock_sema.go platforms too). That\u0027s an algorithmic improvement which helps when there are many threads contending for a particular mutex. Using Xchg8 allows an implementation that is 1/ just as fast as the existing mutex implementation when completely uncontended, and 2/ doesn\u0027t change the size of runtime.mutex values (they remain one uintptr).\n\nFor platforms that don\u0027t have Xchg8, we can choose a/ leave the current collapsing mutex implementation in place, b/ use the new spinbit implementation, but slow down the uncontended case by simulating Xchg8 with a CAS32, or c/ expand the runtime.mutex struct to contain multiple fields that can be operated on independently. Depending on which architectures are missing Xchg8, option (b) might strike the best balance of speed and complexity.\n\nI opened #69735 for the work to support other architectures.",
+      "parentUuid": "88b58ffe_3884c249",
+      "revId": "9f33f79e93bad17bd4c27581e0f5246abae37ac2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
