@@ -1,0 +1,1 @@
+TODO(amedee) The AddCleanup API has been added. SetFinalizer has been depricated.
