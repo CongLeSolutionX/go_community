@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82c59fa5_9dbb9593",
+        "filename": "src/crypto/internal/fips/hmac/hmac.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-02T19:46:39Z",
+      "side": 1,
+      "message": "We\u0027re plausibly going to land quite a few packages before we settle on the service indicator API. While we work on the packages we have the spec fresh in our mind, so we should capture the algorithm-specific approve/non-approved rules, even if as no-ops. We can go back and grep for it when we add the API. It\u0027s going to be easier and safer than trying to remember all the conditions in a month.",
+      "parentUuid": "7fe72142_778922a4",
+      "revId": "ae9387db8de15c0fc79e7ad24b4de9df1b33234b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebff16f9_6a6d6079",
@@ -65,6 +83,24 @@
       "writtenOn": "2024-09-30T20:59:03Z",
       "side": 1,
       "message": "if this is kept in this CR I think the calculation deserves a citation. My quick attempt to backtrack to the req makes me think maybe \"5.6.1.2 Security Strengths of Hash Functions and Hash-based Functions\" from NIST SP 800-57?",
+      "revId": "ae9387db8de15c0fc79e7ad24b4de9df1b33234b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b2d2f5a_01d36c01",
+        "filename": "src/crypto/internal/fips/hmac/hmac.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-02T19:46:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebff16f9_6a6d6079",
       "revId": "ae9387db8de15c0fc79e7ad24b4de9df1b33234b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
