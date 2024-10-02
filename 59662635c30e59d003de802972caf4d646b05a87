@@ -70,6 +70,24 @@
       "parentUuid": "9c68c3e0_d87047f4",
       "revId": "59662635c30e59d003de802972caf4d646b05a87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16b7033b_e552af25",
+        "filename": "src/internal/runtime/atomic/atomic_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-10-02T00:32:42Z",
+      "side": 1,
+      "message": "The CL that adds the first use of Xchg8 has gotten a +2 and is ready to go in. So yes, we\u0027ll want support for the other platforms.\n\nI\u0027ve added a test, gated to GOARCH\u003damd64 (since other platforms don\u0027t have support yet). I\u0027ve opened an issue, #69735, to track adding support for other GOARCHes.\n\nMauri, let\u0027s use the issue to coordinate who\u0027s working on which platforms. Thanks!",
+      "parentUuid": "a60d96da_59a1fd22",
+      "revId": "59662635c30e59d003de802972caf4d646b05a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
