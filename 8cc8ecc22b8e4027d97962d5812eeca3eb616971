@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7f917f3_7beea4be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-10-02T20:06:12Z",
+      "side": 1,
+      "message": "Something related that\u0027s been on my mind: if we have a directory with a go.mod file with the following content:\n\n```\nmodule minimumbootstrap\n\ngo 1.22.6\n```\n\nThen it becomes trivial for a user with a fairly modern Go binary to satisfy the minimum bootstrap version by doing the following:\n\n```\nGOROOT_BOOTSTRAP\u003d$(go -C\u003dpath_to_the_directory_mentioned_above env GOROOT)\n```\n\nIf the \u0027go\u0027 is already 1.22.6 or higher, it\u0027ll be used directly. Otherwise they\u0027ll benefit from automatic bootstrap downloads:\n\n```\n$ go version\ngo version go1.21.13 darwin/arm64\n$ GOROOT_BOOTSTRAP\u003d$(go -C\u003dpath_to_the_directory_mentioned_above env GOROOT)\ngo: downloading go1.22.6 (darwin/arm64)\n$ $GOROOT_BOOTSTRAP/bin/go version\ngo version go1.22.6 darwin/arm64\n```\n\nSharing in case it helps.",
+      "revId": "8cc8ecc22b8e4027d97962d5812eeca3eb616971",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2363d0f6_3b8b875a",
