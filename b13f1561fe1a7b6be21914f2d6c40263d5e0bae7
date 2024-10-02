@@ -34,6 +34,24 @@
       "parentUuid": "03b5c83d_5ea4a95f",
       "revId": "b13f1561fe1a7b6be21914f2d6c40263d5e0bae7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ede0209_541914f2",
+        "filename": "src/os/dir.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 58169
+      },
+      "writtenOn": "2024-10-02T03:33:00Z",
+      "side": 1,
+      "message": "\u003e For example, fs.ModeAppend. If some io/fs implementation uses those mode bits, we definitely don\u0027t want to turn them on here.\n\nmake sense, thanks for clarifying. i have restored it in the new patchset.",
+      "parentUuid": "bcf6c67a_c89a5371",
+      "revId": "b13f1561fe1a7b6be21914f2d6c40263d5e0bae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
