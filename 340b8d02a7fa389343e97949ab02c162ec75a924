@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a491a8f2_aad8813f",
+        "filename": "src/go/ast/import.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-10-02T09:12:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4008253d_bc7f7a8a",
+      "revId": "340b8d02a7fa389343e97949ab02c162ec75a924",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab90f162_9e40cfd9",
@@ -48,6 +66,30 @@
       "writtenOn": "2024-10-01T20:12:31Z",
       "side": 1,
       "message": "It\u0027s not clear what is the expected result, nor what the wrong result might have been. Could you add some commentary?",
+      "range": {
+        "startLine": 109,
+        "startChar": 1,
+        "endLine": 115,
+        "endChar": 2
+      },
+      "revId": "340b8d02a7fa389343e97949ab02c162ec75a924",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "857aa6bb_956a5bbe",
+        "filename": "src/go/ast/internal/tests/sortimports_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-10-02T09:12:55Z",
+      "side": 1,
+      "message": "Before this change it failed with, because of the bad MergeLine call.\n\n```\n\u003d\u003d\u003d RUN   TestSortImportsSameLastLine\n    sortimports_test.go:111: invalid fdPos.Column \u003d 6; want \u003d 1\n    sortimports_test.go:114: invalid fdPos.Line \u003d 4; want \u003d 5\n```",
+      "parentUuid": "ab90f162_9e40cfd9",
       "range": {
         "startLine": 109,
         "startChar": 1,
