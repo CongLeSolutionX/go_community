@@ -602,6 +602,17 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 		Pos:  p.pos(),
 		As:   op,
 	}
+
+	if p.ctxt.Arch.Family == sys.ARM64 {
+		err := arch.ARM64AsmInstruction(prog, op, cond, a)
+		if err != nil {
+			p.errorf("%s", err.Error())
+			return
+		}
+		p.append(prog, cond, true)
+		return
+	}
+
 	switch len(a) {
 	case 0:
 		// Nothing to do.
@@ -632,10 +643,6 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 				prog.Reg = p.getRegister(prog, op, &a[1])
 				break
 			}
-		} else if p.arch.Family == sys.ARM64 && arch.IsARM64CMP(op) {
-			prog.From = a[0]
-			prog.Reg = p.getRegister(prog, op, &a[1])
-			break
 		} else if p.arch.Family == sys.MIPS || p.arch.Family == sys.MIPS64 {
 			if arch.IsMIPSCMP(op) || arch.IsMIPSMUL(op) {
 				prog.From = a[0]
@@ -702,39 +709,6 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 			prog.From = a[0]
 			prog.AddRestSource(a[1])
 			prog.To = a[2]
-		case sys.ARM64:
-			switch {
-			case arch.IsARM64STLXR(op):
-				// ARM64 instructions with one input and two outputs.
-				prog.From = a[0]
-				prog.To = a[1]
-				if a[2].Type != obj.TYPE_REG {
-					p.errorf("invalid addressing modes for third operand to %s instruction, must be register", op)
-					return
-				}
-				prog.RegTo2 = a[2].Reg
-			case arch.IsARM64TBL(op):
-				// one of its inputs does not fit into prog.Reg.
-				prog.From = a[0]
-				prog.AddRestSource(a[1])
-				prog.To = a[2]
-			case arch.IsARM64CASP(op):
-				prog.From = a[0]
-				prog.To = a[1]
-				// both 1st operand and 3rd operand are (Rs, Rs+1) register pair.
-				// And the register pair must be contiguous.
-				if (a[0].Type != obj.TYPE_REGREG) || (a[2].Type != obj.TYPE_REGREG) {
-					p.errorf("invalid addressing modes for 1st or 3rd operand to %s instruction, must be register pair", op)
-					return
-				}
-				// For ARM64 CASP-like instructions, its 2nd destination operand is register pair(Rt, Rt+1) that can
-				// not fit into prog.RegTo2, so save it to the prog.RestArgs.
-				prog.AddRestDest(a[2])
-			default:
-				prog.From = a[0]
-				prog.Reg = p.getRegister(prog, op, &a[1])
-				prog.To = a[2]
-			}
 		case sys.I386:
 			prog.From = a[0]
 			prog.AddRestSource(a[1])
@@ -813,13 +787,6 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 		if p.arch.Family == sys.AMD64 {
 			prog.From = a[0]
 			prog.AddRestSourceArgs([]obj.Addr{a[1], a[2]})
-			prog.To = a[3]
-			break
-		}
-		if p.arch.Family == sys.ARM64 {
-			prog.From = a[0]
-			prog.Reg = p.getRegister(prog, op, &a[1])
-			prog.AddRestSource(a[2])
 			prog.To = a[3]
 			break
 		}

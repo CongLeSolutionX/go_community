@@ -1234,7 +1234,10 @@ func (c *ctxt7) asmsizeBytes(p *obj.Prog) int {
 	case obj.ANOP, obj.AFUNCDATA, obj.APCDATA:
 		return 0
 	default:
-		o := c.oplook(p)
+		o, err := c.oplook(p)
+		if o == nil || err != nil {
+			return 4
+		}
 		return o.size(c.ctxt, p)
 	}
 }
@@ -1244,7 +1247,11 @@ func (c *ctxt7) asmsizeBytes(p *obj.Prog) int {
 func (c *ctxt7) fixUpLongBranch(p *obj.Prog) bool {
 	var toofar bool
 
-	o := c.oplook(p)
+	o, err := c.oplook(p)
+
+	if o == nil || err != nil {
+		return false
+	}
 
 	/* very large branches */
 	if (o.flag&BRANCH14BITS != 0 || o.flag&BRANCH19BITS != 0) && p.To.Target() != nil {
@@ -1276,7 +1283,11 @@ func (c *ctxt7) fixUpLongBranch(p *obj.Prog) bool {
 
 // Adds literal values from the Prog into the literal pool if necessary.
 func (c *ctxt7) addLiteralsToPool(p *obj.Prog) {
-	o := c.oplook(p)
+	o, err := c.oplook(p)
+
+	if o == nil || err != nil {
+		return
+	}
 
 	if o.flag&LFROM != 0 {
 		c.addpool(p, &p.From)
@@ -1311,7 +1322,10 @@ func (c *ctxt7) isRestartable(p *obj.Prog) bool {
 	// of assembler-inserted REGTMP fall into this category.
 	// If p doesn't use REGTMP, it can be simply preempted, so we don't
 	// mark it.
-	o := c.oplook(p)
+	o, err := c.oplook(p)
+	if o == nil || err != nil {
+		return false
+	}
 	return o.size(c.ctxt, p) > 4 && o.flag&NOTUSETMP == 0
 }
 
@@ -1547,7 +1561,7 @@ func isMOVop(op obj.As) bool {
 }
 
 func isRegShiftOrExt(a *obj.Addr) bool {
-	return (a.Index-obj.RBaseARM64)&REG_EXT != 0 || (a.Index-obj.RBaseARM64)&REG_LSL != 0
+	return a.Index&REG_EXT != 0 || a.Index&REG_LSL != 0
 }
 
 // Maximum PC-relative displacement.
@@ -2267,10 +2281,10 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 	return C_GOK
 }
 
-func (c *ctxt7) oplook(p *obj.Prog) *Optab {
+func (c *ctxt7) oplook(p *obj.Prog) (*Optab, error) {
 	a1 := int(p.Optab)
 	if a1 != 0 {
-		return &optab[a1-1]
+		return &optab[a1-1], nil
 	}
 	a1 = int(p.From.Class)
 	if a1 == 0 {
@@ -2353,23 +2367,27 @@ func (c *ctxt7) oplook(p *obj.Prog) *Optab {
 		fmt.Printf("\t\t%d %d\n", p.From.Type, p.To.Type)
 	}
 
-	ops := oprange[p.As&obj.AMask]
-	c1 := &xcmp[a1]
-	c2 := &xcmp[a2]
-	c3 := &xcmp[a3]
-	c4 := &xcmp[a4]
-	c5 := &xcmp[a5]
-	for i := range ops {
-		op := &ops[i]
-		if c1[op.a1] && c2[op.a2] && c3[op.a3] && c4[op.a4] && c5[op.a5] && p.Scond == op.scond {
-			p.Optab = uint16(cap(optab) - cap(ops) + i + 1)
-			return op
+	// If the sign bit is set on any of the class values then the operand is using the SVE
+	// representation and the search should be skipped.
+	if !((a1 | a2 | a3 | a4 | a5) < 0) {
+		ops := oprange[p.As&obj.AMask]
+		c1 := &xcmp[a1]
+		c2 := &xcmp[a2]
+		c3 := &xcmp[a3]
+		c4 := &xcmp[a4]
+		c5 := &xcmp[a5]
+		for i := range ops {
+			op := &ops[i]
+			if c1[op.a1] && c2[op.a2] && c3[op.a3] && c4[op.a4] && c5[op.a5] && p.Scond == op.scond {
+				p.Optab = uint16(cap(optab) - cap(ops) + i + 1)
+				return op, nil
+			}
 		}
 	}
 
-	c.ctxt.Diag("illegal combination: %v %v %v %v %v %v, %d %d", p, DRconv(a1), DRconv(a2), DRconv(a3), DRconv(a4), DRconv(a5), p.From.Type, p.To.Type)
-	// Turn illegal instruction into an UNDEF, avoid crashing in asmout
-	return &Optab{obj.AUNDEF, C_NONE, C_NONE, C_NONE, C_NONE, C_NONE, 90, 4, 0, 0, 0}
+	return nil, fmt.Errorf(
+		"illegal combination: %v %v %v %v %v %v, %d %d",
+		p, DRconv(a1), DRconv(a2), DRconv(a3), DRconv(a4), DRconv(a5), p.From.Type, p.To.Type)
 }
 
 func cmp(a int, b int) bool {
@@ -3353,38 +3371,46 @@ func buildop(ctxt *obj.Link) {
 	}
 }
 
-// chipfloat7() checks if the immediate constants available in  FMOVS/FMOVD instructions.
+// Converts IEEE-754 double into a compressed 8-bit floating-point format used by
+// some ARM instructions for encoding immediate values. The encoding scheme uses a
+// sign bit, a 4-bit exponent and 4-bit mantissa. The exponent is biased in the usual way
+// (add 2**(4-1)-1) but then compressed to 3-bits by observing the most significant bit is
+// always the bitwise NOT of the second most significant bit in the immediate.
 // For details of the range of constants available, see
 // http://infocenter.arm.com/help/topic/com.arm.doc.dui0473m/dom1359731199385.html.
-func (c *ctxt7) chipfloat7(e float64) int {
+func encodeFloat8(e float64) (uint32, bool) {
 	ei := math.Float64bits(e)
-	l := uint32(int32(ei))
-	h := uint32(int32(ei >> 32))
 
-	if l != 0 || h&0xffff != 0 {
-		return -1
+	// Only 4-bits are used to represent a mantissa in this format.
+	// float64 uses 52 bits, so check we aren't using any of the bottom 48 bits.
+	// Otherwise the mantissa will lose precision and create an incorrect value.
+	if ei&((1<<48)-1) != 0 {
+		return 0, false
 	}
-	h1 := h & 0x7fc00000
+
+	topHalf := uint32(int32(ei >> 32))
+	// Check the exponent isn't too big
+	h1 := topHalf & 0x7fc00000
 	if h1 != 0x40000000 && h1 != 0x3fc00000 {
+		return 0, false
+	}
+
+	// Copy the sign bit
+	n := (topHalf >> 31) << 7
+
+	// Copy the exponent and mantissa (bcd-efgh)
+	n |= (topHalf >> 16) & 0x7f
+
+	return n, true
+}
+
+// chipfloat7() checks if the immediate constants available in  FMOVS/FMOVD instructions.
+func (c *ctxt7) chipfloat7(e float64) int {
+	imm8, ok := encodeFloat8(e)
+	if !ok {
 		return -1
 	}
-	n := 0
-
-	// sign bit (a)
-	if h&0x80000000 != 0 {
-		n |= 1 << 7
-	}
-
-	// exp sign bit (b)
-	if h1 == 0x3fc00000 {
-		n |= 1 << 6
-	}
-
-	// rest of exp and mantissa (cd-efgh)
-	n |= int((h >> 16) & 0x3f)
-
-	//print("match %.8lux %.8lux %d\n", l, h, n);
-	return n
+	return int(imm8)
 }
 
 /* form offset parameter to SYS; special register number */
@@ -3415,50 +3441,24 @@ func (c *ctxt7) checkindex(p *obj.Prog, index, maxindex int) {
 }
 
 /* checkoffset checks whether the immediate offset is valid for VLD[1-4].P and VST[1-4].P */
-func (c *ctxt7) checkoffset(p *obj.Prog, as obj.As) {
-	var offset, list, n, expect int64
-	switch as {
-	case AVLD1, AVLD2, AVLD3, AVLD4, AVLD1R, AVLD2R, AVLD3R, AVLD4R:
-		offset = p.From.Offset
-		list = p.To.Offset
-	case AVST1, AVST2, AVST3, AVST4:
-		offset = p.To.Offset
-		list = p.From.Offset
-	default:
-		c.ctxt.Diag("invalid operation on op %v", p.As)
-	}
-	opcode := (list >> 12) & 15
-	q := (list >> 30) & 1
-	size := (list >> 10) & 3
-	if offset == 0 {
-		return
-	}
-	switch opcode {
-	case 0x7:
-		n = 1 // one register
-	case 0xa:
-		n = 2 // two registers
-	case 0x6:
-		n = 3 // three registers
-	case 0x2:
-		n = 4 // four registers
-	default:
-		c.ctxt.Diag("invalid register numbers in ARM64 register list: %v", p)
-	}
-
-	switch as {
+func (c *ctxt7) checkoffset(p *obj.Prog, offset int64, Q, size uint32, count int64) {
+	switch p.As {
 	case AVLD1R, AVLD2R, AVLD3R, AVLD4R:
-		if offset != n*(1<<uint(size)) {
+		if offset != count*(1<<uint(size)) {
 			c.ctxt.Diag("invalid post-increment offset: %v", p)
 		}
 	default:
-		if !(q == 0 && offset == n*8) && !(q == 1 && offset == n*16) {
+		if !(Q == 0 && offset == count*8) && !(Q == 1 && offset == count*16) {
 			c.ctxt.Diag("invalid post-increment offset: %v", p)
 		}
 	}
 
-	switch as {
+	var expect int64
+	switch p.As {
 	case AVLD1, AVST1:
+		if count > 4 {
+			c.ctxt.Diag("expected at most 4 registers, got %d: %v.", count, p)
+		}
 		return
 	case AVLD1R:
 		expect = 1
@@ -3470,8 +3470,8 @@ func (c *ctxt7) checkoffset(p *obj.Prog, as obj.As) {
 		expect = 4
 	}
 
-	if expect != n {
-		c.ctxt.Diag("expected %d registers, got %d: %v.", expect, n, p)
+	if expect != count {
+		c.ctxt.Diag("expected %d registers, got %d: %v.", expect, count, p)
 	}
 }
 
@@ -3503,7 +3503,19 @@ func (c *ctxt7) checkShiftAmount(p *obj.Prog, a *obj.Addr) {
 }
 
 func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
-	o := c.oplook(p)
+
+	o, err := c.oplook(p)
+	if o == nil || err != nil {
+		opcode, sveErr := assembleSVE(p)
+		if sveErr == nil {
+			out[0] = opcode
+			return 1
+		}
+		Debug("%s", sveErr.Error())
+		c.ctxt.Diag(err.Error())
+		out[0] = 0x0 // udf
+		return 1
+	}
 
 	var os [5]uint32
 	o1 := uint32(0)
@@ -4008,7 +4020,7 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		if r == obj.REG_NONE {
 			r = rt
 		}
-		if (p.From.Reg-obj.RBaseARM64)&REG_EXT != 0 ||
+		if (p.From.Reg)&REG_EXT != 0 ||
 			(p.From.Reg >= REG_LSL && p.From.Reg < REG_ARNG) {
 			amount := (p.From.Reg >> 5) & 7
 			if amount > 4 {
@@ -5152,8 +5164,18 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		o1 |= (uint32(imm5&0x1f) << 16) | (uint32(rf&31) << 5) | uint32(rt&31)
 
 	case 81: /* vld[1-4]|vld[1-4]r (Rn), [Vt1.<T>, Vt2.<T>, ...] */
-		c.checkoffset(p, p.As)
 		r := int(p.From.Reg)
+
+		rlist := ARM64RegisterList{uint64(p.To.Offset)}
+
+		arrangement := (rlist.Base() >> 5) & 15
+		Q, size := c.neonLoadStoreQSize(p.As, int(arrangement))
+		opcode := c.neonLoadStoreOpcode(p.As, int(rlist.Count()))
+
+		if p.From.Offset != 0 {
+			c.checkoffset(p, p.From.Offset, Q, size, int64(rlist.Count()))
+		}
+
 		o1 = c.oprrr(p, p.As)
 		if o.scond == C_XPOST {
 			o1 |= 1 << 23
@@ -5168,10 +5190,11 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 				o1 |= uint32(p.From.Index&0x1f) << 16
 			}
 		}
-		o1 |= uint32(p.To.Offset)
-		// cmd/asm/internal/arch/arm64.go:ARM64RegisterListOffset
-		// add opcode(bit 12-15) for vld1, mask it off if it's not vld1
-		o1 = c.maskOpvldvst(p, o1)
+
+		o1 |= uint32(rlist.Base() & 31)
+		o1 |= Q << 30
+		o1 |= size << 10
+		o1 |= opcode << 12
 		o1 |= uint32(r&31) << 5
 
 	case 82: /* vmov/vdup Rn, Vd.<T> */
@@ -5264,8 +5287,18 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		o1 |= (Q&1)<<30 | (size&3)<<22 | uint32(rf&31)<<5 | uint32(rt&31)
 
 	case 84: /* vst[1-4] [Vt1.<T>, Vt2.<T>, ...], (Rn) */
-		c.checkoffset(p, p.As)
 		r := int(p.To.Reg)
+
+		rlist := ARM64RegisterList{uint64(p.From.Offset)}
+
+		arrangement := (rlist.Base() >> 5) & 15
+		Q, size := c.neonLoadStoreQSize(p.As, int(arrangement))
+		opcode := c.neonLoadStoreOpcode(p.As, int(rlist.Count()))
+
+		if p.To.Offset != 0 {
+			c.checkoffset(p, p.To.Offset, Q, size, int64(rlist.Count()))
+		}
+
 		o1 = 3 << 26
 		if o.scond == C_XPOST {
 			o1 |= 1 << 23
@@ -5280,10 +5313,11 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 				o1 |= uint32(p.To.Index&31) << 16
 			}
 		}
-		o1 |= uint32(p.From.Offset)
-		// cmd/asm/internal/arch/arm64.go:ARM64RegisterListOffset
-		// add opcode(bit 12-15) for vst1, mask it off if it's not vst1
-		o1 = c.maskOpvldvst(p, o1)
+
+		o1 |= uint32(rlist.Base() & 31)
+		o1 |= Q << 30
+		o1 |= size << 10
+		o1 |= opcode << 12
 		o1 |= uint32(r&31) << 5
 
 	case 85: /* vaddv/vuaddlv Vn.<T>, Vd*/
@@ -5754,7 +5788,8 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		if af != at {
 			c.ctxt.Diag("invalid arrangement: %v\n", p)
 		}
-		var q, len uint32
+
+		var q uint32
 		switch af {
 		case ARNG_8B:
 			q = 0
@@ -5765,18 +5800,9 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		}
 		rf := int(p.From.Reg)
 		rt := int(p.To.Reg)
-		offset := int(p.GetFrom3().Offset)
-		opcode := (offset >> 12) & 15
-		switch opcode {
-		case 0x7:
-			len = 0 // one register
-		case 0xa:
-			len = 1 // two register
-		case 0x6:
-			len = 2 // three registers
-		case 0x2:
-			len = 3 // four registers
-		default:
+
+		rl := ARM64RegisterList{uint64(p.GetFrom3().Offset)}
+		if rl.Count() > 4 {
 			c.ctxt.Diag("invalid register numbers in ARM64 register list: %v", p)
 		}
 		var op uint32
@@ -5786,8 +5812,8 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 		case AVTBX:
 			op = 1
 		}
-		o1 = q<<30 | 0xe<<24 | len<<13 | op<<12
-		o1 |= (uint32(rf&31) << 16) | uint32(offset&31)<<5 | uint32(rt&31)
+		o1 = q<<30 | 0xe<<24 | uint32(rl.Count()-1)<<13 | op<<12
+		o1 |= (uint32(rf&31) << 16) | uint32(rl.Base()&31)<<5 | uint32(rt&31)
 
 	case 102: /* vushll, vushll2, vuxtl, vuxtl2 */
 		o1 = c.opirr(p, p.As)
@@ -7810,26 +7836,73 @@ func (c *ctxt7) opldpstp(p *obj.Prog, o *Optab, vo int32, rbase, rl, rh int16, l
 	return ret
 }
 
-func (c *ctxt7) maskOpvldvst(p *obj.Prog, o1 uint32) uint32 {
-	if p.As == AVLD1 || p.As == AVST1 {
-		return o1
-	}
-
-	o1 &^= 0xf000 // mask out "opcode" field (bit 12-15)
-	switch p.As {
-	case AVLD1R, AVLD2R:
-		o1 |= 0xC << 12
-	case AVLD3R, AVLD4R:
-		o1 |= 0xE << 12
-	case AVLD2, AVST2:
-		o1 |= 8 << 12
-	case AVLD3, AVST3:
-		o1 |= 4 << 12
-	case AVLD4, AVST4:
+// Gets values for the Q and size fields for the NEON LD[1-4]/ST[1-4] family of instructions
+func (c *ctxt7) neonLoadStoreQSize(as obj.As, laneArrangement int) (Q, size uint32) {
+	switch laneArrangement {
+	case ARNG_8B:
+		size = 0
+		Q = 0
+	case ARNG_16B:
+		size = 0
+		Q = 1
+	case ARNG_4H:
+		size = 1
+		Q = 0
+	case ARNG_8H:
+		size = 1
+		Q = 1
+	case ARNG_2S:
+		size = 2
+		Q = 0
+	case ARNG_4S:
+		size = 2
+		Q = 1
+	case ARNG_1D:
+		switch as {
+		case AVLD1, AVLD1R, AVLD2R, AVLD3R, AVLD4R, AVST1:
+			size = 3
+			Q = 0
+		default:
+			c.ctxt.Diag("invalid extension for: %v\n", as)
+		}
+	case ARNG_2D:
+		size = 3
+		Q = 1
 	default:
-		c.ctxt.Diag("unsupported instruction:%v\n", p.As)
+		c.ctxt.Diag("invalid extension for: %v\n", as)
 	}
-	return o1
+	return
+}
+
+func (c *ctxt7) neonLoadStoreOpcode(as obj.As, count int) (opcode uint32) {
+	switch as {
+	case AVLD1, AVST1:
+		switch count {
+		case 1:
+			opcode = 0b0111
+		case 2:
+			opcode = 0b1010
+		case 3:
+			opcode = 0b0110
+		case 4:
+			opcode = 0b0010
+		default:
+			c.ctxt.Diag("instruction only supports up to 4 vector registers")
+		}
+	case AVLD1R, AVLD2R:
+		opcode = 0b1100
+	case AVLD3R, AVLD4R:
+		opcode = 0b1110
+	case AVLD2, AVST2:
+		opcode = 0b1000
+	case AVLD3, AVST3:
+		opcode = 0b0100
+	case AVLD4, AVST4:
+		opcode = 0b0000
+	default:
+		c.ctxt.Diag("unsupported instruction:%v\n", as)
+	}
+	return
 }
 
 /*

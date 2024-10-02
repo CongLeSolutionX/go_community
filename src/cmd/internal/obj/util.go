@@ -12,6 +12,7 @@ import (
 	"internal/abi"
 	"internal/buildcfg"
 	"io"
+	"strconv"
 	"strings"
 )
 
@@ -273,9 +274,11 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 		} else {
 			io.WriteString(w, p.Ctxt.Arch.Rconv(int(a.Reg)))
 		}
-		if (RBaseLOONG64+(1<<10)+(1<<11)) /* loong64.REG_ELEM */ <= a.Reg &&
-			a.Reg < (RBaseLOONG64+(1<<10)+(2<<11)) /* loong64.REG_ELEM_END */ {
-			fmt.Fprintf(w, "[%d]", a.Index)
+		if p.Ctxt.Arch.Family == sys.Loong64 {
+			if (RBaseLOONG64+(1<<10)+(1<<11)) /* loong64.REG_ELEM */ <= a.Reg &&
+				a.Reg < (RBaseLOONG64+(1<<10)+(2<<11)) /* loong64.REG_ELEM_END */ {
+				fmt.Fprintf(w, "[%d]", a.Index)
+			}
 		}
 
 	case TYPE_REGINDEX:
@@ -301,7 +304,42 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 				// arm64 shifted or extended register offset, scale = 0.
 				fmt.Fprintf(w, "(%v)", p.Ctxt.Arch.Rconv(int(a.Index)))
 			} else {
-				fmt.Fprintf(w, "(%v*%d)", p.Ctxt.Arch.Rconv(int(a.Index)), int(a.Scale))
+				if p.Ctxt.Arch.Arch.InFamily(sys.ARM64) && (a.Scale>>4 != 0) {
+					// Mirror of constants in arm64/a.out.go
+					const (
+						ARM64_UXTW = iota + 1
+						ARM64_UXTX
+						ARM64_SXTW
+						ARM64_SXTX
+						ARM64_LSL
+					)
+
+					mod := ""
+					switch a.Scale >> 4 {
+					case ARM64_UXTW:
+						mod = "UXTW"
+					case ARM64_UXTX:
+						mod = "UXTX"
+					case ARM64_SXTW:
+						mod = "SXTW"
+					case ARM64_SXTX:
+						mod = "SXTX"
+					case ARM64_LSL:
+						mod = "LSL"
+					default:
+						panic("unreachable mod")
+					}
+					amount := a.Scale & 0xf
+					if amount == 0 && mod == "LSL" {
+						fmt.Fprintf(w, "(%v)", p.Ctxt.Arch.Rconv(int(a.Index)))
+					} else if amount == 0 {
+						fmt.Fprintf(w, "(%v.%s)", p.Ctxt.Arch.Rconv(int(a.Index)), mod)
+					} else {
+						fmt.Fprintf(w, "(%v.%s<<%d)", p.Ctxt.Arch.Rconv(int(a.Index)), mod, amount)
+					}
+				} else {
+					fmt.Fprintf(w, "(%v*%d)", p.Ctxt.Arch.Rconv(int(a.Index)), int(a.Scale))
+				}
 			}
 		}
 
@@ -351,7 +389,13 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 		case "arm64":
 			op := ops[((v>>22)&3)<<1:]
 			r := (v >> 16) & 31
-			fmt.Fprintf(w, "%s%c%c%d", p.Ctxt.Arch.Rconv(r+RBaseARM64), op[0], op[1], (v>>10)&63)
+			var reg string
+			if r == 31 {
+				reg = "ZR"
+			} else {
+				reg = "R" + strconv.Itoa(r)
+			}
+			fmt.Fprintf(w, "%s%c%c%d", reg, op[0], op[1], (v>>10)&63)
 		default:
 			panic("TYPE_SHIFT is not supported on " + buildcfg.GOARCH)
 		}
@@ -503,7 +547,6 @@ const (
 	RBaseAMD64   = 2 * 1024
 	RBaseARM     = 3 * 1024
 	RBasePPC64   = 4 * 1024  // range [4k, 8k)
-	RBaseARM64   = 8 * 1024  // range [8k, 13k)
 	RBaseMIPS    = 13 * 1024 // range [13k, 14k)
 	RBaseS390X   = 14 * 1024 // range [14k, 15k)
 	RBaseRISCV   = 15 * 1024 // range [15k, 16k)

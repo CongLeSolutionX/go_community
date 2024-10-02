@@ -687,6 +687,10 @@ var arm64OperandTests = []operandTest{
 	{"(ZR)", "(ZR)"},
 	{"(R29, RSP)", "(R29, RSP)"},
 	{"[):[o-FP", ""}, // Issue 12469 - asm hung parsing the o-FP range on non ARM platforms.
+	{"(V1.B16)(V0)", "(V1.B16)(V0)"},
+	{"Z0.H", "Z0.H"},
+	{"P7.M", "P7.M"},
+	{"[Z0.S,Z1.S]", "[Z0.S,Z1.S]"},
 }
 
 var mips64OperandTests = []operandTest{

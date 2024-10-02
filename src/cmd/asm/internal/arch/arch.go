@@ -258,43 +258,12 @@ func archArm() *Arch {
 }
 
 func archArm64() *Arch {
-	register := make(map[string]int16)
-	// Create maps for easy lookup of instruction names etc.
-	// Note that there is no list of names as there is for 386 and amd64.
-	register[arm64.Rconv(arm64.REGSP)] = int16(arm64.REGSP)
-	for i := arm64.REG_R0; i <= arm64.REG_R31; i++ {
-		register[arm64.Rconv(i)] = int16(i)
-	}
-	// Rename R18 to R18_PLATFORM to avoid accidental use.
-	register["R18_PLATFORM"] = register["R18"]
-	delete(register, "R18")
-	for i := arm64.REG_F0; i <= arm64.REG_F31; i++ {
-		register[arm64.Rconv(i)] = int16(i)
-	}
-	for i := arm64.REG_V0; i <= arm64.REG_V31; i++ {
-		register[arm64.Rconv(i)] = int16(i)
-	}
-
-	// System registers.
-	for i := 0; i < len(arm64.SystemReg); i++ {
-		register[arm64.SystemReg[i].Name] = arm64.SystemReg[i].Reg
-	}
-
-	register["LR"] = arm64.REGLINK
-
+	arm64.InitRegisterList()
 	// Pseudo-registers.
-	register["SB"] = RSB
-	register["FP"] = RFP
-	register["PC"] = RPC
-	register["SP"] = RSP
-	// Avoid unintentionally clobbering g using R28.
-	delete(register, "R28")
-	register["g"] = arm64.REG_R28
-	registerPrefix := map[string]bool{
-		"F": true,
-		"R": true,
-		"V": true,
-	}
+	arm64.RegisterList["SB"] = RSB
+	arm64.RegisterList["FP"] = RFP
+	arm64.RegisterList["PC"] = RPC
+	arm64.RegisterList["SP"] = RSP
 
 	instructions := make(map[string]obj.As)
 	for i, s := range obj.Anames {
@@ -312,8 +281,8 @@ func archArm64() *Arch {
 	return &Arch{
 		LinkArch:       &arm64.Linkarm64,
 		Instructions:   instructions,
-		Register:       register,
-		RegisterPrefix: registerPrefix,
+		Register:       arm64.RegisterList,
+		RegisterPrefix: arm64RegisterPrefix,
 		RegisterNumber: arm64RegisterNumber,
 		IsJump:         jumpArm64,
 	}

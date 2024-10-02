@@ -662,7 +662,7 @@ func (c *ctxt0) aclass(a *obj.Addr) int {
 	case obj.TYPE_NONE:
 		return C_NONE
 
-	case obj.TYPE_REG:
+	case obj.TYPE_REG, obj.TYPE_REGINDEX:
 		return c.rclass(a.Reg)
 
 	case obj.TYPE_MEM:

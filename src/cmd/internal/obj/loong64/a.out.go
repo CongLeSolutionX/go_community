@@ -733,3 +733,29 @@ func init() {
 		panic("REG_X0 is not a multiple of 32")
 	}
 }
+
+var Loong64ElemExtMap = map[string]int16{
+	"B":  ARNG_B,
+	"H":  ARNG_H,
+	"W":  ARNG_W,
+	"V":  ARNG_V,
+	"BU": ARNG_BU,
+	"HU": ARNG_HU,
+	"WU": ARNG_WU,
+	"VU": ARNG_VU,
+}
+
+var Loong64LsxArngExtMap = map[string]int16{
+	"B16": ARNG_16B,
+	"H8":  ARNG_8H,
+	"W4":  ARNG_4W,
+	"V2":  ARNG_2V,
+}
+
+var Loong64LasxArngExtMap = map[string]int16{
+	"B32": ARNG_32B,
+	"H16": ARNG_16H,
+	"W8":  ARNG_8W,
+	"V4":  ARNG_4V,
+	"Q2":  ARNG_2Q,
+}

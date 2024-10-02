@@ -42,7 +42,7 @@ const (
 // General purpose registers, kept in the low bits of Prog.Reg.
 const (
 	// integer
-	REG_R0 = obj.RBaseARM64 + iota
+	REG_R0 = 32 + iota
 	REG_R1
 	REG_R2
 	REG_R3
@@ -143,23 +143,100 @@ const (
 	REG_V30
 	REG_V31
 
-	REG_RSP = REG_V31 + 32 // to differentiate ZR/SP, REG_RSP&0x1f = 31
+	// SVE vector registers
+	REG_Z0
+	REG_Z1
+	REG_Z2
+	REG_Z3
+	REG_Z4
+	REG_Z5
+	REG_Z6
+	REG_Z7
+	REG_Z8
+	REG_Z9
+	REG_Z10
+	REG_Z11
+	REG_Z12
+	REG_Z13
+	REG_Z14
+	REG_Z15
+	REG_Z16
+	REG_Z17
+	REG_Z18
+	REG_Z19
+	REG_Z20
+	REG_Z21
+	REG_Z22
+	REG_Z23
+	REG_Z24
+	REG_Z25
+	REG_Z26
+	REG_Z27
+	REG_Z28
+	REG_Z29
+	REG_Z30
+	REG_Z31
+
+	REG_P0
+	REG_P1
+	REG_P2
+	REG_P3
+	REG_P4
+	REG_P5
+	REG_P6
+	REG_P7
+	REG_P8
+	REG_P9
+	REG_P10
+	REG_P11
+	REG_P12
+	REG_P13
+	REG_P14
+	REG_P15
+
+	REG_RSP = REG_P15 + 16 + 32 // to differentiate ZR/SP, REG_RSP&0x1f = 31
 )
 
-// bits 0-4 indicates register: Vn
-// bits 5-8 indicates arrangement: <T>
+// ARM64 registers are encoded within 14 bits.
+// The first bit (position 13) is always reserved and set to 1.
+// The next 3 bits are used as type bits, values ranging from 0-4.
+// The remaining 10 bits are type dependent. The meaning of these bits depends
+// on the value set in the type field.
 const (
-	REG_ARNG = obj.RBaseARM64 + 1<<10 + iota<<9 // Vn.<T>
+	// Standard registers with no extension.
+	REG_BASE = iota << 10
+
+	// NEON vector registers
+	// bits 0-4 indicates register: Vn
+	// bits 5-8 indicates arrangement: <T>
+	// bit 9 indicates an index:
+	REG_ARNG
+
+	// Extended registers, such as UXTB, SXTW
+	REG_EXT
+
+	// This type field is reserved as some of its encoding space is used by
+	// REG_EXT.
+	_REG_RESERVED
+
+	// Special registers, such as system registers.
+	// The low bits select the register from a lookup table.
+	// SYSREG_END is the last item in the automatically generated system register
+	// declaration, and it is defined in the sysRegEnc.go file.
+	// Define the special register after REG_SPECIAL, the first value of it should be
+	// REG_{name} = SYSREG_END + iota.
+	REG_SPECIAL
+
+	REG_END // Unused, end of range
 )
 
-// Not registers, but flags that can be combined with regular register
-// constants to indicate extended register conversion. When checking,
-// you should subtract obj.RBaseARM64 first. From this difference, bit 11
-// indicates extended register, bits 8-10 select the conversion mode.
-// REG_LSL is the index shift specifier, bit 9 indicates shifted offset register.
-const REG_LSL = obj.RBaseARM64 + 1<<9
-const REG_EXT = obj.RBaseARM64 + 1<<11
+// Not registers, but flags that can be combined with regular register constants to
+// indicate extended register conversion. REG_LSL is the index shift specifier, bit 9
+// indicates shifted offset register.
+const REG_LSL = 1 << 9
 
+// For type REG_EXT, these flags represent the type of extension applied to a register,
+// typically but not always for a register holding an address.
 const (
 	REG_UXTB = REG_EXT + iota<<8
 	REG_UXTH
@@ -171,15 +248,8 @@ const (
 	REG_SXTX
 )
 
-// Special registers, after subtracting obj.RBaseARM64, bit 12 indicates
-// a special register and the low bits select the register.
-// SYSREG_END is the last item in the automatically generated system register
-// declaration, and it is defined in the sysRegEnc.go file.
-// Define the special register after REG_SPECIAL, the first value of it should be
-// REG_{name} = SYSREG_END + iota.
-const (
-	REG_SPECIAL = obj.RBaseARM64 + 1<<12
-)
+// When bit 14 is set, the register is using the SVE representation for registers.
+const REG_SVE = 1 << 14
 
 // Register assignments:
 //
@@ -214,7 +284,7 @@ const (
 	FREGEXT = REG_F26 // first external register
 )
 
-// http://infocenter.arm.com/help/topic/com.arm.doc.ecm0665627/abi_sve_aadwarf_100985_0000_00_en.pdf
+// https://github.com/ARM-software/abi-aa/blob/main/aadwarf64/aadwarf64.rst
 var ARM64DWARFRegisters = map[int16]int16{
 	REG_R0:  0,
 	REG_R1:  1,
@@ -315,6 +385,57 @@ var ARM64DWARFRegisters = map[int16]int16{
 	REG_V29: 93,
 	REG_V30: 94,
 	REG_V31: 95,
+
+	// SVE
+	REG_Z0:  96,
+	REG_Z1:  97,
+	REG_Z2:  98,
+	REG_Z3:  99,
+	REG_Z4:  100,
+	REG_Z5:  101,
+	REG_Z6:  102,
+	REG_Z7:  103,
+	REG_Z8:  104,
+	REG_Z9:  105,
+	REG_Z10: 106,
+	REG_Z11: 107,
+	REG_Z12: 108,
+	REG_Z13: 109,
+	REG_Z14: 110,
+	REG_Z15: 111,
+	REG_Z16: 112,
+	REG_Z17: 113,
+	REG_Z18: 114,
+	REG_Z19: 115,
+	REG_Z20: 116,
+	REG_Z21: 117,
+	REG_Z22: 118,
+	REG_Z23: 119,
+	REG_Z24: 120,
+	REG_Z25: 121,
+	REG_Z26: 122,
+	REG_Z27: 123,
+	REG_Z28: 124,
+	REG_Z29: 125,
+	REG_Z30: 126,
+	REG_Z31: 127,
+
+	REG_P0:  48,
+	REG_P1:  49,
+	REG_P2:  50,
+	REG_P3:  51,
+	REG_P4:  52,
+	REG_P5:  53,
+	REG_P6:  54,
+	REG_P7:  55,
+	REG_P8:  56,
+	REG_P9:  57,
+	REG_P10: 58,
+	REG_P11: 59,
+	REG_P12: 60,
+	REG_P13: 61,
+	REG_P14: 62,
+	REG_P15: 63,
 }
 
 const (
@@ -1423,6 +1544,7 @@ const (
 	ARNG_H
 	ARNG_S
 	ARNG_D
+	ARNG_INVALID = -1
 )
 
 //go:generate stringer -type SpecialOperand -trimprefix SPOP_
@@ -1583,5 +1705,34 @@ const (
 	SPOP_NV
 	// Condition code end.
 
+	SPOP_POW2
+	SPOP_VL1
+	SPOP_VL2
+	SPOP_VL3
+	SPOP_VL4
+	SPOP_VL5
+	SPOP_VL6
+	SPOP_VL7
+	SPOP_VL8
+	SPOP_VL16
+	SPOP_VL32
+	SPOP_VL64
+	SPOP_VL128
+	SPOP_VL256
+	SPOP_MUL4
+	SPOP_MUL3
+	SPOP_ALL
+
 	SPOP_END
+)
+
+// Constants used for encoding the type of an address index scale.
+// OR'd with the size integer.
+const (
+	MOD_NONE = iota << 4
+	MOD_UXTW
+	MOD_UXTX
+	MOD_SXTW
+	MOD_SXTX
+	MOD_LSL
 )

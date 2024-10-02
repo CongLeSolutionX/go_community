@@ -12,7 +12,16 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/obj/arm64"
 	"errors"
+	"fmt"
 )
+
+var arm64RegisterPrefix = map[string]bool{
+	"F": true,
+	"R": true,
+	"V": true,
+	"Z": true,
+	"P": true,
+}
 
 var arm64LS = map[string]uint8{
 	"P": arm64.C_XPOST,
@@ -107,6 +116,17 @@ func IsARM64CMP(op obj.As) bool {
 	return false
 }
 
+// Returns true when the opcode is in the SVE compare and terminate loop family.
+// This requires special handling when constructing a Prog because as it has 2
+// source operands and no destination operands.
+func IsARM64CTERM(op obj.As) bool {
+	switch op {
+	case arm64.AZCTERMEQ, arm64.AZCTERMEQW, arm64.AZCTERMNE, arm64.AZCTERMNEW:
+		return true
+	}
+	return false
+}
+
 // IsARM64STLXR reports whether the op (as defined by an arm64.A*
 // constant) is one of the STLXR-like instructions that require special
 // handling.
@@ -138,6 +158,14 @@ func IsARM64TBL(op obj.As) bool {
 func IsARM64CASP(op obj.As) bool {
 	switch op {
 	case arm64.ACASPD, arm64.ACASPW:
+		return true
+	}
+	return false
+}
+
+func IsARM64SVEPrefetch(op obj.As) bool {
+	switch op {
+	case arm64.AZPRFB, arm64.AZPRFH, arm64.AZPRFW, arm64.AZPRFD:
 		return true
 	}
 	return false
@@ -182,164 +210,16 @@ func arm64RegisterNumber(name string, n int16) (int16, bool) {
 		if 0 <= n && n <= 31 {
 			return arm64.REG_V0 + n, true
 		}
+	case "Z":
+		if 0 <= n && n <= 31 {
+			return arm64.REG_Z0 + n, true
+		}
+	case "P":
+		if 0 <= n && n <= 15 {
+			return arm64.REG_P0 + n, true
+		}
 	}
 	return 0, false
-}
-
-// ARM64RegisterShift constructs an ARM64 register with shift operation.
-func ARM64RegisterShift(reg, op, count int16) (int64, error) {
-	// the base register of shift operations must be general register.
-	if reg > arm64.REG_R31 || reg < arm64.REG_R0 {
-		return 0, errors.New("invalid register for shift operation")
-	}
-	return int64(reg&31)<<16 | int64(op)<<22 | int64(uint16(count)), nil
-}
-
-// ARM64RegisterExtension constructs an ARM64 register with extension or arrangement.
-func ARM64RegisterExtension(a *obj.Addr, ext string, reg, num int16, isAmount, isIndex bool) error {
-	Rnum := (reg & 31) + int16(num<<5)
-	if isAmount {
-		if num < 0 || num > 7 {
-			return errors.New("index shift amount is out of range")
-		}
-	}
-	if reg <= arm64.REG_R31 && reg >= arm64.REG_R0 {
-		if !isAmount {
-			return errors.New("invalid register extension")
-		}
-		switch ext {
-		case "UXTB":
-			if a.Type == obj.TYPE_MEM {
-				return errors.New("invalid shift for the register offset addressing mode")
-			}
-			a.Reg = arm64.REG_UXTB + Rnum
-		case "UXTH":
-			if a.Type == obj.TYPE_MEM {
-				return errors.New("invalid shift for the register offset addressing mode")
-			}
-			a.Reg = arm64.REG_UXTH + Rnum
-		case "UXTW":
-			// effective address of memory is a base register value and an offset register value.
-			if a.Type == obj.TYPE_MEM {
-				a.Index = arm64.REG_UXTW + Rnum
-			} else {
-				a.Reg = arm64.REG_UXTW + Rnum
-			}
-		case "UXTX":
-			if a.Type == obj.TYPE_MEM {
-				return errors.New("invalid shift for the register offset addressing mode")
-			}
-			a.Reg = arm64.REG_UXTX + Rnum
-		case "SXTB":
-			if a.Type == obj.TYPE_MEM {
-				return errors.New("invalid shift for the register offset addressing mode")
-			}
-			a.Reg = arm64.REG_SXTB + Rnum
-		case "SXTH":
-			if a.Type == obj.TYPE_MEM {
-				return errors.New("invalid shift for the register offset addressing mode")
-			}
-			a.Reg = arm64.REG_SXTH + Rnum
-		case "SXTW":
-			if a.Type == obj.TYPE_MEM {
-				a.Index = arm64.REG_SXTW + Rnum
-			} else {
-				a.Reg = arm64.REG_SXTW + Rnum
-			}
-		case "SXTX":
-			if a.Type == obj.TYPE_MEM {
-				a.Index = arm64.REG_SXTX + Rnum
-			} else {
-				a.Reg = arm64.REG_SXTX + Rnum
-			}
-		case "LSL":
-			a.Index = arm64.REG_LSL + Rnum
-		default:
-			return errors.New("unsupported general register extension type: " + ext)
-
-		}
-	} else if reg <= arm64.REG_V31 && reg >= arm64.REG_V0 {
-		switch ext {
-		case "B8":
-			if isIndex {
-				return errors.New("invalid register extension")
-			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_8B & 15) << 5)
-		case "B16":
-			if isIndex {
-				return errors.New("invalid register extension")
-			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_16B & 15) << 5)
-		case "H4":
-			if isIndex {
-				return errors.New("invalid register extension")
-			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_4H & 15) << 5)
-		case "H8":
-			if isIndex {
-				return errors.New("invalid register extension")
-			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_8H & 15) << 5)
-		case "S2":
-			if isIndex {
-				return errors.New("invalid register extension")
-			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_2S & 15) << 5)
-		case "S4":
-			if isIndex {
-				return errors.New("invalid register extension")
-			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_4S & 15) << 5)
-		case "D1":
-			if isIndex {
-				return errors.New("invalid register extension")
-			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_1D & 15) << 5)
-		case "D2":
-			if isIndex {
-				return errors.New("invalid register extension")
-			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_2D & 15) << 5)
-		case "Q1":
-			if isIndex {
-				return errors.New("invalid register extension")
-			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_1Q & 15) << 5)
-		case "B":
-			if !isIndex {
-				return nil
-			}
-			a.Type = obj.TYPE_REGINDEX
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_B & 15) << 5)
-			a.Index = num
-		case "H":
-			if !isIndex {
-				return nil
-			}
-			a.Type = obj.TYPE_REGINDEX
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_H & 15) << 5)
-			a.Index = num
-		case "S":
-			if !isIndex {
-				return nil
-			}
-			a.Type = obj.TYPE_REGINDEX
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_S & 15) << 5)
-			a.Index = num
-		case "D":
-			if !isIndex {
-				return nil
-			}
-			a.Type = obj.TYPE_REGINDEX
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_D & 15) << 5)
-			a.Index = num
-		default:
-			return errors.New("unsupported simd register extension type: " + ext)
-		}
-	} else {
-		return errors.New("invalid register and extension combination")
-	}
-	return nil
 }
 
 // ARM64RegisterArrangement constructs an ARM64 vector register arrangement.
@@ -402,4 +282,96 @@ func ARM64RegisterListOffset(firstReg, regCnt int, arrangement int64) (int64, er
 	// For more details, refer to: obj/arm64/list7.go
 	offset |= 1 << 60
 	return offset, nil
+}
+
+func expectRegister(prog *obj.Prog, op obj.As, addr *obj.Addr) (int16, error) {
+	if addr.Type != obj.TYPE_REG || addr.Offset != 0 || addr.Name != 0 || addr.Index != 0 {
+		return 0, fmt.Errorf("%s: expected register; found %s", op, obj.Dconv(prog, addr))
+	}
+	return addr.Reg, nil
+}
+
+func ARM64AsmInstruction(prog *obj.Prog, op obj.As, cond string, a []obj.Addr) error {
+	switch len(a) {
+	case 0:
+	case 1:
+		if arm64.Linkarm64.UnaryDst[op] || op == obj.ARET || op == obj.AGETCALLERPC {
+			prog.To = a[0]
+		} else {
+			prog.From = a[0]
+		}
+	case 2:
+		prog.From = a[0]
+		if IsARM64CMP(op) {
+			reg, err := expectRegister(prog, op, &a[1])
+			if err != nil {
+				return err
+			}
+			prog.Reg = reg
+		} else if IsARM64CTERM(op) || op == arm64.APTEST {
+			// 2 source operands
+			prog.From = a[0]
+			prog.AddRestSource(a[1])
+		} else {
+			prog.To = a[1]
+		}
+	case 3:
+		prog.From = a[0]
+		if IsARM64STLXR(op) {
+			// ARM64 instructions with one input and two outputs.
+			prog.To = a[1]
+			if a[2].Type != obj.TYPE_REG {
+				return fmt.Errorf("invalid addressing modes for third operand to %s instruction, must be register", op)
+			}
+			prog.RegTo2 = a[2].Reg
+		} else if IsARM64TBL(op) {
+			// one of its inputs does not fit into prog.Reg.
+			prog.AddRestSource(a[1])
+			prog.To = a[2]
+		} else if IsARM64CASP(op) {
+			prog.To = a[1]
+			// both 1st operand and 3rd operand are (Rs, Rs+1) register pair.
+			// And the register pair must be contiguous.
+			if (a[0].Type != obj.TYPE_REGREG) || (a[2].Type != obj.TYPE_REGREG) {
+				return fmt.Errorf("invalid addressing modes for 1st or 3rd operand to %s instruction, must be register pair", op)
+			}
+			// For ARM64 CASP-like instructions, its 2nd destination operand is register pair(Rt, Rt+1) that can
+			// not fit into prog.RegTo2, so save it to the prog.RestArgs.
+			prog.AddRestDest(a[2])
+		} else if IsARM64SVEPrefetch(op) {
+			// Prefetch operations don't have a destination operand
+			prog.From = a[0]
+			prog.AddRestSource(a[1])
+			prog.AddRestSource(a[2])
+		} else {
+			if a[1].Type == obj.TYPE_REG {
+				reg, err := expectRegister(prog, op, &a[1])
+				if err != nil {
+					return err
+				}
+				prog.Reg = reg
+			} else {
+				prog.AddRestSource(a[1])
+			}
+			prog.To = a[2]
+		}
+	case 4:
+		prog.From = a[0]
+		reg, err := expectRegister(prog, op, &a[1])
+		if err != nil {
+			prog.AddRestSource(a[1])
+		} else {
+			prog.Reg = reg
+		}
+		prog.AddRestSource(a[2])
+		prog.To = a[3]
+	default:
+		prog.From = a[0]
+		for i := 1; i < len(a)-1; i++ {
+			prog.AddRestSource(a[i])
+		}
+		prog.To = a[len(a)-1]
+	}
+
+	return nil
 }
