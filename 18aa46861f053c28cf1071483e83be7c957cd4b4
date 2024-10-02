@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfe336dd_e9dd6766",
+        "filename": "src/internal/syscall/windows/errors_windows.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-02T09:32:57Z",
+      "side": 1,
+      "message": "These two consts are no longer used.",
+      "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b57ec6e_ba80ddfa",
+        "filename": "src/internal/syscall/windows/string_windows.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-02T09:32:57Z",
+      "side": 1,
+      "message": "`NTUnicodeString` is very small, what if `NewNTUnicodeString` returns a value rather than a pointer?",
+      "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49bb6786_b678bd70",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-02T09:32:57Z",
+      "side": 1,
+      "message": "This is simpler (although lossy): `return s.Errno().Error()`",
+      "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fb9653f_b0006308",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-02T09:32:57Z",
+      "side": 1,
+      "message": "this name has to go through `fixLongPath`, as in `openFileNolog`.",
+      "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f040b64_cc486257",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-02T09:32:57Z",
+      "side": 1,
+      "message": "This can be replaced by `\u0026windows.IO_STATUS_BLOCK{}` so you avoid declaring the variable.",
+      "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4613204d_2925c981",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-02T09:32:57Z",
+      "side": 1,
+      "message": "`allocSize` is optional, just pass `nil`.",
+      "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
