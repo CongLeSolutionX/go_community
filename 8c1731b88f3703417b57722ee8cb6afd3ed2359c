@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f6fdee4_46fcbd69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-02T23:19:58Z",
+      "side": 1,
+      "message": "First look.",
+      "revId": "8c1731b88f3703417b57722ee8cb6afd3ed2359c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbd6dc32_9d46db74",
+        "filename": "src/internal/syscall/unix/at.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-02T23:19:58Z",
+      "side": 1,
+      "message": "This will panic if len(buf) \u003d\u003d 0.  That is not consistent with how syscall.Readlink behaves.  It should instead pass a non-nil pointer and a length of zero.",
+      "revId": "8c1731b88f3703417b57722ee8cb6afd3ed2359c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82ea4fcf_8a7c1290",
+        "filename": "src/internal/syscall/unix/at_darwin.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-02T23:19:58Z",
+      "side": 1,
+      "message": "You don\u0027t use this anything.  Same for mkdiratTrap below.",
+      "revId": "8c1731b88f3703417b57722ee8cb6afd3ed2359c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9bd326f_0f4fc929",
+        "filename": "src/internal/syscall/unix/at_darwin.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-02T23:19:58Z",
+      "side": 1,
+      "message": "Don\u0027t panic if len(buf) \u003d\u003d 0.",
+      "revId": "8c1731b88f3703417b57722ee8cb6afd3ed2359c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f36deb57_889c92f2",
+        "filename": "src/internal/syscall/unix/at_libc.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-02T23:19:58Z",
+      "side": 1,
+      "message": "Don\u0027t panic if len(buf) \u003d\u003d 0.",
+      "revId": "8c1731b88f3703417b57722ee8cb6afd3ed2359c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f0e2899_6bf99850",
+        "filename": "src/internal/syscall/unix/at_linux.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-02T23:19:58Z",
+      "side": 1,
+      "message": "MIPS systems use different values here.",
+      "revId": "8c1731b88f3703417b57722ee8cb6afd3ed2359c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fdd1ea2_35925b48",
+        "filename": "src/internal/syscall/unix/at_openbsd.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-02T23:19:58Z",
+      "side": 1,
+      "message": "Don\u0027t crash.",
+      "revId": "8c1731b88f3703417b57722ee8cb6afd3ed2359c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0a562d8_eb820e30",
+        "filename": "src/os/root.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-02T23:19:58Z",
+      "side": 1,
+      "message": "\"Files may be symbolic links\" ?",
+      "revId": "8c1731b88f3703417b57722ee8cb6afd3ed2359c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d9880ca_3cc55ff4",
+        "filename": "src/os/root.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-02T23:19:58Z",
+      "side": 1,
+      "message": "This looks like the existing os.IsPathSeparator function.",
+      "revId": "8c1731b88f3703417b57722ee8cb6afd3ed2359c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b6c6b10_8a80bbf5",
+        "filename": "src/os/root_openat.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-02T23:19:58Z",
+      "side": 1,
+      "message": "Then set r.f \u003d nil so that we crash faster on use after Close.",
+      "revId": "8c1731b88f3703417b57722ee8cb6afd3ed2359c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
