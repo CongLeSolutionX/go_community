@@ -204,6 +204,7 @@ type mheap struct {
 	spanalloc              fixalloc // allocator for span*
 	cachealloc             fixalloc // allocator for mcache*
 	specialfinalizeralloc  fixalloc // allocator for specialfinalizer*
+	specialCleanupAlloc    fixalloc // allocator for specialcleanup*
 	specialprofilealloc    fixalloc // allocator for specialprofile*
 	specialReachableAlloc  fixalloc // allocator for specialReachable
 	specialPinCounterAlloc fixalloc // allocator for specialPinCounter
@@ -743,6 +744,7 @@ func (h *mheap) init() {
 	h.spanalloc.init(unsafe.Sizeof(mspan{}), recordspan, unsafe.Pointer(h), &memstats.mspan_sys)
 	h.cachealloc.init(unsafe.Sizeof(mcache{}), nil, nil, &memstats.mcache_sys)
 	h.specialfinalizeralloc.init(unsafe.Sizeof(specialfinalizer{}), nil, nil, &memstats.other_sys)
+	h.specialCleanupAlloc.init(unsafe.Sizeof(specialCleanup{}), nil, nil, &memstats.other_sys)
 	h.specialprofilealloc.init(unsafe.Sizeof(specialprofile{}), nil, nil, &memstats.other_sys)
 	h.specialReachableAlloc.init(unsafe.Sizeof(specialReachable{}), nil, nil, &memstats.other_sys)
 	h.specialPinCounterAlloc.init(unsafe.Sizeof(specialPinCounter{}), nil, nil, &memstats.other_sys)
@@ -1824,6 +1826,8 @@ const (
 	// _KindSpecialPinCounter is a special used for objects that are pinned
 	// multiple times
 	_KindSpecialPinCounter = 5
+	// _KindSpecialCleanup is for tracking cleanups.
+	_KindSpecialCleanup = 6
 )
 
 type special struct {
@@ -1885,6 +1889,35 @@ func addspecial(p unsafe.Pointer, s *special) bool {
 	unlock(&span.speciallock)
 	releasem(mp)
 	return !exists // already exists
+}
+
+func mustAddSpecial(p unsafe.Pointer, s *special) {
+	span := spanOfHeap(uintptr(p))
+	if span == nil {
+		throw("addspecial on invalid pointer")
+	}
+
+	// Ensure that the span is swept.
+	// Sweeping accesses the specials list w/o locks, so we have
+	// to synchronize with it. And it's just much safer.
+	mp := acquirem()
+	span.ensureSwept()
+
+	offset := uintptr(p) - span.base()
+	kind := s.kind
+
+	lock(&span.speciallock)
+
+	// Find splice point, check for existing record.
+	iter, _ := span.specialFindSplicePoint(offset, kind)
+	// Splice in record, fill in offset.
+	s.offset = uint16(offset)
+	s.next = *iter
+	*iter = s
+	spanHasSpecials(span)
+
+	unlock(&span.speciallock)
+	releasem(mp)
 }
 
 // Removes the Special record of the given kind for the object p.
@@ -2005,6 +2038,53 @@ func removefinalizer(p unsafe.Pointer) {
 	}
 	lock(&mheap_.speciallock)
 	mheap_.specialfinalizeralloc.free(unsafe.Pointer(s))
+	unlock(&mheap_.speciallock)
+}
+
+// The described object has a cleanup set for it.
+type specialCleanup struct {
+	_       sys.NotInHeap
+	special special
+	fn      *funcval
+}
+
+// Adds a cleanup to the object. Multiple cleanups are allowed on an object.
+func addCleanup(p unsafe.Pointer, f *funcval) {
+	lock(&mheap_.speciallock)
+	s := (*specialCleanup)(mheap_.specialCleanupAlloc.alloc())
+	unlock(&mheap_.speciallock)
+	s.special.kind = _KindSpecialCleanup
+	s.fn = f
+
+	mustAddSpecial(p, &s.special)
+	// This is responsible for maintaining the same
+	// GC-related invariants as markrootSpans in any
+	// situation where it's possible that markrootSpans
+	// has already run but mark termination hasn't yet.
+	if gcphase != _GCoff {
+		base, span, _ := findObject(uintptr(p), 0, 0)
+		mp := acquirem()
+		gcw := &mp.p.ptr().gcw
+		// Mark everything reachable from the object
+		// so it's retained for the cleanup.
+		if !span.spanclass.noscan() {
+			scanobject(base, gcw)
+		}
+		// Mark the cleanup itself, since the
+		// special isn't part of the GC'd heap.
+		scanblock(uintptr(unsafe.Pointer(&s.fn)), goarch.PtrSize, &oneptrmask[0], gcw, nil)
+		releasem(mp)
+	}
+}
+
+// Removes the cleanup (if any) from the object.
+func removeCleanup(p unsafe.Pointer) {
+	s := (*specialCleanup)(unsafe.Pointer(removespecial(p, _KindSpecialCleanup)))
+	if s == nil {
+		return // there wasn't a cleanup to remove
+	}
+	lock(&mheap_.speciallock)
+	mheap_.specialCleanupAlloc.free(unsafe.Pointer(s))
 	unlock(&mheap_.speciallock)
 }
 
@@ -2273,6 +2353,13 @@ func freeSpecial(s *special, p unsafe.Pointer, size uintptr) {
 		lock(&mheap_.speciallock)
 		mheap_.specialPinCounterAlloc.free(unsafe.Pointer(s))
 		unlock(&mheap_.speciallock)
+	case _KindSpecialCleanup:
+		sc := (*specialCleanup)(unsafe.Pointer(s))
+		// queuefinalizer(p, sc.fn, sc.nret, sc.fint, sc.ot)
+		queuefinalizer(p, sc.fn, uintptr(0), nil, nil)
+		lock(&mheap_.speciallock)
+		mheap_.specialCleanupAlloc.free(unsafe.Pointer(sc))
+		unlock(&mheap_.speciallock)
 	default:
 		throw("bad special kind")
 		panic("not reached")
@@ -2301,7 +2388,7 @@ const gcBitsHeaderBytes = unsafe.Sizeof(gcBitsHeader{})
 
 type gcBitsHeader struct {
 	free uintptr // free is the index into bits of the next free byte.
-	next uintptr // *gcBits triggers recursive type bug. (issue 14620)
+	next uintptr // *gcBits triggers recursive type bug. (issue 146220)
 }
 
 type gcBitsArena struct {
