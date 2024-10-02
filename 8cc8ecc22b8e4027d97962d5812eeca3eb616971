@@ -22,6 +22,47 @@
       },
       "revId": "8cc8ecc22b8e4027d97962d5812eeca3eb616971",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a374a9d0_173d6f11",
+        "filename": "src/make.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-10-02T19:58:26Z",
+      "side": 1,
+      "message": "Yeah, I understand this message is only printed when there\u0027s no \"go\" binary in PATH, and none of $HOME/go1.22.6, $HOME/sdk/go1.22.6, nor $HOME/go1.4 exist. So saying \"if you have Go installed\" in that case seems unexpected.\n\nIf any \"go\" binary is in PATH, it\u0027s used directly, and if it\u0027s too old then a different error is printed (see [here](https://cs.opensource.google/go/go/+/master:src/cmd/dist/notgo122.go;l\u003d10-14;drc\u003da4cb37d4afd4b6b386ed7b51466c8c57c6045f9c)).",
+      "parentUuid": "2363d0f6_3b8b875a",
+      "range": {
+        "startLine": 178,
+        "startChar": 18,
+        "endLine": 178,
+        "endChar": 22
+      },
+      "revId": "8cc8ecc22b8e4027d97962d5812eeca3eb616971",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e13c2a0_f7112349",
+        "filename": "src/make.rc",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-10-02T19:58:26Z",
+      "side": 1,
+      "message": "As mentioned [here](https://cs.opensource.google/go/go/+/master:src/make.bash;l\u003d225-226;drc\u003da4cb37d4afd4b6b386ed7b51466c8c57c6045f9c), there\u0027s a third shell language to keep in sync.",
+      "revId": "8cc8ecc22b8e4027d97962d5812eeca3eb616971",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
