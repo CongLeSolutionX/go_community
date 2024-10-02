@@ -23,7 +23,6 @@ import (
 	"io"
 	"math/rand"
 	"os"
-	"runtime"
 	"strings"
 	"testing"
 )
@@ -432,14 +431,6 @@ var sink byte
 
 func TestAllocations(t *testing.T) {
 	testenv.SkipIfOptimizationOff(t)
-
-	want := 0.0
-
-	if runtime.GOARCH == "s390x" {
-		// On s390x the returned hash.Hash is conditional so it escapes.
-		want = 3.0
-	}
-
 	t.Run("New", func(t *testing.T) {
 		if allocs := testing.AllocsPerRun(10, func() {
 			h := New256()
@@ -448,7 +439,7 @@ func TestAllocations(t *testing.T) {
 			out := make([]byte, 0, 32)
 			out = h.Sum(out)
 			sink ^= out[0]
-		}); allocs > want {
+		}); allocs > 0 {
 			t.Errorf("expected zero allocations, got %0.1f", allocs)
 		}
 	})
@@ -462,7 +453,7 @@ func TestAllocations(t *testing.T) {
 			sink ^= out[0]
 			h.Read(out)
 			sink ^= out[0]
-		}); allocs > want {
+		}); allocs > 0 {
 			t.Errorf("expected zero allocations, got %0.1f", allocs)
 		}
 	})
@@ -471,7 +462,7 @@ func TestAllocations(t *testing.T) {
 			b := []byte("ABC")
 			out := Sum256(b)
 			sink ^= out[0]
-		}); allocs > want {
+		}); allocs > 0 {
 			t.Errorf("expected zero allocations, got %0.1f", allocs)
 		}
 	})
