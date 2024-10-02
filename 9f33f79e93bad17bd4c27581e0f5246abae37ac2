@@ -16,6 +16,23 @@
       "message": "Hi Keith, Michael K suggested you as a reviewer for new atomics. This CL adds initial support for the 8-bit exchange operation, which I\u0027m using in the non-collapsing runtime.mutex implementation in CL 601597. Thanks!",
       "revId": "9f33f79e93bad17bd4c27581e0f5246abae37ac2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88b58ffe_3884c249",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T15:09:11Z",
+      "side": 1,
+      "message": "Is this going to be used only for amd64?\n\n(I worry that not all architectures have this instruction.)",
+      "revId": "9f33f79e93bad17bd4c27581e0f5246abae37ac2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
