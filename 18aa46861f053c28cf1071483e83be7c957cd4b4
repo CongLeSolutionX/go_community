@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a24dc1cf_ee61544e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-02T21:39:41Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfe336dd_e9dd6766",
@@ -14,6 +31,24 @@
       "writtenOn": "2024-10-02T09:32:57Z",
       "side": 1,
       "message": "These two consts are no longer used.",
+      "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1134d05_fcda9cb1",
+        "filename": "src/internal/syscall/windows/errors_windows.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-02T21:39:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfe336dd_e9dd6766",
       "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -35,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8953d6d7_5a4ae0ee",
+        "filename": "src/internal/syscall/windows/string_windows.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-02T21:39:41Z",
+      "side": 1,
+      "message": "The one current use for this is to initialize `OBJECT_ATTRIBUTES.ObjectName`, which is a `PUNICODE_STRING` (pointer). Unless there are API functions that take a non-pointer `UNICODE_STRING`, I think keeping the string as a pointer is simpler.",
+      "parentUuid": "4b57ec6e_ba80ddfa",
+      "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49bb6786_b678bd70",
@@ -48,6 +101,24 @@
       "writtenOn": "2024-10-02T09:32:57Z",
       "side": 1,
       "message": "This is simpler (although lossy): `return s.Errno().Error()`",
+      "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb2acff7_f39272b4",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-02T21:39:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49bb6786_b678bd70",
       "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -71,6 +142,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6efc6186_8d215e0b",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-02T21:39:41Z",
+      "side": 1,
+      "message": "I don\u0027t think so? `doInRoot` takes the name apart into individual components, so the total length of the path isn\u0027t relevant.",
+      "parentUuid": "9fb9653f_b0006308",
+      "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7f040b64_cc486257",
         "filename": "src/os/root_windows.go",
         "patchSetId": 15
@@ -82,6 +171,24 @@
       "writtenOn": "2024-10-02T09:32:57Z",
       "side": 1,
       "message": "This can be replaced by `\u0026windows.IO_STATUS_BLOCK{}` so you avoid declaring the variable.",
+      "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fce0a1e2_a71b3703",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-02T21:39:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f040b64_cc486257",
       "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -99,6 +206,24 @@
       "writtenOn": "2024-10-02T09:32:57Z",
       "side": 1,
       "message": "`allocSize` is optional, just pass `nil`.",
+      "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70bd4ca0_7856e2c5",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-02T21:39:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4613204d_2925c981",
       "revId": "18aa46861f053c28cf1071483e83be7c957cd4b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
