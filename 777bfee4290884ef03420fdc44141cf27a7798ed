@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50cc6c69_543688c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-02T15:46:01Z",
+      "side": 1,
+      "message": "Code looks ok, but I\u0027m not seeing the same performance improvements you did.\n\ngoos: darwin\ngoarch: arm64\npkg: runtime\ncpu: Apple M2 Ultra\n                │     base     │              experiment              │\n                │    sec/op    │    sec/op     vs base                │\nMemclr/5-24       2.174n ±  2%   2.131n ±  3%        ~ (p\u003d0.127 n\u003d10)\nMemclr/16-24      2.160n ±  2%   2.119n ±  2%   -1.90% (p\u003d0.012 n\u003d10)\nMemclr/64-24      2.177n ±  2%   2.164n ±  2%        ~ (p\u003d0.148 n\u003d10)\nMemclr/256-24     62.46n ± 25%   67.44n ± 21%        ~ (p\u003d0.669 n\u003d10)\nMemclr/4096-24    207.6n ±  1%   207.5n ±  0%        ~ (p\u003d0.724 n\u003d10)\nMemclr/65536-24   532.2n ±  3%   525.9n ±  2%        ~ (p\u003d0.739 n\u003d10)\nMemclr/1M-24      8.280µ ±  1%   8.530µ ±  2%   +3.02% (p\u003d0.001 n\u003d10)\nMemclr/4M-24      33.43µ ±  3%   33.97µ ±  2%        ~ (p\u003d0.165 n\u003d10)\nMemclr/8M-24      67.83µ ±  3%   68.58µ ±  2%        ~ (p\u003d0.631 n\u003d10)\nMemclr/16M-24     134.6µ ±  1%   135.4µ ±  1%        ~ (p\u003d0.256 n\u003d10)\nMemclr/64M-24     546.7µ ±  3%   549.4µ ±  3%        ~ (p\u003d0.393 n\u003d10)",
+      "revId": "777bfee4290884ef03420fdc44141cf27a7798ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
