@@ -178,6 +178,7 @@ func markroot(gcw *gcWork, i uint32, flushBgCredit bool) int64 {
 	case i == fixedRootFinalizers:
 		for fb := allfin; fb != nil; fb = fb.alllink {
 			cnt := uintptr(atomic.Load(&fb.cnt))
+			// TODO(amedee) consider documenting scpecial case
 			scanblock(uintptr(unsafe.Pointer(&fb.fin[0])), cnt*unsafe.Sizeof(fb.fin[0]), &finptrmask[0], gcw, nil)
 		}
 

@@ -40,6 +40,7 @@ const (
 	fingWake
 )
 
+// This runs in sweep. Can't allocate heap mem when sweep is running.
 var finlock mutex  // protects the following variables
 var fing *g        // goroutine that runs finalizers
 var finq *finblock // list of finalizers that are to be executed
@@ -55,6 +56,7 @@ type finalizer struct {
 	nret uintptr        // bytes of return values from fn
 	fint *_type         // type of first argument of fn
 	ot   *ptrtype       // type of ptr to object (may be a heap pointer)
+	//cleanup bool           // flag to note if finalizer is a cleanup
 }
 
 var finalizer1 = [...]byte{
@@ -172,7 +174,7 @@ func finalizercommit(gp *g, lock unsafe.Pointer) bool {
 	return true
 }
 
-// This is the goroutine that runs all of the finalizers.
+// This is the goroutine that runs all of the finalizers and cleanups.
 func runfinq() {
 	var (
 		frame    unsafe.Pointer
@@ -222,46 +224,53 @@ func runfinq() {
 				}
 
 				if f.fint == nil {
-					throw("missing type in runfinq")
-				}
-				r := frame
-				if argRegs > 0 {
-					r = unsafe.Pointer(&regs.Ints)
+					// If this is a cleanup then nil is valid.
+					var cleanup func()
+					abi.Escape(cleanup)
+					cleanup = *(*func())(unsafe.Pointer(f.fn))
+					cleanup()
+					KeepAlive(cleanup)
 				} else {
-					// frame is effectively uninitialized
-					// memory. That means we have to clear
-					// it before writing to it to avoid
-					// confusing the write barrier.
-					*(*[2]uintptr)(frame) = [2]uintptr{}
-				}
-				switch f.fint.Kind_ & abi.KindMask {
-				case abi.Pointer:
-					// direct use of pointer
-					*(*unsafe.Pointer)(r) = f.arg
-				case abi.Interface:
-					ityp := (*interfacetype)(unsafe.Pointer(f.fint))
-					// set up with empty interface
-					(*eface)(r)._type = &f.ot.Type
-					(*eface)(r).data = f.arg
-					if len(ityp.Methods) != 0 {
-						// convert to interface with methods
-						// this conversion is guaranteed to succeed - we checked in SetFinalizer
-						(*iface)(r).tab = assertE2I(ityp, (*eface)(r)._type)
+					r := frame
+					if argRegs > 0 {
+						r = unsafe.Pointer(&regs.Ints)
+					} else {
+						// frame is effectively uninitialized
+						// memory. That means we have to clear
+						// it before writing to it to avoid
+						// confusing the write barrier.
+						*(*[2]uintptr)(frame) = [2]uintptr{}
 					}
-				default:
-					throw("bad kind in runfinq")
-				}
-				fingStatus.Or(fingRunningFinalizer)
-				reflectcall(nil, unsafe.Pointer(f.fn), frame, uint32(framesz), uint32(framesz), uint32(framesz), &regs)
-				fingStatus.And(^fingRunningFinalizer)
+					//if f.fint != nil {
+					switch f.fint.Kind_ & abi.KindMask {
+					case abi.Pointer:
+						// direct use of pointer
+						*(*unsafe.Pointer)(r) = f.arg
+					case abi.Interface:
+						ityp := (*interfacetype)(unsafe.Pointer(f.fint))
+						// set up with empty interface
+						(*eface)(r)._type = &f.ot.Type
+						(*eface)(r).data = f.arg
+						if len(ityp.Methods) != 0 {
+							// convert to interface with methods
+							// this conversion is guaranteed to succeed - we checked in SetFinalizer
+							(*iface)(r).tab = assertE2I(ityp, (*eface)(r)._type)
+						}
+					default:
+						throw("bad kind in runfinq")
+					}
+					fingStatus.Or(fingRunningFinalizer)
+					reflectcall(nil, unsafe.Pointer(f.fn), frame, uint32(framesz), uint32(framesz), uint32(framesz), &regs)
+					fingStatus.And(^fingRunningFinalizer)
 
-				// Drop finalizer queue heap references
-				// before hiding them from markroot.
-				// This also ensures these will be
-				// clear if we reuse the finalizer.
-				f.fn = nil
-				f.arg = nil
-				f.ot = nil
+					// Drop finalizer queue heap references
+					// before hiding them from markroot.
+					// This also ensures these will be
+					// clear if we reuse the finalizer.
+					f.fn = nil
+					f.arg = nil
+					f.ot = nil
+				}
 				atomic.Store(&fb.cnt, i-1)
 			}
 			next := fb.next
