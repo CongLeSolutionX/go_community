@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed2322cf_59ffcf15",
+        "filename": "src/os/dir.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-02T17:05:02Z",
+      "side": 1,
+      "message": "Let\u0027s remove this whitespace change, so that this file is not changed by this patch.  Thanks.",
+      "revId": "89ced405ffb7db8744e395eb16c932f7cd7b1bc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
