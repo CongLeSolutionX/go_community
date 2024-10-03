@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28179ac9_dbd4df43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-10-03T18:41:12Z",
+      "side": 1,
+      "message": "LGTM. Thank you for making this easy to review. \n\nI went through a side-by-side diff of the code from x/crypto 616635 and this CR and all of the points of difference made sense to me (or I left small comments about). With the exception of one small test diff I think all of the comments would be resolved by the sync this CR\u0027s description already calls for to happen pre-merge.",
+      "revId": "fd9b0214905b982db6dfbdad2d37b996317b01f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf0cc95c_fb55fb0a",
+        "filename": "src/crypto/internal/fips/sha3/sha3.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-10-03T18:41:12Z",
+      "side": 1,
+      "message": "I think this will be sorted when this CR is sync\u0027d with the x/crypto work, but just in case, I\u0027m flagging that the review feedback that was applied to add a comment about the summation components wasn\u0027t yet carried over here.",
+      "revId": "fd9b0214905b982db6dfbdad2d37b996317b01f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c703f2e_e38a5f4a",
+        "filename": "src/crypto/internal/fips/sha3/sha3_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-10-03T18:41:12Z",
+      "side": 1,
+      "message": "Should the fix changing \"CustomStrign\" -\u003e \"CustomString\" (_nice catch_) be added to the x/crypto CR stack someplace? I don\u0027t believe this diff is accounted for in https://go-review.googlesource.com/c/crypto/+/616635 and friends.",
+      "revId": "fd9b0214905b982db6dfbdad2d37b996317b01f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed7b8c5a_f022a5dc",
+        "filename": "src/crypto/internal/fips/sha3/shake.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-10-03T18:41:12Z",
+      "side": 1,
+      "message": "noting this as another place where feedback from https://go-review.googlesource.com/c/crypto/+/616576/4 will need sync\u0027ing.",
+      "revId": "fd9b0214905b982db6dfbdad2d37b996317b01f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
