@@ -253,6 +253,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ca115b7_f8b4d30b",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 1476,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-10-03T06:50:59Z",
+      "side": 1,
+      "message": "Thanks for pointing it out! Seems when I added it was for avoiding NPE of p.Error.ImportStack.Pkgs(), so here we used \"and\", wondering what do you think?",
+      "parentUuid": "73a4cdb3_09c1c6d4",
+      "range": {
+        "startLine": 1476,
+        "startChar": 22,
+        "endLine": 1476,
+        "endChar": 48
+      },
+      "revId": "c07537685e8af3f353379cd054e0df2d257a0e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2d88beb_728d6d4a",
