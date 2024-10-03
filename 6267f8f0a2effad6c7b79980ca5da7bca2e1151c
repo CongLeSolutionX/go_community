@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76b4baa7_c2e3d65a",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-03T20:19:46Z",
+      "side": 1,
+      "message": "This package is gone in the next CL. It exists here because this CL can\u0027t modify the actual internal/abi package because that would break the GOEXPERIMENT\u003dswissmap builder (since in this CL GOEXPERIMENT\u003dswissmap is actually still the old map implementation).",
+      "parentUuid": "ab723bb7_e48240ff",
+      "range": {
+        "startLine": 90,
+        "startChar": 25,
+        "endLine": 90,
+        "endChar": 33
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86581170_55dd4fb7",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-10-02T23:19:33Z",
       "side": 1,
       "message": "(which we have to do anyway, even if all 64 bits of hash match)",
+      "range": {
+        "startLine": 51,
+        "startChar": 44,
+        "endLine": 51,
+        "endChar": 45
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b19e8a11_4b0dfbd3",
+        "filename": "src/internal/runtime/maps/map.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-03T20:19:46Z",
+      "side": 1,
+      "message": "Good point, reworded.",
+      "parentUuid": "86581170_55dd4fb7",
       "range": {
         "startLine": 51,
         "startChar": 44,
@@ -66,6 +114,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4107b340_6274d475",
+        "filename": "src/internal/runtime/maps/map.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-03T20:19:46Z",
+      "side": 1,
+      "message": "We don\u0027t prioritize tombstones, for the reason you state.\n\nThat said, thanks for bringing this up. We actually don\u0027t use tombstones at all right now, which should be fixed. This got dropped from the CockroachDB implementation, which re-walked the probe sequence to look for deleted slots, but we can do better. (See the TODO near the end table.Put)",
+      "parentUuid": "b3b54014_d7e1c966",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c958f09f_84f8e795",
         "filename": "src/internal/runtime/maps/map.go",
         "patchSetId": 19
@@ -77,6 +143,24 @@
       "writtenOn": "2024-10-02T23:19:33Z",
       "side": 1,
       "message": "Should this comment be moved to runtime/internal/maps/table.go:table?",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d25ee9b_3597543b",
+        "filename": "src/internal/runtime/maps/map.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-03T20:19:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c958f09f_84f8e795",
       "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -94,6 +178,30 @@
       "writtenOn": "2024-10-02T23:19:33Z",
       "side": 1,
       "message": "map?",
+      "range": {
+        "startLine": 22,
+        "startChar": 67,
+        "endLine": 22,
+        "endChar": 73
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d391557_31ebebd3",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-03T20:19:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e67b30b5_6e6066e0",
       "range": {
         "startLine": 22,
         "startChar": 67,
@@ -127,6 +235,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a40f35ac_ba4a2896",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-03T20:19:46Z",
+      "side": 1,
+      "message": "Reworded.",
+      "parentUuid": "bb44290e_c2aa820d",
+      "range": {
+        "startLine": 45,
+        "startChar": 49,
+        "endLine": 46,
+        "endChar": 37
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15719e86_4d89b8c9",
@@ -146,6 +278,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "59194f51_4cf43656",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-03T20:19:46Z",
+      "side": 1,
+      "message": "Indeed. This only exists for the edgest of edge cases: determining whether keys that don\u0027t compare equal to themselves are still in the map during iteration (if the map has grown since iteration started).\n\nI imagine there is a way to avoid this, so I\u0027m open to suggestions.",
+      "parentUuid": "15719e86_4d89b8c9",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0bca0c2_2151c023",
         "filename": "src/internal/runtime/maps/table.go",
         "patchSetId": 19
@@ -157,6 +307,24 @@
       "writtenOn": "2024-10-02T23:19:33Z",
       "side": 1,
       "message": "Invariant: call only when map is completely empty (no entries, no tombstones)?",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13a384b3_32da9d57",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-03T20:19:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0bca0c2_2151c023",
       "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -180,6 +348,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bbce091f_c170c94c",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-03T20:19:46Z",
+      "side": 1,
+      "message": "Added a TODO.\n\nThe empty map case is handled in a later CL. Could you expand on the other two a bit more? One entry maps make sense, but I\u0027m not sure why that should limit to string keys?\n\nFor one group maps, is the idea that it is likely faster to just due the 8 int comparisons rather than hashing + ctrl matching? CL 611189 does half of this for one group maps: rather than the matchH2 bitwise trick, it just compares all 8 H2 bytes sequential. But that still does hashing. I don\u0027t think I ever experimented with skipping hashing entirely.",
+      "parentUuid": "6df90de7_b0cae35c",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7cd300c2_2453e7f5",
         "filename": "src/internal/runtime/maps/table.go",
         "patchSetId": 19
@@ -191,6 +377,30 @@
       "writtenOn": "2024-10-02T23:19:33Z",
       "side": 1,
       "message": "This should go after the next step.",
+      "range": {
+        "startLine": 159,
+        "startChar": 48,
+        "endLine": 160,
+        "endChar": 39
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19e77bbd_80279ff9",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-03T20:19:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cd300c2_2453e7f5",
       "range": {
         "startLine": 159,
         "startChar": 48,
@@ -247,6 +457,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4ea64cd_2408a7b6",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-03T20:19:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b28f2896_0721c73e",
+      "range": {
+        "startLine": 310,
+        "startChar": 21,
+        "endLine": 310,
+        "endChar": 40
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab56bfcd_d74b361f",
@@ -260,6 +494,24 @@
       "writtenOn": "2024-10-02T23:19:33Z",
       "side": 1,
       "message": "I would think that this would be an error (throw).\nUnless we can reach this state via reflect somehow?",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1132e051_67959633",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-03T20:19:46Z",
+      "side": 1,
+      "message": "This is possible from L434. If the table is completely empty in Iter.Init (mapiterinit) we don\u0027t even bother to initialize it.tab.",
+      "parentUuid": "ab56bfcd_d74b361f",
       "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -289,6 +541,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f224dfc_a7db9402",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-03T20:19:46Z",
+      "side": 1,
+      "message": "Yeah, this feels a bit weird to me (though I\u0027m not sure there is anything actually wrong with it?).\n\nYou\u0027ll see in CL 604936 that we do have an independent offset for the directory (which is required for correctness).\n\nAlong these lines and the TODO on groupIdx/slotIdx, I\u0027ve been thinking of merging those two fields into a single field \"entryIdx\". Effectively, the group would be entry/abi.SwissMapGroupSlots and the slot entry%abi.SwissMapGroupSlots.\n\nThat would save space and make a single offset more intuitive, but it has some downsides:\n\n* I think this would add a few extra shifts and masks to each Next call, which may slow it down.\n* If we start at, e.g., the 3rd slot in a group (e.g., entryIdx \u003d 11 -\u003e group 1, slot 3), do we look at slots 0-2 only after looking at every other group (as the name entryIdx would imply IMO), or do we look at every slot in the group before moving on to the next group (as currently implemented, and I think simpler to implement).",
+      "parentUuid": "51ce7656_92457f64",
+      "range": {
+        "startLine": 486,
+        "startChar": 38,
+        "endLine": 486,
+        "endChar": 47
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e71605f2_2bd9a408",
         "filename": "src/internal/runtime/maps/table_debug.go",
         "patchSetId": 19
@@ -300,6 +576,24 @@
       "writtenOn": "2024-10-02T23:19:33Z",
       "side": 1,
       "message": "This isn\u0027t quite right. Things like struct{float64;int} with a NaN in the first field are also unequal to themselves.\n\n(It is ok for now for testing, but add a TODO.)",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59e50165_0bd57853",
+        "filename": "src/internal/runtime/maps/table_debug.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-03T20:19:46Z",
+      "side": 1,
+      "message": "Done.\n\nI\u0027m tempted to remove this file altogether. It was handy very early, but less so now. Plus as you can see once this is used in the runtime, we can\u0027t use fmt which makes the errors less helpful.",
+      "parentUuid": "e71605f2_2bd9a408",
       "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
