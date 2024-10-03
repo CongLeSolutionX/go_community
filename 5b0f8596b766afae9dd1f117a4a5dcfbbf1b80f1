@@ -16,6 +16,24 @@
       "message": "This CL breaks gotip-linux-amd64-noopt builder.",
       "revId": "5b0f8596b766afae9dd1f117a4a5dcfbbf1b80f1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7af2482a_fbff9d07",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2024-10-03T13:18:13Z",
+      "side": 1,
+      "message": "Thanks for the heads up. I\u0027ve created a revert: https://go-review.googlesource.com/c/go/+/617715\n\nFrom one of the failures it looks like without optimization we end up with the \"gowrap\" frames that the next CL in the chain is meant to remove: https://ci.chromium.org/ui/p/golang/builders/ci/gotip-linux-amd64-noopt/b8735160201506720465/overview",
+      "parentUuid": "1464ba38_74cf7b1f",
+      "revId": "5b0f8596b766afae9dd1f117a4a5dcfbbf1b80f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
