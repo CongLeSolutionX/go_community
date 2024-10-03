@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1464ba38_74cf7b1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-10-03T08:41:49Z",
+      "side": 1,
+      "message": "This CL breaks gotip-linux-amd64-noopt builder.",
+      "revId": "5b0f8596b766afae9dd1f117a4a5dcfbbf1b80f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
