@@ -348,6 +348,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e336216b_fd170cf3",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-10-03T18:09:33Z",
+      "side": 1,
+      "message": "I don\u0027t fully understand: which other import paths would it be useful for?",
+      "parentUuid": "0c17c52c_5024a5dc",
+      "range": {
+        "startLine": 550,
+        "startChar": 0,
+        "endLine": 560,
+        "endChar": 5
+      },
+      "revId": "c07537685e8af3f353379cd054e0df2d257a0e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc7e6644_73bcfe03",
