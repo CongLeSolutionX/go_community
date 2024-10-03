@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9690c075_86fe1d7a",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-10-03T06:43:18Z",
+      "side": 1,
+      "message": "Done,",
+      "parentUuid": "a4c94ddd_1a2d67ef",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 55
+      },
+      "revId": "c07537685e8af3f353379cd054e0df2d257a0e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "589b3a60_18da30e6",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-10-01T20:36:16Z",
       "side": 1,
       "message": "could we rename this to `pos`",
+      "range": {
+        "startLine": 330,
+        "startChar": 6,
+        "endLine": 330,
+        "endChar": 11
+      },
+      "revId": "c07537685e8af3f353379cd054e0df2d257a0e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9be2cdc_2e336d37",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-10-03T06:43:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "589b3a60_18da30e6",
       "range": {
         "startLine": 330,
         "startChar": 6,
@@ -87,6 +135,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "539e2c1a_06110c16",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-10-03T06:43:18Z",
+      "side": 1,
+      "message": "Done, it is cool!",
+      "parentUuid": "e93b5d0b_d1e2e437",
+      "range": {
+        "startLine": 596,
+        "startChar": 0,
+        "endLine": 605,
+        "endChar": 10
+      },
+      "revId": "c07537685e8af3f353379cd054e0df2d257a0e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79d8eb61_6bbe97a0",
@@ -100,6 +172,30 @@
       "writtenOn": "2024-10-01T20:36:16Z",
       "side": 1,
       "message": "why is this necessary? do we ever expect s[i] to be nil?",
+      "range": {
+        "startLine": 646,
+        "startChar": 0,
+        "endLine": 648,
+        "endChar": 3
+      },
+      "revId": "c07537685e8af3f353379cd054e0df2d257a0e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88ab7c8b_c1ddd7c0",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-10-03T06:43:18Z",
+      "side": 1,
+      "message": "Done, no, we do not expect, added was for avoid npe, and addressed it when using ImportInfo instead of *importInfo.",
+      "parentUuid": "79d8eb61_6bbe97a0",
       "range": {
         "startLine": 646,
         "startChar": 0,
@@ -135,6 +231,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73a4cdb3_09c1c6d4",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 1476,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-10-03T06:43:18Z",
+      "side": 1,
+      "message": "Thanks for pointing it out! Seems when I added it was for avoiding NPE of p.Error.ImportStack.Pkgs(), so here we used \"and\", wondering what do you think?",
+      "parentUuid": "d1018630_00454e94",
+      "range": {
+        "startLine": 1476,
+        "startChar": 22,
+        "endLine": 1476,
+        "endChar": 48
+      },
+      "revId": "c07537685e8af3f353379cd054e0df2d257a0e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d2d88beb_728d6d4a",
         "filename": "src/cmd/go/internal/load/test.go",
         "patchSetId": 37
@@ -158,6 +278,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "426af8b6_96eed7ad",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-10-03T06:43:18Z",
+      "side": 1,
+      "message": "The reason that I added pkgToFiles(map) was because I found each pair of key and ImportPos may not related to p.ImportPath, it may be useful for other ImportPath.",
+      "parentUuid": "d2d88beb_728d6d4a",
+      "range": {
+        "startLine": 550,
+        "startChar": 0,
+        "endLine": 560,
+        "endChar": 5
+      },
+      "revId": "c07537685e8af3f353379cd054e0df2d257a0e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dc7e6644_73bcfe03",
         "filename": "src/cmd/go/internal/load/test.go",
         "patchSetId": 37
@@ -169,6 +313,30 @@
       "writtenOn": "2024-10-01T20:36:16Z",
       "side": 1,
       "message": "Isn\u0027t file[0] already a base name due to line 558?",
+      "range": {
+        "startLine": 576,
+        "startChar": 30,
+        "endLine": 576,
+        "endChar": 38
+      },
+      "revId": "c07537685e8af3f353379cd054e0df2d257a0e7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e656ab3_1bf2a8c0",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-10-03T06:43:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc7e6644_73bcfe03",
       "range": {
         "startLine": 576,
         "startChar": 30,
