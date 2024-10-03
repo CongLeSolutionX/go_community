@@ -70,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c40ef515_b5e36c40",
+        "filename": "src/crypto/internal/fips/hmac/hmac.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-10-03T18:46:48Z",
+      "side": 1,
+      "message": "I buy this argument 👍",
+      "parentUuid": "82c59fa5_9dbb9593",
+      "revId": "ae9387db8de15c0fc79e7ad24b4de9df1b33234b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebff16f9_6a6d6079",
