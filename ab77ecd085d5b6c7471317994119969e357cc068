@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5927065e_8ae9adbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-10-03T05:21:11Z",
+      "side": 1,
+      "message": "I ran the wrong git command and didn\u0027t notice it failed... (yes)",
+      "parentUuid": "b363e8e0_915f7818",
+      "revId": "ab77ecd085d5b6c7471317994119969e357cc068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fa4c1d53_33dcf84e",
         "filename": "src/testing/testing.go",
         "patchSetId": 6
@@ -168,6 +186,30 @@
       "side": 1,
       "message": "What makes it messy? I am imagining a test along these lines:\n\nfunc Test(t *testing.T) { for b :\u003d range 0x7f { t.Log(string(b)) } }\n\n(Or whatever you did for 0x20 extended to 0x7f.)\n\n\u003e the existing framing mechanism does not escape ^V.\n\nI\u0027m not surprised that this was overlooked; this is a very common bug pattern, and relatively few tests emit non-ASCII output. So I think we should just fix the bug in passing.",
       "parentUuid": "746079e8_d9b0901c",
+      "range": {
+        "startLine": 822,
+        "startChar": 29,
+        "endLine": 822,
+        "endChar": 33
+      },
+      "revId": "ab77ecd085d5b6c7471317994119969e357cc068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cd843a7_fa779dfd",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-10-03T05:21:11Z",
+      "side": 1,
+      "message": "\u003e What makes it messy?\n\nThe `stdout \u0027...\u0027` pattern to match the output. The new test is src/cmd/go/testdata/script/test_json_ascii.txt. `stdout` parses its argument as a regex, so characters such as `.`, `*`, `+`, etc (plus quotes) have to be escaped.\n\n\u003e So I think we should just fix the bug in passing.\n\nIt probably won\u0027t be too hard to escape ^V in plain (non-error) output, I\u0027ll check on that tomorrow. However handing the escaping in test2json is not as easy. I\u0027m trying to keep this CL as non-invasive as I can, so (WRT test2json) I only made significant changes in one function, `writeOutputEvent`. But as I point out in the BUG comment I added, `indexEOL` cannot properly handle unescaping as it is currently and I\u0027m not sure whether I can fix it (and `lineBuffer.write`) without making more substantial changes.",
+      "parentUuid": "c2dd83b4_fa92717e",
       "range": {
         "startLine": 822,
         "startChar": 29,
