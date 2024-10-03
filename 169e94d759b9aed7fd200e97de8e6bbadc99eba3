@@ -218,6 +218,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6768ae94_773266a4",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-10-03T00:42:03Z",
+      "side": 1,
+      "message": "I agree it\u0027s no worse that what\u0027s already here. A brief comment would be good though.",
+      "parentUuid": "a0e45777_a645fff7",
+      "revId": "169e94d759b9aed7fd200e97de8e6bbadc99eba3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53f6e2bc_afac2de7",

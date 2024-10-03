@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b363e8e0_915f7818",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-10-03T00:42:03Z",
+      "side": 1,
+      "message": "Thanks, understood.\n\n(I still see only patchset 6; did you mean to upload PS7?)",
+      "parentUuid": "12d78f13_d2ab68fa",
+      "revId": "ab77ecd085d5b6c7471317994119969e357cc068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fa4c1d53_33dcf84e",
         "filename": "src/testing/testing.go",
         "patchSetId": 6
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "It seems like it would be valuable to move at least the const declarations to a shared internal package to prevent issues with them getting out of sync, though maybe that should be in a different CL?\n\nAs far as a comment, I\u0027m not sure where that should live for visibility. Maybe part of the docs for `NewConverter`? WRT the content, as far as I can tell the framing strategy is basically \"Put special markers in the output stream so test2json can capture them\". It\u0027s not a design that appeals to me but I\u0027m just here to implement it.",
       "parentUuid": "fa4c1d53_33dcf84e",
+      "revId": "ab77ecd085d5b6c7471317994119969e357cc068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "975ec560_e4d79ef8",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-10-03T00:42:03Z",
+      "side": 1,
+      "message": "By \"use same declaration\" I meant only using the same form of declaration in both places. Factoring the declarations is a reasonable approach, but equally so is  making both places reference a single comment that describes the encoding.\n\n\u003e the framing strategy is basically \"Put special markers in the output stream so test2json can capture them\".\n\nThat\u0027s fine, though I think you should spend a few more words elaborating what exactly that means. The code seems to assume that ^V,^N,^O won\u0027t appear in the output of the test, so these bytes may be used as quotation marks, but that\u0027s not true in general, and test2json should be general. So we will need to escape occurrences of these bytes when quoted, just as one escapes quotation marks within a string literal.\n\n\n\u003e I\u0027m just here to implement it.\n\nMany thanks for doing so.",
+      "parentUuid": "64af48e2_ad6dfb4e",
       "revId": "ab77ecd085d5b6c7471317994119969e357cc068",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -108,6 +144,30 @@
       "side": 1,
       "message": "Testing all ASCII values via a script test is messy due to needing to \nescape quotes, regex metacharacters, etc. So instead I wrote a test that\n outputs every ASCII value up to 0x20, since that covers all the \nnon-printing characters other than 0x7f.\n\nAlso, the existing framing mechanism does not escape ^V. The following:\n\n```\nfunc TestASCII(t *T) {\n\tt.Log(\"\\x16\")\n}\n```\n\nproduces these outputs:\n\n```\n{...,\"Output\":\"\u003d\u003d\u003d RUN   TestFoo\\n\",\"OutputType\":\"frame\"}\n{...,\"Output\":\"    sub_test.go:25: \"}\n{...,\"Output\":\"\\n\"}\n{...,\"Output\":\"--- PASS: TestFoo (0.00s)\\n\",\"OutputType\":\"frame\"}\n```\n\n^V is elided from the output and also causes a pseudo line break in terms of how output is split between events. I am also escaping ^V, but only within errors so this bug still exists.",
       "parentUuid": "bb3924af_15e717bf",
+      "range": {
+        "startLine": 822,
+        "startChar": 29,
+        "endLine": 822,
+        "endChar": 33
+      },
+      "revId": "ab77ecd085d5b6c7471317994119969e357cc068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2dd83b4_fa92717e",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-10-03T00:42:03Z",
+      "side": 1,
+      "message": "What makes it messy? I am imagining a test along these lines:\n\nfunc Test(t *testing.T) { for b :\u003d range 0x7f { t.Log(string(b)) } }\n\n(Or whatever you did for 0x20 extended to 0x7f.)\n\n\u003e the existing framing mechanism does not escape ^V.\n\nI\u0027m not surprised that this was overlooked; this is a very common bug pattern, and relatively few tests emit non-ASCII output. So I think we should just fix the bug in passing.",
+      "parentUuid": "746079e8_d9b0901c",
       "range": {
         "startLine": 822,
         "startChar": 29,
