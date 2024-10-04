@@ -3,6 +3,210 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "99183d3e_5b2ef2da",
+        "filename": "src/os/root.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-04T18:41:41Z",
+      "side": 1,
+      "message": "Perhaps\n\n// Root may be used to only access files within a single directory tree.",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdc46b8e_cc6f909e",
+        "filename": "src/os/root.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-04T18:41:41Z",
+      "side": 1,
+      "message": "Is this also true of the Close method?  Right now on plan9 Close sets the \"closed\" field, but that field is not atomic and is checked by other methods.  So concurrent calls to Root.Close and other Root methods seem likely to trigger reports from the race detector.  They are, of course, semantic races but they aren\u0027t data-corruption races.",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7dc1148_7759ac9e",
+        "filename": "src/os/root.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-04T18:41:41Z",
+      "side": 1,
+      "message": "reference the original directory in its new location",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65864e52_4a218fea",
+        "filename": "src/os/root.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-04T18:41:41Z",
+      "side": 1,
+      "message": "s/commonly/common/\n\n(Note that I believe that the default limit on Linux is 40, not 8.  https://github.com/torvalds/linux/blob/master/include/linux/namei.h#L13.  But 8 is fine with me.)",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c036732_5ae740d3",
+        "filename": "src/os/root.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-04T18:41:41Z",
+      "side": 1,
+      "message": "s/OpenDir/OpenRoot/",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65db450a_3c56c474",
+        "filename": "src/os/root_openat.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-04T18:41:41Z",
+      "side": 1,
+      "message": "s/step/element/ ? (twice)",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "677e7521_a35dd927",
+        "filename": "src/os/root_openat.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-04T18:41:41Z",
+      "side": 1,
+      "message": "This seems imprecise.  The rootMkdir function won\u0027t return errSymlink if path refers to a symlink, it will return EEXIST.",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9337578a_3e34f68f",
+        "filename": "src/os/root_openat.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-04T18:41:41Z",
+      "side": 1,
+      "message": "s/ELOOP/errSymlink/",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce7627c1_02f9c936",
+        "filename": "src/os/root_openat.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-04T18:41:41Z",
+      "side": 1,
+      "message": "panic?",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89ab94b5_a9c5fe8d",
+        "filename": "src/os/root_test.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-04T18:41:41Z",
+      "side": 1,
+      "message": "Missing copyright notice.",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21f9451c_82384c35",
+        "filename": "src/os/root_unix.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-04T18:41:41Z",
+      "side": 1,
+      "message": "Missing doc comment.",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7f57ab7_7df1ef90",
+        "filename": "src/os/root_unix.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-04T18:41:41Z",
+      "side": 1,
+      "message": "Missing doc comment.",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2dbbfe3_e03acf4c",
         "filename": "src/os/root_windows.go",
         "patchSetId": 20
