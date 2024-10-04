@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98bbc599_b3d87f37",
+        "filename": "src/crypto/rand/rand_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-10-04T15:36:08Z",
+      "side": 1,
+      "message": "`testenv.Command` here and below.",
+      "range": {
+        "startLine": 214,
+        "startChar": 8,
+        "endLine": 214,
+        "endChar": 20
+      },
+      "revId": "0a226cccf1b9f1d51ff1d756c4f01363b756037d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
