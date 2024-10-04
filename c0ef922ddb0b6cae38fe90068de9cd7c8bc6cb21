@@ -241,6 +241,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "92003f57_b2ee63ad",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-04T20:16:25Z",
+      "side": 1,
+      "message": "`openat` could live in `internal\\syscall\\windows`, in the same way `Open` is implemented in `syscall`. This way future refactors won\u0027t \"pollute\" this pure syscall function eith `os` specific code.",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a54a817_4881b602",
         "filename": "src/os/root_windows.go",
         "patchSetId": 20
