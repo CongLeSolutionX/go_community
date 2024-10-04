@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fffa1f6_0e5ce9d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T16:06:23Z",
+      "side": 1,
+      "message": "this does actually fix the net failure on FreeBSD, but there\u0027s a different failure there now in a different package that I missed.",
+      "revId": "1a33bd1caf1a5600b9bbb707a0dedf2eb3cb753c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
