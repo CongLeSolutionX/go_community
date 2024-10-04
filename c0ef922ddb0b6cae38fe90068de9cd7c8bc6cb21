@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "997e953b_51387e71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T20:49:03Z",
+      "side": 1,
+      "message": "Thanks for the thorough review, this is very useful.",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b082877_d8d0ce81",
@@ -239,6 +256,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c3fcec5_eae975b4",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T20:49:03Z",
+      "side": 1,
+      "message": "Dropped statHandle, just using syscall.GetFileInformationByHandle now.\n\nCommenting on FILE_DIRECTORY_FILE below.",
+      "parentUuid": "b2dbbfe3_e03acf4c",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92003f57_b2ee63ad",
@@ -273,6 +308,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be681594_3b1249bc",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T20:49:03Z",
+      "side": 1,
+      "message": "This is also so File.Stat works on any files we return.",
+      "parentUuid": "3a54a817_4881b602",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "514a199c_6169bfd6",
@@ -286,6 +339,42 @@
       "writtenOn": "2024-10-04T07:39:02Z",
       "side": 1,
       "message": "```suggestion\n\t// because it\u0027s the same bit as FILE_GENERIC_READ.\n```",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c4de711_d234af8a",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T20:49:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "514a199c_6169bfd6",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f27cad7_2888af1f",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T20:49:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "514a199c_6169bfd6",
       "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -327,6 +416,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9388317f_c49ebb2a",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T20:49:03Z",
+      "side": 1,
+      "message": "If we set OBJ_DONT_REPARSE, will that prevent traversing mount points?\n\nI suppose we can do a multi-phase process:\n- Open with OBJ_DONT_REPARSE for the common case.\n- If this fails with STATUS_REPARSE_POINT_ENCOUNTERED, open with FILE_OPEN_REPARSE_POINT and examine the file attributes to find the type of reparse point.\n- If this is a non-surrogate mount point...I\u0027m not sure what we do here. Return the handle obtained with FILE_OPEN_REPARSE_POINT? Open it again without OBJ_DONT_REPARSE or FILE_OPEN_REPARSE_POINT? (If we open it again, we need to be careful about TOCTOU races.)\n\nIt\u0027d be nice to have a test which exercises the desired behavior here. Is there any way we can create a temporary non-surrogate reparse point in tests? Or are there any standard examples of non-surrogate reparse points that are likely to exist on the builder machines?",
+      "parentUuid": "cf7f5a5a_fd8e44b4",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d9a548b_b8429a99",
         "filename": "src/os/root_windows.go",
         "patchSetId": 20
@@ -344,6 +451,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "217dfc68_70f3d28f",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T20:49:03Z",
+      "side": 1,
+      "message": "What do we want to do for a mount point? Traverse them, or treat them as escaping the root. Traversing seems most consistent with the Unix behavior (which completely ignores filesystem mounts). It looks like os.Lstat treats mount points like symlinks, though. For consistency with Lstat, should we treat mount points as escaping?",
+      "parentUuid": "5d9a548b_b8429a99",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7d0355ea_ee2cab0b",
         "filename": "src/os/root_windows.go",
         "patchSetId": 20
@@ -355,6 +480,24 @@
       "writtenOn": "2024-10-04T07:39:02Z",
       "side": 1,
       "message": "I think it would make sense to pass \u0027windows.FILE_DIRECTORY_FILE\u0027 in options, we just want to open a directory here, no?",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d321f2b_0141683b",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T20:49:03Z",
+      "side": 1,
+      "message": "We can\u0027t pass both FILE_DIRECTORY_FILE and FILE_OPEN_REPARSE_POINT.\n\nLet\u0027s first figure out the above questions about whether we should use OBJ_DONT_REPARSE or FILE_OPEN_REPARSE_POINT and then revisit this.",
+      "parentUuid": "7d0355ea_ee2cab0b",
       "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
