@@ -239,7 +239,11 @@ func (t *table) getWithKey(hash uintptr, key unsafe.Pointer) (unsafe.Pointer, un
 // hash must be the hash of key.
 func (t *table) PutSlot(m *Map, hash uintptr, key unsafe.Pointer) (unsafe.Pointer, bool) {
 	seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
-	//startOffset := seq.offset
+
+	// As we look for a match, keep track of the first deleted slot we
+	// find, which we'll use to insert the new entry if necessary.
+	var firstDeletedGroup groupReference
+	var firstDeletedSlot uint32
 
 	for ; ; seq = seq.next() {
 		g := t.groups.group(seq.offset)
@@ -263,15 +267,42 @@ func (t *table) PutSlot(m *Map, hash uintptr, key unsafe.Pointer) (unsafe.Pointe
 			match = match.removeFirst()
 		}
 
-		match = g.ctrls().matchEmpty()
+		// No existing slot for this key in this group. Is this the end
+		// of the probe sequence?
+		//
+		// In parallel, we check for a deleted slot, which we may use,
+		// but only once we get to the end of the probe sequence and
+		// know there is no existing match.
+		if firstDeletedGroup.data == nil {
+			match = g.ctrls().matchEmptyOrDeleted()
+		} else {
+			match = g.ctrls().matchEmpty()
+		}
 		if match != 0 {
+			i := match.first()
+			if firstDeletedGroup.data == nil && g.ctrls().get(i) == ctrlDeleted {
+				firstDeletedGroup = g
+				firstDeletedSlot = i
+				// It is impossible to have both empty and
+				// deleted slots in a group, so this group must
+				// be full. Continue to next group to keep
+				// looking for an existing matching slot.
+				continue
+			}
+
 			// Finding an empty slot means we've reached the end of
 			// the probe sequence.
 
+			// If we found a deleted slot along the way, we can
+			// replace it without consuming growthLeft.
+			if firstDeletedGroup.data != nil {
+				g = firstDeletedGroup
+				i = firstDeletedSlot
+				t.growthLeft++ // will be decremented below to become a no-op.
+			}
+
 			// If there is room left to grow, just insert the new entry.
 			if t.growthLeft > 0 {
-				i := match.first()
-
 				slotKey := g.key(i)
 				typedmemmove(t.typ.Key, slotKey, key)
 				slotElem := g.elem(i)
@@ -284,21 +315,6 @@ func (t *table) PutSlot(m *Map, hash uintptr, key unsafe.Pointer) (unsafe.Pointe
 				t.checkInvariants()
 				return slotElem, true
 			}
-
-			// TODO(prattmic): While searching the probe sequence,
-			// we may have passed deleted slots which we could use
-			// for this entry.
-			//
-			// At the moment, we leave this behind for
-			// rehash to free up.
-			//
-			// cockroachlabs/swiss restarts search of the probe
-			// sequence for a deleted slot.
-			//
-			// TODO(go.dev/issue/54766): We want this optimization
-			// back. We could search for the first deleted slot
-			// during the main search, but only use it if we don't
-			// find an existing entry.
 
 			t.rehash(m)
 			return nil, false
