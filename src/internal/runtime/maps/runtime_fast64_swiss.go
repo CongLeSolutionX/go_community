@@ -18,19 +18,20 @@ func (m *Map) getWithoutKeySmallFast64(hash uintptr, key uint64) (unsafe.Pointer
 		data: m.dirPtr,
 	}
 
-	h2 := uint8(h2(hash))
-	ctrls := *g.ctrls()
+	//h2 := uint8(h2(hash))
+	//ctrls := *g.ctrls()
 
 	for i := uint32(0); i < 8; i++ {
-		c := uint8(ctrls)
-		ctrls >>= 8
-		if c != h2 {
-			continue
-		}
+		//c := uint8(ctrls)
+		//ctrls >>= 8
+		//if c != h2 {
+		//	continue
+		//}
 
 		slotKey := g.key(m.typ, i)
 
-		if key == *(*uint64)(slotKey) {
+		//if key == *(*uint64)(slotKey) {
+		if key == *(*uint64)(slotKey) && (g.ctrls().get(i) & (1<<7)) == 0 {
 			slotElem := g.elem(m.typ, i)
 			return slotElem, true
 		}
@@ -55,15 +56,26 @@ func runtime_mapaccess1_fast64(typ *abi.SwissMapType, m *Map, key uint64) unsafe
 		fatal("concurrent map read and map write")
 	}
 
-	hash := typ.Hasher(noescape(unsafe.Pointer(&key)), m.seed)
 
 	if m.dirLen <= 0 {
-		elem, ok := m.getWithoutKeySmallFast64(hash, key)
-		if !ok {
-			return unsafe.Pointer(&zeroVal[0])
+		g := groupReference{
+			data: m.dirPtr,
 		}
-		return elem
+
+		for i := uint32(0); i < 8; i++ {
+			slotKey := g.key(m.typ, i)
+
+			// TODO: add a ctrl method for this.
+			// TODO: apply to mapaccess2
+			if key == *(*uint64)(slotKey) && (g.ctrls().get(i) & (1<<7)) == 0 {
+				slotElem := g.elem(m.typ, i)
+				return slotElem
+			}
+		}
+		return unsafe.Pointer(&zeroVal[0])
 	}
+
+	hash := typ.Hasher(noescape(unsafe.Pointer(&key)), m.seed)
 
 	// Select table.
 	idx := m.directoryIndex(hash)
