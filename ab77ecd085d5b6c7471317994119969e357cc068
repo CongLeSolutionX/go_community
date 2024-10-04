@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "07c5903f_0b34b55c",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-10-04T02:23:58Z",
+      "side": 1,
+      "message": "I added a section to the `NewConverter` doc comment.",
+      "parentUuid": "975ec560_e4d79ef8",
+      "revId": "ab77ecd085d5b6c7471317994119969e357cc068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb3924af_15e717bf",
         "filename": "src/testing/testing.go",
         "patchSetId": 6
@@ -210,6 +228,30 @@
       "side": 1,
       "message": "\u003e What makes it messy?\n\nThe `stdout \u0027...\u0027` pattern to match the output. The new test is src/cmd/go/testdata/script/test_json_ascii.txt. `stdout` parses its argument as a regex, so characters such as `.`, `*`, `+`, etc (plus quotes) have to be escaped.\n\n\u003e So I think we should just fix the bug in passing.\n\nIt probably won\u0027t be too hard to escape ^V in plain (non-error) output, I\u0027ll check on that tomorrow. However handing the escaping in test2json is not as easy. I\u0027m trying to keep this CL as non-invasive as I can, so (WRT test2json) I only made significant changes in one function, `writeOutputEvent`. But as I point out in the BUG comment I added, `indexEOL` cannot properly handle unescaping as it is currently and I\u0027m not sure whether I can fix it (and `lineBuffer.write`) without making more substantial changes.",
       "parentUuid": "c2dd83b4_fa92717e",
+      "range": {
+        "startLine": 822,
+        "startChar": 29,
+        "endLine": 822,
+        "endChar": 33
+      },
+      "revId": "ab77ecd085d5b6c7471317994119969e357cc068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b53b38e_005aa98f",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-10-04T02:23:58Z",
+      "side": 1,
+      "message": "I added a new mechanic to test2json\u0027s TestGolden: You can now specify a x.src file that is a test script that should be run and the output compared to x.test (with the appropriate -update behavior). This makes it much cleaner (IMO) to validate both the output of `go test -v\u003dtest2json` and test2json\u0027s conversion of that output to events. I updated test2json\u0027s frame escape test to include all ASCII characters from NUL to DEL.",
+      "parentUuid": "9cd843a7_fa779dfd",
       "range": {
         "startLine": 822,
         "startChar": 29,
