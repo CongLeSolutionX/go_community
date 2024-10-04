@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3b082877_d8d0ce81",
+        "filename": "src/internal/syscall/unix/asm_darwin.s",
+        "patchSetId": 20
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-04T18:42:10Z",
+      "side": 1,
+      "message": "Can we move adding readlinkat and mkdirat to internal/syscall/unix into a separate CL?",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "99183d3e_5b2ef2da",
         "filename": "src/os/root.go",
         "patchSetId": 20
