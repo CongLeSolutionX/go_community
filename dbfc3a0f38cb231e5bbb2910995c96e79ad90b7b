@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb332bbb_66989150",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-04T15:12:15Z",
+      "side": 1,
+      "message": "\u003e One thing we might do is also cache the directory in the iterator. That way at least we don\u0027t have to handle the directory growing during iteration.\n\nHm, I don\u0027t think I considered that. I think it would make the code easier to follow. It would have a downside though. Right now when a table grows while we are iterating over it we have to do a full lookup of each subsequent key in the table since our cached version is stale.\n\nBut once we move on to the next table, we no longer need to do full lookups because we got the latest version of the table from the directory.\n\nIf we cache the directory, then if the directory grows we\u0027d have to do full lookups for the entire rest of iteration, as all tables are stale [1].\n\n[1] Though, hm, perhaps we could short circuit if we start a lookup but end up at the same *table from the new directory.",
+      "parentUuid": "cb3aef87_4495c621",
+      "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba69aebd_fd2a1cd4",
