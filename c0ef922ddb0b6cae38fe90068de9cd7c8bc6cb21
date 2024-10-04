@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f67b06e9_65668ad2",
+        "filename": "src/internal/syscall/unix/asm_darwin.s",
+        "patchSetId": 20
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T22:01:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b082877_d8d0ce81",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99183d3e_5b2ef2da",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-10-04T18:41:41Z",
       "side": 1,
       "message": "Perhaps\n\n// Root may be used to only access files within a single directory tree.",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39c0e879_7f952e2f",
+        "filename": "src/os/root.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T22:01:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99183d3e_5b2ef2da",
       "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -69,6 +105,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35c0348f_8143ee33",
+        "filename": "src/os/root.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T22:01:17Z",
+      "side": 1,
+      "message": "Good point. Changed the \"closed\" field to be an atomic.Bool.\n\n(I think it\u0027s simplest if we keep the same concurrency rules as os.File.)",
+      "parentUuid": "cdc46b8e_cc6f909e",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7dc1148_7759ac9e",
@@ -82,6 +136,24 @@
       "writtenOn": "2024-10-04T18:41:41Z",
       "side": 1,
       "message": "reference the original directory in its new location",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57659f23_25c995e9",
+        "filename": "src/os/root.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T22:01:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7dc1148_7759ac9e",
       "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -103,6 +175,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea33e394_24cd4ec4",
+        "filename": "src/os/root.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T22:01:17Z",
+      "side": 1,
+      "message": "Done.\n\nI think Linux actually allows more than MAXSYMLINKS these days. I think most non-Linux Unices still use 8, though.",
+      "parentUuid": "65864e52_4a218fea",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c036732_5ae740d3",
@@ -116,6 +206,24 @@
       "writtenOn": "2024-10-04T18:41:41Z",
       "side": 1,
       "message": "s/OpenDir/OpenRoot/",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "331693cf_cbf2f58e",
+        "filename": "src/os/root.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T22:01:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c036732_5ae740d3",
       "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -137,6 +245,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67a57834_0a227922",
+        "filename": "src/os/root_openat.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T22:01:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65db450a_3c56c474",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "677e7521_a35dd927",
@@ -150,6 +276,24 @@
       "writtenOn": "2024-10-04T18:41:41Z",
       "side": 1,
       "message": "This seems imprecise.  The rootMkdir function won\u0027t return errSymlink if path refers to a symlink, it will return EEXIST.",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d556431b_0bfc63d8",
+        "filename": "src/os/root_openat.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T22:01:17Z",
+      "side": 1,
+      "message": "Clarified.",
+      "parentUuid": "677e7521_a35dd927",
       "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -171,6 +315,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7601f4e1_330a0e72",
+        "filename": "src/os/root_openat.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T22:01:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9337578a_3e34f68f",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce7627c1_02f9c936",
@@ -184,6 +346,24 @@
       "writtenOn": "2024-10-04T18:41:41Z",
       "side": 1,
       "message": "panic?",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3aa8e05_5cee6168",
+        "filename": "src/os/root_openat.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T22:01:17Z",
+      "side": 1,
+      "message": "Done.\n\nI\u0027ll change it back if it proves to be annoying in debugging, where we might want to print out internal errors. Should be fine, though.",
+      "parentUuid": "ce7627c1_02f9c936",
       "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -205,6 +385,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c8653e8_78032406",
+        "filename": "src/os/root_test.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T22:01:17Z",
+      "side": 1,
+      "message": "Done.\n\nWe probably should have a test for that somewhere.",
+      "parentUuid": "89ab94b5_a9c5fe8d",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21f9451c_82384c35",
@@ -222,6 +420,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "020ff778_ec3f2d30",
+        "filename": "src/os/root_unix.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T22:01:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21f9451c_82384c35",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7f57ab7_7df1ef90",
@@ -235,6 +451,24 @@
       "writtenOn": "2024-10-04T18:41:41Z",
       "side": 1,
       "message": "Missing doc comment.",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecacfdbe_143860c2",
+        "filename": "src/os/root_unix.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-04T22:01:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7f57ab7_7df1ef90",
       "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
