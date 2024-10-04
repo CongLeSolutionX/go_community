@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af67ea5f_76a0fee7",
+        "filename": "src/runtime/sys_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-10-04T15:44:35Z",
+      "side": 1,
+      "message": "I know this is discussed endless elsewhere, but perhaps worth adding a note here indicating that the arc4random family is documented to never return an error, so ignoring ret is safe here.",
+      "revId": "af5afb46126eb8d21d8e1842d04961220aa872d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
