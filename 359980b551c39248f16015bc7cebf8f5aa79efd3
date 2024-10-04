@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d4b33f3_43909bd1",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-10-04T15:55:17Z",
+      "side": 1,
+      "message": "I _think_ this is referencing the fact that glibc or musl may\u0027ve used the value _and cleared it_, it would be useful to include that fact if correct (since otherwise it seems to imply that we may end up re-using the same random data glibc/musl used, which seems non-ideal).",
+      "range": {
+        "startLine": 303,
+        "startChar": 19,
+        "endLine": 306,
+        "endChar": 51
+      },
+      "revId": "359980b551c39248f16015bc7cebf8f5aa79efd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8633146f_abf9a382",
+        "filename": "src/runtime/os_openbsd.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-10-04T15:55:17Z",
+      "side": 1,
+      "message": "Create an issue and link it here, or remove note.",
+      "revId": "359980b551c39248f16015bc7cebf8f5aa79efd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
