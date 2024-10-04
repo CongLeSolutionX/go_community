@@ -1,0 +1,268 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e153d5e_3e0ff4e1",
+        "filename": "src/internal/runtime/maps/group.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T17:24:46Z",
+      "side": 1,
+      "message": "nit: here and below: ctrlGroupsSize or abi.SwissMapGroupSlots?",
+      "range": {
+        "startLine": 42,
+        "startChar": 11,
+        "endLine": 42,
+        "endChar": 20
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ceb923b_c942b79f",
+        "filename": "src/internal/runtime/maps/group.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T17:24:46Z",
+      "side": 1,
+      "message": "maybe this should have an init check to see if it matches abi.SwissMapGroupSlots?",
+      "range": {
+        "startLine": 171,
+        "startChar": 20,
+        "endLine": 171,
+        "endChar": 47
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65f8b520_30ffa77d",
+        "filename": "src/internal/runtime/maps/map.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T17:24:46Z",
+      "side": 1,
+      "message": "that\u0027s super thorough, nice job!",
+      "range": {
+        "startLine": 8,
+        "startChar": 3,
+        "endLine": 8,
+        "endChar": 69
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c22cc4f8_2a82740b",
+        "filename": "src/internal/runtime/maps/map.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T17:24:46Z",
+      "side": 1,
+      "message": "it might be nice to add a link explaining this, or add a short one-sentence explanation if possible.",
+      "range": {
+        "startLine": 56,
+        "startChar": 60,
+        "endLine": 56,
+        "endChar": 77
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57feb93c_55ea2fb3",
+        "filename": "src/internal/runtime/maps/map.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T17:24:46Z",
+      "side": 1,
+      "message": "still needed?",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 3
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ea0faa8_da389a36",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T17:24:46Z",
+      "side": 1,
+      "message": "maybe \"NOTE: Spoiler alert:\"? :P probably not necessary, I admit.",
+      "range": {
+        "startLine": 17,
+        "startChar": 49,
+        "endLine": 18,
+        "endChar": 65
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0529be30_e34ff0f0",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T17:24:46Z",
+      "side": 1,
+      "message": "nit:\n\n```\n// seed is the hash seed, computed as a unique random number per table.\n// TODO(prattmic): Populate this on table initialization.\n```",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 5
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e11ba57a_efab9d08",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T17:24:46Z",
+      "side": 1,
+      "message": "for future readers, it would be helpful to briefly explain the benefits of this like the previous TODO.",
+      "range": {
+        "startLine": 42,
+        "startChar": 20,
+        "endLine": 42,
+        "endChar": 49
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68c0ab44_c191edb7",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T17:24:46Z",
+      "side": 1,
+      "message": "ultra minor nit: add an extra newline here?",
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d63e7926_85212306",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T17:24:46Z",
+      "side": 1,
+      "message": "expand on this?",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 8
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "047ecc63_dd0d81a9",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T17:24:46Z",
+      "side": 1,
+      "message": "it\u0027s a bit strange to me that this is explicitly rejected here, but handled elsewhere (like resetGrowthLeft). maybe resetGrowthLeft should panic?",
+      "range": {
+        "startLine": 76,
+        "startChar": 3,
+        "endLine": 76,
+        "endChar": 17
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b36b8e3_70748c35",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T17:24:46Z",
+      "side": 1,
+      "message": "marker for me to pick up the review from",
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
