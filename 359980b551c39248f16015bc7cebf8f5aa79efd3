@@ -72,6 +72,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72747972_bdd92626",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-04T16:17:10Z",
+      "side": 1,
+      "message": "Bleh indeed.\n\nAFAIK no one else clears it, but I figured that since we were doing it, maybe some libc out there does it too, so might as well be defensive and detect it.",
+      "parentUuid": "12099dc3_27d86ad6",
+      "range": {
+        "startLine": 303,
+        "startChar": 19,
+        "endLine": 306,
+        "endChar": 51
+      },
+      "revId": "359980b551c39248f16015bc7cebf8f5aa79efd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8633146f_abf9a382",
