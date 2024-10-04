@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "384e6be8_1d934543",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-04T16:05:54Z",
+      "side": 1,
+      "message": "Nope, we are indeed reusing the same random data that glibc/musl use as stack and pointer protector. I don\u0027t love that either, but it\u0027s how it\u0027s been ever since we added AT_RANDOM support, and it\u0027s the same thing that any application that uses AT_RANDOM does. I found no workaround, so I figured it would at least be good to document it?",
+      "parentUuid": "2d4b33f3_43909bd1",
+      "range": {
+        "startLine": 303,
+        "startChar": 19,
+        "endLine": 306,
+        "endChar": 51
+      },
+      "revId": "359980b551c39248f16015bc7cebf8f5aa79efd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8633146f_abf9a382",
         "filename": "src/runtime/os_openbsd.go",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2024-10-04T15:55:17Z",
       "side": 1,
       "message": "Create an issue and link it here, or remove note.",
+      "revId": "359980b551c39248f16015bc7cebf8f5aa79efd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1df91538_8f0927e7",
+        "filename": "src/runtime/os_openbsd.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-04T16:05:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8633146f_abf9a382",
       "revId": "359980b551c39248f16015bc7cebf8f5aa79efd3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
