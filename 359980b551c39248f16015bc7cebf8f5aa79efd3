@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "12099dc3_27d86ad6",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-10-04T16:13:55Z",
+      "side": 1,
+      "message": "Bleh, yeah okay. I guess there is no real way to determine if it _has_ been used, so to address this we\u0027d just be overwriting it every time, at which point what is the point of using it at all. Fine to leave as-is.\n\nIn what cases is it actually cleared before we get here?",
+      "parentUuid": "384e6be8_1d934543",
+      "range": {
+        "startLine": 303,
+        "startChar": 19,
+        "endLine": 306,
+        "endChar": 51
+      },
+      "revId": "359980b551c39248f16015bc7cebf8f5aa79efd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8633146f_abf9a382",
         "filename": "src/runtime/os_openbsd.go",
         "patchSetId": 2
