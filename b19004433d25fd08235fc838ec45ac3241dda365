@@ -263,6 +263,167 @@
       "message": "marker for me to pick up the review from",
       "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b97fd920_1a063e0a",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T18:43:20Z",
+      "side": 1,
+      "message": "maybe \"see makeProbeSeq\"?",
+      "range": {
+        "startLine": 162,
+        "startChar": 33,
+        "endLine": 162,
+        "endChar": 44
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5590df55_41f309fe",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T18:43:20Z",
+      "side": 1,
+      "message": "nit: likelihood",
+      "range": {
+        "startLine": 176,
+        "startChar": 35,
+        "endLine": 176,
+        "endChar": 45
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c730b56a_7b01d635",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T18:43:20Z",
+      "side": 1,
+      "message": "nit: delete",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 225,
+        "endChar": 28
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a9802fc_b204f58b",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T18:43:20Z",
+      "side": 1,
+      "message": "nit: \"We\"",
+      "range": {
+        "startLine": 281,
+        "startChar": 12,
+        "endLine": 281,
+        "endChar": 14
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d357536a_915f28ab",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T18:43:20Z",
+      "side": 1,
+      "message": "since I\u0027m noticing this again, I assume maybe it\u0027s resolved further up to the CL chain?",
+      "range": {
+        "startLine": 407,
+        "startChar": 0,
+        "endLine": 408,
+        "endChar": 27
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56426801_4082dc1d",
+        "filename": "src/internal/runtime/maps/table_debug.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T18:43:20Z",
+      "side": 1,
+      "message": "this extra context looks helpful. maybe use print and println to emit it?",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 32
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2a59750_ab51254b",
+        "filename": "src/internal/runtime/maps/table_debug.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T18:43:20Z",
+      "side": 1,
+      "message": "same here. this looks helpful, and you could in theory keep it if you used print and println.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 3
+      },
+      "revId": "b19004433d25fd08235fc838ec45ac3241dda365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

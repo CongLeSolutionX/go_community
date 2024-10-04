@@ -638,6 +638,24 @@
       "parentUuid": "e71605f2_2bd9a408",
       "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c4c6516_01593df4",
+        "filename": "src/internal/runtime/maps/table_debug.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-04T18:43:20Z",
+      "side": 1,
+      "message": "I think keeping this code with a global constant debug flag is going to be very useful for making follow-up changes (and optimizations) and debugging them. if it\u0027s a big hassle then don\u0027t bother, but if it\u0027s only a little extra work I suspect someone in the future will thank you. :)",
+      "parentUuid": "59e50165_0bd57853",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
