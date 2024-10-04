@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa9d300e_f320f3e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-10-04T06:36:25Z",
+      "side": 1,
+      "message": "Hi Michael, addressed all your comments, when you have time, could you please take another look?",
+      "revId": "30c2336382cf0a074e0ae25abd3c55a4169a9fd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a19ded6_a95163e0",
@@ -24,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9e632de_c032eee8",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 40
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-10-04T06:36:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a19ded6_a95163e0",
+      "range": {
+        "startLine": 619,
+        "startChar": 0,
+        "endLine": 619,
+        "endChar": 41
+      },
+      "revId": "30c2336382cf0a074e0ae25abd3c55a4169a9fd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a49bc871_3efddd51",
@@ -37,6 +78,30 @@
       "writtenOn": "2024-10-03T18:09:33Z",
       "side": 1,
       "message": "Do we still need this? We\u0027re now setting pos on line 552, right?",
+      "range": {
+        "startLine": 566,
+        "startChar": 3,
+        "endLine": 572,
+        "endChar": 4
+      },
+      "revId": "30c2336382cf0a074e0ae25abd3c55a4169a9fd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "befc7197_8afb7ae9",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 40
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-10-04T06:36:25Z",
+      "side": 1,
+      "message": "Done, yes, right, we already set on line 552",
+      "parentUuid": "a49bc871_3efddd51",
       "range": {
         "startLine": 566,
         "startChar": 3,
