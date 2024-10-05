@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c32e760_b0d2c176",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2024-10-05T16:31:02Z",
+      "side": 1,
+      "message": "Roundtrip inside interface is not solved by this CL. I added a commented skip for now. Two issues refer to the remaining problem https://go.dev/issue/16497 \u0026 https://go.dev/issue/46432.",
+      "revId": "f7d10b5f02bbf2bd9f1172c897f1d49ee6c90f11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
