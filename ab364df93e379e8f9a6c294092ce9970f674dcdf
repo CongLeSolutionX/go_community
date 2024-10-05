@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66cfc79a_01dc65ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 58169
+      },
+      "writtenOn": "2024-10-05T03:31:29Z",
+      "side": 1,
+      "message": "Feel sorry and that wasn\u0027t my intention. I didn\u0027t expect my changes to break the pipeline.\n\nI have checked the builders and looks like the test introduced by me is a bit fragile. For example, the 3 commits\u0027s pipeline have different output, even though they should all succeed.\n[gotip-linux-amd64- aliastypeparams](https://ci.chromium.org/ui/p/golang/builders/ci/gotip-linux-amd64-aliastypeparams):\n```\neae89f37d(change in CL 616615) --\u003e succeeded\nd39bfafee(after eae) --\u003e failed\n2f507985d(after d39) --\u003e succeeded.\n```\n\nIt\u0027s similar in [gotip-openbsd-amd64](https://ci.chromium.org/ui/p/golang/builders/ci/gotip-openbsd-amd64).\n\nWe can fix the fragile testing by removing the rw mode checking. Because it\u0027s totally OS behaviours strictly speaking. When I raised the CL, I thought it\u0027s no harm to check it as well, can see the comment here: https://go-review.googlesource.com/c/go/+/616615/comment/82bd63e9_6588a0dc/.\n\nBut now it does harm on the ci and makes testing fragile, we can consider to remove this part. \n\nCould you kindly let me know your idea? I\u0027m not sure the process to handle ci failure in such scenario to handle the failure.",
+      "revId": "ab364df93e379e8f9a6c294092ce9970f674dcdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
