@@ -193,13 +193,17 @@ func doDoubleNext2() Seq2[int, int] {
 }
 
 func TestPullDoubleYield(t *testing.T) {
-	_, stop := Pull(storeYield())
+	next, stop := Pull(storeYield())
+	next()
 	defer func() {
 		if recover() != nil {
 			yieldSlot = nil
 		}
 		stop()
 	}()
+	if yieldSlot == nil {
+		t.Fatal("yield failed")
+	}
 	yieldSlot(5)
 	if yieldSlot != nil {
 		t.Fatal("double yield did not fail")
@@ -218,13 +222,17 @@ func storeYield() Seq[int] {
 var yieldSlot func(int) bool
 
 func TestPullDoubleYield2(t *testing.T) {
-	_, stop := Pull2(storeYield2())
+	next, stop := Pull2(storeYield2())
+	next()
 	defer func() {
 		if recover() != nil {
 			yieldSlot2 = nil
 		}
 		stop()
 	}()
+	if yieldSlot2 == nil {
+		t.Fatal("yield failed")
+	}
 	yieldSlot2(23, 77)
 	if yieldSlot2 != nil {
 		t.Fatal("double yield did not fail")
