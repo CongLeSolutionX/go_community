@@ -91,6 +91,7 @@ func swissTableType() *types.Type {
 	//     groups_typ        unsafe.Pointer // *abi.SwissMapType
 	//     groups_data       unsafe.Pointer
 	//     groups_lengthMask uint64
+	//     groups_entryMask  uint64
 	//
 	//     capacity   uint64
 	//     growthLeft uint64
@@ -104,6 +105,7 @@ func swissTableType() *types.Type {
 		makefield("groups_typ", types.Types[types.TUNSAFEPTR]),
 		makefield("groups_data", types.Types[types.TUNSAFEPTR]),
 		makefield("groups_lengthMask", types.Types[types.TUINT64]),
+		makefield("groups_entryMask", types.Types[types.TUINT64]),
 		makefield("capacity", types.Types[types.TUINT64]),
 		makefield("growthLeft", types.Types[types.TUINT64]),
 	}
@@ -116,9 +118,9 @@ func swissTableType() *types.Type {
 	table.SetUnderlying(types.NewStruct(fields))
 	types.CalcSize(table)
 
-	// The size of table should be 72 bytes on 64 bit
-	// and 52 bytes on 32 bit platforms.
-	if size := int64(4*8 + 5*types.PtrSize); table.Size() != size {
+	// The size of table should be 80 bytes on 64 bit
+	// and 60 bytes on 32 bit platforms.
+	if size := int64(5*8 + 5*types.PtrSize); table.Size() != size {
 		base.Fatalf("internal/runtime/maps.table size not correct: got %d, want %d", table.Size(), size)
 	}
 
@@ -202,8 +204,7 @@ func SwissMapIterType() *types.Type {
 	//
 	//    tab *table
 	//
-	//    groupIdx uint64
-	//    slotIdx  uint32
+	//    entryIdx uint64
 	//
 	//    // 4 bytes of padding on 64-bit arches.
 	// }
@@ -219,8 +220,7 @@ func SwissMapIterType() *types.Type {
 		makefield("globalDepth", types.Types[types.TUINT32]),
 		makefield("dirIdx", types.Types[types.TINT]),
 		makefield("tab", types.NewPtr(swissTableType())),
-		makefield("groupIdx", types.Types[types.TUINT64]),
-		makefield("slotIdx", types.Types[types.TUINT32]),
+		makefield("entryIdx", types.Types[types.TUINT64]),
 	}
 
 	// build iterator struct hswissing the above fields
@@ -231,7 +231,7 @@ func SwissMapIterType() *types.Type {
 
 	iter.SetUnderlying(types.NewStruct(fields))
 	types.CalcSize(iter)
-	want := 7*types.PtrSize + 4*8 + 1*4
+	want := 7*types.PtrSize + 3*8 + 1*4
 	if types.PtrSize == 8 {
 		want += 4 // tailing padding
 	}
