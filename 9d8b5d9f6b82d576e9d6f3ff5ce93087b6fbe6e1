@@ -65,6 +65,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16372ed2_f8f7ff31",
+        "filename": "src/cmd/compile/internal/types2/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-10-07T14:31:03Z",
+      "side": 1,
+      "message": "Ack, SGTM. Then let\u0027s just sort out the other question.",
+      "parentUuid": "16dcfd2a_c57cdb62",
+      "range": {
+        "startLine": 144,
+        "startChar": 2,
+        "endLine": 144,
+        "endChar": 13
+      },
+      "revId": "9d8b5d9f6b82d576e9d6f3ff5ce93087b6fbe6e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41bdc2c5_7cd4ce63",
