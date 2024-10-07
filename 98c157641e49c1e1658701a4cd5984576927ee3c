@@ -141,6 +141,24 @@
       "parentUuid": "4d2eb5c8_773d91e9",
       "revId": "98c157641e49c1e1658701a4cd5984576927ee3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f70f41c0_338b6d8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-10-07T10:10:54Z",
+      "side": 1,
+      "message": "This CL has been fully reworked and the changes of types2 have also been synched to go/types. Please take a look.",
+      "parentUuid": "276d3dd7_1f198c0e",
+      "revId": "98c157641e49c1e1658701a4cd5984576927ee3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
