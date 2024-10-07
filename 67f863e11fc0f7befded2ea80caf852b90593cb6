@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a4bc8eb_dbaa2ec4",
+        "filename": "src/cmd/compile/internal/types2/object.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-10-07T15:25:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4a5e3a2_efd8e3df",
+      "range": {
+        "startLine": 200,
+        "startChar": 11,
+        "endLine": 200,
+        "endChar": 17
+      },
+      "revId": "67f863e11fc0f7befded2ea80caf852b90593cb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e9209ef_1a56f528",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-10-07T15:04:58Z",
       "side": 1,
       "message": "I think this must be 0. Otherwise, the comparison is not symmetric.",
+      "range": {
+        "startLine": 237,
+        "startChar": 1,
+        "endLine": 237,
+        "endChar": 10
+      },
+      "revId": "67f863e11fc0f7befded2ea80caf852b90593cb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6963343_b0dd1ea5",
+        "filename": "src/cmd/compile/internal/types2/object.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-10-07T15:25:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e9209ef_1a56f528",
       "range": {
         "startLine": 237,
         "startChar": 1,
