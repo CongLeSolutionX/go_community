@@ -686,6 +686,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "30fcfa3e_7e036ed1",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-07T07:49:57Z",
+      "side": 1,
+      "message": "Clarification: a Unix Domain socket file is a non-surrogate reparse point with the tah `IO_REPARSE_TAG_AF_UNIX`.",
+      "parentUuid": "864bd925_1e308649",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d9a548b_b8429a99",
         "filename": "src/os/root_windows.go",
         "patchSetId": 20
