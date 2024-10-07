@@ -84,6 +84,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5949077d_3cb73a81",
+        "filename": "src/internal/runtime/maps/export_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-07T20:40:37Z",
+      "side": 1,
+      "message": "used up-stack? or can it be deleted",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9b2a390b_8fc81987",
         "filename": "src/internal/runtime/maps/map.go",
         "patchSetId": 7
@@ -95,6 +118,29 @@
       "writtenOn": "2024-10-03T23:23:34Z",
       "side": 1,
       "message": "This is just log_2(len(directory)).\nProbably we can get rid of this, or maybe even better make directory a **table and compute its length when needed as 1\u003c\u003cglobalDepth.",
+      "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f7ca9b1_07452f9d",
+        "filename": "src/internal/runtime/maps/map.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-07T20:40:37Z",
+      "side": 1,
+      "message": "It",
+      "range": {
+        "startLine": 281,
+        "startChar": 6,
+        "endLine": 281,
+        "endChar": 7
+      },
       "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
