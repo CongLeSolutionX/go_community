@@ -89,6 +89,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be171244_d3e1b51d",
+        "filename": "src/cmd/compile/internal/types2/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-10-07T14:42:13Z",
+      "side": 1,
+      "message": "More info can be found in CL 587655.",
+      "parentUuid": "16dcfd2a_c57cdb62",
+      "range": {
+        "startLine": 144,
+        "startChar": 2,
+        "endLine": 144,
+        "endChar": 13
+      },
+      "revId": "9d8b5d9f6b82d576e9d6f3ff5ce93087b6fbe6e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41bdc2c5_7cd4ce63",
@@ -102,6 +126,30 @@
       "writtenOn": "2024-10-07T13:38:23Z",
       "side": 1,
       "message": "I think we should either:\n 1. replace `object.less` with `object.cmp`, or\n 2. inline the call to object.less here, and delete object.less\n \nThis is the only call to object.less, so the handling for equality in object.less is redundant with the check on 349. I mildly vote for option (1), to make the change in this CL as small as possible.",
+      "range": {
+        "startLine": 352,
+        "startChar": 0,
+        "endLine": 354,
+        "endChar": 2
+      },
+      "revId": "9d8b5d9f6b82d576e9d6f3ff5ce93087b6fbe6e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a48cf2e_27a3665a",
+        "filename": "src/cmd/compile/internal/types2/typeset.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-10-07T14:42:13Z",
+      "side": 1,
+      "message": "Done. I chose option 1.",
+      "parentUuid": "41bdc2c5_7cd4ce63",
       "range": {
         "startLine": 352,
         "startChar": 0,
