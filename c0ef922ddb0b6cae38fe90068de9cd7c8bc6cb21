@@ -668,6 +668,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "864bd925_1e308649",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-07T07:48:05Z",
+      "side": 1,
+      "message": "\u003e If we set OBJ_DONT_REPARSE, will that prevent traversing mount points?\n\nYes, it will return `STATUS_REPARSE_POINT_ENCOUNTERED` if any surrogate reparse point is found, like mount points and symlinks. Note that it will not complain if there is a non-surrogate reparse point in the path.\n\n\u003e I suppose we can do a multi-phase process:\n\nWe can avoid the multi-phase process if we pass `OBJ_DONT_REPARSE` and `FILE_OPEN_REPARSE_POINT`. Both flags are compatible, in fact we want to do this, else we won\u0027t be able to open non-surrogate reparse points. Then your third bullet will never happen.\n\nA nice side effect of this approach is that we can pass `FILE_OVERWRITE` directly to `NtCreateFile` instead of calling `Ftruncate` later, as we will never open a symlink.\n\n\u003e Is there any way we can create a temporary non-surrogate reparse point in tests? \n\nYou can create a Unix Domain Socket file:\n\n```\nfunc TestNonSurrogateReparsePoint(t *testing.T) {\n\tdir :\u003d t.TempDir()\n\taddr :\u003d filepath.Join(dir, \"sock\")\n\tl, err :\u003d net.Listen(\"unix\", addr)\n\tif err !\u003d nil {\n\t\tt.Fatal(err)\n\t}\n\tdefer l.Close()\n\n\tr, err :\u003d os.OpenRoot(dir)\n\tif err !\u003d nil {\n\t\tt.Fatal(err)\n\t}\n\tdefer r.Close()\n\tf, err :\u003d r.Open(\"sock\")\n\tif err !\u003d nil {\n\t\tt.Fatal(err)\n\t}\n\tf.Close()\n}\n```\n\n\u003e Or are there any standard examples of non-surrogate reparse points that are likely to exist on the builder machines?\n\nNot that I know.",
+      "parentUuid": "9388317f_c49ebb2a",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d9a548b_b8429a99",
         "filename": "src/os/root_windows.go",
         "patchSetId": 20
@@ -697,6 +715,24 @@
       "side": 1,
       "message": "What do we want to do for a mount point? Traverse them, or treat them as escaping the root. Traversing seems most consistent with the Unix behavior (which completely ignores filesystem mounts). It looks like os.Lstat treats mount points like symlinks, though. For consistency with Lstat, should we treat mount points as escaping?",
       "parentUuid": "5d9a548b_b8429a99",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e78463a_8c6d5af1",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-07T07:48:05Z",
+      "side": 1,
+      "message": "\u003e For consistency with Lstat, should we treat mount points as escaping?\n\nYep, I think we should.",
+      "parentUuid": "217dfc68_70f3d28f",
       "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
