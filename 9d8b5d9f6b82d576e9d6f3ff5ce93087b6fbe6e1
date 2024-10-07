@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16dcfd2a_c57cdb62",
+        "filename": "src/cmd/compile/internal/types2/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-10-07T14:02:12Z",
+      "side": 1,
+      "message": "sort.Strings in 1.23 is only a wrapper of slices.Sort, so I think the binary size at least will not be bigger. And all this replacements have been done in other standard packages.",
+      "parentUuid": "171bcc71_d3954510",
+      "range": {
+        "startLine": 144,
+        "startChar": 2,
+        "endLine": 144,
+        "endChar": 13
+      },
+      "revId": "9d8b5d9f6b82d576e9d6f3ff5ce93087b6fbe6e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "41bdc2c5_7cd4ce63",
         "filename": "src/cmd/compile/internal/types2/typeset.go",
         "patchSetId": 2
