@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f89485ac_6912f75d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-10-07T15:04:58Z",
+      "side": 1,
+      "message": "LGTM but for two small changes.",
+      "revId": "67f863e11fc0f7befded2ea80caf852b90593cb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4a5e3a2_efd8e3df",
+        "filename": "src/cmd/compile/internal/types2/object.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-10-07T15:04:58Z",
+      "side": 1,
+      "message": "s/equals/is equivalent to (see below)",
+      "range": {
+        "startLine": 200,
+        "startChar": 11,
+        "endLine": 200,
+        "endChar": 17
+      },
+      "revId": "67f863e11fc0f7befded2ea80caf852b90593cb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e9209ef_1a56f528",
+        "filename": "src/cmd/compile/internal/types2/object.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-10-07T15:04:58Z",
+      "side": 1,
+      "message": "I think this must be 0. Otherwise, the comparison is not symmetric.",
+      "range": {
+        "startLine": 237,
+        "startChar": 1,
+        "endLine": 237,
+        "endChar": 10
+      },
+      "revId": "67f863e11fc0f7befded2ea80caf852b90593cb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
