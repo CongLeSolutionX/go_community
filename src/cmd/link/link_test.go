@@ -9,6 +9,7 @@ import (
 	"bytes"
 	"debug/macho"
 	"errors"
+	"fmt"
 	"internal/platform"
 	"internal/testenv"
 	"os"
@@ -408,6 +409,74 @@ func TestMachOBuildVersion(t *testing.T) {
 	}
 	if !found {
 		t.Errorf("no LC_BUILD_VERSION load command found")
+	}
+}
+
+func TestMachOUUID(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+	if runtime.GOOS != "darwin" {
+		t.Skip("this is only for darwin")
+	}
+
+	t.Parallel()
+
+	tmpdir := t.TempDir()
+
+	src := filepath.Join(tmpdir, "main.go")
+	err := os.WriteFile(src, []byte(trivialSrc), 0666)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	extractUUID := func(exe string) string {
+		exem, err := macho.Open(exe)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer exem.Close()
+		const LC_UUID = 0x1b
+		for _, cmd := range exem.Loads {
+			raw := cmd.Raw()
+			type_ := exem.ByteOrder.Uint32(raw)
+			if type_ != LC_UUID {
+				continue
+			}
+			return fmt.Sprintf("%X", raw[8:24])
+		}
+		return ""
+	}
+
+	tests := []struct{ name, ldflags, expect string }{
+		{"default", "", "gobuildid"},
+		{"gobuildid", "-B=gobuildid", "gobuildid"},
+		{"specific", "-B=0x0123456789ABCDEF0123456789ABCDEF", "0123456789ABCDEF0123456789ABCDEF"},
+		{"none", "-B=none", ""},
+	}
+	if testenv.HasCGO() {
+		for _, test := range tests {
+			t1 := test
+			t1.name += "_external"
+			t1.ldflags += " -linkmode=external"
+			tests = append(tests, t1)
+		}
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			exe := filepath.Join(tmpdir, test.name)
+			cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags="+test.ldflags, "-o", exe, src)
+			if out, err := cmd.CombinedOutput(); err != nil {
+				t.Fatalf("%v: %v:\n%s", cmd.Args, err, out)
+			}
+			uuid := extractUUID(exe)
+			if test.expect == "gobuildid" {
+				// Go buildid is not known in source code. Just check UUID is present.
+				if uuid == "" {
+					t.Errorf("expect nonempty UUID, got empty")
+				}
+			} else if uuid != test.expect {
+				t.Errorf("UUID mismatch: got %s, want %s", uuid, test.expect)
+			}
+		})
 	}
 }
 
