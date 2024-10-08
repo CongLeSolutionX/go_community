@@ -9,6 +9,7 @@ import (
 	"cmd/internal/codesign"
 	imacho "cmd/internal/macho"
 	"crypto/sha256"
+	"debug/elf"
 	"debug/macho"
 	"fmt"
 	"io"
@@ -185,15 +186,27 @@ func findHostBuildID(r io.Reader) (offset int64, size int64, ok bool) {
 	if !ok {
 		return 0, 0, false
 	}
-	// TODO: handle ELF GNU build ID.
-	f, err := macho.NewFile(ra)
+
+	ef, err := elf.NewFile(ra)
+	if err == nil {
+		// ELF file. Find GNU build ID section.
+		sect := ef.Section(".note.gnu.build-id")
+		if sect == nil {
+			return 0, 0, false
+		}
+		// Skip over the 3-word note "header" and "GNU\x00".
+		return int64(sect.Offset + 16), int64(sect.Size - 16), true
+	}
+
+	mf, err := macho.NewFile(ra)
 	if err != nil {
 		return 0, 0, false
 	}
 
+	// Mach-O file. Find LC_UUID load command.
 	const LC_UUID = 0x1b
-	reader := imacho.NewLoadCmdReader(io.NewSectionReader(ra, 0, 1<<63-1), f.ByteOrder, imacho.FileHeaderSize(f))
-	for i := uint32(0); i < f.Ncmd; i++ {
+	reader := imacho.NewLoadCmdReader(io.NewSectionReader(ra, 0, 1<<63-1), mf.ByteOrder, imacho.FileHeaderSize(mf))
+	for i := uint32(0); i < mf.Ncmd; i++ {
 		cmd, err := reader.Next()
 		if err != nil {
 			break
