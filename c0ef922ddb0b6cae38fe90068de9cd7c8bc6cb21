@@ -525,6 +525,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "341cfac0_d110e06e",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-08T22:52:31Z",
+      "side": 1,
+      "message": "I think I\u0027d rather keep it here for the moment, because there are some specialized elements to it. In particular, we always set `OBJ_DONT_REPARSE` and resolve the target of any reparse points.",
+      "parentUuid": "92003f57_b2ee63ad",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a54a817_4881b602",
@@ -720,6 +738,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "202a39d2_b6bec60c",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-08T22:52:31Z",
+      "side": 1,
+      "message": "I think I\u0027ve got a decent approach here now:\n\n- Use `OBJ_DONT_REPARSE`. In the common case, we make one open and return the result. If the target is a non-surrogate reparse point, this open will handle it because `OBJ_DONT_REPARSE` only applies to surrogates.\n- If we get a `STATUS_REPARSE_POINT_ENCOUNTERED` error, attempt to resolve the file as a surrogate reparse point. This uses the same path we already use for `Readlink`, and handles both `IO_REPARSE_TAG_SYMLINK` and `IO_REPARSE_TAG_MOUNT_POINT`.\n\nUnfortunately, we still don\u0027t get to pass `FILE_OVERWRITE`, because doing so triggers https://go.dev/issue/38225, where overwriting an existing file can cause a read-write file to be recreated read-only. But calling `syscall.Ftruncate` after the open is simple enough.",
+      "parentUuid": "34614f94_61469142",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d9a548b_b8429a99",
@@ -773,6 +809,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c78e6da_b6a00559",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-08T22:52:31Z",
+      "side": 1,
+      "message": "We\u0027re now relying `OBJ_DONT_REPARSE` to decide what escapes, which seems principled.\n\nWe can follow both symlinks and mount points to their destination. If we need to follow any other types of surrogate, we just need to add them to `readReparseLinkHandle` and both `Root` and `Readlink` will support them.",
+      "parentUuid": "3e78463a_8c6d5af1",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d0355ea_ee2cab0b",
@@ -804,6 +858,24 @@
       "side": 1,
       "message": "We can\u0027t pass both FILE_DIRECTORY_FILE and FILE_OPEN_REPARSE_POINT.\n\nLet\u0027s first figure out the above questions about whether we should use OBJ_DONT_REPARSE or FILE_OPEN_REPARSE_POINT and then revisit this.",
       "parentUuid": "7d0355ea_ee2cab0b",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b134ba9_0e9f9d4d",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-08T22:52:31Z",
+      "side": 1,
+      "message": "Passing `FILE_DIRECTORY_FILE` now.",
+      "parentUuid": "4d321f2b_0141683b",
       "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
