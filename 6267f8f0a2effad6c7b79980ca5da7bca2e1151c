@@ -130,6 +130,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c514a8bb_33f2cbef",
+        "filename": "src/internal/runtime/maps/map.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-08T16:16:17Z",
+      "side": 1,
+      "message": "Done in CL 618016.",
+      "parentUuid": "4107b340_6274d475",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c958f09f_84f8e795",
@@ -294,6 +312,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58585fc6_a9019cef",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-08T16:16:17Z",
+      "side": 1,
+      "message": "Resolved",
+      "parentUuid": "59194f51_4cf43656",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0bca0c2_2151c023",
@@ -382,6 +418,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e77d50a_ab917452",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-08T16:16:17Z",
+      "side": 1,
+      "message": "Thanks, I\u0027m putting details in the comments.\n\nI hadn\u0027t tried avoiding hashing for single group maps in my fast versions. Doing that gets me _so close_ to the old maps:\n\n```\ngoos: linux\ngoarch: amd64\npkg: github.com/cockroachdb/swiss\ncpu: Intel(R) Xeon(R) W-2135 CPU @ 3.70GHz\n                                           │ /tmp/noswiss.txt │           /tmp/swiss.txt           │\n                                           │      sec/op      │   sec/op     vs base               │\nMapGetHit/impl\u003druntimeMap/t\u003dInt64/len\u003d6-12        11.92n ± 1%   12.59n ± 0%  +5.62% (p\u003d0.000 n\u003d10)\n\n                                           │ /tmp/noswiss.txt │          /tmp/swiss.txt           │\n                                           │ cache-misses/op  │ cache-misses/op  vs base          │\nMapGetHit/impl\u003druntimeMap/t\u003dInt64/len\u003d6-12       138.6µ ± 72%      146.3µ ± 17%  ~ (p\u003d0.971 n\u003d10)\n\n                                           │  /tmp/noswiss.txt   │            /tmp/swiss.txt             │\n                                           │ cache-references/op │ cache-references/op  vs base          │\nMapGetHit/impl\u003druntimeMap/t\u003dInt64/len\u003d6-12          811.0µ ± 91%          809.9µ ± 18%  ~ (p\u003d0.853 n\u003d10)\n\n                                           │ /tmp/noswiss.txt │            /tmp/swiss.txt            │\n                                           │  cpu-cycles/op   │ cpu-cycles/op  vs base               │\nMapGetHit/impl\u003druntimeMap/t\u003dInt64/len\u003d6-12         48.72 ± 1%      51.44 ± 0%  +5.57% (p\u003d0.000 n\u003d10)\n\n                                           │ /tmp/noswiss.txt │             /tmp/swiss.txt              │\n                                           │ instructions/op  │ instructions/op  vs base                │\nMapGetHit/impl\u003druntimeMap/t\u003dInt64/len\u003d6-12         85.54 ± 0%        99.55 ± 0%  +16.37% (p\u003d0.000 n\u003d10)\n```\n\nThere\u0027s got to be a way to shave off a little more time off of this fast path. It available if you are looking for a challenge 😊.",
+      "parentUuid": "761f3053_5c1e13a0",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7cd300c2_2453e7f5",
@@ -442,6 +496,30 @@
       "writtenOn": "2024-10-02T23:19:33Z",
       "side": 1,
       "message": "If match is already of a type that has methods, then maybe this should be !match.empty().",
+      "range": {
+        "startLine": 224,
+        "startChar": 6,
+        "endLine": 224,
+        "endChar": 16
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "caaa8c20_e4bc1198",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-08T16:16:17Z",
+      "side": 1,
+      "message": "I gave this a try, but I\u0027m not sure I like it. In particular, some code looks like:\n\n```\nmatch :\u003d g.ctrls().matchEmpty()\nfor !match.empty() {\n```\n\nI think this can be confusing at a glance because there are two different meanings of \"empty\" here: slots or bits. match.empty() here actually means there are no empty slots. I can imagine getting this mixed up easily.\n\nMaybe this just needs a different name, like `match.have()` or `match.first() !\u003d noMatch`?\n\nMarking as resolved, but we can of course change this later.",
+      "parentUuid": "ad02a6c4_9e3777fa",
       "range": {
         "startLine": 224,
         "startChar": 6,
@@ -605,6 +683,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "435a8e0d_76b912a5",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-08T16:16:17Z",
+      "side": 1,
+      "message": "I\u0027ve done this in CL 618535 after extendible hashing because it is easier once tab.groups can no longer change.\n\nI think it actually cleaned things up nicely. At least getting rid of one level of indentation is nice!",
+      "parentUuid": "021e058e_8c436cf0",
+      "range": {
+        "startLine": 486,
+        "startChar": 38,
+        "endLine": 486,
+        "endChar": 47
+      },
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e71605f2_2bd9a408",
@@ -654,6 +756,24 @@
       "side": 1,
       "message": "I think keeping this code with a global constant debug flag is going to be very useful for making follow-up changes (and optimizations) and debugging them. if it\u0027s a big hassle then don\u0027t bother, but if it\u0027s only a little extra work I suspect someone in the future will thank you. :)",
       "parentUuid": "59e50165_0bd57853",
+      "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "682e2548_4d978a44",
+        "filename": "src/internal/runtime/maps/table_debug.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-08T16:16:17Z",
+      "side": 1,
+      "message": "I\u0027ve switched to what Iter does: just attempt to compare the key to itself.",
+      "parentUuid": "0c4c6516_01593df4",
       "revId": "6267f8f0a2effad6c7b79980ca5da7bca2e1151c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
