@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b022013c_ceb7aa75",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-10-08T01:56:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6c6af7e_b14b3989",
+      "revId": "2b57c558de3a816e4119cc30134f191138a7704e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d23b857c_13263c29",

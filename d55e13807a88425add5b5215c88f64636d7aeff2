@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc99e980_abec22d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 42
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-10-08T01:56:34Z",
+      "side": 1,
+      "message": "Hi Michael, all comments has been addressed. Sorry, I overlooked two comments.",
+      "revId": "d55e13807a88425add5b5215c88f64636d7aeff2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
