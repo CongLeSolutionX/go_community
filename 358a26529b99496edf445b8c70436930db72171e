@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed1c003d_fe1cda47",
+        "filename": "doc/next/6-stdlib/1-os-root.md",
+        "patchSetId": 30
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T23:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "824d6302_46b56eca",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d54139cd_6a5d9bb9",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-10-09T22:03:06Z",
       "side": 1,
       "message": "s/which/that/",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50c1c838_06697488",
+        "filename": "doc/next/6-stdlib/1-os-root.md",
+        "patchSetId": 30
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T23:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d54139cd_6a5d9bb9",
       "revId": "358a26529b99496edf445b8c70436930db72171e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cb3b91c_5c840219",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T23:03:45Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "bdd0fafc_d09d8b6b",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3dd4298d_46bd16ed",
@@ -65,6 +119,24 @@
       "writtenOn": "2024-10-09T22:03:06Z",
       "side": 1,
       "message": "Please add a comment explaining that this is an invented value that corresponds to the invented values in the syscall package.",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f79f3901_966c8b78",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T23:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dd4298d_46bd16ed",
       "revId": "358a26529b99496edf445b8c70436930db72171e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +158,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f2843ff_b86d88d9",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T23:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09f76aa6_cb2a8da6",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3742b75e_b9b91f5e",
@@ -99,6 +189,24 @@
       "writtenOn": "2024-10-09T22:03:06Z",
       "side": 1,
       "message": "It seems to me that FILE_LIST_DIRECTORY is the same bit as FILE_READ_DATA.  FILE_GENERIC_READ is more than one bit.",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b165148f_b7a6585c",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T23:03:45Z",
+      "side": 1,
+      "message": "You\u0027re right. Corrected, shortened, and moved comment.",
+      "parentUuid": "3742b75e_b9b91f5e",
       "revId": "358a26529b99496edf445b8c70436930db72171e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -155,6 +263,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3914463d_7bee578a",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T23:03:45Z",
+      "side": 1,
+      "message": "It\u0027s very easy to lose track of which package contains which symbols.\n\nFixed.",
+      "parentUuid": "8d52fb85_145ac75d",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9963bd9_5180fab5",
@@ -168,6 +294,24 @@
       "writtenOn": "2024-10-09T22:03:06Z",
       "side": 1,
       "message": "Personally I think this is clearer as\n\n    if flag\u0026syscall.O_TRUNC !\u003d 0 {",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b53d481_33f1eae0",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T23:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9963bd9_5180fab5",
       "revId": "358a26529b99496edf445b8c70436930db72171e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -191,6 +335,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "689ee306_af21a5da",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T23:03:45Z",
+      "side": 1,
+      "message": "wazero has fixed the bug I\u0027m working around here, so let me see if we can just update the builders to use a fixed version of it.",
+      "parentUuid": "a0ae0e5b_59e2dac7",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "35aa9f9a_4dfbe9d9",
         "filename": "src/os/os_test.go",
         "patchSetId": 30
@@ -202,6 +364,24 @@
       "writtenOn": "2024-10-09T22:03:06Z",
       "side": 1,
       "message": "I suggest we rename TestOpenError to testOpenError and added a rooted parameter.  Then\n\n    func TestOpenError(t *testing.T) {\n        testOpenError(t, false)\n    }\n    \n    func TestOpenRootError(t *testing.T) {\n        testOpenError(t, true)\n    }",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f341da61_0f98e483",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 1811,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T23:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35aa9f9a_4dfbe9d9",
       "revId": "358a26529b99496edf445b8c70436930db72171e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -223,6 +403,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61facec3_bb2b5516",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 2172,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T23:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81909f19_76112fa5",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04ccad7e_1bb8e0dc",
@@ -236,6 +434,24 @@
       "writtenOn": "2024-10-09T22:03:06Z",
       "side": 1,
       "message": "You don\u0027t need to explicitly convert to string, %q will print a []byte as a string anyhow.\n\nSimilarly 11 lines down.",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a39e144_f422614d",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 2209,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T23:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04ccad7e_1bb8e0dc",
       "revId": "358a26529b99496edf445b8c70436930db72171e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -257,6 +473,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79d842ad_12c7a7e0",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 2216,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T23:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f10be77_b04d4fb8",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a99a499_6a538f2e",
@@ -270,6 +504,24 @@
       "writtenOn": "2024-10-09T22:03:06Z",
       "side": 1,
       "message": "Why don\u0027t you have to skip this test if Getuid() \u003d\u003d 0 ?",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2737e83e_7100cab0",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 2260,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T23:03:45Z",
+      "side": 1,
+      "message": "Because this test is covering the mode we open the file with (O_WRONLY), not the file permission bits.",
+      "parentUuid": "8a99a499_6a538f2e",
       "revId": "358a26529b99496edf445b8c70436930db72171e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
