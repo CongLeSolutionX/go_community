@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "597e61e9_4f94ac4a",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-09T10:21:01Z",
+      "side": 1,
+      "message": "openat doesn\u0027t support the following flags that are supported by syscall.Open:\n- O_CLOEXEC: when not set, objAttrs.Attributes should contain `OBJ_INHERIT`.\n- O_SYNC: when set, options should contain `FILE_WRITE_THROUGH`",
+      "revId": "b2dfca1f382f64a66b2743438e40ffe3a94cc81d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
