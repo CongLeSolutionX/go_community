@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99219d5b_5a08e88c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T15:02:35Z",
+      "side": 1,
+      "message": "Test failure",
+      "revId": "e1dadc722e738f5dfc0665d43eb04b4342f3bf98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13e84695_69324168",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T15:02:35Z",
+      "side": 1,
+      "message": "The os.TestOpenError failure is because this change makes Open succeed when opening a directory with O_WRONLY, while we expect it to fail.\n\nThe os.TestOpen_Dir failure is similar, but in this case we expect Open with O_RDONLY|O_CREATE to fail when opening a directory.",
+      "revId": "e1dadc722e738f5dfc0665d43eb04b4342f3bf98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
