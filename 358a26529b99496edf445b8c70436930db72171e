@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c0f83e3_98739930",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-09T20:11:11Z",
+      "side": 1,
+      "message": "Now that this is in internal/syscall/windows, I think it makes sense to set `OBJ_DONT_REPARSE` only if `O_NOFOLLOW` is set.",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
