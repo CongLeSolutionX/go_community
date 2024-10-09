@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "225c5633_cf5bbda8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-10-09T12:29:52Z",
+      "side": 1,
+      "message": "The TestTablePut test appears to be panicing on big endian architectures:\n\nhttps://build.golang.org/log/843f70ad11f9b5aabb9227e1ceba1a920f61a630",
+      "revId": "0733682e5ff4cd294f5eccb31cbe87a543147bc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
