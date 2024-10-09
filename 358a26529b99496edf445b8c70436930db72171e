@@ -120,6 +120,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f083baba_dac5578a",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T22:11:27Z",
+      "side": 1,
+      "message": "Good point; done. I used `O_NOFOLLOW_ANY` instead of `O_NOFOLLOW`, because this disallows reparse points anywhere in the path. (Flag name is consistent with the macOS flag of the same name and behavior.)",
+      "parentUuid": "7c0f83e3_98739930",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d52fb85_145ac75d",
