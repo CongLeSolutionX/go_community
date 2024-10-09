@@ -105,17 +105,6 @@ func openFileNolog(name string, flag int, perm FileMode) (*File, error) {
 	path := fixLongPath(name)
 	r, e := syscall.Open(path, flag|syscall.O_CLOEXEC, syscallMode(perm))
 	if e != nil {
-		// We should return EISDIR when we are trying to open a directory with write access.
-		if e == syscall.ERROR_ACCESS_DENIED && (flag&O_WRONLY != 0 || flag&O_RDWR != 0) {
-			pathp, e1 := syscall.UTF16PtrFromString(path)
-			if e1 == nil {
-				var fa syscall.Win32FileAttributeData
-				e1 = syscall.GetFileAttributesEx(pathp, syscall.GetFileExInfoStandard, (*byte)(unsafe.Pointer(&fa)))
-				if e1 == nil && fa.FileAttributes&syscall.FILE_ATTRIBUTE_DIRECTORY != 0 {
-					e = syscall.EISDIR
-				}
-			}
-		}
 		return nil, &PathError{Op: "open", Path: name, Err: e}
 	}
 	return newFile(r, name, "file"), nil
