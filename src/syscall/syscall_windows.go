@@ -388,10 +388,7 @@ func Open(path string, mode int, perm uint32) (fd Handle, err error) {
 	if perm&S_IWRITE == 0 {
 		attrs = FILE_ATTRIBUTE_READONLY
 	}
-	if createmode == OPEN_EXISTING && access == GENERIC_READ {
-		// Necessary for opening directory handles.
-		attrs |= FILE_FLAG_BACKUP_SEMANTICS
-	}
+	attrs |= FILE_FLAG_BACKUP_SEMANTICS // Necessary for opening directory handles.
 	if mode&O_SYNC != 0 {
 		const _FILE_FLAG_WRITE_THROUGH = 0x80000000
 		attrs |= _FILE_FLAG_WRITE_THROUGH
