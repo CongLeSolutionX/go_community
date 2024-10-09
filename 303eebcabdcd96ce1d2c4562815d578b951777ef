@@ -16,6 +16,29 @@
       "message": "Hi Michael, Laidongfeng, when you have time, could you trigger another TryBots-pass? Thanks!",
       "revId": "303eebcabdcd96ce1d2c4562815d578b951777ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c71ef36_74e1c669",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 45
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-10-09T18:41:53Z",
+      "side": 1,
+      "message": "I tested this on my local checkout of your CL and I think the problem is that importer[p] is set to nil for packages p that are imports of ptest (see line 526 of this patchset). We\u0027re setting the importerOf value to nil so that the loop on 548 terminates, and we can\u0027t set it to ptest because then it would terminate before running the first iteration . So if importerOf[p] \u003d\u003d nil and there actually was a value in the map - the `ok` in the code below p is actually ptest.\n\nSo I think what we want is something like\n```\nfor p !\u003d nil {\n\timporter, ok :\u003d importerOf[p]\n\tif importer \u003d\u003d nil \u0026\u0026 ok { // we set importerOf[p] \u003d\u003d nil for the initial set of packages p that are imports of ptest\n\t\timporter \u003d ptest\n\t}\n\tstk \u003d append(stk, ImportInfo{\n\t\tPkg: p.ImportPath,\n\t\tPos: extractFirstImport(importer.Internal.Build.ImportPos[p.ImportPath]),\n\t})\n\tp \u003d importerOf[p]\n}\n```",
+      "range": {
+        "startLine": 549,
+        "startChar": 4,
+        "endLine": 557,
+        "endChar": 21
+      },
+      "revId": "303eebcabdcd96ce1d2c4562815d578b951777ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
