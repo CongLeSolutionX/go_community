@@ -543,6 +543,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "470481c5_3885bdfe",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T17:52:38Z",
+      "side": 1,
+      "message": "Thought about this some more, and moving this to internal/syscall/windows works better than I was thinking. Moved.",
+      "parentUuid": "341cfac0_d110e06e",
+      "revId": "c0ef922ddb0b6cae38fe90068de9cd7c8bc6cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a54a817_4881b602",
