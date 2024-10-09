@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b96c99b_23eacada",
+        "filename": "src/syscall/syscall_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-09T18:48:09Z",
+      "side": 1,
+      "message": "Add the `O_RDONLY|O_CREAT` case in here as well? (It\u0027s one of the two we were testing before.)",
+      "revId": "4f908b8cb5782d4ac8c56c8e45d22e949b1e2b91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
