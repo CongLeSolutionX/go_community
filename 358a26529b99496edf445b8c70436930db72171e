@@ -3,6 +3,108 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "824d6302_46b56eca",
+        "filename": "doc/next/6-stdlib/1-os-root.md",
+        "patchSetId": 30
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-09T22:03:06Z",
+      "side": 1,
+      "message": "s/which/that/",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d54139cd_6a5d9bb9",
+        "filename": "doc/next/6-stdlib/1-os-root.md",
+        "patchSetId": 30
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-09T22:03:06Z",
+      "side": 1,
+      "message": "s/which/that/",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdd0fafc_d09d8b6b",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-09T22:03:06Z",
+      "side": 1,
+      "message": "s/2014/2024/\n\n2024 is the Year of the Gopher.",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dd4298d_46bd16ed",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-09T22:03:06Z",
+      "side": 1,
+      "message": "Please add a comment explaining that this is an invented value that corresponds to the invented values in the syscall package.",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09f76aa6_cb2a8da6",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-09T22:03:06Z",
+      "side": 1,
+      "message": "var access, options uint32",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3742b75e_b9b91f5e",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-09T22:03:06Z",
+      "side": 1,
+      "message": "It seems to me that FILE_LIST_DIRECTORY is the same bit as FILE_READ_DATA.  FILE_GENERIC_READ is more than one bit.",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c0f83e3_98739930",
         "filename": "src/internal/syscall/windows/at_windows.go",
         "patchSetId": 30
@@ -14,6 +116,142 @@
       "writtenOn": "2024-10-09T20:11:11Z",
       "side": 1,
       "message": "Now that this is in internal/syscall/windows, I think it makes sense to set `OBJ_DONT_REPARSE` only if `O_NOFOLLOW` is set.",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d52fb85_145ac75d",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-09T22:03:06Z",
+      "side": 1,
+      "message": "Why are we reaching into syscall for FILE_ATTRIBUTE_NORMAL when we didn\u0027t for any of the other flags?  Similarly for FILE_ATTRIBUTE_READONLY two lines down.",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9963bd9_5180fab5",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-09T22:03:06Z",
+      "side": 1,
+      "message": "Personally I think this is clearer as\n\n    if flag\u0026syscall.O_TRUNC !\u003d 0 {",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0ae0e5b_59e2dac7",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-09T22:03:06Z",
+      "side": 1,
+      "message": "TODO",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35aa9f9a_4dfbe9d9",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 1811,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-09T22:03:06Z",
+      "side": 1,
+      "message": "I suggest we rename TestOpenError to testOpenError and added a rooted parameter.  Then\n\n    func TestOpenError(t *testing.T) {\n        testOpenError(t, false)\n    }\n    \n    func TestOpenRootError(t *testing.T) {\n        testOpenError(t, true)\n    }",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81909f19_76112fa5",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 2172,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-09T22:03:06Z",
+      "side": 1,
+      "message": "TODO",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04ccad7e_1bb8e0dc",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 2209,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-09T22:03:06Z",
+      "side": 1,
+      "message": "You don\u0027t need to explicitly convert to string, %q will print a []byte as a string anyhow.\n\nSimilarly 11 lines down.",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f10be77_b04d4fb8",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 2216,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-09T22:03:06Z",
+      "side": 1,
+      "message": "If err !\u003d nil, st.Mode() is unlikely to return anything useful.\n\nIf you meant err \u003d\u003d nil, note that you can print a FileMode with %s to get a readable string.",
+      "revId": "358a26529b99496edf445b8c70436930db72171e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a99a499_6a538f2e",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 2260,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-09T22:03:06Z",
+      "side": 1,
+      "message": "Why don\u0027t you have to skip this test if Getuid() \u003d\u003d 0 ?",
       "revId": "358a26529b99496edf445b8c70436930db72171e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
