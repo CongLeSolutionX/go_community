@@ -388,17 +388,28 @@ func Open(path string, mode int, perm uint32) (fd Handle, err error) {
 	if perm&S_IWRITE == 0 {
 		attrs = FILE_ATTRIBUTE_READONLY
 	}
-	if createmode == OPEN_EXISTING && access == GENERIC_READ {
-		// Necessary for opening directory handles.
-		attrs |= FILE_FLAG_BACKUP_SEMANTICS
-	}
+	attrs |= FILE_FLAG_BACKUP_SEMANTICS // Necessary for opening directory handles.
 	if mode&O_SYNC != 0 {
 		const _FILE_FLAG_WRITE_THROUGH = 0x80000000
 		attrs |= _FILE_FLAG_WRITE_THROUGH
 	}
 	h, err := CreateFile(pathp, access, sharemode, sa, createmode, attrs, 0)
 	if err != nil {
+		if err == ERROR_ACCESS_DENIED && (mode&O_WRONLY != 0 || mode&O_RDWR != 0) {
+			attrs, e1 := GetFileAttributes(pathp)
+			if e1 == nil && attrs&FILE_ATTRIBUTE_DIRECTORY != 0 {
+				err = EISDIR
+			}
+		}
 		return InvalidHandle, err
+	}
+	if mode&O_WRONLY != 0 || mode&O_RDWR != 0 {
+		var d ByHandleFileInformation
+		err = GetFileInformationByHandle(h, &d)
+		if err == nil && d.FileAttributes&FILE_ATTRIBUTE_DIRECTORY != 0 {
+			CloseHandle(h)
+			return InvalidHandle, EISDIR
+		}
 	}
 	if mode&O_TRUNC == O_TRUNC {
 		err = Ftruncate(h, 0)

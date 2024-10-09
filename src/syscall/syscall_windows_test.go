@@ -23,17 +23,17 @@ func TestOpen_Dir(t *testing.T) {
 		t.Fatalf("Open failed: %v", err)
 	}
 	syscall.CloseHandle(h)
-	h, err = syscall.Open(dir, syscall.O_RDONLY|syscall.O_TRUNC, 0)
-	if err == nil {
-		t.Error("Open should have failed")
-	} else {
-		syscall.CloseHandle(h)
+	modes := []int{
+		syscall.O_RDONLY | syscall.O_TRUNC,
+		syscall.O_WRONLY | syscall.O_RDWR,
+		syscall.O_WRONLY, syscall.O_RDWR,
 	}
-	h, err = syscall.Open(dir, syscall.O_RDONLY|syscall.O_CREAT, 0)
-	if err == nil {
-		t.Error("Open should have failed")
-	} else {
-		syscall.CloseHandle(h)
+	for _, mode := range modes {
+		h, err = syscall.Open(dir, mode, 0)
+		if err == nil {
+			syscall.CloseHandle(h)
+			t.Errorf("Open(%d) should have failed", mode)
+		}
 	}
 }
 
