@@ -1185,6 +1185,7 @@ func (t *Type) cmp(x *Type) Cmp {
 
 	case TSTRUCT:
 		if buildcfg.Experiment.SwissMap {
+			// Is this a map bucket type?
 			if t.StructType().Map == nil {
 				if x.StructType().Map != nil {
 					return CMPlt // nil < non-nil
@@ -1192,17 +1193,14 @@ func (t *Type) cmp(x *Type) Cmp {
 				// to the fallthrough
 			} else if x.StructType().Map == nil {
 				return CMPgt // nil > non-nil
-			} else if t.StructType().Map.MapType().SwissBucket == t {
-				// Both have non-nil Map
-				// Special case for Maps which include a recursive type where the recursion is not broken with a named type
-				if x.StructType().Map.MapType().SwissBucket != x {
-					return CMPlt // bucket maps are least
-				}
-				return t.StructType().Map.cmp(x.StructType().Map)
-			} else if x.StructType().Map.MapType().SwissBucket == x {
-				return CMPgt // bucket maps are least
-			} // If t != t.Map.SwissBucket, fall through to general case
+			}
+			// Both have non-nil Map, fallthrough to the general
+			// case. Note that the map type does not directly refer
+			// to the bucket type (it uses unsafe.Pointer). If it
+			// did, this would need special handling to avoid
+			// infinite recursion.
 		} else {
+			// Is this a map bucket type?
 			if t.StructType().Map == nil {
 				if x.StructType().Map != nil {
 					return CMPlt // nil < non-nil
@@ -1210,16 +1208,12 @@ func (t *Type) cmp(x *Type) Cmp {
 				// to the fallthrough
 			} else if x.StructType().Map == nil {
 				return CMPgt // nil > non-nil
-			} else if t.StructType().Map.MapType().OldBucket == t {
-				// Both have non-nil Map
-				// Special case for Maps which include a recursive type where the recursion is not broken with a named type
-				if x.StructType().Map.MapType().OldBucket != x {
-					return CMPlt // bucket maps are least
-				}
-				return t.StructType().Map.cmp(x.StructType().Map)
-			} else if x.StructType().Map.MapType().OldBucket == x {
-				return CMPgt // bucket maps are least
-			} // If t != t.Map.OldBucket, fall through to general case
+			}
+			// Both have non-nil Map, fallthrough to the general
+			// case. Note that the map type does not directly refer
+			// to the bucket type (it uses unsafe.Pointer). If it
+			// did, this would need special handling to avoid
+			// infinite recursion.
 		}
 
 		tfs := t.Fields()
