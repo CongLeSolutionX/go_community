@@ -201,6 +201,30 @@
       },
       "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "754f4214_e8152327",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-10-10T19:23:43Z",
+      "side": 1,
+      "message": "(Please keep the comment unresolved until we understand. Thanks.)",
+      "parentUuid": "7eabaced_82c2c703",
+      "range": {
+        "startLine": 690,
+        "startChar": 0,
+        "endLine": 693,
+        "endChar": 5
+      },
+      "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
