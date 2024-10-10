@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9c0b1035_44126e1d",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-10T07:16:44Z",
+      "side": 1,
+      "message": "Some additional flags that we could support (probably not in this CL, but could be useful to implement `readReparseLinkAt` and for when we implement `LStatIn`:\n\n- `O_NOFOLLOW`: Implemented without `OBJ_DONT_REPARSE` but with `FILE_FLAG_OPEN_REPARSE_POINT` + a call to get the reparse point tag, and return `ELOOP` if the reparse point is a surrogate.\n- `O_NOFOLLOW` + `O_PATH`: Implemented without `OBJ_DONT_REPARSE` but with `FILE_FLAG_OPEN_REPARSE_POINT`.",
+      "revId": "eeddd3448360d35ea6979511e029a3ab317c4617",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "abe89270_fd3e3210",
         "filename": "src/internal/syscall/windows/at_windows.go",
         "patchSetId": 32
@@ -14,6 +31,23 @@
       "writtenOn": "2024-10-10T05:14:26Z",
       "side": 1,
       "message": "This line should be removed.",
+      "revId": "eeddd3448360d35ea6979511e029a3ab317c4617",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6172f03_28850677",
+        "filename": "src/os/root_openat.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-10T07:16:44Z",
+      "side": 1,
+      "message": "Idea (maybe not for this CL): On platforms with `O_NOFOLLOW_ANY`, if the path doesn\u0027t contain any `..` we could try to call `openat` first to see if it succeeds. If it does, we would be done and wouldn\u0027t have to do all the path traversal logic. Symlinks are rare (even more on Windows), so this could be a good speed up without impacting alot the symlink-case.",
       "revId": "eeddd3448360d35ea6979511e029a3ab317c4617",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
