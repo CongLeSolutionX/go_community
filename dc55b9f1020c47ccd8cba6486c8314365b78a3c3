@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0da2e8f_49bdfb0e",
+        "filename": "src/cmd/compile/internal/reflectdata/map_swiss.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-10T16:37:58Z",
+      "side": 1,
+      "message": "I\u0027d rather not store a whole additional field.\nWe can recompute it easily enough. Isn\u0027t entryMask \u003d\u003d 8*lengthMask+7?",
+      "revId": "dc55b9f1020c47ccd8cba6486c8314365b78a3c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
