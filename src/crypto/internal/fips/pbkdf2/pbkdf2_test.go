@@ -2,11 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package pbkdf2
+package pbkdf2_test
 
 import (
 	"bytes"
 	"crypto/internal/fips"
+	"crypto/internal/fips/pbkdf2"
 	"crypto/internal/fips/sha256"
 	"testing"
 )
@@ -75,7 +76,7 @@ var sha256TestVectors = []testVector{
 
 func testHash(t *testing.T, h func() fips.Hash, hashName string, vectors []testVector) {
 	for i, v := range vectors {
-		o := Key([]byte(v.password), []byte(v.salt), v.iter, len(v.output), h)
+		o := pbkdf2.Key([]byte(v.password), []byte(v.salt), v.iter, len(v.output), h)
 		if !bytes.Equal(o, v.output) {
 			t.Errorf("%s %d: expected %x, got %x", hashName, i, v.output, o)
 		}
@@ -92,7 +93,7 @@ func benchmark(b *testing.B, h func() fips.Hash) {
 	password := make([]byte, h().Size())
 	salt := make([]byte, 8)
 	for i := 0; i < b.N; i++ {
-		password = Key(password, salt, 4096, len(password), h)
+		password = pbkdf2.Key(password, salt, 4096, len(password), h)
 	}
 	sink += password[0]
 }

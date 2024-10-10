@@ -40,6 +40,11 @@ import (
 // Using a higher iteration count will increase the cost of an exhaustive
 // search but will also make derivation proportionally slower.
 func Key(password, salt []byte, iter, keyLen int, h func() fips.Hash) []byte {
+	// the HMAC construction will handle the hash function considerations for the service
+	// indicator. The remaining PBKDF2 considerations outlined by SP 800-132 pertain to
+	// salt and keyLen.
+	setServiceIndicator(salt, keyLen)
+
 	prf := hmac.New(h(), h(), password)
 	hashLen := prf.Size()
 	numBlocks := (keyLen + hashLen - 1) / hashLen
@@ -74,4 +79,19 @@ func Key(password, salt []byte, iter, keyLen int, h func() fips.Hash) []byte {
 		}
 	}
 	return dk[:keyLen]
+}
+
+func setServiceIndicator(salt []byte, keyLen int) {
+	// The length of the randomly-generated portion of the salt shall be at least 128 bits.
+	if len(salt) < 128/8 {
+		return
+	}
+
+	// Per FIPS 140-3 IG C.M, key lengths below 112 bits are only allowed for
+	// legacy use (i.e. verification only) and we don't support that.
+	if keyLen < 112/8 {
+		return
+	}
+
+	// TODO(fips): set service indicator.
 }
