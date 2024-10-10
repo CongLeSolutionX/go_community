@@ -2,7 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< PATCH SET (514fec crypto/internal/fips/pbkdf2: stub service indicator)
+=======
 // TODO: move tests to public package, once available.
+>>>>>>> BASE      (b341f5 crypto/internal/fips: import x/crypto/pbkdf2)
 package pbkdf2_test
 
 import (
