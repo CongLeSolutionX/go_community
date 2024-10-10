@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a758103b_b889b8a3",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-10T20:42:42Z",
+      "side": 1,
+      "message": "So `O_NOFOLLOW` would open with `FILE_FLAG_OPEN_REPARSE_POINT`, and then:\n- Return the result if the file isn\u0027t a reparse point.\n- Return `ELOOP` if it\u0027s a surrogate.\n- Return `STATUS_REPARSE_POINT_ENCOUNTERED` if it isn\u0027t a surrogate (which is what we\u0027d do if `O_NOFOLLOW` wasn\u0027t present).\n\nIs that right?\n\n(And if a user actually do wants to open a reparse point as a file, they\u0027re doing something very Windows-specific and should use `NtCreateFile` directly. Or I suppose we could have a Windows-specific `O_` flag for this case.)",
+      "parentUuid": "93cc352f_925ab108",
+      "revId": "eeddd3448360d35ea6979511e029a3ab317c4617",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "abe89270_fd3e3210",
         "filename": "src/internal/syscall/windows/at_windows.go",
         "patchSetId": 32
