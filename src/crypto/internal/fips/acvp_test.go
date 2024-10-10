@@ -22,6 +22,7 @@ import (
 	"bytes"
 	"crypto/internal/fips"
 	"crypto/internal/fips/hmac"
+	"crypto/internal/fips/pbkdf2"
 	"crypto/internal/fips/sha256"
 	"crypto/internal/fips/sha3"
 	"crypto/internal/fips/sha512"
@@ -113,6 +114,8 @@ var (
 		"HMAC-SHA3-256":     cmdHmacAft(sha3.New256(), sha3.New256()),
 		"HMAC-SHA3-384":     cmdHmacAft(sha3.New384(), sha3.New384()),
 		"HMAC-SHA3-512":     cmdHmacAft(sha3.New512(), sha3.New512()),
+
+		"PBKDF": cmdPbkdf(),
 	}
 )
 
@@ -345,6 +348,50 @@ func cmdHmacAft(h1, h2 fips.Hash) command {
 	}
 }
 
+func cmdPbkdf() command {
+	return command{
+		// HMAC name, key length, salt, password, iteration count
+		requiredArgs: 5,
+		handler: func(args [][]byte) ([][]byte, error) {
+			hmacName := args[0]
+			var h func() fips.Hash
+			switch string(hmacName) {
+			case "SHA2-224":
+				h = func() fips.Hash { return sha256.New224() }
+			case "SHA2-256":
+				h = func() fips.Hash { return sha256.New() }
+			case "SHA2-384":
+				h = func() fips.Hash { return sha512.New384() }
+			case "SHA2-512":
+				h = func() fips.Hash { return sha512.New() }
+			case "SHA2-512/224":
+
+				h = func() fips.Hash { return sha512.New512_224() }
+			case "SHA2-512/256":
+				h = func() fips.Hash { return sha512.New512_256() }
+			case "SHA3-224":
+				h = func() fips.Hash { return sha3.New224() }
+			case "SHA3-256":
+				h = func() fips.Hash { return sha3.New256() }
+			case "SHA3-384":
+				h = func() fips.Hash { return sha3.New384() }
+			case "SHA3-512":
+				h = func() fips.Hash { return sha3.New512() }
+			default:
+				return nil, fmt.Errorf("unknown PBKDF2 HMAC: %q", hmacName)
+			}
+			keyLen := binary.LittleEndian.Uint32(args[1]) / 8
+			salt := args[2]
+			password := args[3]
+			iterationCount := binary.LittleEndian.Uint32(args[4])
+
+			derivedKey := pbkdf2.Key(password, salt, int(iterationCount), int(keyLen), h)
+
+			return [][]byte{derivedKey}, nil
+		},
+	}
+}
+
 func TestACVP(t *testing.T) {
 	testenv.SkipIfShortAndSlow(t)
 	testenv.MustHaveExternalNetwork(t)
@@ -353,9 +400,9 @@ func TestACVP(t *testing.T) {
 
 	const (
 		bsslModule    = "boringssl.googlesource.com/boringssl.git"
-		bsslVersion   = "v0.0.0-20241009223352-905c3903fd42"
+		bsslVersion   = "v0.0.0-20241015160643-2587c4974dbe"
 		goAcvpModule  = "github.com/cpu/go-acvp"
-		goAcvpVersion = "v0.0.0-20241009200939-159f4c69a90d"
+		goAcvpVersion = "v0.0.0-20241011151719-6e0509dcb7ce"
 	)
 
 	// In crypto/tls/bogo_shim_test.go the test is skipped if run on a builder with runtime.GOOS == "windows"
@@ -383,9 +430,7 @@ func TestACVP(t *testing.T) {
 
 	// Build the acvptool binary.
 	goTool := testenv.GoToolPath(t)
-	cmd := exec.Command(goTool,
-		"build",
-		"./util/fipstools/acvp/acvptool")
+	cmd := exec.Command(goTool, "build", "./util/fipstools/acvp/acvptool")
 	cmd.Dir = bsslDir
 	out := &strings.Builder{}
 	cmd.Stderr = out
