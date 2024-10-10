@@ -70,6 +70,24 @@
       "parentUuid": "4f46e790_3ccbbd7c",
       "revId": "c415fc8c117d09c314f9d3a639c884c2b17103a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "912bc415_7479a15b",
+        "filename": "src/cmd/link/internal/ld/ld_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-10-10T19:29:30Z",
+      "side": 1,
+      "message": "In fact they contain many packages, e.g. the main package and the runtime package. The tests use a flag (-debugtramp\u003d2) to force trampolines for calls across packages.",
+      "parentUuid": "5e494761_6f2fdd14",
+      "revId": "c415fc8c117d09c314f9d3a639c884c2b17103a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
