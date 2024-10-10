@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abe89270_fd3e3210",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-10T05:14:26Z",
+      "side": 1,
+      "message": "This line should be removed.",
+      "revId": "eeddd3448360d35ea6979511e029a3ab317c4617",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
