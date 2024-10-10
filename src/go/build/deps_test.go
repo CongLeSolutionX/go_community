@@ -1,4 +1,4 @@
-// Copyright 2022 The Go Authors. All rights reserved.
+/// Copyright 2022 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -454,6 +454,7 @@ var depsRules = `
 	< crypto/internal/fips/sha512
 	< crypto/internal/fips/sha3
 	< crypto/internal/fips/hmac
+        < crypto/internal/fips/pbkdf2
 	< FIPS;
 
 	NONE < crypto/internal/boring/sig, crypto/internal/boring/syso;
