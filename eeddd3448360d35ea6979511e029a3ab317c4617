@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "93cc352f_925ab108",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-10T20:22:15Z",
+      "side": 1,
+      "message": "\u003e For O_NOFOLLOW, when opening a non-surrogate reparse point should we behave as if O_NOFOLLOW wasn\u0027t present?\n\nYep.\n\n\u003e In that case, I think we need to return the result of opening without FILE_FLAG_OPEN_REPARSE_POINT.\n\nNon-surrogate reparse points can\u0027t be opened without the open_reparse_point flag, NtCreateFile returns `STATUS_REPARSE_POINT_ENCOUNTERED` in such case.\n\nSee this example:\n```\nfunc TestNonSurrogateReparsePoint(t *testing.T) {\n    dir :\u003d t.TempDir()\n    addr :\u003d filepath.Join(dir, \"sock\")\n    l, err :\u003d net.Listen(\"unix\", addr)\n    if err !\u003d nil {\n        t.Fatal(err)\n    }\n    defer l.Close()\n\n    r, err :\u003d os.OpenRoot(dir)\n    if err !\u003d nil {\n        t.Fatal(err)\n    }\n    defer r.Close()\n    f, err :\u003d r.Open(\"sock\")\n    if err !\u003d nil {\n        t.Fatal(err)\n    }\n    f.Close()\n}\n```",
+      "parentUuid": "f8a6264c_07eafe9b",
+      "revId": "eeddd3448360d35ea6979511e029a3ab317c4617",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "abe89270_fd3e3210",
         "filename": "src/internal/syscall/windows/at_windows.go",
         "patchSetId": 32
