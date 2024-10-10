@@ -1833,6 +1833,21 @@ func rewriteValueLOONG64_OpLOONG64MOVBUreg(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
+	// match: (MOVBUreg (SLLVconst [lc] x))
+	// cond: lc >= 8
+	// result: (MOVVconst [0])
+	for {
+		if v_0.Op != OpLOONG64SLLVconst {
+			break
+		}
+		lc := auxIntToInt64(v_0.AuxInt)
+		if !(lc >= 8) {
+			break
+		}
+		v.reset(OpLOONG64MOVVconst)
+		v.AuxInt = int64ToAuxInt(0)
+		return true
+	}
 	// match: (MOVBUreg (MOVVconst [c]))
 	// result: (MOVVconst [int64(uint8(c))])
 	for {
@@ -2508,6 +2523,21 @@ func rewriteValueLOONG64_OpLOONG64MOVHUreg(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
+	// match: (MOVHUreg (SLLVconst [lc] x))
+	// cond: lc >= 16
+	// result: (MOVVconst [0])
+	for {
+		if v_0.Op != OpLOONG64SLLVconst {
+			break
+		}
+		lc := auxIntToInt64(v_0.AuxInt)
+		if !(lc >= 16) {
+			break
+		}
+		v.reset(OpLOONG64MOVVconst)
+		v.AuxInt = int64ToAuxInt(0)
+		return true
+	}
 	// match: (MOVHUreg (MOVVconst [c]))
 	// result: (MOVVconst [int64(uint16(c))])
 	for {
@@ -3173,6 +3203,21 @@ func rewriteValueLOONG64_OpLOONG64MOVWUreg(v *Value) bool {
 		}
 		v.reset(OpLOONG64MOVVreg)
 		v.AddArg(x)
+		return true
+	}
+	// match: (MOVWUreg (SLLVconst [lc] x))
+	// cond: lc >= 32
+	// result: (MOVVconst [0])
+	for {
+		if v_0.Op != OpLOONG64SLLVconst {
+			break
+		}
+		lc := auxIntToInt64(v_0.AuxInt)
+		if !(lc >= 32) {
+			break
+		}
+		v.reset(OpLOONG64MOVVconst)
+		v.AuxInt = int64ToAuxInt(0)
 		return true
 	}
 	// match: (MOVWUreg (MOVVconst [c]))
@@ -4314,6 +4359,51 @@ func rewriteValueLOONG64_OpLOONG64SRLV(v *Value) bool {
 }
 func rewriteValueLOONG64_OpLOONG64SRLVconst(v *Value) bool {
 	v_0 := v.Args[0]
+	// match: (SRLVconst [rc] (MOVWUreg x))
+	// cond: rc >= 32
+	// result: (MOVVconst [0])
+	for {
+		rc := auxIntToInt64(v.AuxInt)
+		if v_0.Op != OpLOONG64MOVWUreg {
+			break
+		}
+		if !(rc >= 32) {
+			break
+		}
+		v.reset(OpLOONG64MOVVconst)
+		v.AuxInt = int64ToAuxInt(0)
+		return true
+	}
+	// match: (SRLVconst [rc] (MOVHUreg x))
+	// cond: rc >= 16
+	// result: (MOVVconst [0])
+	for {
+		rc := auxIntToInt64(v.AuxInt)
+		if v_0.Op != OpLOONG64MOVHUreg {
+			break
+		}
+		if !(rc >= 16) {
+			break
+		}
+		v.reset(OpLOONG64MOVVconst)
+		v.AuxInt = int64ToAuxInt(0)
+		return true
+	}
+	// match: (SRLVconst [rc] (MOVBUreg x))
+	// cond: rc >= 8
+	// result: (MOVVconst [0])
+	for {
+		rc := auxIntToInt64(v.AuxInt)
+		if v_0.Op != OpLOONG64MOVBUreg {
+			break
+		}
+		if !(rc >= 8) {
+			break
+		}
+		v.reset(OpLOONG64MOVVconst)
+		v.AuxInt = int64ToAuxInt(0)
+		return true
+	}
 	// match: (SRLVconst [c] (MOVVconst [d]))
 	// result: (MOVVconst [int64(uint64(d)>>uint64(c))])
 	for {
