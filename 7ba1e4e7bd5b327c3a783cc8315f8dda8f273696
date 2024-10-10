@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43a3f83f_436d1dce",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-10T16:57:18Z",
+      "side": 1,
+      "message": "It might be clearer to reorg this way:\n\nmatch \u003d g.ctrls().matchEmpty()\nif match !\u003d 0 {\n   // end of probe sequence\n   .. as before ..\n   return\n}\nif firstDeletedGroup.data \u003d\u003d nil {\n  match :\u003d g.ctrls().matchEmptyOrDeleted()\n  if match !\u003d 0 {\n     firstDeletedGroup \u003d g\n     firstDeletedSlot \u003d match.first()\n  }\n}\ncontinue",
+      "revId": "7ba1e4e7bd5b327c3a783cc8315f8dda8f273696",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
