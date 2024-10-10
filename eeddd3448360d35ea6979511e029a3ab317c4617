@@ -35,6 +35,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7480c03_4a8325e4",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-10T18:35:30Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "314cd41b_308c45b6",
+      "revId": "eeddd3448360d35ea6979511e029a3ab317c4617",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8a6264c_07eafe9b",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-10T18:35:30Z",
+      "side": 1,
+      "message": "For `O_NOFOLLOW`, when opening a non-surrogate reparse point should we behave as if `O_NOFOLLOW` wasn\u0027t present? In that case, I think we need to return the result of opening without `FILE_FLAG_OPEN_REPARSE_POINT`.",
+      "parentUuid": "9c0b1035_44126e1d",
+      "revId": "eeddd3448360d35ea6979511e029a3ab317c4617",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "abe89270_fd3e3210",
@@ -48,6 +84,24 @@
       "writtenOn": "2024-10-10T05:14:26Z",
       "side": 1,
       "message": "This line should be removed.",
+      "revId": "eeddd3448360d35ea6979511e029a3ab317c4617",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c7093b8_86c24b76",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-10T18:35:30Z",
+      "side": 1,
+      "message": "Oops, fixed.",
+      "parentUuid": "abe89270_fd3e3210",
       "revId": "eeddd3448360d35ea6979511e029a3ab317c4617",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -69,6 +123,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f353205_6db994fe",
+        "filename": "src/os/root_openat.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-10T18:35:30Z",
+      "side": 1,
+      "message": "I think that\u0027s a good idea; as you say, the common case doesn\u0027t involve symlinks.\n\n(This is a nice benefit to using OBJ_DONT_REPARSE; thanks for pointing me at it. I\u0027d missed that there\u0027s a way to disable reparse points anywhere on the path.)\n\nMy plan is to get the entire proposed API working portably first, and then go back to add fast paths. I\u0027d rather ship Root in Go 1.24 with the slower implementation and make it faster in 1.25 than slip the whole thing to 1.25.",
+      "parentUuid": "c6172f03_28850677",
+      "revId": "eeddd3448360d35ea6979511e029a3ab317c4617",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab7cbb73_f46f2bd5",
@@ -82,6 +154,24 @@
       "writtenOn": "2024-10-10T07:40:40Z",
       "side": 1,
       "message": "It\u0027s strange that this test passes on Windows builders, as it fails on my Windows box:\n\n```\n--- FAIL: TestRootConsistencyOpen (0.01s)\n    --- FAIL: TestRootConsistencyOpen/file_slash (0.01s)\n        root_test.go:538: with root:    err\u003dThe system cannot find the path specified.\n        root_test.go:539: without root: err\u003dThe directory name is invalid.\n        root_test.go:540: want consistent results, got mismatch\n--- FAIL: TestRootConsistencyCreate (0.02s)\n    --- FAIL: TestRootConsistencyCreate/file_slash (0.02s)\n        root_test.go:538: with root:    err\u003dThe system cannot find the path specified.\n        root_test.go:539: without root: err\u003dThe directory name is invalid.\n        root_test.go:540: want consistent results, got mismatch\n```\n\nI manage to fix the issue by modifing `ntCreateFileError` as follows:\n\n```\nfunc ntCreateFileError(err error, options uint32) error {\n\ts, ok :\u003d err.(NTStatus)\n\tif !ok {\n\t\t// Shouldn\u0027t really be possible, NtCreateFile always returns NTStatus.\n\t\treturn err\n\t}\n\tswitch s {\n\tcase STATUS_REPARSE_POINT_ENCOUNTERED:\n\t\treturn syscall.ELOOP\n\tcase STATUS_NOT_A_DIRECTORY:\n\t\tif options\u0026FILE_DIRECTORY_FILE !\u003d 0 {\n\t\t\treturn syscall.ENOTDIR\n\t\t}\n\tcase STATUS_FILE_IS_A_DIRECTORY:\n\t\treturn syscall.EISDIR\n\t}\n\treturn s.Errno()\n}\n```\n\nI think this change is principled, but it might be Windows-version dependent if it fails in the builders (which I haven\u0027t tested).",
+      "revId": "eeddd3448360d35ea6979511e029a3ab317c4617",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af610056_bdc6abad",
+        "filename": "src/os/root_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-10T18:35:30Z",
+      "side": 1,
+      "message": "I agree this is principled; done.\n\nReturning ENOTDIR when O_DIRECTORY isn\u0027t specified is especially confusing because syscall.ENOTDIR is mapped to ERROR_PATH_NOT_FOUND, which has a broader meaning than the Unix ENOTDIR.",
+      "parentUuid": "ab7cbb73_f46f2bd5",
       "revId": "eeddd3448360d35ea6979511e029a3ab317c4617",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
