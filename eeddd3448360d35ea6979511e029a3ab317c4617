@@ -50,6 +50,23 @@
       "message": "Idea (maybe not for this CL): On platforms with `O_NOFOLLOW_ANY`, if the path doesn\u0027t contain any `..` we could try to call `openat` first to see if it succeeds. If it does, we would be done and wouldn\u0027t have to do all the path traversal logic. Symlinks are rare (even more on Windows), so this could be a good speed up without impacting alot the symlink-case.",
       "revId": "eeddd3448360d35ea6979511e029a3ab317c4617",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab7cbb73_f46f2bd5",
+        "filename": "src/os/root_test.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-10T07:40:40Z",
+      "side": 1,
+      "message": "It\u0027s strange that this test passes on Windows builders, as it fails on my Windows box:\n\n```\n--- FAIL: TestRootConsistencyOpen (0.01s)\n    --- FAIL: TestRootConsistencyOpen/file_slash (0.01s)\n        root_test.go:538: with root:    err\u003dThe system cannot find the path specified.\n        root_test.go:539: without root: err\u003dThe directory name is invalid.\n        root_test.go:540: want consistent results, got mismatch\n--- FAIL: TestRootConsistencyCreate (0.02s)\n    --- FAIL: TestRootConsistencyCreate/file_slash (0.02s)\n        root_test.go:538: with root:    err\u003dThe system cannot find the path specified.\n        root_test.go:539: without root: err\u003dThe directory name is invalid.\n        root_test.go:540: want consistent results, got mismatch\n```\n\nI manage to fix the issue by modifing `ntCreateFileError` as follows:\n\n```\nfunc ntCreateFileError(err error, options uint32) error {\n\ts, ok :\u003d err.(NTStatus)\n\tif !ok {\n\t\t// Shouldn\u0027t really be possible, NtCreateFile always returns NTStatus.\n\t\treturn err\n\t}\n\tswitch s {\n\tcase STATUS_REPARSE_POINT_ENCOUNTERED:\n\t\treturn syscall.ELOOP\n\tcase STATUS_NOT_A_DIRECTORY:\n\t\tif options\u0026FILE_DIRECTORY_FILE !\u003d 0 {\n\t\t\treturn syscall.ENOTDIR\n\t\t}\n\tcase STATUS_FILE_IS_A_DIRECTORY:\n\t\treturn syscall.EISDIR\n\t}\n\treturn s.Errno()\n}\n```\n\nI think this change is principled, but it might be Windows-version dependent if it fails in the builders (which I haven\u0027t tested).",
+      "revId": "eeddd3448360d35ea6979511e029a3ab317c4617",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
