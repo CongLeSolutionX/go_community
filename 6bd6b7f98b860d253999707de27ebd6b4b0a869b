@@ -37,6 +37,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a5034a28_e59b0423",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-11T07:40:26Z",
+      "side": 1,
+      "message": "The Unix counter-part of `rootOpenDir` passes the `syscall.O_CLOEXEC` flag. We should probably do that here too.",
+      "revId": "6bd6b7f98b860d253999707de27ebd6b4b0a869b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "70bd4bb4_e159d21f",
         "filename": "src/os/root_windows.go",
         "patchSetId": 35
