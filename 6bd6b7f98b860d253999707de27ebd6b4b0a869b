@@ -33,6 +33,23 @@
       "message": "`FILE_GENERIC_READ` already includes all the other rights passed in here.\n\n```suggestion\n\t\twindows.FILE_GENERIC_READ\n```",
       "revId": "6bd6b7f98b860d253999707de27ebd6b4b0a869b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70bd4bb4_e159d21f",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-11T07:37:42Z",
+      "side": 1,
+      "message": "This transform can be moved to `windows.Openat` by extending `ntCreateFileError` like this:\n\n```\n\tcase STATUS_OBJECT_NAME_NOT_FOUND:\n\t\tif flag\u0026O_DIRECTORY !\u003d 0 {\n\t\t\treturn syscall.ERROR_PATH_NOT_FOUND\n\t\t}\n```",
+      "revId": "6bd6b7f98b860d253999707de27ebd6b4b0a869b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
