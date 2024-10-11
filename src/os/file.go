@@ -374,6 +374,8 @@ func Open(name string) (*File, error) {
 // it is truncated. If the file does not exist, it is created with mode 0o666
 // (before umask). If successful, methods on the returned File can
 // be used for I/O; the associated file descriptor has mode O_RDWR.
+// Preconditions: The directories for the named file must exist before creating the file.
+// Consider using MkdirAll or Mkdir if they don't exist.
 // If there is an error, it will be of type *PathError.
 func Create(name string) (*File, error) {
 	return OpenFile(name, O_RDWR|O_CREATE|O_TRUNC, 0666)
@@ -382,7 +384,9 @@ func Create(name string) (*File, error) {
 // OpenFile is the generalized open call; most users will use Open
 // or Create instead. It opens the named file with specified flag
 // (O_RDONLY etc.). If the file does not exist, and the O_CREATE flag
-// is passed, it is created with mode perm (before umask). If successful,
+// is passed, it is created with mode perm (before umask).
+// Note: The directories for the named file must exist when using O_CREATE.
+// Consider using MkdirAll or Mkdir if they don't exist. If successful,
 // methods on the returned File can be used for I/O.
 // If there is an error, it will be of type *PathError.
 func OpenFile(name string, flag int, perm FileMode) (*File, error) {
