@@ -67,11 +67,18 @@ func ParseGOEXPERIMENT(goos, goarch, goexp string) (*ExperimentFlags, error) {
 		regabiSupported = true
 	}
 
+	var haveXchg8 bool
+	switch goarch {
+	case "amd64", "arm64", "ppc64le", "ppc64":
+		haveXchg8 = true
+	}
+
 	baseline := goexperiment.Flags{
 		RegabiWrappers:   regabiSupported,
 		RegabiArgs:       regabiSupported,
 		CoverageRedesign: true,
 		AliasTypeParams:  true,
+		SpinbitMutex:     haveXchg8,
 	}
 
 	// Start with the statically enabled set of experiments.
