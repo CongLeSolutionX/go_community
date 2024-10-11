@@ -88,6 +88,24 @@
       "parentUuid": "5e494761_6f2fdd14",
       "revId": "c415fc8c117d09c314f9d3a639c884c2b17103a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "558a53e4_6acc10b4",
+        "filename": "src/cmd/link/internal/ld/ld_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 54318
+      },
+      "writtenOn": "2024-10-11T10:28:23Z",
+      "side": 1,
+      "message": "Ok, I understand, thank you.\n\nI feel that if the public test case can detect whether trampoline is really added, then this test case only for Loong64 is unnecessary.",
+      "parentUuid": "912bc415_7479a15b",
+      "revId": "c415fc8c117d09c314f9d3a639c884c2b17103a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
