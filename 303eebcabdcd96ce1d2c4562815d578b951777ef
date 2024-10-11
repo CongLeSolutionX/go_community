@@ -39,6 +39,30 @@
       },
       "revId": "303eebcabdcd96ce1d2c4562815d578b951777ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce5dad01_63f12690",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 45
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-10-11T03:57:57Z",
+      "side": 1,
+      "message": "Done, thank you so much for the detailed explanation! Sorry for my late.",
+      "parentUuid": "9c71ef36_74e1c669",
+      "range": {
+        "startLine": 549,
+        "startChar": 4,
+        "endLine": 557,
+        "endChar": 21
+      },
+      "revId": "303eebcabdcd96ce1d2c4562815d578b951777ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
