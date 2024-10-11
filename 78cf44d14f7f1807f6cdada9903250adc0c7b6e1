@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3a9ad32_44f9a3b4",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-11T05:31:22Z",
+      "side": 1,
+      "message": "The `NtCreateFile` docs says that `SYNCHRONIZE` access must be set if the `FILE_SYNCHRONOUS_IO_NONALERT` option is set. I would set `SYNCHRONIZE` unconditionally here just to make sure we don\u0027t miss it.\n```suggestion\n\t\taccess|SYNCHRONIZE,\n```",
+      "revId": "78cf44d14f7f1807f6cdada9903250adc0c7b6e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
