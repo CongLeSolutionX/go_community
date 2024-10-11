@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c56d05f_f76378cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-11T05:26:30Z",
+      "side": 1,
+      "message": "This looks really good, thanks for going the extra mile to make Windows working like a charm.",
+      "revId": "6bd6b7f98b860d253999707de27ebd6b4b0a869b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8a57c64_af8aaa6d",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-11T05:26:30Z",
+      "side": 1,
+      "message": "`FILE_GENERIC_READ` already includes all the other rights passed in here.\n\n```suggestion\n\t\twindows.FILE_GENERIC_READ\n```",
+      "revId": "6bd6b7f98b860d253999707de27ebd6b4b0a869b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
