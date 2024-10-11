@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "41e448f3_3fc7d922",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-10-11T12:31:12Z",
+      "side": 1,
+      "message": "So should this CL wait for Linux kernel 3.17 to become the minimal support version or fallback to reading urandom when the getrandom returns an error?",
+      "parentUuid": "98732944_eb3a8bd2",
+      "revId": "caec28d8e0bbb42c41ed8fa5ab34b3807005d395",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cdc7d651_243e78e8",
         "filename": "src/runtime/os_linux.go",
         "patchSetId": 1
