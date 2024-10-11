@@ -107,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "620f9be5_516f453e",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-11T05:14:11Z",
+      "side": 1,
+      "message": "Yes to opening with `FILE_FLAG_OPEN_REPARSE_POINT` and to the first two bullets.\n\n\u003e Return STATUS_REPARSE_POINT_ENCOUNTERED if it isn\u0027t a surrogate (which is what we\u0027d do if O_NOFOLLOW wasn\u0027t present).\n\n`NtCreateFile` will succeed for non-surrogate reparse points if `FILE_FLAG_OPEN_REPARSE_POINT` is present, so we can as well return the the file descriptor instead of artificially limiting the functionality.\n\nBut supporting `O_NOFOLLOW` is probably outside the scope of this CL, let\u0027s tackle it in a follow-up PR 😊.",
+      "parentUuid": "a758103b_b889b8a3",
+      "revId": "eeddd3448360d35ea6979511e029a3ab317c4617",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "abe89270_fd3e3210",
