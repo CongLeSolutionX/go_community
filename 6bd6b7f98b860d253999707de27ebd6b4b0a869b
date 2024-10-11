@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62a6cd55_63c6300e",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-11T19:11:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8a57c64_af8aaa6d",
+      "revId": "6bd6b7f98b860d253999707de27ebd6b4b0a869b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5034a28_e59b0423",
@@ -52,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9a72c3b_90a94412",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-11T19:11:32Z",
+      "side": 1,
+      "message": "The `openat` function adds `O_CLOEXEC`, but I\u0027ll add it here as well for consistency with the Unix counterpart.",
+      "parentUuid": "a5034a28_e59b0423",
+      "revId": "6bd6b7f98b860d253999707de27ebd6b4b0a869b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70bd4bb4_e159d21f",
@@ -65,6 +101,24 @@
       "writtenOn": "2024-10-11T07:37:42Z",
       "side": 1,
       "message": "This transform can be moved to `windows.Openat` by extending `ntCreateFileError` like this:\n\n```\n\tcase STATUS_OBJECT_NAME_NOT_FOUND:\n\t\tif flag\u0026O_DIRECTORY !\u003d 0 {\n\t\t\treturn syscall.ERROR_PATH_NOT_FOUND\n\t\t}\n```",
+      "revId": "6bd6b7f98b860d253999707de27ebd6b4b0a869b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a48413d5_0be0e1e9",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-11T19:11:32Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s right: `Openat(\"does_not_exist\", O_DIRECTORY)` should return `ERROR_FILE_NOT_FOUND`.\n\nExpanded the comment here with more details.",
+      "parentUuid": "70bd4bb4_e159d21f",
       "revId": "6bd6b7f98b860d253999707de27ebd6b4b0a869b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
