@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5de4cb1c_d08fee08",
+        "filename": "src/os/file.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-11T22:50:05Z",
+      "side": 1,
+      "message": "Let\u0027s make this even shorter.\n\nThe directory containing the file must already exist.",
+      "revId": "63d34e56faf009a4a84e4e6f0c58b58a0e40d16d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a3ad0a4_a0538b71",
+        "filename": "src/os/file.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-11T22:50:05Z",
+      "side": 1,
+      "message": "it is created with mode perm (before umask); the containing directory must exist.",
+      "revId": "63d34e56faf009a4a84e4e6f0c58b58a0e40d16d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
