@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e82e568_7dc0194d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2024-10-11T18:45:26Z",
+      "side": 1,
+      "message": "Updated for the latest consensus as described in https://github.com/golang/go/issues/49580#issuecomment-2392559384\n\nIt seems that some TODOs have emerged in os and archive/tar that depended on this interface, and they looked simple enough for me to address as part of the CL. Still not biting off the archive/zip work, since IIRC the symlink support in the format is a bit hacky.\n\nI would like someone with security expertise to look over the CopyFS implementation in particular. Off-hand, I am a bit concerned about something like CVE-2024-45845, but we may be trusting fs.FS implementations to not return duplicate entries.",
+      "revId": "5969cecaa17c3f23a4f3e4d9dffb865d1016bb54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

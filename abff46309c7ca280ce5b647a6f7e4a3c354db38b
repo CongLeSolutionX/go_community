@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbc7d7d6_31778b1f",
+        "filename": "src/io/fs/symlink.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2024-10-11T18:45:26Z",
+      "side": 1,
+      "message": "Consensus is to have a single interface.",
+      "parentUuid": "0b2e0316_144e29e9",
+      "revId": "abff46309c7ca280ce5b647a6f7e4a3c354db38b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3e9c6f5_f18e680e",
@@ -161,6 +179,30 @@
       "side": 1,
       "message": "Thanks for pointing out. I realized the doc comment is misleading, so decided to copy from the os package.",
       "parentUuid": "3a73414d_3617abd9",
+      "revId": "abff46309c7ca280ce5b647a6f7e4a3c354db38b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c69797f9_5dc380b5",
+        "filename": "src/io/fs/symlink.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2024-10-11T18:45:26Z",
+      "side": 1,
+      "message": "Consensus on proposal is that this will be Lstat. Reverted.",
+      "parentUuid": "71ebaa06_7f08cb46",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 6
+      },
       "revId": "abff46309c7ca280ce5b647a6f7e4a3c354db38b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
