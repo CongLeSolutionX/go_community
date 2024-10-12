@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c320bc21_68773ee0",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-10-12T18:14:05Z",
+      "side": 1,
+      "message": "That is unfortunate; well spotted, and thanks for documenting it.\n\n(I don\u0027t think the problem justifies the addition of a ValueEnd Pos field, as this would push the size of BasicLit, which accounts for 10% of all nodes according to go/packages/internal/nodecount), into a larger size class. Presumably this problem, which hasn\u0027t yet been reported by users, occurs only on Windows.)",
+      "range": {
+        "startLine": 312,
+        "startChar": 71,
+        "endLine": 313,
+        "endChar": 15
+      },
+      "revId": "3d1e01018d9c37a74f88dea1d0fa4dac2ed45697",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
