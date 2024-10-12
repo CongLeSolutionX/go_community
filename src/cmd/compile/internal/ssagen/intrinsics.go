@@ -7,6 +7,8 @@ package ssagen
 import (
 	"fmt"
 	"internal/buildcfg"
+	"sort"
+	"strings"
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
@@ -17,6 +19,8 @@ import (
 
 var intrinsics intrinsicBuilders
 
+var pendingIntrinsicAliases intrinsicAliases
+
 // An intrinsicBuilder converts a call node n into an ssa value that
 // implements that call as an intrinsic. args is a list of arguments to the func.
 type intrinsicBuilder func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value
@@ -26,6 +30,13 @@ type intrinsicKey struct {
 	pkg  string
 	fn   string
 }
+
+type intrinsicAlias struct {
+	pkg string
+	fn  string
+}
+
+type intrinsicAliases map[intrinsicKey][]intrinsicAlias
 
 // intrinsicBuildConfig specifies the config to use for intrinsic building.
 type intrinsicBuildConfig struct {
@@ -49,6 +60,10 @@ func (ib intrinsicBuilders) add(arch *sys.Arch, pkg, fn string, b intrinsicBuild
 		panic(fmt.Sprintf("intrinsic already exists for %v.%v on %v", pkg, fn, arch.Name))
 	}
 	ib[intrinsicKey{arch, pkg, fn}] = b
+	aliases := pendingIntrinsicAliases.takeAliases(arch, pkg, fn)
+	for _, a := range aliases {
+		ib.add(arch, a.pkg, a.fn, b)
+	}
 }
 
 // addForArchs adds the intrinsic builder b for pkg.fn for the given architectures.
@@ -70,23 +85,89 @@ func (ib intrinsicBuilders) addForFamilies(pkg, fn string, b intrinsicBuilder, a
 // alias aliases pkg.fn to targetPkg.targetFn for all architectures in archs
 // for which targetPkg.targetFn already exists.
 func (ib intrinsicBuilders) alias(pkg, fn, targetPkg, targetFn string, archs ...*sys.Arch) {
-	// TODO(jsing): Consider making this work even if the alias is added
-	// before the intrinsic.
-	aliased := false
 	for _, arch := range archs {
 		if b := intrinsics.lookup(arch, targetPkg, targetFn); b != nil {
 			intrinsics.add(arch, pkg, fn, b)
-			aliased = true
+		} else {
+			pendingIntrinsicAliases.add(arch, pkg, fn, targetPkg, targetFn)
 		}
 	}
-	if !aliased {
-		panic(fmt.Sprintf("attempted to alias undefined intrinsic: %s.%s", pkg, fn))
+}
+
+// aliasForFamilies does the same as alias but operates on architecture families.
+func (ib intrinsicBuilders) aliasForFamilies(pkg, fn, targetPkg, targetFn string, archFamilies ...sys.ArchFamily) {
+	archs := make([]*sys.Arch, 0, len(sys.Archs))
+	for _, arch := range sys.Archs {
+		if arch.InFamily(archFamilies...) {
+			archs = append(archs, arch)
+		}
 	}
+	intrinsics.alias(pkg, fn, targetPkg, targetFn, archs...)
 }
 
 // lookup looks up the intrinsic for a pkg.fn on the specified architecture.
 func (ib intrinsicBuilders) lookup(arch *sys.Arch, pkg, fn string) intrinsicBuilder {
 	return intrinsics[intrinsicKey{arch, pkg, fn}]
+}
+
+// add alias pkg.fn to targetPkg.targetFn for the given architecture for later resolve.
+func (ia intrinsicAliases) add(arch *sys.Arch, pkg, fn, targetPkg, targetFn string) {
+	ik := intrinsicKey{arch, targetPkg, targetFn}
+	ia[ik] = append(ia[ik], intrinsicAlias{pkg, fn})
+}
+
+// takeAliases take the aliases of pkg.fn on the specified architecture from
+// the unresolved aliases map.
+func (ia intrinsicAliases) takeAliases(arch *sys.Arch, pkg, fn string) []intrinsicAlias {
+	ik := intrinsicKey{arch, pkg, fn}
+	as, has := ia[ik]
+	if !has {
+		return nil
+	}
+	delete(ia, ik)
+	return as
+}
+
+// dump unresolved aliases out in a legible format.
+func (ia intrinsicAliases) dump() string {
+	type item struct {
+		key     intrinsicKey
+		aliases []intrinsicAlias
+	}
+	s := make([]item, 0, len(ia))
+	for k, v := range ia {
+		sort.SliceStable(v, func(i, j int) bool {
+			if v[i].pkg < v[j].pkg {
+				return true
+			} else if v[i].pkg > v[j].pkg {
+				return false
+			} else {
+				return v[i].fn < v[j].fn
+			}
+		})
+		s = append(s, item{k, v})
+	}
+	sort.SliceStable(s, func(i, j int) bool {
+		if s[i].key.pkg < s[j].key.pkg {
+			return true
+		} else if s[i].key.pkg > s[j].key.pkg {
+			return false
+		} else if s[i].key.fn < s[j].key.fn {
+			return true
+		} else if s[i].key.fn > s[j].key.fn {
+			return false
+		} else {
+			return s[i].key.arch.Name < s[j].key.arch.Name
+		}
+	})
+	var sb strings.Builder
+	for _, it := range s {
+		sb.WriteString(fmt.Sprintf("for %v.%v on %v:\n", it.key.pkg, it.key.fn, it.key.arch.Name))
+		for _, a := range it.aliases {
+			sb.WriteString(fmt.Sprintf("\t%v.%v\n", a.pkg, a.fn))
+		}
+	}
+	return sb.String()
 }
 
 func initIntrinsics(cfg *intrinsicBuildConfig) {
@@ -104,6 +185,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 		}
 	}
 	intrinsics = intrinsicBuilders{}
+	pendingIntrinsicAliases = intrinsicAliases{}
 
 	var p4 []*sys.Arch
 	var p8 []*sys.Arch
@@ -129,6 +211,17 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 	alias := func(pkg, fn, pkg2, fn2 string, archs ...*sys.Arch) {
 		intrinsics.alias(pkg, fn, pkg2, fn2, archs...)
 	}
+	aliasF := func(pkg, fn, pkg2, fn2 string, archFamilies ...sys.ArchFamily) {
+		intrinsics.aliasForFamilies(pkg, fn, pkg2, fn2, archFamilies...)
+	}
+
+	defer func() {
+		if len(pendingIntrinsicAliases) == 0 {
+			return
+		}
+		// TODO: fix up architectures of aliases and uncomment the following line
+		// panic("unresolved intrinsic aliases:\n" + pendingIntrinsicAliases.dump())
+	}()
 
 	/******** runtime ********/
 	if !cfg.instrumenting {
@@ -557,9 +650,9 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 
 	// Aliases for atomic swap operations
 	alias("internal/runtime/atomic", "Xchgint32", "internal/runtime/atomic", "Xchg", all...)
-	alias("internal/runtime/atomic", "Xchgint64", "internal/runtime/atomic", "Xchg64", all...)
+	aliasF("internal/runtime/atomic", "Xchgint64", "internal/runtime/atomic", "Xchg64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 	alias("internal/runtime/atomic", "Xchguintptr", "internal/runtime/atomic", "Xchg", p4...)
-	alias("internal/runtime/atomic", "Xchguintptr", "internal/runtime/atomic", "Xchg64", p8...)
+	aliasF("internal/runtime/atomic", "Xchguintptr", "internal/runtime/atomic", "Xchg64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 
 	// Aliases for atomic add operations
 	alias("internal/runtime/atomic", "Xaddint32", "internal/runtime/atomic", "Xadd", all...)
@@ -989,8 +1082,8 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			return s.newValue3(ssa.OpAdd64carry, types.NewTuple(types.Types[types.TUINT64], types.Types[types.TUINT64]), args[0], args[1], args[2])
 		},
 		sys.AMD64, sys.ARM64, sys.PPC64, sys.S390X, sys.RISCV64, sys.Loong64, sys.MIPS64)
-	alias("math/bits", "Add", "math/bits", "Add64", p8...)
-	alias("internal/runtime/math", "Add64", "math/bits", "Add64", all...)
+	aliasF("math/bits", "Add", "math/bits", "Add64", sys.AMD64, sys.ARM64, sys.PPC64, sys.S390X, sys.RISCV64, sys.Loong64, sys.MIPS64)
+	aliasF("internal/runtime/math", "Add64", "math/bits", "Add64", sys.AMD64, sys.ARM64, sys.PPC64, sys.S390X, sys.RISCV64, sys.Loong64, sys.MIPS64)
 	addF("math/bits", "Sub64",
 		func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 			return s.newValue3(ssa.OpSub64borrow, types.NewTuple(types.Types[types.TUINT64], types.Types[types.TUINT64]), args[0], args[1], args[2])
@@ -1036,11 +1129,11 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 	alias("sync/atomic", "StoreUintptr", "internal/runtime/atomic", "Store64", p8...)
 
 	alias("sync/atomic", "SwapInt32", "internal/runtime/atomic", "Xchg", all...)
-	alias("sync/atomic", "SwapInt64", "internal/runtime/atomic", "Xchg64", all...)
+	aliasF("sync/atomic", "SwapInt64", "internal/runtime/atomic", "Xchg64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 	alias("sync/atomic", "SwapUint32", "internal/runtime/atomic", "Xchg", all...)
-	alias("sync/atomic", "SwapUint64", "internal/runtime/atomic", "Xchg64", all...)
+	aliasF("sync/atomic", "SwapUint64", "internal/runtime/atomic", "Xchg64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 	alias("sync/atomic", "SwapUintptr", "internal/runtime/atomic", "Xchg", p4...)
-	alias("sync/atomic", "SwapUintptr", "internal/runtime/atomic", "Xchg64", p8...)
+	aliasF("sync/atomic", "SwapUintptr", "internal/runtime/atomic", "Xchg64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 
 	alias("sync/atomic", "CompareAndSwapInt32", "internal/runtime/atomic", "Cas", all...)
 	alias("sync/atomic", "CompareAndSwapInt64", "internal/runtime/atomic", "Cas64", all...)
