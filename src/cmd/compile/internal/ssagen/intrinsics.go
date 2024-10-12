@@ -7,6 +7,8 @@ package ssagen
 import (
 	"fmt"
 	"internal/buildcfg"
+	"sort"
+	"strings"
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
@@ -17,6 +19,8 @@ import (
 
 var intrinsics intrinsicBuilders
 
+var pendingIntrinsicAliases intrinsicAliases
+
 // An intrinsicBuilder converts a call node n into an ssa value that
 // implements that call as an intrinsic. args is a list of arguments to the func.
 type intrinsicBuilder func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value
@@ -26,6 +30,13 @@ type intrinsicKey struct {
 	pkg  string
 	fn   string
 }
+
+type intrinsicAlias struct {
+	pkg string
+	fn  string
+}
+
+type intrinsicAliases map[intrinsicKey][]intrinsicAlias
 
 // intrinsicBuildConfig specifies the config to use for intrinsic building.
 type intrinsicBuildConfig struct {
@@ -49,6 +60,10 @@ func (ib intrinsicBuilders) add(arch *sys.Arch, pkg, fn string, b intrinsicBuild
 		panic(fmt.Sprintf("intrinsic already exists for %v.%v on %v", pkg, fn, arch.Name))
 	}
 	ib[intrinsicKey{arch, pkg, fn}] = b
+	aliases := pendingIntrinsicAliases.takeAliases(arch, pkg, fn)
+	for _, a := range aliases {
+		ib.add(arch, a.pkg, a.fn, b)
+	}
 }
 
 // addForArchs adds the intrinsic builder b for pkg.fn for the given architectures.
@@ -62,7 +77,7 @@ func (ib intrinsicBuilders) addForArchs(pkg, fn string, b intrinsicBuilder, arch
 func (ib intrinsicBuilders) addForFamilies(pkg, fn string, b intrinsicBuilder, archFamilies ...sys.ArchFamily) {
 	for _, arch := range sys.Archs {
 		if arch.InFamily(archFamilies...) {
-			intrinsics.add(arch, pkg, fn, b)
+			ib.add(arch, pkg, fn, b)
 		}
 	}
 }
@@ -70,23 +85,89 @@ func (ib intrinsicBuilders) addForFamilies(pkg, fn string, b intrinsicBuilder, a
 // alias aliases pkg.fn to targetPkg.targetFn for all architectures in archs
 // for which targetPkg.targetFn already exists.
 func (ib intrinsicBuilders) alias(pkg, fn, targetPkg, targetFn string, archs ...*sys.Arch) {
-	// TODO(jsing): Consider making this work even if the alias is added
-	// before the intrinsic.
-	aliased := false
 	for _, arch := range archs {
-		if b := intrinsics.lookup(arch, targetPkg, targetFn); b != nil {
-			intrinsics.add(arch, pkg, fn, b)
-			aliased = true
+		if b := ib.lookup(arch, targetPkg, targetFn); b != nil {
+			ib.add(arch, pkg, fn, b)
+		} else {
+			pendingIntrinsicAliases.add(arch, pkg, fn, targetPkg, targetFn)
 		}
 	}
-	if !aliased {
-		panic(fmt.Sprintf("attempted to alias undefined intrinsic: %s.%s", pkg, fn))
+}
+
+// aliasForFamilies does the same as alias but operates on architecture families.
+func (ib intrinsicBuilders) aliasForFamilies(pkg, fn, targetPkg, targetFn string, archFamilies ...sys.ArchFamily) {
+	archs := make([]*sys.Arch, 0, len(sys.Archs))
+	for _, arch := range sys.Archs {
+		if arch.InFamily(archFamilies...) {
+			archs = append(archs, arch)
+		}
 	}
+	ib.alias(pkg, fn, targetPkg, targetFn, archs...)
 }
 
 // lookup looks up the intrinsic for a pkg.fn on the specified architecture.
 func (ib intrinsicBuilders) lookup(arch *sys.Arch, pkg, fn string) intrinsicBuilder {
-	return intrinsics[intrinsicKey{arch, pkg, fn}]
+	return ib[intrinsicKey{arch, pkg, fn}]
+}
+
+// add alias pkg.fn to targetPkg.targetFn for the given architecture for later resolve.
+func (ia intrinsicAliases) add(arch *sys.Arch, pkg, fn, targetPkg, targetFn string) {
+	ik := intrinsicKey{arch, targetPkg, targetFn}
+	ia[ik] = append(ia[ik], intrinsicAlias{pkg, fn})
+}
+
+// takeAliases take the aliases of pkg.fn on the specified architecture from
+// the unresolved aliases map.
+func (ia intrinsicAliases) takeAliases(arch *sys.Arch, pkg, fn string) []intrinsicAlias {
+	ik := intrinsicKey{arch, pkg, fn}
+	as, has := ia[ik]
+	if !has {
+		return nil
+	}
+	delete(ia, ik)
+	return as
+}
+
+// dump unresolved aliases out in a legible format.
+func (ia intrinsicAliases) dump() string {
+	type item struct {
+		key     intrinsicKey
+		aliases []intrinsicAlias
+	}
+	s := make([]item, 0, len(ia))
+	for k, v := range ia {
+		sort.SliceStable(v, func(i, j int) bool {
+			if v[i].pkg < v[j].pkg {
+				return true
+			} else if v[i].pkg > v[j].pkg {
+				return false
+			} else {
+				return v[i].fn < v[j].fn
+			}
+		})
+		s = append(s, item{k, v})
+	}
+	sort.SliceStable(s, func(i, j int) bool {
+		if s[i].key.pkg < s[j].key.pkg {
+			return true
+		} else if s[i].key.pkg > s[j].key.pkg {
+			return false
+		} else if s[i].key.fn < s[j].key.fn {
+			return true
+		} else if s[i].key.fn > s[j].key.fn {
+			return false
+		} else {
+			return s[i].key.arch.Name < s[j].key.arch.Name
+		}
+	})
+	var sb strings.Builder
+	for _, it := range s {
+		sb.WriteString(fmt.Sprintf("for %v.%v on %v:\n", it.key.pkg, it.key.fn, it.key.arch.Name))
+		for _, a := range it.aliases {
+			sb.WriteString(fmt.Sprintf("\t%v.%v\n", a.pkg, a.fn))
+		}
+	}
+	return sb.String()
 }
 
 func initIntrinsics(cfg *intrinsicBuildConfig) {
@@ -104,20 +185,8 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 		}
 	}
 	intrinsics = intrinsicBuilders{}
+	pendingIntrinsicAliases = intrinsicAliases{}
 
-	var p4 []*sys.Arch
-	var p8 []*sys.Arch
-	var lwatomics []*sys.Arch
-	for _, a := range sys.Archs {
-		if a.PtrSize == 4 {
-			p4 = append(p4, a)
-		} else {
-			p8 = append(p8, a)
-		}
-		if a.Family != sys.PPC64 {
-			lwatomics = append(lwatomics, a)
-		}
-	}
 	all := sys.Archs[:]
 
 	add := func(pkg, fn string, b intrinsicBuilder, archs ...*sys.Arch) {
@@ -129,6 +198,16 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 	alias := func(pkg, fn, pkg2, fn2 string, archs ...*sys.Arch) {
 		intrinsics.alias(pkg, fn, pkg2, fn2, archs...)
 	}
+	aliasF := func(pkg, fn, pkg2, fn2 string, archFamilies ...sys.ArchFamily) {
+		intrinsics.aliasForFamilies(pkg, fn, pkg2, fn2, archFamilies...)
+	}
+
+	defer func() {
+		if len(pendingIntrinsicAliases) == 0 {
+			return
+		}
+		panic("unresolved intrinsic aliases:\n" + pendingIntrinsicAliases.dump())
+	}()
 
 	/******** runtime ********/
 	if !cfg.instrumenting {
@@ -183,22 +262,22 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 		},
 		all...)
 
-	brev_arch := []sys.ArchFamily{sys.AMD64, sys.I386, sys.ARM64, sys.ARM, sys.S390X}
+	brevArch := []sys.ArchFamily{sys.AMD64, sys.I386, sys.ARM64, sys.ARM, sys.S390X}
 	if cfg.goppc64 >= 10 {
 		// Use only on Power10 as the new byte reverse instructions that Power10 provide
 		// make it worthwhile as an intrinsic
-		brev_arch = append(brev_arch, sys.PPC64)
+		brevArch = append(brevArch, sys.PPC64)
 	}
 	addF("internal/runtime/sys", "Bswap32",
 		func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 			return s.newValue1(ssa.OpBswap32, types.Types[types.TUINT32], args[0])
 		},
-		brev_arch...)
+		brevArch...)
 	addF("internal/runtime/sys", "Bswap64",
 		func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 			return s.newValue1(ssa.OpBswap64, types.Types[types.TUINT64], args[0])
 		},
-		brev_arch...)
+		brevArch...)
 
 	/****** Prefetch ******/
 	makePrefetchFunc := func(op ssa.Op) func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
@@ -530,51 +609,51 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 		sys.AMD64)
 
 	// Aliases for atomic load operations
-	alias("internal/runtime/atomic", "Loadint32", "internal/runtime/atomic", "Load", all...)
-	alias("internal/runtime/atomic", "Loadint64", "internal/runtime/atomic", "Load64", all...)
-	alias("internal/runtime/atomic", "Loaduintptr", "internal/runtime/atomic", "Load", p4...)
-	alias("internal/runtime/atomic", "Loaduintptr", "internal/runtime/atomic", "Load64", p8...)
-	alias("internal/runtime/atomic", "Loaduint", "internal/runtime/atomic", "Load", p4...)
-	alias("internal/runtime/atomic", "Loaduint", "internal/runtime/atomic", "Load64", p8...)
-	alias("internal/runtime/atomic", "LoadAcq", "internal/runtime/atomic", "Load", lwatomics...)
-	alias("internal/runtime/atomic", "LoadAcq64", "internal/runtime/atomic", "Load64", lwatomics...)
-	alias("internal/runtime/atomic", "LoadAcquintptr", "internal/runtime/atomic", "LoadAcq", p4...)
-	alias("sync", "runtime_LoadAcquintptr", "internal/runtime/atomic", "LoadAcq", p4...) // linknamed
-	alias("internal/runtime/atomic", "LoadAcquintptr", "internal/runtime/atomic", "LoadAcq64", p8...)
-	alias("sync", "runtime_LoadAcquintptr", "internal/runtime/atomic", "LoadAcq64", p8...) // linknamed
+	aliasF("internal/runtime/atomic", "Loadint32", "internal/runtime/atomic", "Load", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "Loadint64", "internal/runtime/atomic", "Load64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "Loaduintptr", "internal/runtime/atomic", "Load", sys.MIPS)
+	aliasF("internal/runtime/atomic", "Loaduintptr", "internal/runtime/atomic", "Load64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "Loaduint", "internal/runtime/atomic", "Load", sys.MIPS)
+	aliasF("internal/runtime/atomic", "Loaduint", "internal/runtime/atomic", "Load64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "LoadAcq", "internal/runtime/atomic", "Load", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "LoadAcq64", "internal/runtime/atomic", "Load64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "LoadAcquintptr", "internal/runtime/atomic", "LoadAcq", sys.MIPS)
+	aliasF("sync", "runtime_LoadAcquintptr", "internal/runtime/atomic", "LoadAcq", sys.MIPS) // linknamed
+	aliasF("internal/runtime/atomic", "LoadAcquintptr", "internal/runtime/atomic", "LoadAcq64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync", "runtime_LoadAcquintptr", "internal/runtime/atomic", "LoadAcq64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X) // linknamed
 
 	// Aliases for atomic store operations
-	alias("internal/runtime/atomic", "Storeint32", "internal/runtime/atomic", "Store", all...)
-	alias("internal/runtime/atomic", "Storeint64", "internal/runtime/atomic", "Store64", all...)
-	alias("internal/runtime/atomic", "Storeuintptr", "internal/runtime/atomic", "Store", p4...)
-	alias("internal/runtime/atomic", "Storeuintptr", "internal/runtime/atomic", "Store64", p8...)
-	alias("internal/runtime/atomic", "StoreRel", "internal/runtime/atomic", "Store", lwatomics...)
-	alias("internal/runtime/atomic", "StoreRel64", "internal/runtime/atomic", "Store64", lwatomics...)
-	alias("internal/runtime/atomic", "StoreReluintptr", "internal/runtime/atomic", "StoreRel", p4...)
-	alias("sync", "runtime_StoreReluintptr", "internal/runtime/atomic", "StoreRel", p4...) // linknamed
-	alias("internal/runtime/atomic", "StoreReluintptr", "internal/runtime/atomic", "StoreRel64", p8...)
-	alias("sync", "runtime_StoreReluintptr", "internal/runtime/atomic", "StoreRel64", p8...) // linknamed
+	aliasF("internal/runtime/atomic", "Storeint32", "internal/runtime/atomic", "Store", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "Storeint64", "internal/runtime/atomic", "Store64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "Storeuintptr", "internal/runtime/atomic", "Store", sys.MIPS)
+	aliasF("internal/runtime/atomic", "Storeuintptr", "internal/runtime/atomic", "Store64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "StoreRel", "internal/runtime/atomic", "Store", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "StoreRel64", "internal/runtime/atomic", "Store64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "StoreReluintptr", "internal/runtime/atomic", "StoreRel", sys.MIPS)
+	aliasF("sync", "runtime_StoreReluintptr", "internal/runtime/atomic", "StoreRel", sys.MIPS) // linknamed
+	aliasF("internal/runtime/atomic", "StoreReluintptr", "internal/runtime/atomic", "StoreRel64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync", "runtime_StoreReluintptr", "internal/runtime/atomic", "StoreRel64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X) // linknamed
 
 	// Aliases for atomic swap operations
-	alias("internal/runtime/atomic", "Xchgint32", "internal/runtime/atomic", "Xchg", all...)
-	alias("internal/runtime/atomic", "Xchgint64", "internal/runtime/atomic", "Xchg64", all...)
-	alias("internal/runtime/atomic", "Xchguintptr", "internal/runtime/atomic", "Xchg", p4...)
-	alias("internal/runtime/atomic", "Xchguintptr", "internal/runtime/atomic", "Xchg64", p8...)
+	aliasF("internal/runtime/atomic", "Xchgint32", "internal/runtime/atomic", "Xchg", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "Xchgint64", "internal/runtime/atomic", "Xchg64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "Xchguintptr", "internal/runtime/atomic", "Xchg", sys.MIPS)
+	aliasF("internal/runtime/atomic", "Xchguintptr", "internal/runtime/atomic", "Xchg64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 
 	// Aliases for atomic add operations
-	alias("internal/runtime/atomic", "Xaddint32", "internal/runtime/atomic", "Xadd", all...)
-	alias("internal/runtime/atomic", "Xaddint64", "internal/runtime/atomic", "Xadd64", all...)
-	alias("internal/runtime/atomic", "Xadduintptr", "internal/runtime/atomic", "Xadd", p4...)
-	alias("internal/runtime/atomic", "Xadduintptr", "internal/runtime/atomic", "Xadd64", p8...)
+	aliasF("internal/runtime/atomic", "Xaddint32", "internal/runtime/atomic", "Xadd", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "Xaddint64", "internal/runtime/atomic", "Xadd64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "Xadduintptr", "internal/runtime/atomic", "Xadd", sys.MIPS)
+	aliasF("internal/runtime/atomic", "Xadduintptr", "internal/runtime/atomic", "Xadd64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 
 	// Aliases for atomic CAS operations
-	alias("internal/runtime/atomic", "Casint32", "internal/runtime/atomic", "Cas", all...)
-	alias("internal/runtime/atomic", "Casint64", "internal/runtime/atomic", "Cas64", all...)
-	alias("internal/runtime/atomic", "Casuintptr", "internal/runtime/atomic", "Cas", p4...)
-	alias("internal/runtime/atomic", "Casuintptr", "internal/runtime/atomic", "Cas64", p8...)
-	alias("internal/runtime/atomic", "Casp1", "internal/runtime/atomic", "Cas", p4...)
-	alias("internal/runtime/atomic", "Casp1", "internal/runtime/atomic", "Cas64", p8...)
-	alias("internal/runtime/atomic", "CasRel", "internal/runtime/atomic", "Cas", lwatomics...)
+	aliasF("internal/runtime/atomic", "Casint32", "internal/runtime/atomic", "Cas", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "Casint64", "internal/runtime/atomic", "Cas64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "Casuintptr", "internal/runtime/atomic", "Cas", sys.MIPS)
+	aliasF("internal/runtime/atomic", "Casuintptr", "internal/runtime/atomic", "Cas64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "Casp1", "internal/runtime/atomic", "Cas", sys.MIPS)
+	aliasF("internal/runtime/atomic", "Casp1", "internal/runtime/atomic", "Cas64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("internal/runtime/atomic", "CasRel", "internal/runtime/atomic", "Cas", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.RISCV64, sys.S390X)
 
 	// Aliases for atomic And/Or operations
 	alias("internal/runtime/atomic", "Anduintptr", "internal/runtime/atomic", "And64", sys.ArchARM64)
@@ -795,8 +874,8 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			return s.newValue1(ssa.OpCtz64, types.Types[types.TINT], y)
 		},
 		sys.S390X)
-	alias("math/bits", "ReverseBytes64", "internal/runtime/sys", "Bswap64", all...)
-	alias("math/bits", "ReverseBytes32", "internal/runtime/sys", "Bswap32", all...)
+	aliasF("math/bits", "ReverseBytes64", "internal/runtime/sys", "Bswap64", brevArch...)
+	aliasF("math/bits", "ReverseBytes32", "internal/runtime/sys", "Bswap32", brevArch...)
 	// ReverseBytes inlines correctly, no need to intrinsify it.
 	// Nothing special is needed for targets where ReverseBytes16 lowers to a rotate
 	// On Power10, 16-bit rotate is not available so use BRH instruction
@@ -911,7 +990,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			return s.newValue2(ssa.OpRotateLeft64, types.Types[types.TUINT64], args[0], args[1])
 		},
 		sys.AMD64, sys.ARM64, sys.Loong64, sys.PPC64, sys.RISCV64, sys.S390X, sys.Wasm)
-	alias("math/bits", "RotateLeft", "math/bits", "RotateLeft64", p8...)
+	aliasF("math/bits", "RotateLeft", "math/bits", "RotateLeft64", sys.AMD64, sys.ARM64, sys.Loong64, sys.PPC64, sys.RISCV64, sys.S390X, sys.Wasm)
 
 	makeOnesCountAMD64 := func(op ssa.Op) func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 		return func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
@@ -982,21 +1061,21 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 			return s.newValue2(ssa.OpMul64uhilo, types.NewTuple(types.Types[types.TUINT64], types.Types[types.TUINT64]), args[0], args[1])
 		},
 		sys.AMD64, sys.ARM64, sys.PPC64, sys.S390X, sys.MIPS64, sys.RISCV64, sys.Loong64)
-	alias("math/bits", "Mul", "math/bits", "Mul64", p8...)
-	alias("internal/runtime/math", "Mul64", "math/bits", "Mul64", p8...)
+	aliasF("math/bits", "Mul", "math/bits", "Mul64", sys.AMD64, sys.ARM64, sys.PPC64, sys.S390X, sys.MIPS64, sys.RISCV64, sys.Loong64)
+	aliasF("internal/runtime/math", "Mul64", "math/bits", "Mul64", sys.AMD64, sys.ARM64, sys.PPC64, sys.S390X, sys.MIPS64, sys.RISCV64, sys.Loong64)
 	addF("math/bits", "Add64",
 		func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 			return s.newValue3(ssa.OpAdd64carry, types.NewTuple(types.Types[types.TUINT64], types.Types[types.TUINT64]), args[0], args[1], args[2])
 		},
 		sys.AMD64, sys.ARM64, sys.PPC64, sys.S390X, sys.RISCV64, sys.Loong64, sys.MIPS64)
-	alias("math/bits", "Add", "math/bits", "Add64", p8...)
-	alias("internal/runtime/math", "Add64", "math/bits", "Add64", all...)
+	aliasF("math/bits", "Add", "math/bits", "Add64", sys.AMD64, sys.ARM64, sys.PPC64, sys.S390X, sys.RISCV64, sys.Loong64, sys.MIPS64)
+	aliasF("internal/runtime/math", "Add64", "math/bits", "Add64", sys.AMD64, sys.ARM64, sys.PPC64, sys.S390X, sys.RISCV64, sys.Loong64, sys.MIPS64)
 	addF("math/bits", "Sub64",
 		func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 			return s.newValue3(ssa.OpSub64borrow, types.NewTuple(types.Types[types.TUINT64], types.Types[types.TUINT64]), args[0], args[1], args[2])
 		},
 		sys.AMD64, sys.ARM64, sys.PPC64, sys.S390X, sys.RISCV64, sys.Loong64, sys.MIPS64)
-	alias("math/bits", "Sub", "math/bits", "Sub64", p8...)
+	aliasF("math/bits", "Sub", "math/bits", "Sub64", sys.AMD64, sys.ARM64, sys.PPC64, sys.S390X, sys.RISCV64, sys.Loong64, sys.MIPS64)
 	addF("math/bits", "Div64",
 		func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 			// check for divide-by-zero/overflow and panic with appropriate message
@@ -1009,52 +1088,52 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 		sys.AMD64)
 	alias("math/bits", "Div", "math/bits", "Div64", sys.ArchAMD64)
 
-	alias("internal/runtime/sys", "TrailingZeros8", "math/bits", "TrailingZeros8", all...)
-	alias("internal/runtime/sys", "TrailingZeros32", "math/bits", "TrailingZeros32", all...)
-	alias("internal/runtime/sys", "TrailingZeros64", "math/bits", "TrailingZeros64", all...)
-	alias("internal/runtime/sys", "Len8", "math/bits", "Len8", all...)
-	alias("internal/runtime/sys", "Len64", "math/bits", "Len64", all...)
-	alias("internal/runtime/sys", "OnesCount64", "math/bits", "OnesCount64", all...)
+	aliasF("internal/runtime/sys", "TrailingZeros8", "math/bits", "TrailingZeros8", sys.AMD64, sys.I386, sys.ARM, sys.ARM64, sys.MIPS, sys.S390X, sys.Wasm)
+	aliasF("internal/runtime/sys", "TrailingZeros32", "math/bits", "TrailingZeros32", sys.AMD64, sys.I386, sys.ARM64, sys.ARM, sys.S390X, sys.MIPS, sys.PPC64, sys.Wasm)
+	aliasF("internal/runtime/sys", "TrailingZeros64", "math/bits", "TrailingZeros64", sys.AMD64, sys.I386, sys.ARM64, sys.ARM, sys.S390X, sys.MIPS, sys.PPC64, sys.Wasm)
+	aliasF("internal/runtime/sys", "Len8", "math/bits", "Len8", sys.AMD64, sys.ARM64, sys.ARM, sys.S390X, sys.MIPS, sys.PPC64, sys.Wasm)
+	aliasF("internal/runtime/sys", "Len64", "math/bits", "Len64", sys.AMD64, sys.ARM64, sys.ARM, sys.S390X, sys.MIPS, sys.PPC64, sys.Wasm)
+	aliasF("internal/runtime/sys", "OnesCount64", "math/bits", "OnesCount64", sys.AMD64, sys.PPC64, sys.ARM64, sys.S390X, sys.Wasm)
 
 	/******** sync/atomic ********/
 
 	// Note: these are disabled by flag_race in findIntrinsic below.
-	alias("sync/atomic", "LoadInt32", "internal/runtime/atomic", "Load", all...)
-	alias("sync/atomic", "LoadInt64", "internal/runtime/atomic", "Load64", all...)
-	alias("sync/atomic", "LoadPointer", "internal/runtime/atomic", "Loadp", all...)
-	alias("sync/atomic", "LoadUint32", "internal/runtime/atomic", "Load", all...)
-	alias("sync/atomic", "LoadUint64", "internal/runtime/atomic", "Load64", all...)
-	alias("sync/atomic", "LoadUintptr", "internal/runtime/atomic", "Load", p4...)
-	alias("sync/atomic", "LoadUintptr", "internal/runtime/atomic", "Load64", p8...)
+	aliasF("sync/atomic", "LoadInt32", "internal/runtime/atomic", "Load", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "LoadInt64", "internal/runtime/atomic", "Load64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "LoadPointer", "internal/runtime/atomic", "Loadp", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "LoadUint32", "internal/runtime/atomic", "Load", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "LoadUint64", "internal/runtime/atomic", "Load64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "LoadUintptr", "internal/runtime/atomic", "Load", sys.MIPS)
+	aliasF("sync/atomic", "LoadUintptr", "internal/runtime/atomic", "Load64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 
-	alias("sync/atomic", "StoreInt32", "internal/runtime/atomic", "Store", all...)
-	alias("sync/atomic", "StoreInt64", "internal/runtime/atomic", "Store64", all...)
+	aliasF("sync/atomic", "StoreInt32", "internal/runtime/atomic", "Store", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "StoreInt64", "internal/runtime/atomic", "Store64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 	// Note: not StorePointer, that needs a write barrier.  Same below for {CompareAnd}Swap.
-	alias("sync/atomic", "StoreUint32", "internal/runtime/atomic", "Store", all...)
-	alias("sync/atomic", "StoreUint64", "internal/runtime/atomic", "Store64", all...)
-	alias("sync/atomic", "StoreUintptr", "internal/runtime/atomic", "Store", p4...)
-	alias("sync/atomic", "StoreUintptr", "internal/runtime/atomic", "Store64", p8...)
+	aliasF("sync/atomic", "StoreUint32", "internal/runtime/atomic", "Store", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "StoreUint64", "internal/runtime/atomic", "Store64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "StoreUintptr", "internal/runtime/atomic", "Store", sys.MIPS)
+	aliasF("sync/atomic", "StoreUintptr", "internal/runtime/atomic", "Store64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 
-	alias("sync/atomic", "SwapInt32", "internal/runtime/atomic", "Xchg", all...)
-	alias("sync/atomic", "SwapInt64", "internal/runtime/atomic", "Xchg64", all...)
-	alias("sync/atomic", "SwapUint32", "internal/runtime/atomic", "Xchg", all...)
-	alias("sync/atomic", "SwapUint64", "internal/runtime/atomic", "Xchg64", all...)
-	alias("sync/atomic", "SwapUintptr", "internal/runtime/atomic", "Xchg", p4...)
-	alias("sync/atomic", "SwapUintptr", "internal/runtime/atomic", "Xchg64", p8...)
+	aliasF("sync/atomic", "SwapInt32", "internal/runtime/atomic", "Xchg", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "SwapInt64", "internal/runtime/atomic", "Xchg64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "SwapUint32", "internal/runtime/atomic", "Xchg", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "SwapUint64", "internal/runtime/atomic", "Xchg64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "SwapUintptr", "internal/runtime/atomic", "Xchg", sys.MIPS)
+	aliasF("sync/atomic", "SwapUintptr", "internal/runtime/atomic", "Xchg64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 
-	alias("sync/atomic", "CompareAndSwapInt32", "internal/runtime/atomic", "Cas", all...)
-	alias("sync/atomic", "CompareAndSwapInt64", "internal/runtime/atomic", "Cas64", all...)
-	alias("sync/atomic", "CompareAndSwapUint32", "internal/runtime/atomic", "Cas", all...)
-	alias("sync/atomic", "CompareAndSwapUint64", "internal/runtime/atomic", "Cas64", all...)
-	alias("sync/atomic", "CompareAndSwapUintptr", "internal/runtime/atomic", "Cas", p4...)
-	alias("sync/atomic", "CompareAndSwapUintptr", "internal/runtime/atomic", "Cas64", p8...)
+	aliasF("sync/atomic", "CompareAndSwapInt32", "internal/runtime/atomic", "Cas", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "CompareAndSwapInt64", "internal/runtime/atomic", "Cas64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "CompareAndSwapUint32", "internal/runtime/atomic", "Cas", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "CompareAndSwapUint64", "internal/runtime/atomic", "Cas64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "CompareAndSwapUintptr", "internal/runtime/atomic", "Cas", sys.MIPS)
+	aliasF("sync/atomic", "CompareAndSwapUintptr", "internal/runtime/atomic", "Cas64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 
-	alias("sync/atomic", "AddInt32", "internal/runtime/atomic", "Xadd", all...)
-	alias("sync/atomic", "AddInt64", "internal/runtime/atomic", "Xadd64", all...)
-	alias("sync/atomic", "AddUint32", "internal/runtime/atomic", "Xadd", all...)
-	alias("sync/atomic", "AddUint64", "internal/runtime/atomic", "Xadd64", all...)
-	alias("sync/atomic", "AddUintptr", "internal/runtime/atomic", "Xadd", p4...)
-	alias("sync/atomic", "AddUintptr", "internal/runtime/atomic", "Xadd64", p8...)
+	aliasF("sync/atomic", "AddInt32", "internal/runtime/atomic", "Xadd", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "AddInt64", "internal/runtime/atomic", "Xadd64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "AddUint32", "internal/runtime/atomic", "Xadd", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "AddUint64", "internal/runtime/atomic", "Xadd64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
+	aliasF("sync/atomic", "AddUintptr", "internal/runtime/atomic", "Xadd", sys.MIPS)
+	aliasF("sync/atomic", "AddUintptr", "internal/runtime/atomic", "Xadd64", sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X)
 
 	alias("sync/atomic", "AndInt32", "internal/runtime/atomic", "And32", sys.ArchARM64, sys.ArchAMD64)
 	alias("sync/atomic", "AndUint32", "internal/runtime/atomic", "And32", sys.ArchARM64, sys.ArchAMD64)
@@ -1068,7 +1147,7 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 	alias("sync/atomic", "OrUintptr", "internal/runtime/atomic", "Or64", sys.ArchARM64, sys.ArchAMD64)
 
 	/******** math/big ********/
-	alias("math/big", "mulWW", "math/bits", "Mul64", p8...)
+	aliasF("math/big", "mulWW", "math/bits", "Mul64", sys.AMD64, sys.ARM64, sys.PPC64, sys.S390X, sys.MIPS64, sys.RISCV64, sys.Loong64)
 }
 
 // findIntrinsic returns a function which builds the SSA equivalent of the
