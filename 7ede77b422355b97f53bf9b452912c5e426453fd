@@ -33,6 +33,24 @@
       "message": "I don\u0027t think the docs for Create and OpenFile should refer to MkdirAll or Mkdir.  I think people can figure out how to create a directory.",
       "revId": "7ede77b422355b97f53bf9b452912c5e426453fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8a3537d_0f17b2c5",
+        "filename": "src/os/file.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 58169
+      },
+      "writtenOn": "2024-10-13T06:00:53Z",
+      "side": 1,
+      "message": "\u003e  I think people can figure out how to create a directory.\n\nI see, I thought we could be a bit verbose so users could know the APIs to create directories.\n\nRemove it in patchset 4, and thanks for your review:)",
+      "parentUuid": "c7fe6e92_ed361a82",
+      "revId": "7ede77b422355b97f53bf9b452912c5e426453fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
