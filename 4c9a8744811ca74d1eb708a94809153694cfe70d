@@ -3,6 +3,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "493a45b8_07db29f8",
+        "filename": "doc/next/6-stdlib/1-os-root.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-13T18:24:10Z",
+      "side": 1,
+      "message": "My understanding is that the relnotes program won\u0027t deduce that this note refers to the os package (this differs from the files in 6-stdlib/99-minor).  So this needs to explicitly say [os.Root] and [os.OpenRoot].",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c3c5482_b004083c",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 1826,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-13T18:24:10Z",
+      "side": 1,
+      "message": "This implicitly enforces the requirement that the tests in openErrorTests all start with sfdir.  I suggest a small separate CL that creates that requirement by making the file names in openErrorTests all relative, and using filepath.Join in TestOpenError.  Then this CL will be simpler because it won\u0027t need to call filepath.Rel.",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b09da8f0_10dec974",
+        "filename": "src/os/root_openat.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-13T18:24:10Z",
+      "side": 1,
+      "message": "It seems to me that we can race a call to Close and a call to incref.  The result can be that we get\n\n    goroutine 1:          goroutine 2:\n     call Close           call incref\n     refs |\u003d rootClosed\n     syscall.Close\n                          refs +\u003d 1\n                          observe that rootClosed is set\n                          decref\n                          refs -\u003d 1\n                          old \u003d\u003d rootClose\n                          call syscall.Close\n\nThat means that we can close r.fd twice.  That is 1) a bit careless; 2) potentially a disaster if goroutine 3 opens a file descriptor and gets r.fd between the two calls to syscall.Close.",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "752e0cfb_008ee10c",
         "filename": "src/os/root_openat.go",
         "patchSetId": 36
@@ -32,6 +83,91 @@
           ]
         }
       ],
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8708b30f_0ac5999a",
+        "filename": "src/os/root_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-13T18:24:10Z",
+      "side": 1,
+      "message": "This function is calling os functions directly, so all the path.Join calls here should be filepath.Join.",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f20083dc_cfed769d",
+        "filename": "src/os/root_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-13T18:24:10Z",
+      "side": 1,
+      "message": "0o777",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "445187a5_15006028",
+        "filename": "src/os/root_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-13T18:24:10Z",
+      "side": 1,
+      "message": "The docs for the target field above don\u0027t explain what an empty string means.",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05eab9a5_12a3d593",
+        "filename": "src/os/root_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-13T18:24:10Z",
+      "side": 1,
+      "message": "Document the result.",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15e53188_77ae3933",
+        "filename": "src/os/root_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-13T18:24:10Z",
+      "side": 1,
+      "message": "Could/should we have a test in which one goroutine opens files using a Root and another goroutine tries to trick it using symlinks?  A problem with the code wouldn\u0027t lead to consistent failures but any failure might be interesting.",
       "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
