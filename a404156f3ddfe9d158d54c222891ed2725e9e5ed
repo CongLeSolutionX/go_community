@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9352e0ea_c4f52cef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-13T03:08:01Z",
+      "side": 1,
+      "message": "Thanks.  Putting on hold for proposal acceptance.\n\nWhen the proposal is accepted I think this will be easier to review if you can break it up into a series of CLs.  Thanks.",
+      "revId": "a404156f3ddfe9d158d54c222891ed2725e9e5ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
