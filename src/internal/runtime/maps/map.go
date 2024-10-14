@@ -444,7 +444,7 @@ func (m *Map) getWithKeySmall(hash uintptr, key unsafe.Pointer) (unsafe.Pointer,
 	h2 := uint8(h2(hash))
 	ctrls := *g.ctrls()
 
-	for i := uint32(0); i < 8; i++ {
+	for i := uintptr(0); i < 8; i++ {
 		c := uint8(ctrls)
 		ctrls >>= 8
 		if c != h2 {
@@ -601,7 +601,7 @@ func (m *Map) growToTable() {
 		data: m.dirPtr,
 	}
 
-	for i := uint32(0); i < abi.SwissMapGroupSlots; i++ {
+	for i := uintptr(0); i < abi.SwissMapGroupSlots; i++ {
 		if (g.ctrls().get(i) & ctrlEmpty) == ctrlEmpty {
 			// Empty or deleted
 			continue
