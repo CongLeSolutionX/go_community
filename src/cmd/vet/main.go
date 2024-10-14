@@ -32,6 +32,7 @@ import (
 	"golang.org/x/tools/go/analysis/passes/printf"
 	"golang.org/x/tools/go/analysis/passes/shift"
 	"golang.org/x/tools/go/analysis/passes/sigchanyzer"
+	"golang.org/x/tools/go/analysis/passes/sliceinit"
 	"golang.org/x/tools/go/analysis/passes/slog"
 	"golang.org/x/tools/go/analysis/passes/stdmethods"
 	"golang.org/x/tools/go/analysis/passes/stdversion"
@@ -73,6 +74,7 @@ func main() {
 		printf.Analyzer,
 		shift.Analyzer,
 		sigchanyzer.Analyzer,
+		sliceinit.Analyzer,
 		slog.Analyzer,
 		stdmethods.Analyzer,
 		stdversion.Analyzer,
