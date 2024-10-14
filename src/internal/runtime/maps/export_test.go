@@ -77,7 +77,7 @@ func (m *Map) KeyFromFullGroup(typ *abi.SwissMapType) unsafe.Pointer {
 			}
 
 			// All full or deleted slots.
-			for j := uint32(0); j < abi.SwissMapGroupSlots; j++ {
+			for j := uintptr(0); j < abi.SwissMapGroupSlots; j++ {
 				if g.ctrls().get(j) == ctrlDeleted {
 					continue
 				}

@@ -21,7 +21,7 @@ func (m *Map) getWithoutKeySmallFast64(typ *abi.SwissMapType, hash uintptr, key 
 	//h2 := uint8(h2(hash))
 	//ctrls := *g.ctrls()
 
-	for i := uint32(0); i < 8; i++ {
+	for i := uintptr(0); i < 8; i++ {
 		//c := uint8(ctrls)
 		//ctrls >>= 8
 		//if c != h2 {
@@ -60,7 +60,7 @@ func runtime_mapaccess1_fast64(typ *abi.SwissMapType, m *Map, key uint64) unsafe
 			data: m.dirPtr,
 		}
 
-		for i := uint32(0); i < abi.SwissMapGroupSlots; i++ {
+		for i := uintptr(0); i < abi.SwissMapGroupSlots; i++ {
 			slotKey := g.key(typ, i)
 
 			// TODO: add a ctrl method for this.
@@ -252,7 +252,7 @@ outer:
 		// As we look for a match, keep track of the first deleted slot we
 		// find, which we'll use to insert the new entry if necessary.
 		var firstDeletedGroup groupReference
-		var firstDeletedSlot uint32
+		var firstDeletedSlot uintptr
 
 		for ; ; seq = seq.next() {
 			g := t.groups.group(typ, seq.offset)
@@ -279,7 +279,7 @@ outer:
 				// Finding an empty slot means we've reached the end of
 				// the probe sequence.
 
-				var i uint32
+				var i uintptr
 
 				// If we found a deleted slot along the way, we
 				// can replace it without consuming growthLeft.
