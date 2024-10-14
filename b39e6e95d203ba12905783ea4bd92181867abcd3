@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf44de4b_06d5bd5c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-10-14T18:59:13Z",
+      "side": 1,
+      "message": "(See https://go.dev/cl/620036)",
+      "parentUuid": "891e0c87_b308bb82",
+      "revId": "b39e6e95d203ba12905783ea4bd92181867abcd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9444937_d285929d",
@@ -66,6 +84,30 @@
       "writtenOn": "2024-10-14T18:39:42Z",
       "side": 1,
       "message": "This error message (presumably) refers to the old bexport. We should leave the \u0027i\u0027 case and produce a clearer error message about how the indexed export format is no longer supported.",
+      "range": {
+        "startLine": 242,
+        "startChar": 32,
+        "endLine": 242,
+        "endChar": 50
+      },
+      "revId": "b39e6e95d203ba12905783ea4bd92181867abcd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5ed600f_0986b01e",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-10-14T18:59:13Z",
+      "side": 1,
+      "message": "From the surrounding logic, the error message seems to be referring to the even older switch from text export data (demarcated $$ and similar to Go source) to the various binary formats (starting with $$B and using codes v, c, d, i, u).\n\nIn any case I changed it to \"binary export format \u0027i\u0027\" (etc).",
+      "parentUuid": "b9444937_d285929d",
       "range": {
         "startLine": 242,
         "startChar": 32,
