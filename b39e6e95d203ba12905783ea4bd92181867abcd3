@@ -34,6 +34,29 @@
       "parentUuid": "e173a1c4_4b48c233",
       "revId": "b39e6e95d203ba12905783ea4bd92181867abcd3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9444937_d285929d",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-10-14T18:39:42Z",
+      "side": 1,
+      "message": "This error message (presumably) refers to the old bexport. We should leave the \u0027i\u0027 case and produce a clearer error message about how the indexed export format is no longer supported.",
+      "range": {
+        "startLine": 242,
+        "startChar": 32,
+        "endLine": 242,
+        "endChar": 50
+      },
+      "revId": "b39e6e95d203ba12905783ea4bd92181867abcd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
