@@ -24,7 +24,19 @@ func Openat(dirfd syscall.Handle, name string, flag int, perm uint32) (_ syscall
 	if len(name) == 0 {
 		return syscall.InvalidHandle, syscall.ERROR_FILE_NOT_FOUND
 	}
+	return open(dirfd, name, flag, perm)
+}
 
+func Mkdirat(dirfd syscall.Handle, name string, mode uint32) error {
+	h, err := open(dirfd, name, O_DIRECTORY|syscall.O_CREAT|syscall.O_EXCL, mode)
+	if err != nil {
+		return err
+	}
+	syscall.CloseHandle(h)
+	return nil
+}
+
+func open(dirfd syscall.Handle, name string, flag int, perm uint32) (_ syscall.Handle, e1 error) {
 	var access, options uint32
 	switch flag & (syscall.O_RDONLY | syscall.O_WRONLY | syscall.O_RDWR) {
 	case syscall.O_RDONLY:
@@ -140,30 +152,4 @@ func ntCreateFileError(err error, flag int) error {
 		return syscall.EISDIR
 	}
 	return s.Errno()
-}
-
-func Mkdirat(dirfd syscall.Handle, name string, mode uint32) error {
-	objAttrs := &OBJECT_ATTRIBUTES{}
-	if err := objAttrs.init(dirfd, name); err != nil {
-		return err
-	}
-	var h syscall.Handle
-	err := NtCreateFile(
-		&h,
-		FILE_GENERIC_READ,
-		objAttrs,
-		&IO_STATUS_BLOCK{},
-		nil,
-		syscall.FILE_ATTRIBUTE_NORMAL,
-		syscall.FILE_SHARE_READ|syscall.FILE_SHARE_WRITE|syscall.FILE_SHARE_DELETE,
-		FILE_CREATE,
-		FILE_DIRECTORY_FILE,
-		0,
-		0,
-	)
-	if err != nil {
-		return ntCreateFileError(err, 0)
-	}
-	syscall.CloseHandle(h)
-	return nil
 }
