@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e173a1c4_4b48c233",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-10-14T18:05:14Z",
+      "side": 1,
+      "message": "The failing test in x/tools should just be deleted:\n```\n// This test fakes creating an old go object file in indexed format.\n// This means that it can be loaded by go/importer or go/types.\n// This step is not supported, but it does give test coverage for stdlib.\n// TODO(taking): Slightly unclear to what extent this step should be supported by go/importer.\n```",
+      "revId": "b39e6e95d203ba12905783ea4bd92181867abcd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
