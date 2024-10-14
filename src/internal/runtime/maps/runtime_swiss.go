@@ -241,7 +241,7 @@ outer:
 		// As we look for a match, keep track of the first deleted slot we
 		// find, which we'll use to insert the new entry if necessary.
 		var firstDeletedGroup groupReference
-		var firstDeletedSlot uint32
+		var firstDeletedSlot uintptr
 
 		for ; ; seq = seq.next() {
 			g := t.groups.group(typ, seq.offset)

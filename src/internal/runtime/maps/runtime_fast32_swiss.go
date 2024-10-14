@@ -27,7 +27,7 @@ func (m *Map) getWithoutKeySmallFast32(hash uintptr, key uint32) (unsafe.Pointer
 	h2 := uint8(h2(hash))
 	ctrls := *g.ctrls()
 
-	for i := uint32(0); i < 8; i++ {
+	for i := uintptr(0); i < 8; i++ {
 		c := uint8(ctrls)
 		ctrls >>= 8
 		if c != h2 {
@@ -246,7 +246,7 @@ outer:
 		// As we look for a match, keep track of the first deleted slot we
 		// find, which we'll use to insert the new entry if necessary.
 		var firstDeletedGroup groupReference
-		var firstDeletedSlot uint32
+		var firstDeletedSlot uintptr
 
 		for ; ; seq = seq.next() {
 			g := t.groups.group(typ, seq.offset)
