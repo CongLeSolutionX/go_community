@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "827454dc_5c25c167",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-14T19:10:18Z",
+      "side": 1,
+      "message": "Continuing to keep 1.23 up to date with the timer changes.",
+      "revId": "9e1641a8748c7cc2899fed24a5bca415238df09b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
