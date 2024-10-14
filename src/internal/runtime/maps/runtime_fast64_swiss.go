@@ -13,26 +13,16 @@ import (
 	"unsafe"
 )
 
-func (m *Map) getWithoutKeySmallFast64(hash uintptr, key uint64) (unsafe.Pointer, bool) {
+func (m *Map) getWithoutHashSmallFast64(typ *abi.SwissMapType, key uint64) (unsafe.Pointer, bool) {
+	// TODO: we've inlined this into callers because it is faster. TODO: remove?
 	g := groupReference{
 		data: m.dirPtr,
 	}
 
-	//h2 := uint8(h2(hash))
-	//ctrls := *g.ctrls()
-
-	for i := uintptr(0); i < 8; i++ {
-		//c := uint8(ctrls)
-		//ctrls >>= 8
-		//if c != h2 {
-		//	continue
-		//}
-
-		slotKey := g.key(m.typ, i)
-
-		//if key == *(*uint64)(slotKey) {
+	slotSize := typ.SlotSize
+	for i, slotKey := uintptr(0), g.key(typ, 0); i < 8; i, slotKey = i+1, unsafe.Pointer(uintptr(slotKey)+slotSize) {
 		if key == *(*uint64)(slotKey) && (g.ctrls().get(i)&(1<<7)) == 0 {
-			slotElem := g.elem(m.typ, i)
+			slotElem := unsafe.Pointer(uintptr(slotKey) + typ.ElemOff)
 			return slotElem, true
 		}
 	}
@@ -61,13 +51,10 @@ func runtime_mapaccess1_fast64(typ *abi.SwissMapType, m *Map, key uint64) unsafe
 			data: m.dirPtr,
 		}
 
-		for i := uintptr(0); i < 8; i++ {
-			slotKey := g.key(m.typ, i)
-
-			// TODO: add a ctrl method for this.
-			// TODO: apply to mapaccess2
+		slotSize := typ.SlotSize
+		for i, slotKey := uintptr(0), g.key(typ, 0); i < 8; i, slotKey = i+1, unsafe.Pointer(uintptr(slotKey)+slotSize) {
 			if key == *(*uint64)(slotKey) && (g.ctrls().get(i)&(1<<7)) == 0 {
-				slotElem := g.elem(m.typ, i)
+				slotElem := unsafe.Pointer(uintptr(slotKey) + typ.ElemOff)
 				return slotElem
 			}
 		}
@@ -123,15 +110,21 @@ func runtime_mapaccess2_fast64(typ *abi.SwissMapType, m *Map, key uint64) (unsaf
 		fatal("concurrent map read and map write")
 	}
 
-	hash := typ.Hasher(noescape(unsafe.Pointer(&key)), m.seed)
-
 	if m.dirLen <= 0 {
-		elem, ok := m.getWithoutKeySmallFast64(hash, key)
-		if !ok {
-			return unsafe.Pointer(&zeroVal[0]), false
+		g := groupReference{
+			data: m.dirPtr,
 		}
-		return elem, true
+		slotSize := typ.SlotSize
+		for i, slotKey := uintptr(0), g.key(typ, 0); i < 8; i, slotKey = i+1, unsafe.Pointer(uintptr(slotKey)+slotSize) {
+			if key == *(*uint64)(slotKey) && (g.ctrls().get(i)&(1<<7)) == 0 {
+				slotElem := unsafe.Pointer(uintptr(slotKey) + typ.ElemOff)
+				return slotElem, true
+			}
+		}
+		return unsafe.Pointer(&zeroVal[0]), false
 	}
+
+	hash := typ.Hasher(noescape(unsafe.Pointer(&key)), m.seed)
 
 	// Select table.
 	idx := m.directoryIndex(hash)
