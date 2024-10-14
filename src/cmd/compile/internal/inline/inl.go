@@ -543,7 +543,7 @@ opSwitch:
 					}
 				}
 			}
-			if name.Class == ir.PPARAM {
+			if name.Class == ir.PPARAM || name.Class == ir.PAUTOHEAP && name.IsClosureVar() {
 				callParamDiscount = 40
 			}
 		}
