@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a92e9930_07d402fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-10-14T22:42:10Z",
+      "side": 1,
+      "message": "Well, LGTM once the test is fixed.",
+      "revId": "a2402ab952d282ccc5155cf81a93f8130a8da28f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
