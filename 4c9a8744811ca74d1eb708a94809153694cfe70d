@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c8ba925_95a417b2",
+        "filename": "doc/next/6-stdlib/1-os-root.md",
+        "patchSetId": 36
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-15T04:56:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "493a45b8_07db29f8",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c3c5482_b004083c",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2673e1e_a363768e",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 1826,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-15T04:56:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c3c5482_b004083c",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b09da8f0_10dec974",
@@ -48,6 +84,24 @@
       "writtenOn": "2024-10-13T18:24:10Z",
       "side": 1,
       "message": "It seems to me that we can race a call to Close and a call to incref.  The result can be that we get\n\n    goroutine 1:          goroutine 2:\n     call Close           call incref\n     refs |\u003d rootClosed\n     syscall.Close\n                          refs +\u003d 1\n                          observe that rootClosed is set\n                          decref\n                          refs -\u003d 1\n                          old \u003d\u003d rootClose\n                          call syscall.Close\n\nThat means that we can close r.fd twice.  That is 1) a bit careless; 2) potentially a disaster if goroutine 3 opens a file descriptor and gets r.fd between the two calls to syscall.Close.",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4a5e73f_4d8d4376",
+        "filename": "src/os/root_openat.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-15T04:56:19Z",
+      "side": 1,
+      "message": "Good point.\n\nDropped the atomic cleverness in favor of a mutex.",
+      "parentUuid": "b09da8f0_10dec974",
       "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -87,6 +141,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f230e02c_942e1e85",
+        "filename": "src/os/root_openat.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-15T04:56:19Z",
+      "side": 1,
+      "message": "Oops, thanks for catching that. Fixed.",
+      "parentUuid": "752e0cfb_008ee10c",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8708b30f_0ac5999a",
@@ -100,6 +172,24 @@
       "writtenOn": "2024-10-13T18:24:10Z",
       "side": 1,
       "message": "This function is calling os functions directly, so all the path.Join calls here should be filepath.Join.",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c12cf94_f2b3782c",
+        "filename": "src/os/root_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-15T04:56:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8708b30f_0ac5999a",
       "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -121,6 +211,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52a77ab0_b87b4b9f",
+        "filename": "src/os/root_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-15T04:56:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f20083dc_cfed769d",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "445187a5_15006028",
@@ -134,6 +242,24 @@
       "writtenOn": "2024-10-13T18:24:10Z",
       "side": 1,
       "message": "The docs for the target field above don\u0027t explain what an empty string means.",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c6ca5a2_f050eefa",
+        "filename": "src/os/root_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-15T04:56:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "445187a5_15006028",
       "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -155,6 +281,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aabd271d_df936eed",
+        "filename": "src/os/root_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-15T04:56:19Z",
+      "side": 1,
+      "message": "Done, renamed function to be clearer.",
+      "parentUuid": "05eab9a5_12a3d593",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15e53188_77ae3933",
@@ -168,6 +312,24 @@
       "writtenOn": "2024-10-13T18:24:10Z",
       "side": 1,
       "message": "Could/should we have a test in which one goroutine opens files using a Root and another goroutine tries to trick it using symlinks?  A problem with the code wouldn\u0027t lead to consistent failures but any failure might be interesting.",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29975a9a_63ab2198",
+        "filename": "src/os/root_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-15T04:56:19Z",
+      "side": 1,
+      "message": "Added one test which races a renamed directory against a lookup operation.\n\nStill thinking about the best way to write one that uses symlinks, so leaving this comment unresolved.",
+      "parentUuid": "15e53188_77ae3933",
       "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
