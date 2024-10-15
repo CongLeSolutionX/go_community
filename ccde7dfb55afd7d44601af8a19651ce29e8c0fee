@@ -225,6 +225,30 @@
       },
       "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b8c1f1c_cb9eb733",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 54318
+      },
+      "writtenOn": "2024-10-15T11:55:45Z",
+      "side": 1,
+      "message": "We ignore these symbols starting with \".L\" or \"L0\" in two places, but for different reasons, and the symbols ignored in the two places are not overlapping.\n\nThe first place ignores these symbols whose sect.sym is 0, and these symbols will not appear in the second place.\nThe symbols ignored in the second place have sect.sym that is not 0 (most of them belong to the text segment). We ignore them here because there are too many of them, which makes findfunc bucket unable to fit.\n\nHere is an example file: https://github.com/limeidan/share/blob/main/_x005.o\n\nI don\u0027t know if this can solve your question. We can continue to discuss. Thank you.",
+      "parentUuid": "754f4214_e8152327",
+      "range": {
+        "startLine": 690,
+        "startChar": 0,
+        "endLine": 693,
+        "endChar": 5
+      },
+      "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
