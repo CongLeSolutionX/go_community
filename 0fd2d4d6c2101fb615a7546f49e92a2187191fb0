@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "289b060f_d0c87c66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-10-15T07:46:49Z",
+      "side": 1,
+      "message": "Looks reasonable. But I don\u0027t see any documentation that says the SetFileInformationByHandle truncates the file. For example, SetEndOfFile says https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-setendoffile \n\n\u003e ... The SetEndOfFile function can be used to truncate or extend a file. ...",
+      "revId": "0fd2d4d6c2101fb615a7546f49e92a2187191fb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
