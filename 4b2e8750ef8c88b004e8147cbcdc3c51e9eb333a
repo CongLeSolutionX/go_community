@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a2809f8_94e0e83a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-10-15T20:23:27Z",
+      "side": 1,
+      "message": "This is an alternative to CL 601597. It merges lock_sema.go and lock_futex.go: the semaphore-based platforms are able to get the \"spinbit\" scalability improvement, and the futex-based platforms are primed for easier implementation of mutex contention profiles.",
+      "revId": "4b2e8750ef8c88b004e8147cbcdc3c51e9eb333a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
