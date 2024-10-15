@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e261ff4_e7cefe0f",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-15T03:31:55Z",
+      "side": 1,
+      "message": "I\u0027m fine with this change if you prefer it. For what it\u0027s worth, I made Mkdirat\u0027s implementation separate because Openat is fairly complicated and it seemed simpler and clearer to keep Mkdirat (which doesn\u0027t have much in the way of configuration flags to worry about) separate.",
+      "revId": "675feef1b29c8e1abfe3faf735031017496410eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
