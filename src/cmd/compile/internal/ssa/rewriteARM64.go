@@ -4801,6 +4801,56 @@ func rewriteValueARM64_OpARM64FMOVDstore(v *Value) bool {
 		v.AddArg3(ptr, val, mem)
 		return true
 	}
+	// match: (FMOVDstore [off2] ptr val2 mem2:(FMOVDstore [off1] ptr val1 mem1))
+	// cond: off1+8 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr()
+	// result: (STPD [off1] ptr val1 val2 mem1)
+	for {
+		off2 := auxIntToInt32(v.AuxInt)
+		ptr := v_0
+		val2 := v_1
+		mem2 := v_2
+		if mem2.Op != OpARM64FMOVDstore {
+			break
+		}
+		off1 := auxIntToInt32(mem2.AuxInt)
+		mem1 := mem2.Args[2]
+		if ptr != mem2.Args[0] {
+			break
+		}
+		val1 := mem2.Args[1]
+		if !(off1+8 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr()) {
+			break
+		}
+		v.reset(OpARM64STPD)
+		v.AuxInt = int32ToAuxInt(off1)
+		v.AddArg4(ptr, val1, val2, mem1)
+		return true
+	}
+	// match: (FMOVDstore [off2] ptr val2 mem2:(FMOVDstore [off1] ptr val1 mem1))
+	// cond: off2+8 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr()
+	// result: (STPD [off2] ptr val2 val1 mem1)
+	for {
+		off2 := auxIntToInt32(v.AuxInt)
+		ptr := v_0
+		val2 := v_1
+		mem2 := v_2
+		if mem2.Op != OpARM64FMOVDstore {
+			break
+		}
+		off1 := auxIntToInt32(mem2.AuxInt)
+		mem1 := mem2.Args[2]
+		if ptr != mem2.Args[0] {
+			break
+		}
+		val1 := mem2.Args[1]
+		if !(off2+8 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr()) {
+			break
+		}
+		v.reset(OpARM64STPD)
+		v.AuxInt = int32ToAuxInt(off2)
+		v.AddArg4(ptr, val2, val1, mem1)
+		return true
+	}
 	// match: (FMOVDstore [off1] {sym} (ADDconst [off2] ptr) val mem)
 	// cond: is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink)
 	// result: (FMOVDstore [off1+int32(off2)] {sym} ptr val mem)
@@ -5205,6 +5255,56 @@ func rewriteValueARM64_OpARM64FMOVSstore(v *Value) bool {
 		v.AuxInt = int32ToAuxInt(off)
 		v.Aux = symToAux(sym)
 		v.AddArg3(ptr, val, mem)
+		return true
+	}
+	// match: (FMOVSstore [off2] ptr val2 mem2:(FMOVSstore [off1] ptr val1 mem1))
+	// cond: off1+4 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr()
+	// result: (STPS [off1] ptr val1 val2 mem1)
+	for {
+		off2 := auxIntToInt32(v.AuxInt)
+		ptr := v_0
+		val2 := v_1
+		mem2 := v_2
+		if mem2.Op != OpARM64FMOVSstore {
+			break
+		}
+		off1 := auxIntToInt32(mem2.AuxInt)
+		mem1 := mem2.Args[2]
+		if ptr != mem2.Args[0] {
+			break
+		}
+		val1 := mem2.Args[1]
+		if !(off1+4 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr()) {
+			break
+		}
+		v.reset(OpARM64STPS)
+		v.AuxInt = int32ToAuxInt(off1)
+		v.AddArg4(ptr, val1, val2, mem1)
+		return true
+	}
+	// match: (FMOVSstore [off2] ptr val2 mem2:(FMOVSstore [off1] ptr val1 mem1))
+	// cond: off2+4 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr()
+	// result: (STPS [off2] ptr val2 val1 mem1)
+	for {
+		off2 := auxIntToInt32(v.AuxInt)
+		ptr := v_0
+		val2 := v_1
+		mem2 := v_2
+		if mem2.Op != OpARM64FMOVSstore {
+			break
+		}
+		off1 := auxIntToInt32(mem2.AuxInt)
+		mem1 := mem2.Args[2]
+		if ptr != mem2.Args[0] {
+			break
+		}
+		val1 := mem2.Args[1]
+		if !(off2+4 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr()) {
+			break
+		}
+		v.reset(OpARM64STPS)
+		v.AuxInt = int32ToAuxInt(off2)
+		v.AddArg4(ptr, val2, val1, mem1)
 		return true
 	}
 	// match: (FMOVSstore [off1] {sym} (ADDconst [off2] ptr) val mem)
@@ -9441,6 +9541,56 @@ func rewriteValueARM64_OpARM64MOVDstore(v *Value) bool {
 		v.AddArg3(ptr, val, mem)
 		return true
 	}
+	// match: (MOVDstore [off2] ptr val2 mem2:(MOVDstore [off1] ptr val1 mem1))
+	// cond: off1+8 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr()
+	// result: (STP [off1] ptr val1 val2 mem1)
+	for {
+		off2 := auxIntToInt32(v.AuxInt)
+		ptr := v_0
+		val2 := v_1
+		mem2 := v_2
+		if mem2.Op != OpARM64MOVDstore {
+			break
+		}
+		off1 := auxIntToInt32(mem2.AuxInt)
+		mem1 := mem2.Args[2]
+		if ptr != mem2.Args[0] {
+			break
+		}
+		val1 := mem2.Args[1]
+		if !(off1+8 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr()) {
+			break
+		}
+		v.reset(OpARM64STP)
+		v.AuxInt = int32ToAuxInt(off1)
+		v.AddArg4(ptr, val1, val2, mem1)
+		return true
+	}
+	// match: (MOVDstore [off2] ptr val2 mem2:(MOVDstore [off1] ptr val1 mem1))
+	// cond: off2+8 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr()
+	// result: (STP [off2] ptr val2 val1 mem1)
+	for {
+		off2 := auxIntToInt32(v.AuxInt)
+		ptr := v_0
+		val2 := v_1
+		mem2 := v_2
+		if mem2.Op != OpARM64MOVDstore {
+			break
+		}
+		off1 := auxIntToInt32(mem2.AuxInt)
+		mem1 := mem2.Args[2]
+		if ptr != mem2.Args[0] {
+			break
+		}
+		val1 := mem2.Args[1]
+		if !(off2+8 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr()) {
+			break
+		}
+		v.reset(OpARM64STP)
+		v.AuxInt = int32ToAuxInt(off2)
+		v.AddArg4(ptr, val2, val1, mem1)
+		return true
+	}
 	// match: (MOVDstore [off1] {sym} (ADDconst [off2] ptr) val mem)
 	// cond: is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink)
 	// result: (MOVDstore [off1+int32(off2)] {sym} ptr val mem)
@@ -12015,6 +12165,56 @@ func rewriteValueARM64_OpARM64MOVWstore(v *Value) bool {
 		v.AuxInt = int32ToAuxInt(off)
 		v.Aux = symToAux(sym)
 		v.AddArg3(ptr, val, mem)
+		return true
+	}
+	// match: (MOVWstore [off2] ptr val2 mem2:(MOVWstore [off1] ptr val1 mem1))
+	// cond: off1+4 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr()
+	// result: (STPW [off1] ptr val1 val2 mem1)
+	for {
+		off2 := auxIntToInt32(v.AuxInt)
+		ptr := v_0
+		val2 := v_1
+		mem2 := v_2
+		if mem2.Op != OpARM64MOVWstore {
+			break
+		}
+		off1 := auxIntToInt32(mem2.AuxInt)
+		mem1 := mem2.Args[2]
+		if ptr != mem2.Args[0] {
+			break
+		}
+		val1 := mem2.Args[1]
+		if !(off1+4 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr()) {
+			break
+		}
+		v.reset(OpARM64STPW)
+		v.AuxInt = int32ToAuxInt(off1)
+		v.AddArg4(ptr, val1, val2, mem1)
+		return true
+	}
+	// match: (MOVWstore [off2] ptr val2 mem2:(MOVWstore [off1] ptr val1 mem1))
+	// cond: off2+4 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr()
+	// result: (STPW [off2] ptr val2 val1 mem1)
+	for {
+		off2 := auxIntToInt32(v.AuxInt)
+		ptr := v_0
+		val2 := v_1
+		mem2 := v_2
+		if mem2.Op != OpARM64MOVWstore {
+			break
+		}
+		off1 := auxIntToInt32(mem2.AuxInt)
+		mem1 := mem2.Args[2]
+		if ptr != mem2.Args[0] {
+			break
+		}
+		val1 := mem2.Args[1]
+		if !(off2+4 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr()) {
+			break
+		}
+		v.reset(OpARM64STPW)
+		v.AuxInt = int32ToAuxInt(off2)
+		v.AddArg4(ptr, val2, val1, mem1)
 		return true
 	}
 	// match: (MOVWstore [off1] {sym} (ADDconst [off2] ptr) val mem)

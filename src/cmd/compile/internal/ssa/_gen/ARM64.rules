@@ -349,6 +349,37 @@
 (Store {t} ptr val mem) && t.Size() == 4 &&  t.IsFloat() => (FMOVSstore ptr val mem)
 (Store {t} ptr val mem) && t.Size() == 8 &&  t.IsFloat() => (FMOVDstore ptr val mem)
 
+// Double-register (STP) stores.
+// Conditions:
+//  - offset: off2 must be 4/8 bytes after or before off1.
+//    (STP stores registers sequentially). Both orders (before and after) are supported.
+//  - mem2.Uses must be 1: there must not be a load between the two store instructions.
+//  - ptr must be a pointer (for some reason, it isn't in rare cases)
+(MOVDstore [off2] ptr val2 mem2:(MOVDstore [off1] ptr val1 mem1))
+	&& off1+8 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr() =>
+	(STP [off1] ptr val1 val2 mem1)
+(MOVDstore [off2] ptr val2 mem2:(MOVDstore [off1] ptr val1 mem1))
+	&& off2+8 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr() =>
+	(STP [off2] ptr val2 val1 mem1)
+(MOVWstore [off2] ptr val2 mem2:(MOVWstore [off1] ptr val1 mem1))
+	&& off1+4 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr() =>
+	(STPW [off1] ptr val1 val2 mem1)
+(MOVWstore [off2] ptr val2 mem2:(MOVWstore [off1] ptr val1 mem1))
+	&& off2+4 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr() =>
+	(STPW [off2] ptr val2 val1 mem1)
+(FMOVSstore [off2] ptr val2 mem2:(FMOVSstore [off1] ptr val1 mem1))
+	&& off1+4 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr() =>
+	(STPS [off1] ptr val1 val2 mem1)
+(FMOVSstore [off2] ptr val2 mem2:(FMOVSstore [off1] ptr val1 mem1))
+	&& off2+4 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr() =>
+	(STPS [off2] ptr val2 val1 mem1)
+(FMOVDstore [off2] ptr val2 mem2:(FMOVDstore [off1] ptr val1 mem1))
+	&& off1+8 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr() =>
+	(STPD [off1] ptr val1 val2 mem1)
+(FMOVDstore [off2] ptr val2 mem2:(FMOVDstore [off1] ptr val1 mem1))
+	&& off2+8 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr() =>
+	(STPD [off2] ptr val2 val1 mem1)
+
 // zeroing
 (Zero [0] _   mem) => mem
 (Zero [1] ptr mem) => (MOVBstore ptr (MOVDconst [0]) mem)
