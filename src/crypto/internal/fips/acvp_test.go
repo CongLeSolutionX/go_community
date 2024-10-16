@@ -20,12 +20,15 @@ package fips_test
 import (
 	"bufio"
 	"bytes"
+	"crypto/ecdsa"
+	"crypto/elliptic"
 	"crypto/internal/fips"
 	"crypto/internal/fips/hmac"
 	"crypto/internal/fips/pbkdf2"
 	"crypto/internal/fips/sha256"
 	"crypto/internal/fips/sha3"
 	"crypto/internal/fips/sha512"
+	"crypto/rand"
 	_ "embed"
 	"encoding/binary"
 	"encoding/json"
@@ -33,6 +36,7 @@ import (
 	"fmt"
 	"internal/testenv"
 	"io"
+	"math/big"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -116,6 +120,11 @@ var (
 		"HMAC-SHA3-512":     cmdHmacAft(func() fips.Hash { return sha3.New512() }),
 
 		"PBKDF": cmdPbkdf(),
+
+		"ECDSA/keyGen": cmdEcdsaKeyGenAft(),
+		"ECDSA/keyVer": cmdEcdsaKeyVerAft(),
+		"ECDSA/sigGen": cmdEcdsaSigGenAft(),
+		"ECDSA/sigVer": cmdEcdsaSigVerAft(),
 	}
 )
 
@@ -351,33 +360,11 @@ func cmdPbkdf() command {
 		// HMAC name, key length, salt, password, iteration count
 		requiredArgs: 5,
 		handler: func(args [][]byte) ([][]byte, error) {
-			hmacName := args[0]
-			var h func() fips.Hash
-			switch string(hmacName) {
-			case "SHA2-224":
-				h = func() fips.Hash { return sha256.New224() }
-			case "SHA2-256":
-				h = func() fips.Hash { return sha256.New() }
-			case "SHA2-384":
-				h = func() fips.Hash { return sha512.New384() }
-			case "SHA2-512":
-				h = func() fips.Hash { return sha512.New() }
-			case "SHA2-512/224":
-
-				h = func() fips.Hash { return sha512.New512_224() }
-			case "SHA2-512/256":
-				h = func() fips.Hash { return sha512.New512_256() }
-			case "SHA3-224":
-				h = func() fips.Hash { return sha3.New224() }
-			case "SHA3-256":
-				h = func() fips.Hash { return sha3.New256() }
-			case "SHA3-384":
-				h = func() fips.Hash { return sha3.New384() }
-			case "SHA3-512":
-				h = func() fips.Hash { return sha3.New512() }
-			default:
-				return nil, fmt.Errorf("unknown PBKDF2 HMAC: %q", hmacName)
+			h, err := lookupHash(string(args[0]))
+			if err != nil {
+				return nil, err
 			}
+
 			keyLen := binary.LittleEndian.Uint32(args[1]) / 8
 			salt := args[2]
 			password := args[3]
@@ -390,6 +377,158 @@ func cmdPbkdf() command {
 	}
 }
 
+func cmdEcdsaKeyGenAft() command {
+	return command{
+		requiredArgs: 1, // Curve name
+		handler: func(args [][]byte) ([][]byte, error) {
+			curve, err := lookupCurve(string(args[0]))
+			if err != nil {
+				return nil, err
+			}
+
+			sk, err := ecdsa.GenerateKey(curve, rand.Reader)
+			if err != nil {
+				return nil, err
+			}
+
+			return [][]byte{sk.D.Bytes(), sk.X.Bytes(), sk.Y.Bytes()}, nil
+		},
+	}
+}
+
+func cmdEcdsaKeyVerAft() command {
+	return command{
+		requiredArgs: 3, // Curve name, X, Y
+		handler: func(args [][]byte) ([][]byte, error) {
+			curve, err := lookupCurve(string(args[0]))
+			if err != nil {
+				return nil, err
+			}
+
+			x := new(big.Int).SetBytes(args[1])
+			y := new(big.Int).SetBytes(args[2])
+
+			if curve.IsOnCurve(x, y) {
+				return [][]byte{{1}}, nil
+			}
+
+			return [][]byte{{0}}, nil
+		},
+	}
+}
+
+func cmdEcdsaSigGenAft() command {
+	return command{
+		requiredArgs: 4, // Curve name, private key, hash name, message
+		handler: func(args [][]byte) ([][]byte, error) {
+			curve, err := lookupCurve(string(args[0]))
+			if err != nil {
+				return nil, err
+			}
+
+			sk := ecdsa.PrivateKey{PublicKey: ecdsa.PublicKey{Curve: curve}, D: new(big.Int).SetBytes(args[1])}
+
+			newH, err := lookupHash(string(args[2]))
+			if err != nil {
+				return nil, err
+			}
+
+			h := newH()
+			h.Write(args[3])
+			digest := h.Sum(nil)
+
+			r, s, err := ecdsa.Sign(rand.Reader, &sk, digest)
+			if err != nil {
+				return nil, err
+			}
+
+			return [][]byte{r.Bytes(), s.Bytes()}, nil
+		},
+	}
+}
+
+func cmdEcdsaSigVerAft() command {
+	return command{
+		requiredArgs: 7, // Curve name, hash name, message, X, Y, R, S
+		handler: func(args [][]byte) ([][]byte, error) {
+			curve, err := lookupCurve(string(args[0]))
+			if err != nil {
+				return nil, err
+			}
+
+			newH, err := lookupHash(string(args[1]))
+			if err != nil {
+				return nil, err
+			}
+
+			h := newH()
+			h.Write(args[2])
+			digest := h.Sum(nil)
+
+			pk := ecdsa.PublicKey{Curve: curve, X: new(big.Int).SetBytes(args[3]), Y: new(big.Int).SetBytes(args[4])}
+
+			r := args[5]
+			s := args[6]
+			if ecdsa.Verify(&pk, digest, new(big.Int).SetBytes(r), new(big.Int).SetBytes(s)) {
+				return [][]byte{{1}}, nil
+			}
+
+			return [][]byte{{0}}, nil
+		},
+	}
+}
+
+func lookupCurve(name string) (elliptic.Curve, error) {
+	var c elliptic.Curve
+
+	switch name {
+	case "P-224":
+		c = elliptic.P224()
+	case "P-256":
+		c = elliptic.P256()
+	case "P-384":
+		c = elliptic.P384()
+	case "P-521":
+		c = elliptic.P521()
+	default:
+		return nil, fmt.Errorf("unknown curve name: %q", name)
+	}
+
+	return c, nil
+}
+
+func lookupHash(name string) (func() fips.Hash, error) {
+	var h func() fips.Hash
+
+	switch name {
+	case "SHA2-224":
+		h = func() fips.Hash { return sha256.New224() }
+	case "SHA2-256":
+		h = func() fips.Hash { return sha256.New() }
+	case "SHA2-384":
+		h = func() fips.Hash { return sha512.New384() }
+	case "SHA2-512":
+		h = func() fips.Hash { return sha512.New() }
+	case "SHA2-512/224":
+
+		h = func() fips.Hash { return sha512.New512_224() }
+	case "SHA2-512/256":
+		h = func() fips.Hash { return sha512.New512_256() }
+	case "SHA3-224":
+		h = func() fips.Hash { return sha3.New224() }
+	case "SHA3-256":
+		h = func() fips.Hash { return sha3.New256() }
+	case "SHA3-384":
+		h = func() fips.Hash { return sha3.New384() }
+	case "SHA3-512":
+		h = func() fips.Hash { return sha3.New512() }
+	default:
+		return nil, fmt.Errorf("unknown hash name: %q", name)
+	}
+
+	return h, nil
+}
+
 func TestACVP(t *testing.T) {
 	testenv.SkipIfShortAndSlow(t)
 	testenv.MustHaveExternalNetwork(t)
@@ -400,7 +539,7 @@ func TestACVP(t *testing.T) {
 		bsslModule    = "boringssl.googlesource.com/boringssl.git"
 		bsslVersion   = "v0.0.0-20241015160643-2587c4974dbe"
 		goAcvpModule  = "github.com/cpu/go-acvp"
-		goAcvpVersion = "v0.0.0-20241011151719-6e0509dcb7ce"
+		goAcvpVersion = "v0.0.0-20241017184632-1620eab21cf3"
 	)
 
 	// In crypto/tls/bogo_shim_test.go the test is skipped if run on a builder with runtime.GOOS == "windows"
