@@ -1576,3 +1576,14 @@ func TestReadDirNoFileID(t *testing.T) {
 		t.Errorf("SameFile(%v, %v) = false; want true", f2, f2s)
 	}
 }
+
+func TestOpenFileTruncateAndAppend(t *testing.T) {
+	t.Parallel()
+
+	// Test that O_APPEND and O_TRUNC can be used together.
+	f, err := os.OpenFile(filepath.Join(t.TempDir(), "file"), os.O_APPEND|os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0660)
+	if err != nil {
+		t.Fatal(err)
+	}
+	f.Close()
+}
