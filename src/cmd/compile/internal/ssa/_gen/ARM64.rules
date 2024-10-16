@@ -349,6 +349,37 @@
 (Store {t} ptr val mem) && t.Size() == 4 &&  t.IsFloat() => (FMOVSstore ptr val mem)
 (Store {t} ptr val mem) && t.Size() == 8 &&  t.IsFloat() => (FMOVDstore ptr val mem)
 
+// Double-register (STP) stores.
+// Conditions:
+//  - offset: off2 must be 4/8 bytes after or before off1.
+//    (STP stores registers sequentially). Both orders (before and after) are supported.
+//  - mem2.Uses must be 1: there must not be a load between the two store instructions.
+//  - ptr must be a pointer (for some reason, it isn't in rare cases)
+(MOVDstore [off2] ptr val2 mem2:(MOVDstore [off1] ptr val1 mem1))
+	&& off1+8 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr() =>
+	(STP [off1] ptr val1 val2 mem1)
+(MOVDstore [off2] ptr val2 mem2:(MOVDstore [off1] ptr val1 mem1))
+	&& off2+8 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr() =>
+	(STP [off2] ptr val2 val1 mem1)
+(MOVWstore [off2] ptr val2 mem2:(MOVWstore [off1] ptr val1 mem1))
+	&& off1+4 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr() =>
+	(STPW [off1] ptr val1 val2 mem1)
+(MOVWstore [off2] ptr val2 mem2:(MOVWstore [off1] ptr val1 mem1))
+	&& off2+4 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr() =>
+	(STPW [off2] ptr val2 val1 mem1)
+(FMOVSstore [off2] ptr val2 mem2:(FMOVSstore [off1] ptr val1 mem1))
+	&& off1+4 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr() =>
+	(STPS [off1] ptr val1 val2 mem1)
+(FMOVSstore [off2] ptr val2 mem2:(FMOVSstore [off1] ptr val1 mem1))
+	&& off2+4 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr() =>
+	(STPS [off2] ptr val2 val1 mem1)
+(FMOVDstore [off2] ptr val2 mem2:(FMOVDstore [off1] ptr val1 mem1))
+	&& off1+8 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr() =>
+	(STPD [off1] ptr val1 val2 mem1)
+(FMOVDstore [off2] ptr val2 mem2:(FMOVDstore [off1] ptr val1 mem1))
+	&& off2+8 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr() =>
+	(STPD [off2] ptr val2 val1 mem1)
+
 // zeroing
 (Zero [0] _   mem) => mem
 (Zero [1] ptr mem) => (MOVBstore ptr (MOVDconst [0]) mem)
@@ -811,6 +842,15 @@
 (STP [off1] {sym} (ADDconst [off2] ptr) val1 val2 mem) && is32Bit(int64(off1)+off2)
 	&& (ptr.Op != OpSB || !config.ctxt.Flag_dynlink) =>
 	(STP [off1+int32(off2)] {sym} ptr val1 val2 mem)
+(STPW [off1] {sym} (ADDconst [off2] ptr) val1 val2 mem) && is32Bit(int64(off1)+off2)
+	&& (ptr.Op != OpSB || !config.ctxt.Flag_dynlink) =>
+	(STPW [off1+int32(off2)] {sym} ptr val1 val2 mem)
+(STPS [off1] {sym} (ADDconst [off2] ptr) val1 val2 mem) && is32Bit(int64(off1)+off2)
+	&& (ptr.Op != OpSB || !config.ctxt.Flag_dynlink) =>
+	(STPS [off1+int32(off2)] {sym} ptr val1 val2 mem)
+(STPD [off1] {sym} (ADDconst [off2] ptr) val1 val2 mem) && is32Bit(int64(off1)+off2)
+	&& (ptr.Op != OpSB || !config.ctxt.Flag_dynlink) =>
+	(STPD [off1+int32(off2)] {sym} ptr val1 val2 mem)
 (FMOVSstore [off1] {sym} (ADDconst [off2] ptr) val mem) && is32Bit(int64(off1)+off2)
 	&& (ptr.Op != OpSB || !config.ctxt.Flag_dynlink) =>
 	(FMOVSstore [off1+int32(off2)] {sym} ptr val mem)
@@ -939,6 +979,18 @@
 	&& canMergeSym(sym1,sym2) && is32Bit(int64(off1)+int64(off2))
 	&& (ptr.Op != OpSB || !config.ctxt.Flag_dynlink) =>
 	(STP [off1+off2] {mergeSym(sym1,sym2)} ptr val1 val2 mem)
+(STPW [off1] {sym1} (MOVDaddr [off2] {sym2} ptr) val1 val2 mem)
+	&& canMergeSym(sym1,sym2) && is32Bit(int64(off1)+int64(off2))
+	&& (ptr.Op != OpSB || !config.ctxt.Flag_dynlink) =>
+	(STPW [off1+off2] {mergeSym(sym1,sym2)} ptr val1 val2 mem)
+(STPS [off1] {sym1} (MOVDaddr [off2] {sym2} ptr) val1 val2 mem)
+	&& canMergeSym(sym1,sym2) && is32Bit(int64(off1)+int64(off2))
+	&& (ptr.Op != OpSB || !config.ctxt.Flag_dynlink) =>
+	(STPS [off1+off2] {mergeSym(sym1,sym2)} ptr val1 val2 mem)
+(STPD [off1] {sym1} (MOVDaddr [off2] {sym2} ptr) val1 val2 mem)
+	&& canMergeSym(sym1,sym2) && is32Bit(int64(off1)+int64(off2))
+	&& (ptr.Op != OpSB || !config.ctxt.Flag_dynlink) =>
+	(STPD [off1+off2] {mergeSym(sym1,sym2)} ptr val1 val2 mem)
 (FMOVSstore [off1] {sym1} (MOVDaddr [off2] {sym2} ptr) val mem)
 	&& canMergeSym(sym1,sym2) && is32Bit(int64(off1)+int64(off2))
 	&& (ptr.Op != OpSB || !config.ctxt.Flag_dynlink) =>
@@ -974,6 +1026,7 @@
 (MOVWstore [off] {sym} ptr (MOVDconst [0]) mem) => (MOVWstorezero [off] {sym} ptr mem)
 (MOVDstore [off] {sym} ptr (MOVDconst [0]) mem) => (MOVDstorezero [off] {sym} ptr mem)
 (STP [off] {sym} ptr (MOVDconst [0]) (MOVDconst [0]) mem) => (MOVQstorezero [off] {sym} ptr mem)
+(STPW [off] {sym} ptr (MOVDconst [0]) (MOVDconst [0]) mem) => (MOVDstorezero [off] {sym} ptr mem)
 
 // register indexed store zero
 (MOVDstorezero [off] {sym} (ADD ptr idx) mem) && off == 0 && sym == nil => (MOVDstorezeroidx ptr idx mem)

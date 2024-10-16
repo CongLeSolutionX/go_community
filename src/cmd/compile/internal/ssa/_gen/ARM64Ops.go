@@ -172,6 +172,7 @@ func init() {
 		fp2load        = regInfo{inputs: []regMask{gpspsbg, gpg}, outputs: []regMask{fp}}
 		fpstore        = regInfo{inputs: []regMask{gpspsbg, fp}}
 		fpstore2       = regInfo{inputs: []regMask{gpspsbg, gpg, fp}}
+		fpstorepair    = regInfo{inputs: []regMask{gpspsbg, fp, fp}}
 		readflags      = regInfo{inputs: nil, outputs: []regMask{gp}}
 		prefreg        = regInfo{inputs: []regMask{gpspsbg}}
 	)
@@ -405,6 +406,9 @@ func init() {
 		{name: "MOVWstore", argLength: 3, reg: gpstore, aux: "SymOff", asm: "MOVW", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"},   // store 4 bytes of arg1 to arg0 + auxInt + aux.  arg2=mem.
 		{name: "MOVDstore", argLength: 3, reg: gpstore, aux: "SymOff", asm: "MOVD", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"},   // store 8 bytes of arg1 to arg0 + auxInt + aux.  arg2=mem.
 		{name: "STP", argLength: 4, reg: gpstore2, aux: "SymOff", asm: "STP", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"},         // store 16 bytes of arg1 and arg2 to arg0 + auxInt + aux.  arg3=mem.
+		{name: "STPW", argLength: 4, reg: gpstore2, aux: "SymOff", asm: "STPW", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"},       // store 8 bytes of arg1 and arg2 to arg0 + auxInt + aux.  arg3=mem.
+		{name: "STPS", argLength: 4, reg: fpstorepair, aux: "SymOff", asm: "FSTPS", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"},   // store 8 bytes of arg1 and arg2 to arg0 + auxInt + aux.  arg3=mem.
+		{name: "STPD", argLength: 4, reg: fpstorepair, aux: "SymOff", asm: "FSTPD", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"},   // store 16 bytes of arg1 and arg2 to arg0 + auxInt + aux.  arg3=mem.
 		{name: "FMOVSstore", argLength: 3, reg: fpstore, aux: "SymOff", asm: "FMOVS", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"}, // store 4 bytes of arg1 to arg0 + auxInt + aux.  arg2=mem.
 		{name: "FMOVDstore", argLength: 3, reg: fpstore, aux: "SymOff", asm: "FMOVD", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"}, // store 8 bytes of arg1 to arg0 + auxInt + aux.  arg2=mem.
 

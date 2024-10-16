@@ -368,6 +368,12 @@ func rewriteValueARM64(v *Value) bool {
 		return rewriteValueARM64_OpARM64SRLconst(v)
 	case OpARM64STP:
 		return rewriteValueARM64_OpARM64STP(v)
+	case OpARM64STPD:
+		return rewriteValueARM64_OpARM64STPD(v)
+	case OpARM64STPS:
+		return rewriteValueARM64_OpARM64STPS(v)
+	case OpARM64STPW:
+		return rewriteValueARM64_OpARM64STPW(v)
 	case OpARM64SUB:
 		return rewriteValueARM64_OpARM64SUB(v)
 	case OpARM64SUBconst:
@@ -4801,6 +4807,56 @@ func rewriteValueARM64_OpARM64FMOVDstore(v *Value) bool {
 		v.AddArg3(ptr, val, mem)
 		return true
 	}
+	// match: (FMOVDstore [off2] ptr val2 mem2:(FMOVDstore [off1] ptr val1 mem1))
+	// cond: off1+8 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr()
+	// result: (STPD [off1] ptr val1 val2 mem1)
+	for {
+		off2 := auxIntToInt32(v.AuxInt)
+		ptr := v_0
+		val2 := v_1
+		mem2 := v_2
+		if mem2.Op != OpARM64FMOVDstore {
+			break
+		}
+		off1 := auxIntToInt32(mem2.AuxInt)
+		mem1 := mem2.Args[2]
+		if ptr != mem2.Args[0] {
+			break
+		}
+		val1 := mem2.Args[1]
+		if !(off1+8 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr()) {
+			break
+		}
+		v.reset(OpARM64STPD)
+		v.AuxInt = int32ToAuxInt(off1)
+		v.AddArg4(ptr, val1, val2, mem1)
+		return true
+	}
+	// match: (FMOVDstore [off2] ptr val2 mem2:(FMOVDstore [off1] ptr val1 mem1))
+	// cond: off2+8 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr()
+	// result: (STPD [off2] ptr val2 val1 mem1)
+	for {
+		off2 := auxIntToInt32(v.AuxInt)
+		ptr := v_0
+		val2 := v_1
+		mem2 := v_2
+		if mem2.Op != OpARM64FMOVDstore {
+			break
+		}
+		off1 := auxIntToInt32(mem2.AuxInt)
+		mem1 := mem2.Args[2]
+		if ptr != mem2.Args[0] {
+			break
+		}
+		val1 := mem2.Args[1]
+		if !(off2+8 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr()) {
+			break
+		}
+		v.reset(OpARM64STPD)
+		v.AuxInt = int32ToAuxInt(off2)
+		v.AddArg4(ptr, val2, val1, mem1)
+		return true
+	}
 	// match: (FMOVDstore [off1] {sym} (ADDconst [off2] ptr) val mem)
 	// cond: is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink)
 	// result: (FMOVDstore [off1+int32(off2)] {sym} ptr val mem)
@@ -5205,6 +5261,56 @@ func rewriteValueARM64_OpARM64FMOVSstore(v *Value) bool {
 		v.AuxInt = int32ToAuxInt(off)
 		v.Aux = symToAux(sym)
 		v.AddArg3(ptr, val, mem)
+		return true
+	}
+	// match: (FMOVSstore [off2] ptr val2 mem2:(FMOVSstore [off1] ptr val1 mem1))
+	// cond: off1+4 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr()
+	// result: (STPS [off1] ptr val1 val2 mem1)
+	for {
+		off2 := auxIntToInt32(v.AuxInt)
+		ptr := v_0
+		val2 := v_1
+		mem2 := v_2
+		if mem2.Op != OpARM64FMOVSstore {
+			break
+		}
+		off1 := auxIntToInt32(mem2.AuxInt)
+		mem1 := mem2.Args[2]
+		if ptr != mem2.Args[0] {
+			break
+		}
+		val1 := mem2.Args[1]
+		if !(off1+4 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr()) {
+			break
+		}
+		v.reset(OpARM64STPS)
+		v.AuxInt = int32ToAuxInt(off1)
+		v.AddArg4(ptr, val1, val2, mem1)
+		return true
+	}
+	// match: (FMOVSstore [off2] ptr val2 mem2:(FMOVSstore [off1] ptr val1 mem1))
+	// cond: off2+4 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr()
+	// result: (STPS [off2] ptr val2 val1 mem1)
+	for {
+		off2 := auxIntToInt32(v.AuxInt)
+		ptr := v_0
+		val2 := v_1
+		mem2 := v_2
+		if mem2.Op != OpARM64FMOVSstore {
+			break
+		}
+		off1 := auxIntToInt32(mem2.AuxInt)
+		mem1 := mem2.Args[2]
+		if ptr != mem2.Args[0] {
+			break
+		}
+		val1 := mem2.Args[1]
+		if !(off2+4 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr()) {
+			break
+		}
+		v.reset(OpARM64STPS)
+		v.AuxInt = int32ToAuxInt(off2)
+		v.AddArg4(ptr, val2, val1, mem1)
 		return true
 	}
 	// match: (FMOVSstore [off1] {sym} (ADDconst [off2] ptr) val mem)
@@ -9441,6 +9547,56 @@ func rewriteValueARM64_OpARM64MOVDstore(v *Value) bool {
 		v.AddArg3(ptr, val, mem)
 		return true
 	}
+	// match: (MOVDstore [off2] ptr val2 mem2:(MOVDstore [off1] ptr val1 mem1))
+	// cond: off1+8 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr()
+	// result: (STP [off1] ptr val1 val2 mem1)
+	for {
+		off2 := auxIntToInt32(v.AuxInt)
+		ptr := v_0
+		val2 := v_1
+		mem2 := v_2
+		if mem2.Op != OpARM64MOVDstore {
+			break
+		}
+		off1 := auxIntToInt32(mem2.AuxInt)
+		mem1 := mem2.Args[2]
+		if ptr != mem2.Args[0] {
+			break
+		}
+		val1 := mem2.Args[1]
+		if !(off1+8 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr()) {
+			break
+		}
+		v.reset(OpARM64STP)
+		v.AuxInt = int32ToAuxInt(off1)
+		v.AddArg4(ptr, val1, val2, mem1)
+		return true
+	}
+	// match: (MOVDstore [off2] ptr val2 mem2:(MOVDstore [off1] ptr val1 mem1))
+	// cond: off2+8 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr()
+	// result: (STP [off2] ptr val2 val1 mem1)
+	for {
+		off2 := auxIntToInt32(v.AuxInt)
+		ptr := v_0
+		val2 := v_1
+		mem2 := v_2
+		if mem2.Op != OpARM64MOVDstore {
+			break
+		}
+		off1 := auxIntToInt32(mem2.AuxInt)
+		mem1 := mem2.Args[2]
+		if ptr != mem2.Args[0] {
+			break
+		}
+		val1 := mem2.Args[1]
+		if !(off2+8 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr()) {
+			break
+		}
+		v.reset(OpARM64STP)
+		v.AuxInt = int32ToAuxInt(off2)
+		v.AddArg4(ptr, val2, val1, mem1)
+		return true
+	}
 	// match: (MOVDstore [off1] {sym} (ADDconst [off2] ptr) val mem)
 	// cond: is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink)
 	// result: (MOVDstore [off1+int32(off2)] {sym} ptr val mem)
@@ -12015,6 +12171,56 @@ func rewriteValueARM64_OpARM64MOVWstore(v *Value) bool {
 		v.AuxInt = int32ToAuxInt(off)
 		v.Aux = symToAux(sym)
 		v.AddArg3(ptr, val, mem)
+		return true
+	}
+	// match: (MOVWstore [off2] ptr val2 mem2:(MOVWstore [off1] ptr val1 mem1))
+	// cond: off1+4 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr()
+	// result: (STPW [off1] ptr val1 val2 mem1)
+	for {
+		off2 := auxIntToInt32(v.AuxInt)
+		ptr := v_0
+		val2 := v_1
+		mem2 := v_2
+		if mem2.Op != OpARM64MOVWstore {
+			break
+		}
+		off1 := auxIntToInt32(mem2.AuxInt)
+		mem1 := mem2.Args[2]
+		if ptr != mem2.Args[0] {
+			break
+		}
+		val1 := mem2.Args[1]
+		if !(off1+4 == off2 && mem2.Uses == 1 && ptr.Type.IsPtr()) {
+			break
+		}
+		v.reset(OpARM64STPW)
+		v.AuxInt = int32ToAuxInt(off1)
+		v.AddArg4(ptr, val1, val2, mem1)
+		return true
+	}
+	// match: (MOVWstore [off2] ptr val2 mem2:(MOVWstore [off1] ptr val1 mem1))
+	// cond: off2+4 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr()
+	// result: (STPW [off2] ptr val2 val1 mem1)
+	for {
+		off2 := auxIntToInt32(v.AuxInt)
+		ptr := v_0
+		val2 := v_1
+		mem2 := v_2
+		if mem2.Op != OpARM64MOVWstore {
+			break
+		}
+		off1 := auxIntToInt32(mem2.AuxInt)
+		mem1 := mem2.Args[2]
+		if ptr != mem2.Args[0] {
+			break
+		}
+		val1 := mem2.Args[1]
+		if !(off2+4 == off1 && mem2.Uses == 1 && ptr.Type.IsPtr()) {
+			break
+		}
+		v.reset(OpARM64STPW)
+		v.AuxInt = int32ToAuxInt(off2)
+		v.AddArg4(ptr, val2, val1, mem1)
 		return true
 	}
 	// match: (MOVWstore [off1] {sym} (ADDconst [off2] ptr) val mem)
@@ -16315,6 +16521,190 @@ func rewriteValueARM64_OpARM64STP(v *Value) bool {
 		}
 		mem := v_3
 		v.reset(OpARM64MOVQstorezero)
+		v.AuxInt = int32ToAuxInt(off)
+		v.Aux = symToAux(sym)
+		v.AddArg2(ptr, mem)
+		return true
+	}
+	return false
+}
+func rewriteValueARM64_OpARM64STPD(v *Value) bool {
+	v_3 := v.Args[3]
+	v_2 := v.Args[2]
+	v_1 := v.Args[1]
+	v_0 := v.Args[0]
+	b := v.Block
+	config := b.Func.Config
+	// match: (STPD [off1] {sym} (ADDconst [off2] ptr) val1 val2 mem)
+	// cond: is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink)
+	// result: (STPD [off1+int32(off2)] {sym} ptr val1 val2 mem)
+	for {
+		off1 := auxIntToInt32(v.AuxInt)
+		sym := auxToSym(v.Aux)
+		if v_0.Op != OpARM64ADDconst {
+			break
+		}
+		off2 := auxIntToInt64(v_0.AuxInt)
+		ptr := v_0.Args[0]
+		val1 := v_1
+		val2 := v_2
+		mem := v_3
+		if !(is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink)) {
+			break
+		}
+		v.reset(OpARM64STPD)
+		v.AuxInt = int32ToAuxInt(off1 + int32(off2))
+		v.Aux = symToAux(sym)
+		v.AddArg4(ptr, val1, val2, mem)
+		return true
+	}
+	// match: (STPD [off1] {sym1} (MOVDaddr [off2] {sym2} ptr) val1 val2 mem)
+	// cond: canMergeSym(sym1,sym2) && is32Bit(int64(off1)+int64(off2)) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink)
+	// result: (STPD [off1+off2] {mergeSym(sym1,sym2)} ptr val1 val2 mem)
+	for {
+		off1 := auxIntToInt32(v.AuxInt)
+		sym1 := auxToSym(v.Aux)
+		if v_0.Op != OpARM64MOVDaddr {
+			break
+		}
+		off2 := auxIntToInt32(v_0.AuxInt)
+		sym2 := auxToSym(v_0.Aux)
+		ptr := v_0.Args[0]
+		val1 := v_1
+		val2 := v_2
+		mem := v_3
+		if !(canMergeSym(sym1, sym2) && is32Bit(int64(off1)+int64(off2)) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink)) {
+			break
+		}
+		v.reset(OpARM64STPD)
+		v.AuxInt = int32ToAuxInt(off1 + off2)
+		v.Aux = symToAux(mergeSym(sym1, sym2))
+		v.AddArg4(ptr, val1, val2, mem)
+		return true
+	}
+	return false
+}
+func rewriteValueARM64_OpARM64STPS(v *Value) bool {
+	v_3 := v.Args[3]
+	v_2 := v.Args[2]
+	v_1 := v.Args[1]
+	v_0 := v.Args[0]
+	b := v.Block
+	config := b.Func.Config
+	// match: (STPS [off1] {sym} (ADDconst [off2] ptr) val1 val2 mem)
+	// cond: is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink)
+	// result: (STPS [off1+int32(off2)] {sym} ptr val1 val2 mem)
+	for {
+		off1 := auxIntToInt32(v.AuxInt)
+		sym := auxToSym(v.Aux)
+		if v_0.Op != OpARM64ADDconst {
+			break
+		}
+		off2 := auxIntToInt64(v_0.AuxInt)
+		ptr := v_0.Args[0]
+		val1 := v_1
+		val2 := v_2
+		mem := v_3
+		if !(is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink)) {
+			break
+		}
+		v.reset(OpARM64STPS)
+		v.AuxInt = int32ToAuxInt(off1 + int32(off2))
+		v.Aux = symToAux(sym)
+		v.AddArg4(ptr, val1, val2, mem)
+		return true
+	}
+	// match: (STPS [off1] {sym1} (MOVDaddr [off2] {sym2} ptr) val1 val2 mem)
+	// cond: canMergeSym(sym1,sym2) && is32Bit(int64(off1)+int64(off2)) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink)
+	// result: (STPS [off1+off2] {mergeSym(sym1,sym2)} ptr val1 val2 mem)
+	for {
+		off1 := auxIntToInt32(v.AuxInt)
+		sym1 := auxToSym(v.Aux)
+		if v_0.Op != OpARM64MOVDaddr {
+			break
+		}
+		off2 := auxIntToInt32(v_0.AuxInt)
+		sym2 := auxToSym(v_0.Aux)
+		ptr := v_0.Args[0]
+		val1 := v_1
+		val2 := v_2
+		mem := v_3
+		if !(canMergeSym(sym1, sym2) && is32Bit(int64(off1)+int64(off2)) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink)) {
+			break
+		}
+		v.reset(OpARM64STPS)
+		v.AuxInt = int32ToAuxInt(off1 + off2)
+		v.Aux = symToAux(mergeSym(sym1, sym2))
+		v.AddArg4(ptr, val1, val2, mem)
+		return true
+	}
+	return false
+}
+func rewriteValueARM64_OpARM64STPW(v *Value) bool {
+	v_3 := v.Args[3]
+	v_2 := v.Args[2]
+	v_1 := v.Args[1]
+	v_0 := v.Args[0]
+	b := v.Block
+	config := b.Func.Config
+	// match: (STPW [off1] {sym} (ADDconst [off2] ptr) val1 val2 mem)
+	// cond: is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink)
+	// result: (STPW [off1+int32(off2)] {sym} ptr val1 val2 mem)
+	for {
+		off1 := auxIntToInt32(v.AuxInt)
+		sym := auxToSym(v.Aux)
+		if v_0.Op != OpARM64ADDconst {
+			break
+		}
+		off2 := auxIntToInt64(v_0.AuxInt)
+		ptr := v_0.Args[0]
+		val1 := v_1
+		val2 := v_2
+		mem := v_3
+		if !(is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink)) {
+			break
+		}
+		v.reset(OpARM64STPW)
+		v.AuxInt = int32ToAuxInt(off1 + int32(off2))
+		v.Aux = symToAux(sym)
+		v.AddArg4(ptr, val1, val2, mem)
+		return true
+	}
+	// match: (STPW [off1] {sym1} (MOVDaddr [off2] {sym2} ptr) val1 val2 mem)
+	// cond: canMergeSym(sym1,sym2) && is32Bit(int64(off1)+int64(off2)) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink)
+	// result: (STPW [off1+off2] {mergeSym(sym1,sym2)} ptr val1 val2 mem)
+	for {
+		off1 := auxIntToInt32(v.AuxInt)
+		sym1 := auxToSym(v.Aux)
+		if v_0.Op != OpARM64MOVDaddr {
+			break
+		}
+		off2 := auxIntToInt32(v_0.AuxInt)
+		sym2 := auxToSym(v_0.Aux)
+		ptr := v_0.Args[0]
+		val1 := v_1
+		val2 := v_2
+		mem := v_3
+		if !(canMergeSym(sym1, sym2) && is32Bit(int64(off1)+int64(off2)) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink)) {
+			break
+		}
+		v.reset(OpARM64STPW)
+		v.AuxInt = int32ToAuxInt(off1 + off2)
+		v.Aux = symToAux(mergeSym(sym1, sym2))
+		v.AddArg4(ptr, val1, val2, mem)
+		return true
+	}
+	// match: (STPW [off] {sym} ptr (MOVDconst [0]) (MOVDconst [0]) mem)
+	// result: (MOVDstorezero [off] {sym} ptr mem)
+	for {
+		off := auxIntToInt32(v.AuxInt)
+		sym := auxToSym(v.Aux)
+		ptr := v_0
+		if v_1.Op != OpARM64MOVDconst || auxIntToInt64(v_1.AuxInt) != 0 || v_2.Op != OpARM64MOVDconst || auxIntToInt64(v_2.AuxInt) != 0 {
+			break
+		}
+		mem := v_3
+		v.reset(OpARM64MOVDstorezero)
 		v.AuxInt = int32ToAuxInt(off)
 		v.Aux = symToAux(sym)
 		v.AddArg2(ptr, mem)
