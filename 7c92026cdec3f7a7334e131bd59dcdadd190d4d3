@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbc549c3_05b67840",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-16T14:15:04Z",
+      "side": 1,
+      "message": "No colon.",
+      "revId": "7c92026cdec3f7a7334e131bd59dcdadd190d4d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6ee4c9c_5878a335",
+        "filename": "src/crypto/internal/fips/acvp_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-16T14:15:04Z",
+      "side": 1,
+      "message": "Why the bufio wrapper? The manual flushes are easy to forget.",
+      "revId": "7c92026cdec3f7a7334e131bd59dcdadd190d4d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80c697f2_ba8b87bb",
+        "filename": "src/crypto/internal/fips/acvp_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-16T14:15:04Z",
+      "side": 1,
+      "message": "We generally don\u0027t do the \"errcheck annotations\" in the stdlib. Here and elsewhere.",
+      "revId": "7c92026cdec3f7a7334e131bd59dcdadd190d4d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35106354_a50dc9a3",
+        "filename": "src/crypto/internal/fips/acvp_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-16T14:15:04Z",
+      "side": 1,
+      "message": "nit: space. If you use VSCode, stkb.rewrap is excellent.",
+      "revId": "7c92026cdec3f7a7334e131bd59dcdadd190d4d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3b947ae_5b37453a",
+        "filename": "src/crypto/internal/fips/acvp_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-16T14:15:04Z",
+      "side": 1,
+      "message": "Redundant with SkipIfShortAndSlow.",
+      "revId": "7c92026cdec3f7a7334e131bd59dcdadd190d4d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
