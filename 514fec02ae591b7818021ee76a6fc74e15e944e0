@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "21a02ba6_eb5701e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-16T13:46:59Z",
+      "side": 1,
+      "message": "This change makes more sense in the parent (or in a separate CL) to me. Also, it should add a TODO to remind us to move the tests to the public package.",
+      "revId": "514fec02ae591b7818021ee76a6fc74e15e944e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5460fb8a_f140ccb7",
         "filename": "src/crypto/internal/fips/pbkdf2/pbkdf2.go",
         "patchSetId": 1
@@ -14,6 +31,41 @@
       "writtenOn": "2024-10-11T14:03:14Z",
       "side": 1,
       "message": "The docs in this file will need adjustment. I left it for now because I wasn\u0027t sure if they should be deleted, pending a move to the public API, or updated in-place and with a FIPS perspective. Input on this welcome.",
+      "revId": "514fec02ae591b7818021ee76a6fc74e15e944e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3649abfa_de9773e5",
+        "filename": "src/crypto/internal/fips/pbkdf2/pbkdf2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-16T13:46:59Z",
+      "side": 1,
+      "message": "If we are not going to use them as written (which I think is unlikely) let\u0027s just drop them.",
+      "parentUuid": "5460fb8a_f140ccb7",
+      "revId": "514fec02ae591b7818021ee76a6fc74e15e944e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ac2ad71_dfd5407a",
+        "filename": "src/crypto/internal/fips/pbkdf2/pbkdf2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-16T13:46:59Z",
+      "side": 1,
+      "message": "Move this comment into setServiceIndicator, to have all the reasoning about the service indicator in the same place.\n\nAlso, capital at the start.",
       "revId": "514fec02ae591b7818021ee76a6fc74e15e944e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
