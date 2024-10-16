@@ -3593,3 +3593,14 @@ func TestCopyFSWithSymlinks(t *testing.T) {
 		t.Fatal("comparing two directories:", err)
 	}
 }
+
+func TestOpenFileAppendAndTruncate(t *testing.T) {
+	t.Parallel()
+
+	// Test that O_APPEND and O_TRUNC can be used together.
+	f, err := OpenFile(filepath.Join(t.TempDir(), "file"), O_APPEND|O_WRONLY|O_CREATE|O_TRUNC, 0660)
+	if err != nil {
+		t.Fatal(err)
+	}
+	f.Close()
+}
