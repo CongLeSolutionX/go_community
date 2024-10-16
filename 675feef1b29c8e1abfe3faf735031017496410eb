@@ -16,6 +16,24 @@
       "message": "I\u0027m fine with this change if you prefer it. For what it\u0027s worth, I made Mkdirat\u0027s implementation separate because Openat is fairly complicated and it seemed simpler and clearer to keep Mkdirat (which doesn\u0027t have much in the way of configuration flags to worry about) separate.",
       "revId": "675feef1b29c8e1abfe3faf735031017496410eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "494dc344_cb8d796a",
+        "filename": "src/internal/syscall/windows/at_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-10-16T07:51:02Z",
+      "side": 1,
+      "message": "Good point about the clarity. I\u0027ll abandone this CL.",
+      "parentUuid": "7e261ff4_e7cefe0f",
+      "revId": "675feef1b29c8e1abfe3faf735031017496410eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
