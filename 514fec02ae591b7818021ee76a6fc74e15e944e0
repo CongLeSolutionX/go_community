@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8b9c87c_0791b154",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-10-16T15:56:45Z",
+      "side": 1,
+      "message": "\u003e This change makes more sense in the parent (or in a separate CL) to me\n\nI\u0027ve moved it into the parent CL.",
+      "parentUuid": "21a02ba6_eb5701e4",
+      "revId": "514fec02ae591b7818021ee76a6fc74e15e944e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5460fb8a_f140ccb7",
@@ -53,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb59587d_e2fe605a",
+        "filename": "src/crypto/internal/fips/pbkdf2/pbkdf2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-10-16T15:56:45Z",
+      "side": 1,
+      "message": "Done as part of this CL. If you\u0027d prefer that as a separate CL (or in the parent) I will adjust.",
+      "parentUuid": "3649abfa_de9773e5",
+      "revId": "514fec02ae591b7818021ee76a6fc74e15e944e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ac2ad71_dfd5407a",
@@ -66,6 +102,24 @@
       "writtenOn": "2024-10-16T13:46:59Z",
       "side": 1,
       "message": "Move this comment into setServiceIndicator, to have all the reasoning about the service indicator in the same place.\n\nAlso, capital at the start.",
+      "revId": "514fec02ae591b7818021ee76a6fc74e15e944e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e539449_e589e084",
+        "filename": "src/crypto/internal/fips/pbkdf2/pbkdf2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-10-16T15:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ac2ad71_dfd5407a",
       "revId": "514fec02ae591b7818021ee76a6fc74e15e944e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
