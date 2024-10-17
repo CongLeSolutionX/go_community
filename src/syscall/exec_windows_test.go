@@ -5,9 +5,12 @@
 package syscall_test
 
 import (
+	"bytes"
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
+	"path"
 	"path/filepath"
 	"syscall"
 	"testing"
@@ -44,6 +47,78 @@ func TestEscapeArg(t *testing.T) {
 		if got := syscall.EscapeArg(test.input); got != test.output {
 			t.Errorf("EscapeArg(%#q) = %#q, want %#q", test.input, got, test.output)
 		}
+	}
+}
+
+func testStartProcessBatchFile(t *testing.T, name string, argsInCmdLine bool, args ...string) {
+	pr, pw, err := os.Pipe()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer pr.Close()
+	defer pw.Close()
+	attr := &os.ProcAttr{Files: []*os.File{nil, pw, pw}}
+	var argv []string
+	if argsInCmdLine {
+		attr.Sys = &syscall.SysProcAttr{CmdLine: `"` + name + `"`}
+		for _, v := range args {
+			attr.Sys.CmdLine += " " + syscall.EscapeArg(v)
+		}
+	} else {
+		argv = append([]string{name}, args...)
+	}
+	p, err := os.StartProcess(name, argv, attr)
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = p.Wait()
+	if err != nil {
+		t.Fatal(err)
+	}
+	pw.Close()
+	var buf bytes.Buffer
+	_, err = io.Copy(&buf, pr)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var want string
+	for _, v := range args {
+		want += syscall.EscapeArg(v) + " "
+	}
+	if len(want) > 0 {
+		want = want[:len(want)-1] // remove trailing space
+	} else {
+		want = "ECHO is on."
+	}
+	got := string(bytes.TrimSpace(buf.Bytes()))
+	if got != want {
+		t.Fatalf("StartProcess(%#q, %#q) = %#q, want %#q", name, args, got, want)
+	}
+}
+
+func TestStartProcessWithSpaceInPath(t *testing.T) {
+	dir := t.TempDir()
+	cmd := path.Join(dir, "foo bar.cmd")
+	err := os.WriteFile(cmd, []byte("@echo %*"), 0644)
+	if err != nil {
+		t.Fatal(err)
+	}
+	tests := []struct {
+		name string
+		args []string
+	}{
+		{"no args", nil},
+		{"args with no spaces", []string{"ab"}},
+		{"args with spaces", []string{"a b"}},
+		{"args with and without spaces", []string{"ab", "a b"}},
+	}
+	for _, test := range tests {
+		t.Run(test.name+"/argv", func(t *testing.T) {
+			testStartProcessBatchFile(t, cmd, false, test.args...)
+		})
+		t.Run(test.name+"/CmdLine", func(t *testing.T) {
+			testStartProcessBatchFile(t, cmd, true, test.args...)
+		})
 	}
 }
 

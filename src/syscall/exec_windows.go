@@ -8,6 +8,7 @@ package syscall
 
 import (
 	"internal/bytealg"
+	"internal/stringslite"
 	"runtime"
 	"sync"
 	"unicode/utf16"
@@ -100,11 +101,58 @@ func appendEscapeArg(b []byte, s string) []byte {
 	return b
 }
 
+// pathEqual reports whether s and t refer to the same file.
+// The comparison is lexical and case-insensitive for ASCII
+// characters. Backslashes and slashes are treated as equivalent.
+// Trailing spaces are ignored.
+func pathEqual(s, t string) bool {
+	s = stringslite.TrimSuffix(s, " ")
+	t = stringslite.TrimSuffix(t, " ")
+	if len(s) != len(t) {
+		return false
+	}
+	for i := 0; i < len(s); i++ {
+		c := s[i]
+		d := t[i]
+		if c == d {
+			continue
+		}
+		if 'A' <= c && c <= 'Z' {
+			c += 'a' - 'A'
+		} else if c == '/' {
+			c = '\\'
+		}
+		if 'A' <= d && d <= 'Z' {
+			d += 'a' - 'A'
+		} else if d == '/' {
+			d = '\\'
+		}
+		if c == d {
+			continue
+		}
+		return false
+	}
+	return true
+}
+
 // makeCmdLine builds a command line out of args by escaping "special"
 // characters and joining the arguments with spaces.
-func makeCmdLine(args []string) string {
+// If quoteFirst is true, then the first argument will not have any
+// "special" characters escaped but will be quoted if it isn't already.
+func makeCmdLine(args []string, quoteFirst bool) string {
 	var b []byte
-	for _, v := range args {
+	for i, v := range args {
+		if i == 0 && quoteFirst {
+			isQuoted := len(v) > 0 && v[0] == '"' && v[len(v)-1] == '"'
+			if !isQuoted {
+				b = append(b, '"')
+			}
+			b = append(b, v...)
+			if !isQuoted {
+				b = append(b, '"')
+			}
+			continue
+		}
 		if len(b) > 0 {
 			b = append(b, ' ')
 		}
@@ -286,19 +334,37 @@ func StartProcess(argv0 string, argv []string, attr *ProcAttr) (pid int, handle 
 			return 0, 0, err
 		}
 	}
-	argv0p, err := UTF16PtrFromString(argv0)
-	if err != nil {
-		return 0, 0, err
-	}
 
+	// argv0InArgs is true if argv0 (the program to run) is also the first
+	// element of argv. In this case we don't need to pass argv0 separately
+	// to CreateProcess, it will be included in the command line. This is
+	// the common case when using exec.Command and attr.Dir is not set.
+	// Passing argv0 in the command line makes the quoting to rules to behave
+	// better with bat and cmd scripts. See https://go.dev/issue/17149.
+	var argv0InArgs bool
 	var cmdline string
 	// Windows CreateProcess takes the command line as a single string:
 	// use attr.CmdLine if set, else build the command line by escaping
 	// and joining each argument with spaces
 	if sys.CmdLine != "" {
+		// Set argv0InArgs to true if sys.CmdLine starts with quoted argv0.
+		if sys.CmdLine[0] == '"' {
+			if idx := stringslite.IndexByte(sys.CmdLine[1:], '"'); idx != -1 {
+				argv0InArgs = pathEqual(argv0, sys.CmdLine[1:idx+1])
+			}
+		}
 		cmdline = sys.CmdLine
 	} else {
-		cmdline = makeCmdLine(argv)
+		argv0InArgs = len(argv) > 0 && pathEqual(argv0, argv[0])
+		cmdline = makeCmdLine(argv, argv0InArgs)
+	}
+
+	var argv0p *uint16
+	if !argv0InArgs {
+		argv0p, err = UTF16PtrFromString(argv0)
+		if err != nil {
+			return 0, 0, err
+		}
 	}
 
 	var argvp *uint16
