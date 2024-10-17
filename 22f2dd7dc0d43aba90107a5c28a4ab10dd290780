@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98a74bc4_ff63ade8",
+        "filename": "src/crypto/subtle/dit.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-10-17T14:43:54Z",
+      "side": 1,
+      "message": "This needs to handle the case where f panics, probably using a defer?",
+      "range": {
+        "startLine": 36,
+        "startChar": 1,
+        "endLine": 38,
+        "endChar": 2
+      },
+      "revId": "22f2dd7dc0d43aba90107a5c28a4ab10dd290780",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
