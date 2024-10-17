@@ -93,6 +93,8 @@ var optab = []Optab{
 	{AMOVVF, C_FREG, C_NONE, C_NONE, C_FREG, C_NONE, 9, 4, 0, 0},
 	{AMOVF, C_FREG, C_NONE, C_NONE, C_FREG, C_NONE, 9, 4, 0, 0},
 	{AMOVD, C_FREG, C_NONE, C_NONE, C_FREG, C_NONE, 9, 4, 0, 0},
+	{AVPCNTB, C_VREG, C_NONE, C_NONE, C_VREG, C_NONE, 9, 4, 0, 0},
+	{AXVPCNTB, C_XREG, C_NONE, C_NONE, C_XREG, C_NONE, 9, 4, 0, 0},
 
 	{AMOVW, C_REG, C_NONE, C_NONE, C_SAUTO, C_NONE, 7, 4, REGSP, 0},
 	{AMOVWU, C_REG, C_NONE, C_NONE, C_SAUTO, C_NONE, 7, 4, REGSP, 0},
@@ -1317,6 +1319,16 @@ func buildop(ctxt *obj.Link) {
 			opset(AXVSEQH, r0)
 			opset(AXVSEQW, r0)
 			opset(AXVSEQV, r0)
+
+		case AVPCNTB:
+			opset(AVPCNTH, r0)
+			opset(AVPCNTW, r0)
+			opset(AVPCNTV, r0)
+
+		case AXVPCNTB:
+			opset(AXVPCNTH, r0)
+			opset(AXVPCNTW, r0)
+			opset(AXVPCNTV, r0)
 		}
 	}
 }
@@ -2498,6 +2510,22 @@ func (c *ctxt0) oprr(a obj.As) uint32 {
 		return 0x46b9 << 10 // ftintrne.l.s
 	case AFTINTRNEVD:
 		return 0x46ba << 10 // ftintrne.l.d
+	case AVPCNTB:
+		return 0x1ca708 << 10 // vpcnt.b
+	case AVPCNTH:
+		return 0x1ca709 << 10 // vpcnt.h
+	case AVPCNTW:
+		return 0x1ca70a << 10 // vpcnt.w
+	case AVPCNTV:
+		return 0x1ca70b << 10 // vpcnt.v
+	case AXVPCNTB:
+		return 0x1da708 << 10 // xvpcnt.b
+	case AXVPCNTH:
+		return 0x1da709 << 10 // xvpcnt.h
+	case AXVPCNTW:
+		return 0x1da70a << 10 // xvpcnt.w
+	case AXVPCNTV:
+		return 0x1da70b << 10 // xvpcnt.v
 	}
 
 	c.ctxt.Diag("bad rr opcode %v", a)
