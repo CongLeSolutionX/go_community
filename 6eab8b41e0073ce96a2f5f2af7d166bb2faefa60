@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6637afa1_8a77e8b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-10-17T07:23:13Z",
+      "side": 1,
+      "message": "I will not review this because it says \"Merge Conflict\" at the left top corner, and tests are failing.\n\nAlex",
+      "revId": "6eab8b41e0073ce96a2f5f2af7d166bb2faefa60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
