@@ -31,7 +31,7 @@ import (
 )
 
 var cmdVendor = &base.Command{
-	UsageLine: "go mod vendor [-e] [-v] [-o outdir]",
+	UsageLine: "go mod vendor [-e] [-v] [-x] [-o outdir]",
 	Short:     "make vendored copy of dependencies",
 	Long: `
 Vendor resets the main module's vendor directory to include all packages
@@ -49,6 +49,8 @@ path instead of "vendor". The go command can only use a vendor directory
 named "vendor" within the module root directory, so this flag is
 primarily useful for other tools.
 
+The -x flag causes vendor to print the commands download executes.
+
 See https://golang.org/ref/mod#go-mod-vendor for more about 'go mod vendor'.
 	`,
 	Run: runVendor,
@@ -59,6 +61,7 @@ var vendorO string // if set, overrides the default output directory
 
 func init() {
 	cmdVendor.Flag.BoolVar(&cfg.BuildV, "v", false, "")
+	cmdVendor.Flag.BoolVar(&cfg.BuildX, "x", false, "")
 	cmdVendor.Flag.BoolVar(&vendorE, "e", false, "")
 	cmdVendor.Flag.StringVar(&vendorO, "o", "", "")
 	base.AddChdirFlag(&cmdVendor.Flag)
@@ -183,6 +186,9 @@ func RunVendor(ctx context.Context, vendorE bool, vendorO string, args []string)
 		pkgs := modpkgs[m]
 		sort.Strings(pkgs)
 		for _, pkg := range pkgs {
+			if cfg.BuildX {
+				fmt.Fprintf(os.Stderr, "# get %s\n", pkg)
+			}
 			fmt.Fprintf(w, "%s\n", pkg)
 			vendorPkg(vdir, pkg)
 		}

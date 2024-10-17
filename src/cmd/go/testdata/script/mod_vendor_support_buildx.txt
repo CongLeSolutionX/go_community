@@ -1,0 +1,20 @@
+# This test checks that "go mod vendor -x" print
+# commands vendor executes.
+# Verifies golang.org/issue/35849
+
+env GO111MODULE=on
+
+-- go.mod --
+module example.com/mod
+
+-- a.go --
+package mod
+import _ "rsc.io/quote"
+
+go mod tidy
+
+go mod vendor
+! stderr 'get '
+
+go mod vendor -x
+stderr 'get '
