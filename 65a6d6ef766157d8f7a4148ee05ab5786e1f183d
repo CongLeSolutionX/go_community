@@ -16,6 +16,24 @@
       "message": "Note, you will also need to run the stringer tool to regenerate anames.go.\nFrom this directory, ex `go run ../stringer.go -i a.out.go -o anames.go -p ppc64`.\n\nAlso, you will need to add assembler tests in cmd/asm/internal/asm/testdata/ppc64.s too.",
       "revId": "65a6d6ef766157d8f7a4148ee05ab5786e1f183d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2ddfd52_1dad05aa",
+        "filename": "src/cmd/internal/obj/ppc64/a.out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 65933
+      },
+      "writtenOn": "2024-10-17T21:37:37Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "56816c68_53c2b9fe",
+      "revId": "65a6d6ef766157d8f7a4148ee05ab5786e1f183d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
