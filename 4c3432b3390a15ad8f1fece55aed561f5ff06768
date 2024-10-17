@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c86c921f_f0998a9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-10-17T22:26:15Z",
+      "side": 1,
+      "message": "Hello,\n\nI\u0027ve rebased the changes and looked at some more benchmarks for performance effect. Please have a look at the updated version of this patch when you have time.\n\nOverall, it seems that the number of cases currently CSEd with this change is not significant (most functions are not changed) and maybe we need more aggressive `disjoint` routine to be able to detect more cases. But the `disjoint` function is used in other optimization passes (at least by opt) so maybe better to leave any changes related to that for separate patches...",
+      "revId": "4c3432b3390a15ad8f1fece55aed561f5ff06768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

@@ -107,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6901145c_df27cb95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-10-17T22:26:15Z",
+      "side": 1,
+      "message": "Thank you, these changes and using random config help.\n\nMost of the differences appear due to such effects, anyway the following one seem affected by these changes:\n\nThe StdlibJSON benchmark  has among its hot functions `strconv.ryuDigits`, in which there are some redundant bound checks removed with this change. There are also some others functions (e.g. bytes.(*Reader).Read), but the change in them probably should not have noticeable impact on performance.\n\nThe benhoyt_goawk_1_18 benchmark has several cases in one of its top functions `github.com/benhoyt/goawk/interp.(*interp).execute` when a loaded previously pointer is re-used, e.g.\n```\nmov    0xd0(%rax),%r11\nmovzbl (%r11,%r15,1),%ecx\nmov    0x8(%r11,%r15,1),%rdi\nmov    0x10(%r11,%r15,1),%rsi\n```\n(while the code without this change had to re-load it before the uses).",
+      "parentUuid": "d198c02b_c3b6c675",
+      "revId": "13a1561f0668703bd71be4fb100eeb41c30d03a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e533fe5e_fba553f2",
