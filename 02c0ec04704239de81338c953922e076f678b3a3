@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fa33ee9_464c1abd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2024-10-17T08:37:53Z",
+      "side": 1,
+      "message": "@jinl@uber.com, you might be interested in this.",
+      "revId": "02c0ec04704239de81338c953922e076f678b3a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
