@@ -1,0 +1,28 @@
+# This test checks that "go mod vendor -x" print
+# commands vendor executes.
+# Verifies golang.org/issue/35849
+
+-- go.mod --
+module m
+
+go 1.16
+
+require (
+	rsc.io/quote v1.5.2
+	rsc.io/sampler v1.3.0 // older version than in build list
+)
+
+-- go.sum --
+golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
+rsc.io/quote v1.5.2/go.mod h1:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=
+rsc.io/sampler v1.3.0/go.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
+
+-- a.go --
+package mod
+import _ "rsc.io/quote"
+
+go mod vendor
+! stderr 'get '
+
+go mod vendor -x
+stderr 'get '
