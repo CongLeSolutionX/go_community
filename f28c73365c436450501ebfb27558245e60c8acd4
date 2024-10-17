@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a7b7baa_92e6ae5c",
+        "filename": "src/crypto/internal/fips/acvp_capabilities.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-10-17T19:03:18Z",
+      "side": 1,
+      "message": "The JSON is getting a bit gnarly. Maybe worth a CR to pretty-print?",
+      "revId": "f28c73365c436450501ebfb27558245e60c8acd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
