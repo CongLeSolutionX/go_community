@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99c470a6_ba669ec8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 29916
+      },
+      "writtenOn": "2024-10-18T07:39:40Z",
+      "side": 1,
+      "message": "Updated the change with added folding.",
+      "revId": "cdf72d5bfd8b669a2d7e70eabbf78ed02cd5f27f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

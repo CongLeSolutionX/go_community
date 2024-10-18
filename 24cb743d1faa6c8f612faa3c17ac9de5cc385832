@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "daa85c5f_fe6f95bc",
+        "filename": "src/cmd/compile/internal/ssa/_gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 29916
+      },
+      "writtenOn": "2024-10-18T07:39:40Z",
+      "side": 0,
+      "message": "I\u0027m not very familiar with the Go SSA syntax, but would it be possible to run the STP rules after most other rules? So that optimizations like this one can still run.",
+      "parentUuid": "f1a37529_4c09d44e",
+      "revId": "24cb743d1faa6c8f612faa3c17ac9de5cc385832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "230ce7a7_5e1e8c84",
         "filename": "src/cmd/compile/internal/ssa/_gen/ARM64.rules",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2024-10-18T02:00:43Z",
       "side": 0,
       "message": "This one might actually matter. Once we combine stores, we have no rule that would fold constant offsets into it. Something like\n\n(STP [off] (ADDconst [off2] ptr) val1 val2 mem) \u003d\u003e (STP [off+off2] ptr val1 val2 mem)\n\nThere are also foldings for symbol offsets (setting aux to a symbol address), index generation (MOVDstoreidx), etc.\nI think we want to know if any of those are still foldable into these multi-store operations. If so, we want those rewrite rules. If not, we would need to decide whether the multi-store is better, or the address folding is better.\n\n\nJust as an example, consider:\n\nvar a []float64 \u003d ...\nvar x, y float64 \u003d ...\n\na[i] \u003d x\na[i+8] \u003d y\n\nDo we want to use two FMOVDstoreidx8 for this, or one ADDSHIFTLL $3 plus one STPD? Or is there a better option?\n\n(I think in this case the ADD+STPD is maybe better? But I\u0027m not sure, and there are lots of other examples along this vein that we should consider.)",
+      "revId": "24cb743d1faa6c8f612faa3c17ac9de5cc385832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c38aadd8_b19a75bb",
+        "filename": "src/cmd/compile/internal/ssa/_gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 29916
+      },
+      "writtenOn": "2024-10-18T07:39:40Z",
+      "side": 0,
+      "message": "\u003e This one might actually matter. Once we combine stores, we have no rule that would fold constant offsets into it. Something like\n\u003e \n\u003e (STP [off] (ADDconst [off2] ptr) val1 val2 mem) \u003d\u003e (STP [off+off2] ptr val1 val2 mem)\n\nSee the next comment.\n\u003e [...] If not, we would need to decide whether the multi-store is better, or the address folding is better.\u003e \n\u003e \n\u003e Just as an example, consider:\n\u003e \n\u003e var a []float64 \u003d ...\n\u003e var x, y float64 \u003d ...\n\u003e \n\u003e a[i] \u003d x\n\u003e a[i+8] \u003d y\n\u003e \n\u003e Do we want to use two FMOVDstoreidx8 for this, or one ADDSHIFTLL $3 plus one STPD? Or is there a better option?\n\nI think we can do both? `STP` supports offsets: https://godbolt.org/z/5rxMbE4eW",
+      "parentUuid": "230ce7a7_5e1e8c84",
       "revId": "24cb743d1faa6c8f612faa3c17ac9de5cc385832",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "20c5f001_d9775141",
+        "filename": "src/cmd/compile/internal/ssa/_gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 29916
+      },
+      "writtenOn": "2024-10-18T07:39:40Z",
+      "side": 0,
+      "message": "Done!\nI think I got all the ones that STP also does (except for some that seem to be only for integer stores).",
+      "parentUuid": "f4f3185b_4b25bbae",
+      "revId": "24cb743d1faa6c8f612faa3c17ac9de5cc385832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "20aba72e_25ac5567",
         "filename": "src/cmd/compile/internal/ssa/_gen/ARM64Ops.go",
         "patchSetId": 1
@@ -65,6 +119,24 @@
       "writtenOn": "2024-10-18T02:00:43Z",
       "side": 0,
       "message": "It might be good to rename fpstore2-\u003efpstoreidx, then use fpstore2 for your new operation signature (and change gpstore2 also).\nWe can leave that for a subsequent cleanup CL.",
+      "revId": "24cb743d1faa6c8f612faa3c17ac9de5cc385832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "958cca46_720d1e3d",
+        "filename": "src/cmd/compile/internal/ssa/_gen/ARM64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 29916
+      },
+      "writtenOn": "2024-10-18T07:39:40Z",
+      "side": 0,
+      "message": "Yeah was wondering about that too. For integer stores `gpstore2` can be reused for both double stores and stores with offsets, but for floating point it doesn\u0027t work anymore.",
+      "parentUuid": "20aba72e_25ac5567",
       "revId": "24cb743d1faa6c8f612faa3c17ac9de5cc385832",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
