@@ -224,8 +224,9 @@ func SwissMapIterType() *types.Type {
 	//
 	//    dirIdx int
 	//
-	//    tab        *table
-	//    groupSmall unsafe.Pointer // actually groupReference
+	//    tab *table
+	//
+	//    group unsafe.Pointer // actually groupReference
 	//
 	//    entryIdx uint64
 	//
@@ -243,7 +244,7 @@ func SwissMapIterType() *types.Type {
 		makefield("globalDepth", types.Types[types.TUINT8]),
 		makefield("dirIdx", types.Types[types.TINT]),
 		makefield("tab", types.NewPtr(swissTableType())),
-		makefield("groupSmall", types.Types[types.TUNSAFEPTR]),
+		makefield("group", types.Types[types.TUNSAFEPTR]),
 		makefield("entryIdx", types.Types[types.TUINT64]),
 	}
 
