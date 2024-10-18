@@ -34,6 +34,24 @@
       ],
       "revId": "8adbeb4c3c76dc9efca0a2316e4ab9bb4719cb1b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f20624df_4683a3c4",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-10-18T17:18:48Z",
+      "side": 1,
+      "message": "I don\u0027t think so.  I did this to match \"filter\" in the returned closure in\n```\nfunc (t *T) ForAllFunc(filter func(i, v int) bool) func(func(i, v int) bool) {\n\treturn func(yield func(i, v int) bool) {\n\t\tt.forAll(filter, yield)\n\t}\n}\n```\nIn that closure yield is a PPARAM, filter is a PAUTOHEAP.  And that closure won\u0027t get inlined anyway unless ForAllFunc is also inlined, so I think it\u0027s okay (for binary size) to boost the ability to inline the closure.\n\nI\u0027m also not 100% sure I have tuned the condition fine enough -- I was trying to figure out how to say \"this PAUTOHEAP came from a PPARAM\", but in benchmarking, it didn\u0027t seem to hurt to have this less-picky condition, and it was good enough to help some of the rangefunc benchmarks.",
+      "parentUuid": "cad156d5_d73a5f6e",
+      "revId": "8adbeb4c3c76dc9efca0a2316e4ab9bb4719cb1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
