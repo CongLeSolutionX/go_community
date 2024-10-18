@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3d8a1b49_7500b340",
+        "filename": "src/cmd/compile/internal/ssa/_gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-18T13:21:06Z",
+      "side": 0,
+      "message": "I think STP only supports constant offsets. It does not support a second register as an offset (like FMOVDstoreidx8 does).",
+      "parentUuid": "c38aadd8_b19a75bb",
+      "revId": "24cb743d1faa6c8f612faa3c17ac9de5cc385832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f4f3185b_4b25bbae",
         "filename": "src/cmd/compile/internal/ssa/_gen/ARM64.rules",
         "patchSetId": 1
