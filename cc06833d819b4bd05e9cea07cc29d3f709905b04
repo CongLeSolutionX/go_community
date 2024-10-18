@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb5520f2_c7e5cfc0",
+        "filename": "src/cmd/go/testdata/script/mod_vendor_support_buildx.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-10-18T21:38:15Z",
+      "side": 1,
+      "message": "In script tests, the test script must appear before any of the files. That means the script must go before line 7 of this change, because that is where the first file is.",
+      "revId": "cc06833d819b4bd05e9cea07cc29d3f709905b04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3de20af4_45067126",
+        "filename": "src/cmd/go/testdata/script/mod_vendor_support_buildx.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-10-18T21:38:15Z",
+      "side": 1,
+      "message": "This line isn\u0027t necessary. `GO111MODULE` is on by default.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 18
+      },
+      "revId": "cc06833d819b4bd05e9cea07cc29d3f709905b04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
