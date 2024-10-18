@@ -20,8 +20,11 @@ package fips_test
 import (
 	"bufio"
 	"bytes"
+	"crypto"
 	"crypto/ecdsa"
+	"crypto/ed25519"
 	"crypto/elliptic"
+	"crypto/internal/edwards25519"
 	"crypto/internal/fips"
 	"crypto/internal/fips/hmac"
 	"crypto/internal/fips/pbkdf2"
@@ -125,6 +128,11 @@ var (
 		"ECDSA/keyVer": cmdEcdsaKeyVerAft(),
 		"ECDSA/sigGen": cmdEcdsaSigGenAft(),
 		"ECDSA/sigVer": cmdEcdsaSigVerAft(),
+
+		"EDDSA/keyGen": cmdEddsaKeyGenAft(),
+		"EDDSA/keyVer": cmdEddsaKeyVerAft(),
+		"EDDSA/sigGen": cmdEddsaSigGenAftBft(),
+		"EDDSA/sigVer": cmdEddsaSigVerAft(),
 	}
 )
 
@@ -478,6 +486,124 @@ func cmdEcdsaSigVerAft() command {
 	}
 }
 
+func cmdEddsaKeyGenAft() command {
+	return command{
+		requiredArgs: 1, // Curve name
+		handler: func(args [][]byte) ([][]byte, error) {
+			if string(args[0]) != "ED-25519" {
+				return nil, fmt.Errorf("unsupported EDDSA curve: %q", args[0])
+			}
+
+			pk, sk, err := ed25519.GenerateKey(nil)
+			if err != nil {
+				return nil, fmt.Errorf("generating EDDSA keypair: %w", err)
+			}
+
+			// EDDSA/keyGen/AFT responses are d & q, described[0] as:
+			//   d	The encoded private key point
+			//   q	The encoded public key point
+			//
+			// Contrary to the description of a "point", d is the private key
+			// seed bytes per FIPS.186-5[1] A.2.3.
+			//
+			// [0]: https://pages.nist.gov/ACVP/draft-celi-acvp-eddsa.html#section-9.1
+			// [1]: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf
+			return [][]byte{sk.Seed(), pk}, nil
+		},
+	}
+}
+
+func cmdEddsaKeyVerAft() command {
+	return command{
+		requiredArgs: 2, // Curve name, Q
+		handler: func(args [][]byte) ([][]byte, error) {
+			if string(args[0]) != "ED-25519" {
+				return nil, fmt.Errorf("unsupported EDDSA curve: %q", args[0])
+			}
+
+			// Verify the public key is the correct size.
+			if len(args[1]) != ed25519.PublicKeySize {
+				return [][]byte{{0}}, nil
+			}
+
+			// Verify the point is on the curve. The higher-level ed25519 API does
+			// this at signature verification time so we have to use the lower-level
+			// edwards25519 package to do it here in absence of a signature to verify.
+			if _, err := new(edwards25519.Point).SetBytes(args[1]); err != nil {
+				return [][]byte{{0}}, nil
+			}
+
+			return [][]byte{{1}}, nil
+		},
+	}
+}
+
+func cmdEddsaSigGenAftBft() command {
+	return command{
+		requiredArgs: 5, // Curve name, private key seed, message, prehash, context
+		handler: func(args [][]byte) ([][]byte, error) {
+			if string(args[0]) != "ED-25519" {
+				return nil, fmt.Errorf("unsupported EDDSA curve: %q", args[0])
+			}
+
+			sk := ed25519.NewKeyFromSeed(args[1])
+			msg := args[2]
+			prehash := args[3]
+			context := string(args[4])
+
+			var opts ed25519.Options
+			if prehash[0] == 1 {
+				opts.Hash = crypto.SHA512
+				h := sha512.New()
+				h.Write(msg)
+				msg = h.Sum(nil)
+				// With ed25519 the context is only specified for sigGen tests when using prehashing.
+				// See https://pages.nist.gov/ACVP/draft-celi-acvp-eddsa.html#section-8.6
+				opts.Context = context
+			}
+
+			sig, err := sk.Sign(nil, msg, &opts)
+			if err != nil {
+				return nil, fmt.Errorf("error signing message: %w", err)
+			}
+
+			return [][]byte{sig}, nil
+		},
+	}
+}
+
+func cmdEddsaSigVerAft() command {
+	return command{
+		requiredArgs: 5, // Curve name, message, public key, signature, prehash
+		handler: func(args [][]byte) ([][]byte, error) {
+			if string(args[0]) != "ED-25519" {
+				return nil, fmt.Errorf("unsupported EDDSA curve: %q", args[0])
+			}
+
+			msg := args[1]
+			pk := ed25519.PublicKey(args[2])
+			sig := args[3]
+			prehash := args[4]
+
+			var opts ed25519.Options
+			if prehash[0] == 1 {
+				opts.Hash = crypto.SHA512
+				h := sha512.New()
+				h.Write(msg)
+				msg = h.Sum(nil)
+				// Context is only specified for sigGen, not sigVer.
+				// See https://pages.nist.gov/ACVP/draft-celi-acvp-eddsa.html#section-8.6
+			}
+
+			if err := ed25519.VerifyWithOptions(pk, msg, sig, &opts); err != nil {
+				return [][]byte{{0}}, nil
+			}
+
+			return [][]byte{{1}}, nil
+		},
+	}
+}
+
 func lookupCurve(name string) (elliptic.Curve, error) {
 	var c elliptic.Curve
 
@@ -537,9 +663,9 @@ func TestACVP(t *testing.T) {
 
 	const (
 		bsslModule    = "boringssl.googlesource.com/boringssl.git"
-		bsslVersion   = "v0.0.0-20241015160643-2587c4974dbe"
+		bsslVersion   = "v0.0.0-20241023002431-453207b73e99"
 		goAcvpModule  = "github.com/cpu/go-acvp"
-		goAcvpVersion = "v0.0.0-20241017184632-1620eab21cf3"
+		goAcvpVersion = "v0.0.0-20241019150253-c50b6f20df24"
 	)
 
 	// In crypto/tls/bogo_shim_test.go the test is skipped if run on a builder with runtime.GOOS == "windows"
