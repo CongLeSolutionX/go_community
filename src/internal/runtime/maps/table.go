@@ -551,8 +551,10 @@ type Iter struct {
 	dirIdx int
 
 	// tab is the table at dirIdx during the previous call to Next.
-	tab        *table
-	groupSmall groupReference // only if small map at init
+	tab *table
+
+	// group is the group at entryIdx during the previous call to Next.
+	group groupReference
 
 	// entryIdx is the current entry index, prior to adjustment by entryOffset.
 	// The lower 3 bits of the index are the slot index, and the upper bits
@@ -582,7 +584,7 @@ func (it *Iter) Init(typ *abi.SwissMapType, m *Map) {
 	it.dirOffset = rand()
 	it.globalDepth = m.globalDepth
 	it.dirIdx = dirIdx
-	it.groupSmall = groupSmall
+	it.group = groupSmall
 	it.clearSeq = m.clearSeq
 }
 
@@ -631,16 +633,15 @@ func (it *Iter) Next() {
 
 	if it.dirIdx < 0 {
 		// Map was small at Init.
-		g := it.groupSmall
 		for ; it.entryIdx < abi.SwissMapGroupSlots; it.entryIdx++ {
 			k := uintptr(it.entryIdx+it.entryOffset) % abi.SwissMapGroupSlots
 
-			if (g.ctrls().get(k) & ctrlEmpty) == ctrlEmpty {
+			if (it.group.ctrls().get(k) & ctrlEmpty) == ctrlEmpty {
 				// Empty or deleted.
 				continue
 			}
 
-			key := g.key(it.m.typ, k)
+			key := it.group.key(it.m.typ, k)
 			if it.m.typ.IndirectKey() {
 				key = *((*unsafe.Pointer)(key))
 			}
@@ -657,7 +658,7 @@ func (it *Iter) Next() {
 				if !ok {
 					// See comment below.
 					if it.clearSeq == it.m.clearSeq && !it.m.typ.Key.Equal(key, key) {
-						elem = g.elem(it.m.typ, k)
+						elem = it.group.elem(it.m.typ, k)
 						if it.m.typ.IndirectElem() {
 							elem = *((*unsafe.Pointer)(elem))
 						}
@@ -669,7 +670,7 @@ func (it *Iter) Next() {
 					elem = newElem
 				}
 			} else {
-				elem = g.elem(it.m.typ, k)
+				elem = it.group.elem(it.m.typ, k)
 				if it.m.typ.IndirectElem() {
 					elem = *((*unsafe.Pointer)(elem))
 				}
@@ -748,8 +749,6 @@ func (it *Iter) Next() {
 			it.tab = newTab
 		}
 
-		var g groupReference
-
 		// N.B. Use it.tab, not newTab. It is important to use the old
 		// table for key selection if the table has grown. See comment
 		// on grown below.
@@ -757,25 +756,25 @@ func (it *Iter) Next() {
 			entryIdx := (it.entryIdx + it.entryOffset) & it.tab.groups.entryMask
 			slotIdx := uintptr(entryIdx & (abi.SwissMapGroupSlots - 1))
 
-			if slotIdx == 0 || g.data == nil {
+			if slotIdx == 0 || it.group.data == nil {
 				// Only compute the group (a) when we switch
 				// groups (slotIdx rolls over) and (b) on the
 				// first iteration in this table (slotIdx may
 				// not be zero due to entryOffset).
 				groupIdx := entryIdx >> abi.SwissMapGroupSlotsBits
-				g = it.tab.groups.group(it.m.typ, groupIdx)
+				it.group = it.tab.groups.group(it.m.typ, groupIdx)
 			}
 
 			// TODO(prattmic): Skip over groups that are composed of only empty
 			// or deleted slots using matchEmptyOrDeleted() and counting the
 			// number of bits set.
 
-			if (g.ctrls().get(slotIdx) & ctrlEmpty) == ctrlEmpty {
+			if (it.group.ctrls().get(slotIdx) & ctrlEmpty) == ctrlEmpty {
 				// Empty or deleted.
 				continue
 			}
 
-			key := g.key(it.m.typ, slotIdx)
+			key := it.group.key(it.m.typ, slotIdx)
 			if it.m.typ.IndirectKey() {
 				key = *((*unsafe.Pointer)(key))
 			}
@@ -821,7 +820,7 @@ func (it *Iter) Next() {
 					// need to return anything added after
 					// clear.
 					if it.clearSeq == it.m.clearSeq && !it.m.typ.Key.Equal(key, key) {
-						elem = g.elem(it.m.typ, slotIdx)
+						elem = it.group.elem(it.m.typ, slotIdx)
 						if it.m.typ.IndirectElem() {
 							elem = *((*unsafe.Pointer)(elem))
 						}
@@ -833,7 +832,7 @@ func (it *Iter) Next() {
 					elem = newElem
 				}
 			} else {
-				elem = g.elem(it.m.typ, slotIdx)
+				elem = it.group.elem(it.m.typ, slotIdx)
 				if it.m.typ.IndirectElem() {
 					elem = *((*unsafe.Pointer)(elem))
 				}
@@ -874,6 +873,7 @@ func (it *Iter) Next() {
 		entries := 1 << (it.m.globalDepth - it.tab.localDepth)
 		it.dirIdx += entries
 		it.tab = nil
+		it.group = groupReference{}
 		it.entryIdx = 0
 	}
 
