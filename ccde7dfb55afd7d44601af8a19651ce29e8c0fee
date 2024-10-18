@@ -249,6 +249,30 @@
       },
       "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c30ed35_3750f780",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-10-18T13:27:38Z",
+      "side": 1,
+      "message": "Thanks for the example. From objdump, it looks like all these symbols have a section:\n\n```\n0000000000000004 l       .text  0000000000000000 .LVL0\n0000000000000004 l       .text  0000000000000000 .LFB31\n0000000000000004 l       .text  0000000000000000 .hidden L0^A\n0000000000000004 l       .text  0000000000000000 .hidden L0^A\n```\n\nWhat symbols do not have section?\n\nIt probably makes sense to skip pctable entries for them.\n\nThe \"^A\" is interesting. Why does it has such a character? Are all such symbols named exactly \"L0^A\"? If so, we can do an exact match instead of prefix match, or a prefix match of \"L0^A\".",
+      "parentUuid": "8b8c1f1c_cb9eb733",
+      "range": {
+        "startLine": 690,
+        "startChar": 0,
+        "endLine": 693,
+        "endChar": 5
+      },
+      "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
