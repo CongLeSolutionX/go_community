@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cad156d5_d73a5f6e",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2024-10-18T13:43:45Z",
+      "side": 1,
+      "message": "If the closure is PAUTOHEAP, then we know 100% the exact thing we\u0027re calling, right? We could know for sure if the thing we\u0027re calling is inlineable.",
+      "fixSuggestions": [
+        {
+          "fixId": "62499865_a14b51e4",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/inline/inl.go",
+              "range": {
+                "startLine": 546,
+                "startChar": 0,
+                "endLine": 547,
+                "endChar": 0
+              },
+              "replacement": "\t\t\tif name.Class \u003d\u003d ir.PPARAM || (name.Class \u003d\u003d ir.PAUTOHEAP \u0026\u0026 name.IsClosureVar()) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "8adbeb4c3c76dc9efca0a2316e4ab9bb4719cb1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
