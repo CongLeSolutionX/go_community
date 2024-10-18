@@ -59,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aabdbe72_69a3628a",
+        "filename": "src/cmd/compile/internal/reflectdata/map_swiss.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-18T22:18:21Z",
+      "side": 1,
+      "message": "No, as in the prior CL, this really is SwissMapType, here for convenience.\n\nCL 611192 starts to get rid of these. I intend to get rid of all of them.",
+      "parentUuid": "ba69aebd_fd2a1cd4",
+      "range": {
+        "startLine": 85,
+        "startChar": 41,
+        "endLine": 85,
+        "endChar": 44
+      },
+      "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fed129e9_62fc2b6f",
@@ -72,6 +96,30 @@
       "writtenOn": "2024-10-03T23:23:34Z",
       "side": 1,
       "message": "Group?",
+      "range": {
+        "startLine": 91,
+        "startChar": 50,
+        "endLine": 91,
+        "endChar": 53
+      },
+      "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7ae98b8_524700cd",
+        "filename": "src/cmd/compile/internal/reflectdata/map_swiss.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-18T22:18:21Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "fed129e9_62fc2b6f",
       "range": {
         "startLine": 91,
         "startChar": 50,
@@ -105,6 +153,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9ab38e6_a52a22d2",
+        "filename": "src/internal/runtime/maps/export_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-18T22:18:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5949077d_3cb73a81",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b2a390b_8fc81987",
@@ -118,6 +190,24 @@
       "writtenOn": "2024-10-03T23:23:34Z",
       "side": 1,
       "message": "This is just log_2(len(directory)).\nProbably we can get rid of this, or maybe even better make directory a **table and compute its length when needed as 1\u003c\u003cglobalDepth.",
+      "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a697f7dc_0a539ba3",
+        "filename": "src/internal/runtime/maps/map.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-18T22:18:21Z",
+      "side": 1,
+      "message": "I start to optimize uses of this in CL 611190.\n\n\u003e compute its length when needed as 1\u003c\u003cglobalDepth.\n\nAgreed, this is probably the way to go. We almost never directly use the length of the slice. Iteration is the main place.\n\nIn CL 611186 I actually already exploded the slice into its components. That CL ends up not that interesting, but CL 611188 takes advantage of dirPtr being unsafe.Pointer to reuse it for a small map optimization to have the Map point directly to a group rather than having to go through directory+table.",
+      "parentUuid": "9b2a390b_8fc81987",
       "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -145,6 +235,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b635e3b2_04162bd3",
+        "filename": "src/internal/runtime/maps/map.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-18T22:18:21Z",
+      "side": 1,
+      "message": "I do mean `t` here (the table). Though \"it\" would work too.",
+      "parentUuid": "6f7ca9b1_07452f9d",
+      "range": {
+        "startLine": 281,
+        "startChar": 6,
+        "endLine": 281,
+        "endChar": 7
+      },
+      "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "588726f1_7bbeae32",
@@ -158,6 +272,24 @@
       "writtenOn": "2024-10-03T23:23:34Z",
       "side": 1,
       "message": "Maybe we can avoid multiple clears of the same table?\n\nif t \u003d\u003d lastT { continue }\nt.Clear()\nlastT \u003d t",
+      "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a46ac63c_215db775",
+        "filename": "src/internal/runtime/maps/map.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-18T22:18:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "588726f1_7bbeae32",
       "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -179,6 +311,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee5cecbd_f8fddd88",
+        "filename": "src/internal/runtime/maps/map_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-18T22:18:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60218432_0eb9be45",
+      "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99a9429d_1f9b2f0e",
@@ -192,6 +342,30 @@
       "writtenOn": "2024-10-03T23:23:34Z",
       "side": 1,
       "message": "This could be uint8 if we had any other fields that we could also make smaller.",
+      "range": {
+        "startLine": 46,
+        "startChar": 12,
+        "endLine": 46,
+        "endChar": 18
+      },
+      "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66292741_ec7718b2",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-18T22:18:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99a9429d_1f9b2f0e",
       "range": {
         "startLine": 46,
         "startChar": 12,
@@ -225,6 +399,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b39ffafc_299eaf19",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-18T22:18:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "229996cd_2c404df9",
+      "range": {
+        "startLine": 74,
+        "startChar": 12,
+        "endLine": 74,
+        "endChar": 18
+      },
+      "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ad5d084_1bb7f501",
@@ -248,6 +446,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "913f5180_a0791bb5",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-18T22:18:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ad5d084_1bb7f501",
+      "range": {
+        "startLine": 443,
+        "startChar": 66,
+        "endLine": 443,
+        "endChar": 72
+      },
+      "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3aa81d0_0c4c5d50",
@@ -261,6 +483,30 @@
       "writtenOn": "2024-10-03T23:23:34Z",
       "side": 1,
       "message": "(except by iterators)",
+      "range": {
+        "startLine": 679,
+        "startChar": 31,
+        "endLine": 679,
+        "endChar": 37
+      },
+      "revId": "dbfc3a0f38cb231e5bbb2910995c96e79ad90b7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27d74111_103a37c2",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-18T22:18:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3aa81d0_0c4c5d50",
       "range": {
         "startLine": 679,
         "startChar": 31,
