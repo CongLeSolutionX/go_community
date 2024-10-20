@@ -462,6 +462,7 @@ var depsRules = `
 	< crypto/internal/fips/sha512
 	< crypto/internal/fips/sha3
 	< crypto/internal/fips/hmac
+	< crypto/internal/fips/hkdf
 	< FIPS;
 
 	NONE < crypto/internal/boring/sig, crypto/internal/boring/syso;
