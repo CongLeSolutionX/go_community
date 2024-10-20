@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "019c1056_6dde5a64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-20T20:06:20Z",
+      "side": 1,
+      "message": "This new API requires a new file in api/next and a release note in doc/next/6-stdlib/99-minor/database/sql (and maybe one in doc/next/6-stdlib/99-minor/database/sql/driver).  See the existing files in those directories for the format.  Thanks.",
+      "revId": "d6399a45b8daa392d42b2a89713c80957889e8d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
