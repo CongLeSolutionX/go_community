@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3139e0f_c659d4b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-10-21T18:30:42Z",
+      "side": 1,
+      "message": "Thanks for tracking this down.",
+      "revId": "0b14148c71f2843b8c830e111de0b933b0b9e367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "818d9cc5_d5cb6146",
+        "filename": "src/cmd/compile/internal/importer/gcimporter_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-10-21T18:30:42Z",
+      "side": 1,
+      "message": "0777?",
+      "range": {
+        "startLine": 615,
+        "startChar": 32,
+        "endLine": 615,
+        "endChar": 36
+      },
+      "revId": "0b14148c71f2843b8c830e111de0b933b0b9e367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fe469d5_7279feb6",
+        "filename": "src/cmd/compile/internal/importer/gcimporter_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-10-21T18:30:42Z",
+      "side": 1,
+      "message": "range 10",
+      "range": {
+        "startLine": 652,
+        "startChar": 5,
+        "endLine": 652,
+        "endChar": 24
+      },
+      "revId": "0b14148c71f2843b8c830e111de0b933b0b9e367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17cd9c10_854975e0",
+        "filename": "src/cmd/compile/internal/importer/gcimporter_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-10-21T18:30:42Z",
+      "side": 1,
+      "message": "You could just call t.Error here.",
+      "revId": "0b14148c71f2843b8c830e111de0b933b0b9e367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
