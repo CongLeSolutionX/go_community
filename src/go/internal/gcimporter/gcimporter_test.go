@@ -14,6 +14,8 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -749,4 +751,74 @@ func lookupObj(t *testing.T, scope *types.Scope, name string) types.Object {
 	t.Helper()
 	t.Fatalf("%s not found", name)
 	return nil
+}
+
+// importMap implements the types.Importer interface.
+type importMap map[string]*types.Package
+
+func (m importMap) Import(path string) (*types.Package, error) { return m[path], nil }
+
+func TestIssue69912(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+
+	// This package only handles gc export data.
+	if runtime.Compiler != "gc" {
+		t.Skipf("gc-built packages not available (compiler = %s)", runtime.Compiler)
+	}
+
+	tmpdir := t.TempDir()
+	testoutdir := filepath.Join(tmpdir, "testdata")
+	if err := os.Mkdir(testoutdir, 0700); err != nil {
+		t.Fatalf("making output dir: %v", err)
+	}
+
+	compile(t, "testdata", "issue69912.go", testoutdir, nil)
+
+	fset := token.NewFileSet()
+
+	issue69912, err := Import(fset, make(map[string]*types.Package), "./testdata/issue69912", tmpdir, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	check := func(pkgname, src string, imports importMap) (*types.Package, error) {
+		f, err := parser.ParseFile(fset, "a.go", src, 0)
+		if err != nil {
+			return nil, err
+		}
+		config := &types.Config{
+			Importer: imports,
+		}
+		return config.Check(pkgname, fset, []*ast.File{f}, nil)
+	}
+
+	// Use the resulting package concurrently, via dot-imports, to exercise the
+	// race of issue #69912.
+	const pSrc = `package p
+
+import . "issue69912"
+
+type S struct {
+	f T
+}
+`
+	importer := importMap{
+		"issue69912": issue69912,
+	}
+	var wg sync.WaitGroup
+	var firstErr atomic.Pointer[error]
+	for i := 0; i < 10; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			_, err := check("p", pSrc, importer)
+			if err != nil {
+				firstErr.CompareAndSwap(nil, &err)
+			}
+		}()
+	}
+	wg.Wait()
+	if err := firstErr.Load(); err != nil {
+		t.Errorf("Checking failed: %v", *err)
+	}
 }
