@@ -125,7 +125,7 @@ func (check *Checker) initConst(lhs *Const, x *operand) {
 
 	// rhs must be a constant
 	if x.mode != constant_ {
-		check.errorf(x, InvalidConstInit, "%s is not constant", x)
+		check.errorf(x, InvalidConstInit, "%s not constant expression", x)
 		if lhs.typ == nil {
 			lhs.typ = Typ[Invalid]
 		}

@@ -12,7 +12,7 @@ func _[T ~byte]() T { return 255 }
 func _[T ~byte]() T { return 256 /* ERRORx `cannot use 256 .* as T value` */ }
 
 func _[T ~byte]() {
-	const _ = T /* ERRORx `T\(0\) .* is not constant` */ (0)
+	const _ = T /* ERRORx `T\(0\) .* not constant expression` */ (0)
 	var _ T = 255
 	var _ T = 256 // ERRORx `cannot use 256 .* as T value`
 }

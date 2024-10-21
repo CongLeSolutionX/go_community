@@ -278,7 +278,7 @@ func _() {
 
 func _() {
 	iota := 123
-	const x = iota /* ERROR "is not constant" */
+	const x = iota /* ERROR "not constant expression" */
 	var y = iota
 	_ = y
 }
