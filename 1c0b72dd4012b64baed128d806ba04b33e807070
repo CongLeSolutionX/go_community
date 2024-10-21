@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "872d8b77_148e0fa9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-10-21T18:46:39Z",
+      "side": 1,
+      "message": "Seems like this should add the detection to the rest of the Arm64 platforms (similar to https://go.dev/cl/598335).",
+      "revId": "1c0b72dd4012b64baed128d806ba04b33e807070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
