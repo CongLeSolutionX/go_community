@@ -16,6 +16,24 @@
       "message": "s/incremeneted/incremented/",
       "revId": "8b93be33b55f559394c85c1bfcfa608a3bbf5449",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9d44613_21441f5a",
+        "filename": "src/os/root_openat.go",
+        "patchSetId": 38
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-21T18:59:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96a63203_9572b354",
+      "revId": "8b93be33b55f559394c85c1bfcfa608a3bbf5449",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
