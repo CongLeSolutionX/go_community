@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08ff52bf_65083e50",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-21T20:54:30Z",
+      "side": 1,
+      "message": "How does this work when we set the type as a slice, but the real data is only a pointer and the len/cap is stored somewhere else?",
+      "revId": "0b98d765a462f569422e5ce3756733a07a9b1d90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
