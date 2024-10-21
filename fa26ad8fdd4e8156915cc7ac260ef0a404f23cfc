@@ -16,6 +16,24 @@
       "message": "LGTM.\nJust wondering how flaky the test might be.",
       "revId": "fa26ad8fdd4e8156915cc7ac260ef0a404f23cfc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "361f0dc8_6ef0fe73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-10-21T21:56:42Z",
+      "side": 1,
+      "message": "The gopls test that led to this fix seems to have a ~2-5% flake rate of late, because we recently ramped up parallelism.\n\nThe test added in this CL reproduces the race almost every time.",
+      "parentUuid": "20400f4d_2b1c5470",
+      "revId": "fa26ad8fdd4e8156915cc7ac260ef0a404f23cfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
