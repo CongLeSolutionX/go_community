@@ -16,6 +16,24 @@
       "message": "This type is missing the custom attribute DW_AT_go_kind: `newattr(dwh, dwarf.DW_AT_go_kind, dwarf.DW_CLS_CONSTANT, int64(abi.Slice), 0)`\nI think.",
       "revId": "1bb6f19a2555e4effdd5cca77f4edeaec7c1635e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3596271d_9271b0a9",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-21T17:25:07Z",
+      "side": 1,
+      "message": "Good catch, thanks!\n\nThis isn\u0027t a new bug. The old map types were also missing the Go kind. e.g.,\n\n```\n0x000ca776:   DW_TAG_structure_type\n                DW_AT_name      (\"bucket\u003cunsafe.Pointer,int32\u003e\")\n                DW_AT_byte_size (112)\n                DW_AT_GO_kind   (0x00)\n                DW_AT_GO_runtime_type   (0x0000000000000000)\n```\n\nI\u0027ve fixed this for swissmaps. I\u0027m going to leave the old maps alone since they\u0027ve been OK for ages.",
+      "parentUuid": "c486bfbf_3ca75341",
+      "revId": "1bb6f19a2555e4effdd5cca77f4edeaec7c1635e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
