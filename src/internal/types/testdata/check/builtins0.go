@@ -524,7 +524,7 @@ func max1() {
 	_ = max(-10, 1.0, c /* ERROR "cannot be ordered" */ )
 
 	const (
-		_ = max /* ERROR "max(x) (value of type int) is not constant" */ (x)
+		_ = max /* ERROR "max(x) (value of type int) is not constant expression" */ (x)
 		_ = max(true /* ERROR "invalid argument: true (untyped bool constant) cannot be ordered" */ )
 		_ = max(1)
 		_ = max(1, 2.3, 'a')
@@ -578,7 +578,7 @@ func min1() {
 	_ = min(-10, 1.0, c /* ERROR "cannot be ordered" */ )
 
 	const (
-		_ = min /* ERROR "min(x) (value of type int) is not constant" */ (x)
+		_ = min /* ERROR "min(x) (value of type int) is not constant expression" */ (x)
 		_ = min(true /* ERROR "invalid argument: true (untyped bool constant) cannot be ordered" */ )
 		_ = min(1)
 		_ = min(1, 2.3, 'a')
