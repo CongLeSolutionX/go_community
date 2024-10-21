@@ -16,6 +16,24 @@
       "message": "I will not review this because it says \"Merge Conflict\" at the left top corner, and tests are failing.\n\nAlex",
       "revId": "6eab8b41e0073ce96a2f5f2af7d166bb2faefa60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96a97e66_b2e7cb6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-21T20:11:17Z",
+      "side": 1,
+      "message": "FYI, the \"merge conflict\" often appears in CLs lower in a stack, indicating that the current CL can\u0027t be merged independently of the ones that precede it. (So in the case of this CL, the merge conflict is gone now that https://go.dev/cl/620576 has been merged.)\n\nI\u0027m not sure what\u0027s up with the test failures.",
+      "parentUuid": "6637afa1_8a77e8b4",
+      "revId": "6eab8b41e0073ce96a2f5f2af7d166bb2faefa60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
