@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20acd41c_810ded4b",
+        "filename": "src/cmd/compile/internal/importer/gcimporter_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-10-21T21:47:25Z",
+      "side": 1,
+      "message": "That\u0027s what I had initially, but 0700 is used throughout the test suite, in several places. Best to keep it consistent.",
+      "parentUuid": "818d9cc5_d5cb6146",
+      "range": {
+        "startLine": 615,
+        "startChar": 32,
+        "endLine": 615,
+        "endChar": 36
+      },
+      "revId": "0b14148c71f2843b8c830e111de0b933b0b9e367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5fe469d5_7279feb6",
@@ -64,6 +88,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2007f7f8_09c7b3e8",
+        "filename": "src/cmd/compile/internal/importer/gcimporter_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-10-21T21:47:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fe469d5_7279feb6",
+      "range": {
+        "startLine": 652,
+        "startChar": 5,
+        "endLine": 652,
+        "endChar": 24
+      },
+      "revId": "0b14148c71f2843b8c830e111de0b933b0b9e367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17cd9c10_854975e0",
@@ -77,6 +125,24 @@
       "writtenOn": "2024-10-21T18:30:42Z",
       "side": 1,
       "message": "You could just call t.Error here.",
+      "revId": "0b14148c71f2843b8c830e111de0b933b0b9e367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f19baa1d_9fd9d86c",
+        "filename": "src/cmd/compile/internal/importer/gcimporter_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-10-21T21:47:25Z",
+      "side": 1,
+      "message": "Duh. An unthinking translation of the errgroup test I wrote for x/tools.",
+      "parentUuid": "17cd9c10_854975e0",
       "revId": "0b14148c71f2843b8c830e111de0b933b0b9e367",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
