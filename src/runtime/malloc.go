@@ -828,6 +828,9 @@ mapped:
 // aligned to align bytes. It may reserve either n or n+align bytes,
 // so it returns the size that was reserved.
 func sysReserveAligned(v unsafe.Pointer, size, align uintptr) (unsafe.Pointer, uintptr) {
+	if GOARCH == "wasm" || GOOS == "plan9" {
+		return sysReserveAlignedSbrk(v, size, align)
+	}
 	// Since the alignment is rather large in uses of this
 	// function, we're not likely to get it by chance, so we ask
 	// for a larger region and remove the parts we don't need.

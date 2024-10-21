@@ -207,3 +207,22 @@ func sysReserveOS(v unsafe.Pointer, n uintptr) unsafe.Pointer {
 	unlock(&memlock)
 	return p
 }
+
+func sysReserveAlignedSbrk(v unsafe.Pointer, size, align uintptr) (unsafe.Pointer, uintptr) {
+	if v != nil && uintptr(v) != bloc {
+		return nil, 0
+	}
+	lock(&memlock)
+	// Round up bloc to align, then allocate size.
+	p := alignUp(bloc, align)
+	r := sbrk(p + size - bloc)
+	if r == nil {
+		p, size = nil, 0
+	} else {
+		// Free the area we skipped over for alignment.
+		memFree(r, p-uintptr(r))
+		memCheck()
+	}
+	unlock(&memlock)
+	return unsafe.Pointer(p), size
+}
