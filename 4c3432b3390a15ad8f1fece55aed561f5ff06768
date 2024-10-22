@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9b3811c_2c5111a3",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-10-22T13:00:34Z",
+      "side": 1,
+      "message": "Yes, that\u0027s right. I updated this comment.",
+      "parentUuid": "9843464e_18013929",
+      "range": {
+        "startLine": 210,
+        "startChar": 52,
+        "endLine": 211,
+        "endChar": 41
+      },
+      "revId": "4c3432b3390a15ad8f1fece55aed561f5ff06768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f64e4402_18d42de7",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-10-22T01:02:21Z",
       "side": 1,
       "message": "(-1, -1, false)?",
+      "range": {
+        "startLine": 384,
+        "startChar": 112,
+        "endLine": 384,
+        "endChar": 125
+      },
+      "revId": "4c3432b3390a15ad8f1fece55aed561f5ff06768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd668dd3_0db08c75",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-10-22T13:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f64e4402_18d42de7",
       "range": {
         "startLine": 384,
         "startChar": 112,
@@ -87,6 +135,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e1b29b0_dc688aab",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-10-22T13:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83bd5781_7b098d5e",
+      "range": {
+        "startLine": 395,
+        "startChar": 112,
+        "endLine": 395,
+        "endChar": 125
+      },
+      "revId": "4c3432b3390a15ad8f1fece55aed561f5ff06768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cae459c3_b305d1c3",
@@ -100,6 +172,30 @@
       "writtenOn": "2024-10-22T01:02:21Z",
       "side": 1,
       "message": "31? memtable has signed ints in it.",
+      "range": {
+        "startLine": 414,
+        "startChar": 21,
+        "endLine": 414,
+        "endChar": 23
+      },
+      "revId": "4c3432b3390a15ad8f1fece55aed561f5ff06768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41d559ec_6ca48fc7",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-10-22T13:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cae459c3_b305d1c3",
       "range": {
         "startLine": 414,
         "startChar": 21,
@@ -127,6 +223,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d21dcc9d_187df8c4",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-10-22T13:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "564cfc78_ec44840f",
+      "revId": "4c3432b3390a15ad8f1fece55aed561f5ff06768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f13c533_32d64353",
@@ -140,6 +254,30 @@
       "writtenOn": "2024-10-22T01:02:21Z",
       "side": 1,
       "message": "Keeping track of idxMem may be unnecessary. We have (*Value).MemoryArg which I think gets you the same thing.",
+      "range": {
+        "startLine": 421,
+        "startChar": 12,
+        "endLine": 421,
+        "endChar": 18
+      },
+      "revId": "4c3432b3390a15ad8f1fece55aed561f5ff06768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "460f85af_41c3403c",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-10-22T13:00:34Z",
+      "side": 1,
+      "message": "Index might be slightly more convenient to compare the way it\u0027s used above in \"Sort by eq class of arguments\". Although I don\u0027t have strong opinion about that, please let me know if you think comparing \"memory\" values is preferred in such cases too.",
+      "parentUuid": "2f13c533_32d64353",
       "range": {
         "startLine": 421,
         "startChar": 12,
@@ -167,6 +305,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4ac5629_286d66a2",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-10-22T13:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2e6f64c_2b5309d6",
+      "revId": "4c3432b3390a15ad8f1fece55aed561f5ff06768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d47616f6_87d8668c",
@@ -190,6 +346,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f30174b7_aa67645e",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-10-22T13:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d47616f6_87d8668c",
+      "range": {
+        "startLine": 440,
+        "startChar": 38,
+        "endLine": 440,
+        "endChar": 68
+      },
+      "revId": "4c3432b3390a15ad8f1fece55aed561f5ff06768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a201ee3_168a65e0",
@@ -203,6 +383,24 @@
       "writtenOn": "2024-10-22T01:02:21Z",
       "side": 1,
       "message": "Stores keep the type being written in the Aux field, but that may not be true for other memory-defining opcodes. Maybe leave a TODO here or in isMemDef.",
+      "revId": "4c3432b3390a15ad8f1fece55aed561f5ff06768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc9a6ed7_253df617",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-10-22T13:00:34Z",
+      "side": 1,
+      "message": "Yes, maybe we\u0027ll need to detect the stored type in `isMemDef` routine to handle more memory-defining instructions. I added a TODO in it for now.",
+      "parentUuid": "3a201ee3_168a65e0",
       "revId": "4c3432b3390a15ad8f1fece55aed561f5ff06768",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
