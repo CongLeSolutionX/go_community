@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acb187f5_27fac33e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-10-22T17:47:33Z",
+      "side": 1,
+      "message": "This CL isn\u0027t quite right. The builder failure seems real. And it is perhaps not optimal in some case. I\u0027ll work more on it.\n\nI thought I kept it in WIP mode. Maybe I messed up...",
+      "revId": "3e977956328f4a825ccc1bff1a8248f2196991cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
