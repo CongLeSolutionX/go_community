@@ -70,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dad93a5_55ab23cb",
+        "filename": "src/cmd/internal/obj/riscv/anames.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-10-22T13:59:52Z",
+      "side": 1,
+      "message": "It will likely make sense to include them, however these can be done in a later stage.",
+      "parentUuid": "84960146_0fcfbdbf",
+      "revId": "a382a796a869404982b9a8c1b74364bd3452e5ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a770552_96db9d49",
@@ -83,6 +101,24 @@
       "writtenOn": "2024-07-31T04:18:37Z",
       "side": 1,
       "message": "We are missing segment load/store here.",
+      "revId": "a382a796a869404982b9a8c1b74364bd3452e5ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5743f96_adec77a0",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-10-22T13:59:52Z",
+      "side": 1,
+      "message": "These are still not yet included in riscv-opcodes - I\u0027d suggest we add them as a follow on once that gets resolved.",
+      "parentUuid": "5a770552_96db9d49",
       "revId": "a382a796a869404982b9a8c1b74364bd3452e5ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -118,6 +154,24 @@
       "side": 1,
       "message": "I think this is generated from parse.py, should be OK with 0.\nOtherwise you have to change all other language generator in parse.py.",
       "parentUuid": "a0ebd482_bf81b453",
+      "revId": "a382a796a869404982b9a8c1b74364bd3452e5ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "253562b9_c6fa5631",
+        "filename": "src/cmd/internal/obj/riscv/inst.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-10-22T13:59:52Z",
+      "side": 1,
+      "message": "The rs1 field in the instruction encoding should only be used if we know that the instruction encoding requires it. As such, a default value of zero is sensible.",
+      "parentUuid": "e9ab6f71_6f55ce6f",
       "revId": "a382a796a869404982b9a8c1b74364bd3452e5ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
