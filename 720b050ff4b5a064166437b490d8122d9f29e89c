@@ -45,6 +45,54 @@
       },
       "revId": "720b050ff4b5a064166437b490d8122d9f29e89c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29c4fa4b_87db26d1",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-22T21:31:58Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "ebc69cec_6383e84c",
+      "range": {
+        "startLine": 593,
+        "startChar": 7,
+        "endLine": 593,
+        "endChar": 16
+      },
+      "revId": "720b050ff4b5a064166437b490d8122d9f29e89c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d68e100c_dc76cf6c",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-22T21:31:58Z",
+      "side": 1,
+      "message": "I think this comment was confusing in part because I explained out-of-order \"switch groups\" goes with slotIdx \u003d\u003d 0 even though it is explained second. I\u0027ve adjusted and expanded the comment.",
+      "parentUuid": "2a277e80_07efb62d",
+      "range": {
+        "startLine": 593,
+        "startChar": 36,
+        "endLine": 593,
+        "endChar": 42
+      },
+      "revId": "720b050ff4b5a064166437b490d8122d9f29e89c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
