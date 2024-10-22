@@ -51,6 +51,24 @@
       "parentUuid": "e93f97d8_86762748",
       "revId": "a49ec9110ed0e2952aef837cd5801406419b2727",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "521e94ee_56cedddd",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-10-22T13:33:09Z",
+      "side": 1,
+      "message": "It depends how we decide to handle some instruction syntax - a number of vector instructions use a mask register, which is always register V0 (there is no way to change it in the instruction encoding). The general assembly syntax is to still explicitly include V0 as part of the instruction, for example:\n\n```\nvadc.vvm v2, v4, v1, v0\n```\n\nThe fourth register would need to be always be V0 if we follow. If needed, this can be added when we deal with mask based vector instructions.",
+      "parentUuid": "b780aa5d_566e161b",
+      "revId": "a49ec9110ed0e2952aef837cd5801406419b2727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
