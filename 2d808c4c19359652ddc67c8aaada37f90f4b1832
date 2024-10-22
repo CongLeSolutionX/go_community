@@ -16,6 +16,24 @@
       "message": "Trybots are happy. Someone tell me why this is wrong?",
       "revId": "2d808c4c19359652ddc67c8aaada37f90f4b1832",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa21da01_924381e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-22T17:25:44Z",
+      "side": 1,
+      "message": "That code was added by David in CL 19471.\nI don\u0027t see the point in it now, 8 years later, sorry 😞\n\nWe do have to be careful not to equate a bucket type with a user\u0027s type with the same layout. But the first two conditions do that, so I\u0027m not sure what else this code is defending against.\n\nWe will have situations like\n\ntype A map[int]int\ntype B map[int]int\n\nBoth A and B will share a bucket type, and that bucket type will have a pointer back to just one of those two types. Maybe that is somehow relevant?",
+      "parentUuid": "ab1cd4c7_9305c548",
+      "revId": "2d808c4c19359652ddc67c8aaada37f90f4b1832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
