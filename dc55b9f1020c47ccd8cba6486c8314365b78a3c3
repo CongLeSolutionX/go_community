@@ -16,6 +16,24 @@
       "message": "I\u0027d rather not store a whole additional field.\nWe can recompute it easily enough. Isn\u0027t entryMask \u003d\u003d 8*lengthMask+7?",
       "revId": "dc55b9f1020c47ccd8cba6486c8314365b78a3c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ffda78c_697cf21f",
+        "filename": "src/cmd/compile/internal/reflectdata/map_swiss.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-22T17:30:02Z",
+      "side": 1,
+      "message": "Yes, recomputing is easy, but this is on the hot path of mapiternext.\n\nRecomputing this every time is needed slows iteration down by ~5%.\n\nWe could also cache this value in Iter, moving the storage from table to Iter and computing once per table in iteration. That performs better, but it is still a 1.5% regression on iteration.\n\n```\n                                             │   baseline   │              compute              │               cache               │\n                                             │    sec/op    │   sec/op     vs base              │   sec/op     vs base              │\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d6-12         62.13n ±  3%   62.88n ± 1%       ~ (p\u003d0.485 n\u003d6)   62.55n ± 1%       ~ (p\u003d0.143 n\u003d6)\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d12-12        126.5n ±  3%   133.6n ± 5%  +5.65% (p\u003d0.002 n\u003d6)   124.5n ± 6%       ~ (p\u003d0.970 n\u003d6)\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d18-12        187.1n ±  7%   194.8n ± 4%       ~ (p\u003d0.065 n\u003d6)   182.1n ± 3%       ~ (p\u003d0.093 n\u003d6)\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d24-12        219.3n ± 12%   235.2n ± 5%       ~ (p\u003d0.180 n\u003d6)   216.0n ± 1%       ~ (p\u003d0.093 n\u003d6)\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d30-12        298.6n ±  5%   319.7n ± 8%  +7.08% (p\u003d0.004 n\u003d6)   311.8n ± 5%  +4.44% (p\u003d0.041 n\u003d6)\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d64-12        607.0n ±  6%   657.2n ± 7%  +8.27% (p\u003d0.015 n\u003d6)   619.7n ± 6%       ~ (p\u003d0.818 n\u003d6)\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d128-12       1.224µ ±  2%   1.297µ ± 5%  +5.97% (p\u003d0.002 n\u003d6)   1.248µ ± 5%       ~ (p\u003d0.225 n\u003d6)\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d256-12       2.453µ ±  4%   2.683µ ± 3%  +9.40% (p\u003d0.002 n\u003d6)   2.527µ ± 6%       ~ (p\u003d0.513 n\u003d6)\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d512-12       4.897µ ±  2%   5.347µ ± 2%  +9.20% (p\u003d0.002 n\u003d6)   5.112µ ± 2%  +4.40% (p\u003d0.002 n\u003d6)\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d1024-12      10.05µ ±  3%   10.73µ ± 2%  +6.84% (p\u003d0.002 n\u003d6)   10.33µ ± 2%       ~ (p\u003d0.132 n\u003d6)\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d2048-12      20.21µ ±  1%   21.45µ ± 3%  +6.16% (p\u003d0.002 n\u003d6)   20.69µ ± 1%  +2.37% (p\u003d0.002 n\u003d6)\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d4096-12      40.77µ ±  2%   42.63µ ± 1%  +4.55% (p\u003d0.002 n\u003d6)   41.68µ ± 1%  +2.22% (p\u003d0.026 n\u003d6)\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d8192-12      81.48µ ±  1%   86.29µ ± 4%  +5.91% (p\u003d0.002 n\u003d6)   84.23µ ± 1%  +3.38% (p\u003d0.002 n\u003d6)\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d65536-12     658.4µ ±  2%   689.3µ ± 2%  +4.69% (p\u003d0.002 n\u003d6)   669.3µ ± 3%       ~ (p\u003d0.065 n\u003d6)\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d262144-12    2.733m ±  2%   2.875m ± 2%  +5.22% (p\u003d0.002 n\u003d6)   2.782m ± 2%  +1.79% (p\u003d0.041 n\u003d6)\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d1048576-12   11.49m ±  1%   11.72m ± 2%  +1.97% (p\u003d0.002 n\u003d6)   11.61m ± 2%  +1.07% (p\u003d0.041 n\u003d6)\nMapIter/impl\u003druntimeMap/t\u003dInt/len\u003d4194304-12   45.58m ±  3%   47.13m ± 1%  +3.38% (p\u003d0.009 n\u003d6)   46.33m ± 1%  +1.64% (p\u003d0.041 n\u003d6)\ngeomean                                        11.05µ         11.68µ       +5.67%                 11.23µ       +1.62%\n```",
+      "parentUuid": "e0da2e8f_49bdfb0e",
+      "revId": "dc55b9f1020c47ccd8cba6486c8314365b78a3c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
