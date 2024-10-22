@@ -297,6 +297,30 @@
       },
       "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea0f70a9_5b7ec02b",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 54318
+      },
+      "writtenOn": "2024-10-22T12:53:38Z",
+      "side": 1,
+      "message": "I have confirmed with the binutils developer that `L0^A` is a fixed character. In fact, it is not the string `\"L0^A\"` as it seems on the surface. It contains special control character. It is defined as `\"L0\\001\"` in binutils. I have used exact matching to ignore them.",
+      "parentUuid": "c7ee1e17_81a40321",
+      "range": {
+        "startLine": 690,
+        "startChar": 0,
+        "endLine": 693,
+        "endChar": 5
+      },
+      "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
