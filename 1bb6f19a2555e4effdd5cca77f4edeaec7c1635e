@@ -52,6 +52,24 @@
       "parentUuid": "3596271d_9271b0a9",
       "revId": "1bb6f19a2555e4effdd5cca77f4edeaec7c1635e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8b22c56_6adf9e4d",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-22T14:21:48Z",
+      "side": 1,
+      "message": "Sure, what I meant is that it doesn\u0027t have GO_kind set to abi.Struct. I guess that doesn\u0027t matter as much to readers?",
+      "parentUuid": "373e9351_4c900261",
+      "revId": "1bb6f19a2555e4effdd5cca77f4edeaec7c1635e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
