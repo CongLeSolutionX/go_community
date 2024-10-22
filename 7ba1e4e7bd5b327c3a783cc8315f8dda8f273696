@@ -16,6 +16,24 @@
       "message": "It might be clearer to reorg this way:\n\nmatch \u003d g.ctrls().matchEmpty()\nif match !\u003d 0 {\n   // end of probe sequence\n   .. as before ..\n   return\n}\nif firstDeletedGroup.data \u003d\u003d nil {\n  match :\u003d g.ctrls().matchEmptyOrDeleted()\n  if match !\u003d 0 {\n     firstDeletedGroup \u003d g\n     firstDeletedSlot \u003d match.first()\n  }\n}\ncontinue",
       "revId": "7ba1e4e7bd5b327c3a783cc8315f8dda8f273696",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c170ce5_6edf7e41",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-10-22T21:32:04Z",
+      "side": 1,
+      "message": "Definitely cleaner. I avoided this because I figured it would be slower to do an additional match operation.\n\nBut I actually benchmarked this time and the simpler approach is actually faster, perhaps because we don\u0027t need to double check for ctrlDeleted.",
+      "parentUuid": "43a3f83f_436d1dce",
+      "revId": "7ba1e4e7bd5b327c3a783cc8315f8dda8f273696",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
