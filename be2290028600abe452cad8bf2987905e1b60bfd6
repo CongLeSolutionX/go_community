@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adea94b9_886bd7f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-10-23T18:51:57Z",
+      "side": 1,
+      "message": "wish I had thought of this during CL 608435 😓",
+      "revId": "be2290028600abe452cad8bf2987905e1b60bfd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
