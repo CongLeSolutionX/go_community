@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "498dcaf4_41a7b112",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-10-23T01:01:04Z",
+      "side": 1,
+      "message": "Thanks.\n\nThis documentation is circular (\"Parse parses what String outputs, and String outputs what Parse parses\"), but it seems that\u0027s as much as can be said without committing to document this format somewhere. (And if we decide to do that at some future point, the doc comments can be updated to refer to the format.)",
+      "revId": "2864bc074347cefd391d4841f02a870cd4be6482",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9db6dbfd_ce6198ef",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-10-23T01:01:04Z",
+      "side": 1,
+      "message": "Oh, I missed this detail of [doc links](https://go.dev/doc/comment#doclinks) earlier. I see it now:\n\n\u003e The bracketed text for a symbol link can include an optional leading star, making it easy to refer to pointer types, such as [*bytes.Buffer].",
+      "range": {
+        "startLine": 150,
+        "startChar": 49,
+        "endLine": 150,
+        "endChar": 50
+      },
+      "revId": "2864bc074347cefd391d4841f02a870cd4be6482",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1264cbd7_c8b4a6f4",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-10-23T01:01:04Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand how this is so.\n\nMy understanding was that most users should either use `\"runtime/debug\".ReadBuildInfo` to read build info of the currently running binary, or one of `Read` or `ReadFile` in `debug/buildinfo` package if needing to read build info from a (presumably another) Go binary on disk.\n\nIf that\u0027s so, wouldn\u0027t `ParseBuildInfo` not be needed in those two fairly common situations, and instead might exist to handle something more custom that the aforementioned APIs are too high level for?",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 73
+      },
+      "revId": "2864bc074347cefd391d4841f02a870cd4be6482",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
