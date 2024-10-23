@@ -206,6 +206,15 @@ func coroswitch_m(gp *g) {
 		trace.GoSwitch(gnext, exit)
 	}
 
+	// Synchronize with any out-standing goroutine profile. We're about to start
+	// executing, and an invariant of the profiler is that we tryRecordGoroutineProfile
+	// whenever a goroutine is about to start running.
+	//
+	// N.B. We must do this before transitioning to _Grunning.
+	if goroutineProfile.active {
+		tryRecordGoroutineProfile(gnext, nil, osyield)
+	}
+
 	// Start running next, without heavy scheduling machinery.
 	// Set mp.curg and gnext.m and then update scheduling state
 	// directly if possible.
