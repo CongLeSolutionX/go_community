@@ -62,6 +62,30 @@
       },
       "revId": "2864bc074347cefd391d4841f02a870cd4be6482",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96d2708b_e3cef6c0",
+        "filename": "src/runtime/debug/mod.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-23T03:51:38Z",
+      "side": 1,
+      "message": "Yes.  I changed the comment to explain that this is not normally called by users.  Really I think this is only exported so that debug/buildinfo can call it.",
+      "parentUuid": "1264cbd7_c8b4a6f4",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 73
+      },
+      "revId": "2864bc074347cefd391d4841f02a870cd4be6482",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
