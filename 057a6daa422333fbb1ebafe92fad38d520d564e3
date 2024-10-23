@@ -34,6 +34,24 @@
       "parentUuid": "25514a42_452ebbaf",
       "revId": "057a6daa422333fbb1ebafe92fad38d520d564e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88b1fbd2_a19ccd4b",
+        "filename": "src/crypto/internal/fips/sha3/testdata/keccakKats.json.deflate",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-23T19:07:30Z",
+      "side": 0,
+      "message": "Great, thank you for checking. Chopped.",
+      "parentUuid": "d2847558_418a8048",
+      "revId": "057a6daa422333fbb1ebafe92fad38d520d564e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
