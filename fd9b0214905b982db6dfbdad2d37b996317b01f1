@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe2ca9cd_0817b997",
+        "filename": "src/crypto/internal/fips/sha3/sha3.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-23T12:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf0cc95c_fb55fb0a",
+      "revId": "fd9b0214905b982db6dfbdad2d37b996317b01f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c703f2e_e38a5f4a",
@@ -52,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06b33c38_1de7f332",
+        "filename": "src/crypto/internal/fips/sha3/sha3_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-23T12:11:33Z",
+      "side": 1,
+      "message": "I did miss it in the x/crypto changes, but it\u0027s just a typo in an inconsequential test string.",
+      "parentUuid": "4c703f2e_e38a5f4a",
+      "revId": "fd9b0214905b982db6dfbdad2d37b996317b01f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed7b8c5a_f022a5dc",
@@ -65,6 +101,24 @@
       "writtenOn": "2024-10-03T18:41:12Z",
       "side": 1,
       "message": "noting this as another place where feedback from https://go-review.googlesource.com/c/crypto/+/616576/4 will need sync\u0027ing.",
+      "revId": "fd9b0214905b982db6dfbdad2d37b996317b01f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2e47908_53af7c10",
+        "filename": "src/crypto/internal/fips/sha3/shake.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-10-23T12:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7b8c5a_f022a5dc",
       "revId": "fd9b0214905b982db6dfbdad2d37b996317b01f1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
