@@ -70,6 +70,24 @@
       "parentUuid": "373e9351_4c900261",
       "revId": "1bb6f19a2555e4effdd5cca77f4edeaec7c1635e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f57c9cf_da552979",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2024-10-23T07:08:01Z",
+      "side": 1,
+      "message": "Ah, I get it now. I think there\u0027s only a package that makes use of that attribute and it doesn\u0027t care for structs.",
+      "parentUuid": "d8b22c56_6adf9e4d",
+      "revId": "1bb6f19a2555e4effdd5cca77f4edeaec7c1635e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
