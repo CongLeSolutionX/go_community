@@ -16,6 +16,24 @@
       "message": "https://go.dev/issue/67001#issuecomment-2389063345 noted that the release blocker was tracking adding a note to the release notes. Is this \u0027Updates\u0027, not \u0027Fixes\u0027, because there\u0027s more to do before closing the issue?",
       "revId": "99f861eca9c763ee733c19e5f59601017f89201d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a704cc4_deed8635",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-10-23T19:36:21Z",
+      "side": 1,
+      "message": "I wanted to close the issue with a comment instead of having the closing of the CL close the issue.",
+      "parentUuid": "92416b05_be60d46c",
+      "revId": "99f861eca9c763ee733c19e5f59601017f89201d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
