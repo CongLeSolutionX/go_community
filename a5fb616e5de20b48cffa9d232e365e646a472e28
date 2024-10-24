@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89937f0f_22c63c39",
+        "filename": "src/crypto/subtle/dit.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-10-24T19:11:45Z",
+      "side": 1,
+      "message": "This should be marked `//go:noinline`.",
+      "revId": "a5fb616e5de20b48cffa9d232e365e646a472e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
