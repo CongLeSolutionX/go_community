@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Language version go1.23 (Oct 1, 2024)",
+	"Subtitle": "Language version go1.24 (Oct 28, 2024)",
 	"Path": "/ref/spec"
 }-->
 
@@ -3862,32 +3862,57 @@ a[x]
 </pre>
 
 <p>
-denotes the element of the array, pointer to array, slice, string or map <code>a</code> indexed by <code>x</code>.
+denotes the element of the array, pointer to array, slice, string or map <code>a</code>
+indexed by <code>x</code>.
 The value <code>x</code> is called the <i>index</i> or <i>map key</i>, respectively.
+The index (but not a map key) of an index expression has an <i>upper bound</i> of
+<code>len(a)-1</code>, which is the largest valid index value.
 The following rules apply:
 </p>
 
 <p>
-If <code>a</code> is neither a map nor a type parameter:
+If <code>a</code> is not a map:
 </p>
+	
 <ul>
-	<li>the index <code>x</code> must be an untyped constant or its
-	    <a href="#Core_types">core type</a> must be an <a href="#Numeric_types">integer</a></li>
-	<li>a constant index must be non-negative and
-	    <a href="#Representability">representable</a> by a value of type <code>int</code></li>
-	<li>a constant index that is untyped is given type <code>int</code></li>
-	<li>the index <code>x</code> is <i>in range</i> if <code>0 &lt;= x &lt; len(a)</code>,
-	    otherwise it is <i>out of range</i></li>
+<li>
+<code>x</code> must be an untyped constant, or its type must be
+an <a href="#Numeric_types">integer</a>
+or a <a href="#Type_parameter_declarations">type parameter</a> whose type set
+contains only integer types.
+</li>
+
+<li>
+A constant index must be non-negative and
+<a href="#Representability">representable</a> by a value of type <code>int</code>.
+</li>
+
+<li>
+A constant index that is untyped is given type <code>int</code>.
+</li>
+
+<li>
+An index <code>x</code> is <i>in range</i> if <code>0 &lt;= x &lt;= n</code>
+where <code>n</code> is the upper bound,
+otherwise it is <i>out of range</i>
+</li>
+
+<li>
+If both the index and the upper bound are constant, the index must be in range.
+</li>
+
+<li>
+If <code>x</code> is out of range at run time,
+a <a href="#Run_time_panics">run-time panic</a> occurs</li>.
+</li>
 </ul>
 
 <p>
-For <code>a</code> of <a href="#Array_types">array type</a> <code>A</code>:
+For <code>a</code> of <a href="#Array_types">array</a>
+or <a href="#Slice_types">slice</a> type <code>A</code>:
 </p>
 <ul>
-	<li>a <a href="#Constants">constant</a> index must be in range</li>
-	<li>if <code>x</code> is out of range at run time,
-	    a <a href="#Run_time_panics">run-time panic</a> occurs</li>
-	<li><code>a[x]</code> is the array element at index <code>x</code> and the type of
+	<li><code>a[x]</code> is the array (or slice) element at index <code>x</code> and the type of
 	    <code>a[x]</code> is the element type of <code>A</code></li>
 </ul>
 
@@ -3899,23 +3924,9 @@ For <code>a</code> of <a href="#Pointer_types">pointer</a> to array type:
 </ul>
 
 <p>
-For <code>a</code> of <a href="#Slice_types">slice type</a> <code>S</code>:
-</p>
-<ul>
-	<li>if <code>x</code> is out of range at run time,
-	    a <a href="#Run_time_panics">run-time panic</a> occurs</li>
-	<li><code>a[x]</code> is the slice element at index <code>x</code> and the type of
-	    <code>a[x]</code> is the element type of <code>S</code></li>
-</ul>
-
-<p>
 For <code>a</code> of <a href="#String_types">string type</a>:
 </p>
 <ul>
-	<li>a <a href="#Constants">constant</a> index must be in range
-	    if the string <code>a</code> is also constant</li>
-	<li>if <code>x</code> is out of range at run time,
-	    a <a href="#Run_time_panics">run-time panic</a> occurs</li>
 	<li><code>a[x]</code> is the non-constant byte value at index <code>x</code> and the type of
 	    <code>a[x]</code> is <code>byte</code></li>
 	<li><code>a[x]</code> may not be assigned to</li>
@@ -3937,7 +3948,7 @@ For <code>a</code> of <a href="#Map_types">map type</a> <code>M</code>:
 </ul>
 
 <p>
-For <code>a</code> of <a href="#Type_parameter_declarations">type parameter type</a> <code>P</code>:
+If the type of <code>a</code> is a <a href="#Type_parameter_declarations">type parameter type</a> <code>P</code>:
 </p>
 <ul>
 	<li>The index expression <code>a[x]</code> must be valid for values
@@ -4044,15 +4055,13 @@ If <code>a</code> is a pointer to an array, <code>a[low : high]</code> is shorth
 </p>
 
 <p>
-For arrays or strings, the indices are <i>in range</i> if
-<code>0</code> &lt;= <code>low</code> &lt;= <code>high</code> &lt;= <code>len(a)</code>,
-otherwise they are <i>out of range</i>.
-For slices, the upper index bound is the slice capacity <code>cap(a)</code> rather than the length.
-A <a href="#Constants">constant</a> index must be non-negative and
-<a href="#Representability">representable</a> by a value of type
-<code>int</code>; for arrays or constant strings, constant indices must also be in range.
-If both indices are constant, they must satisfy <code>low &lt;= high</code>.
-If the indices are out of range at run time, a <a href="#Run_time_panics">run-time panic</a> occurs.
+The <a href="#Index_expressions">usual rules</a> for index values apply,
+but with adjusted <i>upper bounds</i>: the indices are <i>in range</i> if
+<code>0</code> &lt;= <code>low</code> &lt;= <code>high</code> &lt;= <code>len(a)</code>.
+Thus <code>high</code> serves as the <i>upper bound</i> for <code>low</code>,
+and <code>len(a)</code> serves as the upper bound for <code>high</code>.
+For slices, the upper bound for <code>high</code>is the slice capacity <code>cap(a)</code>
+rather than its length.
 </p>
 
 <p>
@@ -4120,14 +4129,12 @@ If the sliced operand is an array, it must be <a href="#Address_operators">addre
 </p>
 
 <p>
-The indices are <i>in range</i> if <code>0 &lt;= low &lt;= high &lt;= max &lt;= cap(a)</code>,
-otherwise they are <i>out of range</i>.
-A <a href="#Constants">constant</a> index must be non-negative and
-<a href="#Representability">representable</a> by a value of type
-<code>int</code>; for arrays, constant indices must also be in range.
-If multiple indices are constant, the constants that are present must be in range relative to each
-other.
-If the indices are out of range at run time, a <a href="#Run_time_panics">run-time panic</a> occurs.
+The <a href="#Index_expressions">usual rules</a> for index values apply,
+but with adjusted <i>upper bounds</i>: the indices are <i>in range</i> if
+<code>0 &lt;= low &lt;= high &lt;= max &lt;= cap(a)</code>.
+Thus <code>high</code> serves as the upper bound for <code>low</code>,
+<code>max</code> serves as the upper bound for <code>high</code>, and
+<code>cap(a)</code> is as the upper bound for <code>max</code>.
 </p>
 
 <h3 id="Type_assertions">Type assertions</h3>
@@ -7649,15 +7656,10 @@ make(T, n)       channel      buffered channel of type T, buffer size n
 </pre>
 
 <p>
-Each of the size arguments <code>n</code> and <code>m</code> must be of <a href="#Numeric_types">integer type</a>,
-have a <a href="#Interface_types">type set</a> containing only integer types,
-or be an untyped <a href="#Constants">constant</a>.
-A constant size argument must be non-negative and <a href="#Representability">representable</a>
-by a value of type <code>int</code>; if it is an untyped constant it is given type <code>int</code>.
-If both <code>n</code> and <code>m</code> are provided and are constant, then
-<code>n</code> must be no larger than <code>m</code>.
-For slices and channels, if <code>n</code> is negative or larger than <code>m</code> at run time,
-a <a href="#Run_time_panics">run-time panic</a> occurs.
+The size arguments <code>n</code> and <code>m</code> follow the
+<a href="#Index_expressions">same rules</a> as index values.
+If <code>m</code> is provided it acts as the <i>upper bound</i> for <code>n</code> and
+<code>n &lt;= m</code> must hold.
 </p>
 
 <pre>
