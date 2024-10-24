@@ -16,6 +16,24 @@
       "message": "Should we skip this test in short mode?",
       "revId": "6a5ec845b934aa31da61ee43559f2b35a1023949",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf6b436e_48dd3573",
+        "filename": "src/os/copy_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-24T01:18:01Z",
+      "side": 1,
+      "message": "It runs in ~0.04 seconds on my laptop. Admittedly, mac laptops are probably ludicrously faster than our LUCI builders, but I think it\u0027s fine.",
+      "parentUuid": "9e761072_1eb8a50e",
+      "revId": "6a5ec845b934aa31da61ee43559f2b35a1023949",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
