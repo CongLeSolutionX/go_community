@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e761072_1eb8a50e",
+        "filename": "src/os/copy_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-24T00:35:44Z",
+      "side": 1,
+      "message": "Should we skip this test in short mode?",
+      "revId": "6a5ec845b934aa31da61ee43559f2b35a1023949",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
