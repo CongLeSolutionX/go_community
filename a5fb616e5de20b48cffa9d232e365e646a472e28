@@ -1,6 +1,110 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6de6934b_2be6ae07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-24T22:34:52Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s that bad really. you want to avoid blocking frequently, probably, because that basically forces an OS-level context switch in and out of the goroutine. but if the operation is just CPU-bound and there\u0027s plenty of CPU to go around it\u0027s likely completely fine.",
+      "range": {
+        "startLine": 17,
+        "startChar": 14,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "a5fb616e5de20b48cffa9d232e365e646a472e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2e24c0e_3dec27cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-24T22:34:52Z",
+      "side": 1,
+      "message": "I think this is an interesting idea and wouldn\u0027t be very complex to implement either.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 20
+      },
+      "revId": "a5fb616e5de20b48cffa9d232e365e646a472e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4c57a1d_b8e48a29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-24T22:34:52Z",
+      "side": 1,
+      "message": "LGTM on the runtime-y interaction and thread-local state bits",
+      "revId": "a5fb616e5de20b48cffa9d232e365e646a472e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abdd3784_deb426b8",
+        "filename": "doc/next/6-stdlib/99-minor/crypto/subtle/66450.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-24T22:34:52Z",
+      "side": 1,
+      "message": "nit: arm64 to stay consistent with how we list GOARCH elsewhere",
+      "range": {
+        "startLine": 5,
+        "startChar": 40,
+        "endLine": 5,
+        "endChar": 45
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "df7ce1b4_e01ccb39",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "doc/next/6-stdlib/99-minor/crypto/subtle/66450.md",
+              "range": {
+                "startLine": 5,
+                "startChar": 0,
+                "endLine": 6,
+                "endChar": 0
+              },
+              "replacement": "operates in variable time. Currently on arm64, [WithDataIndependentTiming] uses the PSTATE.DIT bit, and on all other architectures is a no-op."
+            }
+          ]
+        }
+      ],
+      "revId": "a5fb616e5de20b48cffa9d232e365e646a472e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89937f0f_22c63c39",
@@ -14,6 +118,47 @@
       "writtenOn": "2024-10-24T19:11:45Z",
       "side": 1,
       "message": "This should be marked `//go:noinline`.",
+      "revId": "a5fb616e5de20b48cffa9d232e365e646a472e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbb340dd_fa89fcd4",
+        "filename": "src/crypto/subtle/dit.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-24T22:34:52Z",
+      "side": 1,
+      "message": "out of curiosity, why?",
+      "parentUuid": "89937f0f_22c63c39",
+      "revId": "a5fb616e5de20b48cffa9d232e365e646a472e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ebe3fbd_fe83435f",
+        "filename": "src/crypto/subtle/dit_arm64.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-24T22:34:52Z",
+      "side": 1,
+      "message": "out of curiosity, why disabled with purego?",
+      "range": {
+        "startLine": 5,
+        "startChar": 12,
+        "endLine": 5,
+        "endChar": 18
+      },
       "revId": "a5fb616e5de20b48cffa9d232e365e646a472e28",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
