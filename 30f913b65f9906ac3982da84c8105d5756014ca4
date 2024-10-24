@@ -51,6 +51,24 @@
       "message": "It is recommended to add a comment here to explain the immediate value range represented below",
       "revId": "30f913b65f9906ac3982da84c8105d5756014ca4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13512b69_ce8f8aad",
+        "filename": "src/cmd/internal/obj/loong64/a.out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 54318
+      },
+      "writtenOn": "2024-10-24T07:19:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db339660_e171c2bd",
+      "revId": "30f913b65f9906ac3982da84c8105d5756014ca4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
