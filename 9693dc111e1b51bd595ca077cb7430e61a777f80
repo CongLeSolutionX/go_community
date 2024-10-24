@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fbacef5_6053c08e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-10-24T14:26:42Z",
+      "side": 1,
+      "message": "Thanks, fixed!",
+      "parentUuid": "e88f8499_01349c12",
+      "revId": "9693dc111e1b51bd595ca077cb7430e61a777f80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5427aeb8_b3e21f9b",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-09-27T11:17:01Z",
       "side": 1,
       "message": "21.7, 21.6 is \"Double-Precision Floating-Point Compare Instructions\".  cpu.go has the correct value.",
+      "revId": "9693dc111e1b51bd595ca077cb7430e61a777f80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04fca4f8_8caa59f6",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscv64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-10-24T14:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5427aeb8_b3e21f9b",
       "revId": "9693dc111e1b51bd595ca077cb7430e61a777f80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -69,6 +105,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdac4422_b58c6cde",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscv64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-10-24T14:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8173e37_81f04980",
+      "revId": "9693dc111e1b51bd595ca077cb7430e61a777f80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5c43f32_6eea630c",
@@ -86,6 +140,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f091d17_2bba951e",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-10-24T14:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5c43f32_6eea630c",
+      "revId": "9693dc111e1b51bd595ca077cb7430e61a777f80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efb6b899_74a0bcfa",
@@ -99,6 +171,24 @@
       "writtenOn": "2024-09-27T11:17:01Z",
       "side": 1,
       "message": "3.3.1.  This is correct in risv64.s.",
+      "revId": "9693dc111e1b51bd595ca077cb7430e61a777f80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "622cff7a_52376ecb",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-10-24T14:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efb6b899_74a0bcfa",
       "revId": "9693dc111e1b51bd595ca077cb7430e61a777f80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
