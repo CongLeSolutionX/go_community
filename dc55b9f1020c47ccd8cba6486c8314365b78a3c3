@@ -34,6 +34,29 @@
       "parentUuid": "e0da2e8f_49bdfb0e",
       "revId": "dc55b9f1020c47ccd8cba6486c8314365b78a3c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2394c6eb_14f364e3",
+        "filename": "src/cmd/compile/internal/reflectdata/map_swiss.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-10-25T19:48:01Z",
+      "side": 1,
+      "message": "Not a blocking comment, but is it worth bothering to get all the pointers in the first 8 fields, the better to fit in a cache line?",
+      "range": {
+        "startLine": 222,
+        "startChar": 2,
+        "endLine": 222,
+        "endChar": 51
+      },
+      "revId": "dc55b9f1020c47ccd8cba6486c8314365b78a3c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
