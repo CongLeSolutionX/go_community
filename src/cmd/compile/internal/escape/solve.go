@@ -318,9 +318,41 @@ func containsClosure(f, c *ir.Func) bool {
 		return false
 	}
 
-	// Closures within function Foo are named like "Foo.funcN..." or "Foo-rangeN".
-	// TODO(mdempsky): Better way to recognize this.
 	fn := f.Sym().Name
 	cn := c.Sym().Name
+
+	// Nested rangefuncs are named like "Foo-range1", "Foo-range2", ..., "Foo-rangeN"
+	// So "Foo-range2" is contained within "Foo-range1".
+	if f.RangeParent != nil && f.RangeParent == c.RangeParent {
+		rpf := f.RangeParent.Sym().Name + "-range"
+		fn, _ = strings.CutPrefix(fn, rpf)
+		cn, _ = strings.CutPrefix(cn, rpf)
+		return atoi(fn) < atoi(cn)
+	}
+
+	// Closures within function Foo are named like "Foo.funcN..." or "Foo-rangeN".
+	// TODO(mdempsky): Better way to recognize this.
 	return len(cn) > len(fn) && cn[:len(fn)] == fn && (cn[len(fn)] == '.' || cn[len(fn)] == '-')
+}
+
+// atoi converts string s to int.
+// s must only contain "0123456789".
+func atoi(s string) int {
+	var (
+		n uint64
+		i int
+		v byte
+	)
+	for ; i < len(s); i++ {
+		d := s[i]
+		if '0' <= d && d <= '9' {
+			v = d - '0'
+		} else {
+			n = 0
+			break
+		}
+		n *= uint64(10)
+		n += uint64(v)
+	}
+	return int(n)
 }
