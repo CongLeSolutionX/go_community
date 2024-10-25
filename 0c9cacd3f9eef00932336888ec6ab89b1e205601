@@ -16,6 +16,46 @@
       "message": "Hello,\nI\u0027ve fixed the review comments. Please have a look at the updated version.\nThank you!",
       "revId": "0c9cacd3f9eef00932336888ec6ab89b1e205601",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cf9dc87_0236621e",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-25T22:25:43Z",
+      "side": 1,
+      "message": "getEffectiveMemoryArg is only ever called when isMemUser returns true (as its 3rd result). So maybe we should v.Block.Func.Fatalf(...) if it returns false?",
+      "revId": "0c9cacd3f9eef00932336888ec6ab89b1e205601",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6681e275_128ca1e4",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-25T22:25:43Z",
+      "side": 1,
+      "message": "This is a bit strange for NilChecks, because their type is some pointer type, but a nil check isn\u0027t actually reading anything. A NilCheck is a disjoint \"access\" from any write.\n\nMaybe we need:\n\nfunc readWidth(v *Value) int64 {\n    switch v.Op {\n        case OpLoad: return v.Type.Size()\n        case OpNilCheck: return 0\n    }\n}\nfunc writeWidth(v *Value) int64 {\n    switch v.Op {\n        case OpSotre: return auxToType(v.Aux).Size()\n    }\n}\n\nWe can then use those. Put them near isMemUser/isMemDef so it is clear that they cover the same set of Ops.\n(Or maybe isMemUser/isMemDef should just return an additional result which is the width?)",
+      "range": {
+        "startLine": 450,
+        "startChar": 44,
+        "endLine": 450,
+        "endChar": 53
+      },
+      "revId": "0c9cacd3f9eef00932336888ec6ab89b1e205601",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
