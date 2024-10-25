@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c86768d3_3e75cad2",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-10-25T15:40:38Z",
+      "side": 1,
+      "message": "Good idea. Done.",
+      "parentUuid": "08f064ce_8061487b",
+      "range": {
+        "startLine": 831,
+        "startChar": 4,
+        "endLine": 831,
+        "endChar": 39
+      },
+      "revId": "b95f01fd36de7d657c2cf462b2edff57c1f216f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cec56052_14fa0ac7",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-10-25T14:51:59Z",
       "side": 1,
       "message": "is this basically just to exhaust the arena hints? I wonder if we should just avoid allocating arena hints at all on sbrk platforms. then we can simplify this API by not taking v and enforce in the caller that we make no hinting attempt.\n\nalternatively, I think a comment to explain why this is necessary and what v means would be helpful.",
+      "range": {
+        "startLine": 219,
+        "startChar": 1,
+        "endLine": 221,
+        "endChar": 2
+      },
+      "revId": "b95f01fd36de7d657c2cf462b2edff57c1f216f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b74217b3_4c7cd25c",
+        "filename": "src/runtime/mem_sbrk.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-10-25T15:40:38Z",
+      "side": 1,
+      "message": "The old code calls sysReserveOS, which return nil on the same condition. So I keep it. I think it is indeed to exhaust the hints. I\u0027ll look into not allocating the hints on sbrk systems.",
+      "parentUuid": "cec56052_14fa0ac7",
       "range": {
         "startLine": 219,
         "startChar": 1,
