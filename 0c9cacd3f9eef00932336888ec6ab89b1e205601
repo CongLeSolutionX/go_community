@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c08da8c7_79a5b192",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-10-26T21:53:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cf9dc87_0236621e",
+      "revId": "0c9cacd3f9eef00932336888ec6ab89b1e205601",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6681e275_128ca1e4",
@@ -48,6 +66,30 @@
       "writtenOn": "2024-10-25T22:25:43Z",
       "side": 1,
       "message": "This is a bit strange for NilChecks, because their type is some pointer type, but a nil check isn\u0027t actually reading anything. A NilCheck is a disjoint \"access\" from any write.\n\nMaybe we need:\n\nfunc readWidth(v *Value) int64 {\n    switch v.Op {\n        case OpLoad: return v.Type.Size()\n        case OpNilCheck: return 0\n    }\n}\nfunc writeWidth(v *Value) int64 {\n    switch v.Op {\n        case OpSotre: return auxToType(v.Aux).Size()\n    }\n}\n\nWe can then use those. Put them near isMemUser/isMemDef so it is clear that they cover the same set of Ops.\n(Or maybe isMemUser/isMemDef should just return an additional result which is the width?)",
+      "range": {
+        "startLine": 450,
+        "startChar": 44,
+        "endLine": 450,
+        "endChar": 53
+      },
+      "revId": "0c9cacd3f9eef00932336888ec6ab89b1e205601",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6efcbd6a_3b35fc21",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-10-26T21:53:54Z",
+      "side": 1,
+      "message": "Yes, it should probably work fine for NilChecks. If I understand correct, we still need the mem op in NilCheck to prevent re-ordering with some preceding store-like instruction. On the other hand, matching NilCheck across any memory state changing instruction with a NilCheck should be fine as it just checks the pointer value.\n\nI\u0027ve updated isMemUser/isMemDef to make it harder to forget updating some of functions, e.g. when adding new ops in future.\n\nPassing Type to the `disjointAccess` function originally, I thought that Type could perhaps allow detect more cases of disjoint locations (e.g. to try some rule like \"if one type has pointer but other does not have any pointer in it, assume they do not alias\"). But if we\u0027ll add something like that in future it would probably better to do in the common `disjoint` routine anyway, so I removed `disjointAccess`.",
+      "parentUuid": "6681e275_128ca1e4",
       "range": {
         "startLine": 450,
         "startChar": 44,
