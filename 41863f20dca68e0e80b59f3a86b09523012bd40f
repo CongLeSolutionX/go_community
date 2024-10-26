@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25c0721d_8b90f38c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-10-26T01:42:47Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0bee3fa7_7464a9b9",
@@ -54,6 +71,58 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "211b8756_b5be0bd1",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-10-26T01:42:47Z",
+      "side": 1,
+      "message": "At this point, `written` has been added by `n` (when it\u0027s positive), which could work practically, but it would be intuitive to use `n` here. That being said, I don\u0027t think we should treat the case of (-1, EINVAL) as a successful call, this could happen when last call succeeds and this one fails in theory, it might not never happen, but checking `n` should work on all cases and it seems to be safer, `n` is therefore a better choice here.",
+      "parentUuid": "d5d6de83_9eee7d6e",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09f3d053_fac2a455",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-10-26T01:42:47Z",
+      "side": 1,
+      "message": "Has this ever happened on any other platforms besides macOS? If not, I think it deserves a comment clarifying it.",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ca30598_483febff",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-10-26T01:42:47Z",
+      "side": 1,
+      "message": "May as well throw one more retryable error -- `EBUSY` here for *BSD.",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bfdaf126_afa8c31d",
         "filename": "src/internal/poll/sendfile_unix.go",
         "patchSetId": 4
@@ -65,6 +134,24 @@
       "writtenOn": "2024-10-26T00:07:12Z",
       "side": 1,
       "message": "Not sure what it means to say that we should end the loop when there is no error returned from sendfile.  That case is handled above and in any case we should only return when all bytes are written.",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53363d94_be50242c",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-10-26T01:42:47Z",
+      "side": 1,
+      "message": "This is a old comment, some of which no longer applies here. Just remove the \"there is no error returned from sendfile(2) or\" part and it will good to go.",
+      "parentUuid": "bfdaf126_afa8c31d",
       "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
