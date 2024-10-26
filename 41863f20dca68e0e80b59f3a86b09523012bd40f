@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f2da24c_84332000",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-26T00:07:12Z",
+      "side": 1,
+      "message": "Thanks for working on this.",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bee3fa7_7464a9b9",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-26T00:07:12Z",
+      "side": 1,
+      "message": "Let\u0027s document this a bit more.  In particular document that size \u003d\u003d 0 means the reset of the file after the current position, and documented the handled result.",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5d6de83_9eee7d6e",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-26T00:07:12Z",
+      "side": 1,
+      "message": "Should this check n \u003e 0 rather than written \u003e 0 ?",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfdaf126_afa8c31d",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-26T00:07:12Z",
+      "side": 1,
+      "message": "Not sure what it means to say that we should end the loop when there is no error returned from sendfile.  That case is handled above and in any case we should only return when all bytes are written.",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "291a8382_8f0f82cc",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-26T00:07:12Z",
+      "side": 1,
+      "message": "I think this is a little more confusing than strictly necessary.  The only way we can get to this point is err \u003d\u003d syscall.EAGAIN.  Let\u0027s either rework this so that there is no err \u003d\u003d syscall.EAGAIN case above (i.e., change \"else {\" to \"else if err !\u003d syscall.EAGAIN {\" and move the EAGAIN case after the if) or let\u0027s move this code into the EAGAIN case and leave a panic(\"unreachable\") here.",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e4a80c2_6362a693",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-26T00:07:12Z",
+      "side": 1,
+      "message": "Maybe add a comment that offset is always nil here.",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
