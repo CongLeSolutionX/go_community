@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4af2dff_c1a83e81",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-28T21:09:51Z",
+      "side": 1,
+      "message": "Done, although copy_file_range\u0027s manpage says it can return EOPNOTSUPP and sendfile\u0027s does not.",
+      "parentUuid": "d8e35b33_6daaf228",
+      "revId": "e638c56f9d8119bd2b37f1d37036825707f20b1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "644696e2_e5c6e041",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-10-28T20:50:50Z",
       "side": 1,
       "message": "This comment is incomplete and seems to be inaccurate.",
+      "revId": "e638c56f9d8119bd2b37f1d37036825707f20b1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8fac492_c404f949",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-28T21:09:51Z",
+      "side": 1,
+      "message": "Oops, fixed.",
+      "parentUuid": "644696e2_e5c6e041",
       "revId": "e638c56f9d8119bd2b37f1d37036825707f20b1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
