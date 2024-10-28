@@ -259,6 +259,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbbb5760_dbd0e42b",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 3597863
+      },
+      "writtenOn": "2024-10-28T20:01:24Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t*(*uint64)(base) \u003d 0xffff_ffff_ffff_ffff // all empty\n```",
+      "parentUuid": "0d9a54f3_ccb3dff5",
+      "range": {
+        "startLine": 248,
+        "startChar": 21,
+        "endLine": 248,
+        "endChar": 43
+      },
+      "revId": "41230b336ac20afd14e229c1d6f5cbbcf6b9eab8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59302aa5_0d9e5f1d",
