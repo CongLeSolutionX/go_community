@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bac34d6_f7c12c4d",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-28T19:24:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bee3fa7_7464a9b9",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5d6de83_9eee7d6e",
@@ -87,6 +105,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd9a7438_81ace980",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-28T19:24:15Z",
+      "side": 1,
+      "message": "Changed (and moved to sendfileChunk).\n\nOn most platforms when size\u003d\u003d0 we call sendfile until it returns 0. Checking for n \u003e 0 here would therefore be a problem, *but* on Solaris when size\u003d\u003d0 we look up the actual file size, so it isn\u0027t a problem.\n\nAdded a comment to SendFile above to record this fact, since it\u0027s subtle.",
+      "parentUuid": "211b8756_b5be0bd1",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09f3d053_fac2a455",
@@ -104,6 +140,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d2b5b0a_d323bc45",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-28T19:24:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09f3d053_fac2a455",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ca30598_483febff",
@@ -117,6 +171,24 @@
       "writtenOn": "2024-10-26T01:42:47Z",
       "side": 1,
       "message": "May as well throw one more retryable error -- `EBUSY` here for *BSD.",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6edad70b_5e2843a5",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-28T19:24:15Z",
+      "side": 1,
+      "message": "Looking at the EBUSY documentation (https://man.freebsd.org/cgi/man.cgi?sendfile(2)), I\u0027m not sure that\u0027s right. We should only see EBUSY if we specify SF_NODISKIO (which we don\u0027t), and when receiving it we\u0027re advised to retry \"after a short period\" which seems different than busy-looping.\n\nIf we want to add it, let\u0027s do so as a separate CL.",
+      "parentUuid": "5ca30598_483febff",
       "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -156,6 +228,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a4bbb25_2b12bb81",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-28T19:24:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53363d94_be50242c",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "291a8382_8f0f82cc",
@@ -173,6 +263,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc4a1780_7cd8656b",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-28T19:24:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "291a8382_8f0f82cc",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e4a80c2_6362a693",
@@ -186,6 +294,24 @@
       "writtenOn": "2024-10-26T00:07:12Z",
       "side": 1,
       "message": "Maybe add a comment that offset is always nil here.",
+      "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09c58aed_30bb3db6",
+        "filename": "src/internal/poll/sendfile_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-28T19:24:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e4a80c2_6362a693",
       "revId": "41863f20dca68e0e80b59f3a86b09523012bd40f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
