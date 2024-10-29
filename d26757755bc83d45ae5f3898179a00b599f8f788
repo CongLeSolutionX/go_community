@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb3fe460_a328b68f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-10-29T20:03:51Z",
+      "side": 1,
+      "message": "this is definitely a lot better, so I won\u0027t hold up the CL, but the runtime package benchmarks still take 7.5 minutes on their own. the long pole test shard takes approximately 18 minutes, which takes about as long as longtest.",
+      "revId": "d26757755bc83d45ae5f3898179a00b599f8f788",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
