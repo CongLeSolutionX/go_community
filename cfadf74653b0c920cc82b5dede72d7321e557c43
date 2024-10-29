@@ -16,6 +16,23 @@
       "message": "Thanks.",
       "revId": "cfadf74653b0c920cc82b5dede72d7321e557c43",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6abb7fe_9adf36f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-10-29T17:01:48Z",
+      "side": 1,
+      "message": "Thanks. I missed that internal/poll imports io.",
+      "revId": "cfadf74653b0c920cc82b5dede72d7321e557c43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
