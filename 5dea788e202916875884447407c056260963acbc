@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4113e3b5_ed66bc50",
+        "filename": "src/io/ioutil/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-29T17:24:16Z",
+      "side": 1,
+      "message": "Thanks, but this is just an example, and log.Fatal is going to exit the program anyhow.  I don\u0027t think we need to make this change.",
+      "revId": "5dea788e202916875884447407c056260963acbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
