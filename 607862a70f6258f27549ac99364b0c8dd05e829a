@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18f5bb96_f58dcd54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-10-29T00:37:42Z",
+      "side": 1,
+      "message": "FYI if you are so inclined. Preliminary spec changes that remove the notion of core types.",
+      "revId": "607862a70f6258f27549ac99364b0c8dd05e829a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
