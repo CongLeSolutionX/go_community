@@ -86,6 +86,7 @@ func ExampleTempFile() {
 	defer os.Remove(tmpfile.Name()) // clean up
 
 	if _, err := tmpfile.Write(content); err != nil {
+		tmpfile.Close()
 		log.Fatal(err)
 	}
 	if err := tmpfile.Close(); err != nil {
