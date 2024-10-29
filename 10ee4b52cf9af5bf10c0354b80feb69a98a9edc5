@@ -16,6 +16,23 @@
       "message": "Hello,\nThe updates have been completed and are ready for your review. Please take a look when you have a chance. Thanks!",
       "revId": "10ee4b52cf9af5bf10c0354b80feb69a98a9edc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c97d282_880930d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-10-29T17:58:00Z",
+      "side": 1,
+      "message": "Ok, I think I\u0027m satisfied with the code.\n\nI\u0027m still trying to figure out if there\u0027s really any benefit to this CL. I reran your benchmarks in the CL description, and I get different results:\n\ngoos: linux\ngoarch: amd64\npkg: github.com/aws/aws-sdk-go/private/protocol/json/jsonutil\ncpu: 12th Gen Intel(R) Core(TM) i7-12700\n              │  control1   │             experiment1             │\n              │   sec/op    │    sec/op     vs base               │\nBuildJSON-20    3.854µ ± 7%   3.681µ ± 10%       ~ (p\u003d0.305 n\u003d10)\nStdlibJSON-20   2.940µ ± 5%   3.121µ ±  4%  +6.17% (p\u003d0.023 n\u003d10)\ngeomean         3.366µ        3.389µ        +0.69%\n\ngoos: linux\ngoarch: amd64\npkg: github.com/benhoyt/goawk/interp\ncpu: 12th Gen Intel(R) Core(TM) i7-12700\n                       │   control1   │             experiment1             │\n                       │    sec/op    │    sec/op     vs base               │\nRecursiveFunc-20         8.045µ ±  9%   7.817µ ±  9%       ~ (p\u003d0.305 n\u003d10)\nRegexMatch-20            540.4n ±  3%   534.4n ±  0%  -1.12% (p\u003d0.000 n\u003d10)\nRepeatExecProgram-20     24.45µ ±  7%   25.51µ ±  5%       ~ (p\u003d0.105 n\u003d10)\nRepeatNew-20             46.30n ±  5%   42.54n ±  3%  -8.13% (p\u003d0.000 n\u003d10)\nRepeatIOExecProgram-20   65.60µ ± 12%   65.28µ ± 28%       ~ (p\u003d0.393 n\u003d10)\nRepeatIONew-20           561.6n ±  9%   598.2n ±  5%       ~ (p\u003d0.143 n\u003d10)\ngeomean                  2.379µ         2.370µ        -0.40%\n\nThese benchmarks are kind of noisy, and I really don\u0027t trust that there\u0027s any signal among this noise. Any thoughts on how we might convince ourselves this CL is worth it?",
+      "revId": "10ee4b52cf9af5bf10c0354b80feb69a98a9edc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
