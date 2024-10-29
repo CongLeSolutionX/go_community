@@ -1875,6 +1875,9 @@ func buildop(ctxt *obj.Link) {
 			opset(ADADD, r0)
 			opset(ADDIV, r0)
 			opset(ADSUB, r0)
+			opset(ADADDQ, r0)
+			opset(ADDIVQ, r0)
+			opset(ADSUBQ, r0)
 
 		case AFMADD:
 			opset(AFMADDCC, r0)
@@ -1900,6 +1903,7 @@ func buildop(ctxt *obj.Link) {
 			opset(AFMULCC, r0)
 			opset(AFMULSCC, r0)
 			opset(ADMUL, r0)
+			opset(ADMULQ, r0)
 
 		case AFCMPO:
 			opset(AFCMPU, r0)
@@ -3992,6 +3996,14 @@ func (c *ctxt9) oprrr(a obj.As) uint32 {
 		return OPVCC(59, 34, 0, 0)
 	case ADSUB:
 		return OPVCC(59, 514, 0, 0)
+	case ADADDQ:
+		return OPVCC(63, 2, 0, 0)
+	case ADDIVQ:
+		return OPVCC(63, 546, 0, 0)
+	case ADMULQ:
+		return OPVCC(63, 34, 0, 0)
+	case ADSUBQ:
+		return OPVCC(63, 514, 0, 0)
 
 	case ADCBF:
 		return OPVCC(31, 86, 0, 0)
