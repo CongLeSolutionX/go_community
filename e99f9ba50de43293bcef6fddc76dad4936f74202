@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34192f26_24e1cc12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-29T16:58:35Z",
+      "side": 1,
+      "message": "There is already a Close call, so this isn\u0027t quite right.\n\ncmd/go: always close embed source file",
+      "revId": "e99f9ba50de43293bcef6fddc76dad4936f74202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
