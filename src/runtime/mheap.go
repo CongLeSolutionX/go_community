@@ -2049,8 +2049,15 @@ func internal_weak_runtime_registerWeakPointer(p unsafe.Pointer) unsafe.Pointer 
 func internal_weak_runtime_makeStrongFromWeak(u unsafe.Pointer) unsafe.Pointer {
 	handle := (*atomic.Uintptr)(u)
 
-	// Prevent preemption. We want to make sure that another GC cycle can't start.
+	// Prevent preemption. We want to make sure that another GC cycle can't start
+	// and that work.strongFromWeak.block can't change out from under us.
 	mp := acquirem()
+
+	// Yield to the GC if necessary.
+	for work.strongFromWeak.block {
+		mp = gcParkStrongFromWeak(mp)
+	}
+
 	p := handle.Load()
 	if p == 0 {
 		releasem(mp)
@@ -2090,6 +2097,34 @@ func internal_weak_runtime_makeStrongFromWeak(u unsafe.Pointer) unsafe.Pointer {
 	// call to shade.
 	KeepAlive(ptr)
 	return ptr
+}
+
+// gcParkStrongFromWeak puts the current goroutine on the weak->strong queue and parks.
+//
+// The caller must have prevented preemption by calling acquirem; the result of acquirem
+// must be passed to gcParkStrongFromWeak.
+func gcParkStrongFromWeak(mp *m) *m {
+	lock(&work.strongFromWeak.lock)
+	releasem(mp) // N.B. Holding the lock prevents preemption.
+
+	// Queue ourselves up.
+	work.strongFromWeak.q.pushBack(getg())
+
+	// Park.
+	goparkunlock(&work.strongFromWeak.lock, waitReasonGCWeakToStrongWait, traceBlockGCWeakToStrongWait, 2)
+	return acquirem()
+}
+
+// gcWakeAllStrongFromWeak wakes all currently blocked weak->strong
+// conversions. This is used at the end of a GC cycle.
+//
+// work.strongFromWeak.block must be false to prevent woken goroutines
+// from immediately going back to sleep.
+func gcWakeAllStrongFromWeak() {
+	lock(&work.strongFromWeak.lock)
+	list := work.strongFromWeak.q.popList()
+	injectglist(&list)
+	unlock(&work.strongFromWeak.lock)
 }
 
 // Retrieves or creates a weak pointer handle for the object p.

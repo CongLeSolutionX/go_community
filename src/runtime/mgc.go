@@ -190,6 +190,7 @@ func gcinit() {
 	work.markDoneSema = 1
 	lockInit(&work.sweepWaiters.lock, lockRankSweepWaiters)
 	lockInit(&work.assistQueue.lock, lockRankAssistQueue)
+	lockInit(&work.strongFromWeak.lock, lockRankStrongFromWeakQueue)
 	lockInit(&work.wbufSpans.lock, lockRankWbufSpans)
 }
 
@@ -416,6 +417,26 @@ type workType struct {
 	sweepWaiters struct {
 		lock mutex
 		list gList
+	}
+
+	// strongFromWeak controls how the GC interacts with weak->strong
+	// pointer conversions.
+	strongFromWeak struct {
+		// block is a flag set during mark termination that prevents
+		// new weak->strong conversions from executing by blocking the
+		// goroutine and enqueuing it onto q.
+		//
+		// Mutated only by one goroutine at a time in gcMarkDone,
+		// with globally-synchronizing events like forEachP and
+		// stopTheWorld.
+		block bool
+
+		// q is a queue of goroutines that attempted to perform a
+		// weak->strong conversion during mark termination.
+		//
+		// Protected by lock.
+		lock mutex
+		q    gQueue
 	}
 
 	// cycles is the number of completed GC cycles, where a GC
@@ -842,6 +863,10 @@ top:
 	// stop the world later, so acquire worldsema now.
 	semacquire(&worldsema)
 
+	// Prevent weak->strong conversions from generating additional
+	// GC work. forEachP will guarantee that it is observed globally.
+	work.strongFromWeak.block = true
+
 	// Flush all local buffers and collect flushedWork flags.
 	gcMarkDoneFlushed = 0
 	forEachP(waitReasonGCMarkTermination, func(pp *p) {
@@ -935,6 +960,11 @@ top:
 	// Wake all blocked assists. These will run when we
 	// start the world again.
 	gcWakeAllAssists()
+
+	// Wake all blocked weak->strong conversions. These will run
+	// when we start the world again.
+	work.strongFromWeak.block = false
+	gcWakeAllStrongFromWeak()
 
 	// Likewise, release the transition lock. Blocked
 	// workers and assists will run when we start the
