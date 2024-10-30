@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6c36f12_8fb9ec7a",
+        "filename": "src/cmd/go/testdata/script/embedbad.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-10-30T16:04:20Z",
+      "side": 1,
+      "message": "FYI, the compiler now supports script tests, in cmd/compile/testdata/script. We could put the test there if you see fit.",
+      "revId": "7f14ccad9b2096db739fd2ea8e889ebfc0a82ab5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
