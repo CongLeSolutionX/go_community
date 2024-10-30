@@ -1,0 +1,20 @@
+# used to cause an internal compiler crash after printing the string message,
+# never got to the []byte case.
+
+! go build
+stderr 'multiple files for type string'
+stderr 'multiple files for type \[\]byte'
+
+-- go.mod --
+module m
+
+-- x.go --
+package p
+
+import _ "embed"
+
+//go:embed x.go go.mod
+var s string
+
+//go:embed x.go go.mod
+var b []byte
