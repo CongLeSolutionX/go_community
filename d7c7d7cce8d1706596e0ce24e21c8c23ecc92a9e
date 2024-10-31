@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12617328_6a5e5ab8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-31T20:41:19Z",
+      "side": 1,
+      "message": "Thanks, but I\u0027m not sure I understand.  If you are cross-compiling to Darwin, and you have enabled cgo, then you must have a Darwin cross-compiler.  That cross-compiler should be able to #include the Darwin version of \u003cresolv.h\u003e.  What actually fails without this change?  Thanks.",
+      "revId": "d7c7d7cce8d1706596e0ce24e21c8c23ecc92a9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
