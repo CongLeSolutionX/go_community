@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f520528c_a80cbf7a",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-10-31T20:38:43Z",
+      "side": 1,
+      "message": "Thanks.  This is a reasonable example, but using an Output line means that this will be run while testing.  When testing the time is not going to be accurated; sometimes it won\u0027t sleep for exactly 2 seconds.  Also, right now \"go test test.short time\" takes a bit less than 6 seconds, which is already a long time.  We don\u0027t want to add another 2 seconds to that.",
+      "revId": "f9052fd57700f336c59526d468b10f83c39a4768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
