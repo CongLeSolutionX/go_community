@@ -13,6 +13,7 @@ package cipher
 
 import (
 	"bytes"
+	"crypto/internal/fips/aes"
 	"crypto/internal/fips/alias"
 	"crypto/subtle"
 )
@@ -35,14 +36,6 @@ func newCBC(b Block, iv []byte) *cbc {
 
 type cbcEncrypter cbc
 
-// cbcEncAble is an interface implemented by ciphers that have a specific
-// optimized implementation of CBC encryption, like crypto/aes.
-// NewCBCEncrypter will check for this interface and return the specific
-// BlockMode if found.
-type cbcEncAble interface {
-	NewCBCEncrypter(iv []byte) BlockMode
-}
-
 // NewCBCEncrypter returns a BlockMode which encrypts in cipher block chaining
 // mode, using the given Block. The length of iv must be the same as the
 // Block's block size.
@@ -50,8 +43,8 @@ func NewCBCEncrypter(b Block, iv []byte) BlockMode {
 	if len(iv) != b.BlockSize() {
 		panic("cipher.NewCBCEncrypter: IV length must equal block size")
 	}
-	if cbc, ok := b.(cbcEncAble); ok {
-		return cbc.NewCBCEncrypter(iv)
+	if b, ok := b.(*aes.Block); ok {
+		return aes.NewCBCEncrypter(b, [16]byte(iv))
 	}
 	return (*cbcEncrypter)(newCBC(b, iv))
 }
@@ -79,6 +72,9 @@ func (x *cbcEncrypter) CryptBlocks(dst, src []byte) {
 	if alias.InexactOverlap(dst[:len(src)], src) {
 		panic("crypto/cipher: invalid buffer overlap")
 	}
+	if _, ok := x.b.(*aes.Block); ok {
+		panic("crypto/cipher: internal error: generic CBC used with AES")
+	}
 
 	iv := x.iv
 
@@ -99,14 +95,6 @@ func (x *cbcEncrypter) CryptBlocks(dst, src []byte) {
 
 type cbcDecrypter cbc
 
-// cbcDecAble is an interface implemented by ciphers that have a specific
-// optimized implementation of CBC decryption, like crypto/aes.
-// NewCBCDecrypter will check for this interface and return the specific
-// BlockMode if found.
-type cbcDecAble interface {
-	NewCBCDecrypter(iv []byte) BlockMode
-}
-
 // NewCBCDecrypter returns a BlockMode which decrypts in cipher block chaining
 // mode, using the given Block. The length of iv must be the same as the
 // Block's block size and must match the iv used to encrypt the data.
@@ -114,8 +102,8 @@ func NewCBCDecrypter(b Block, iv []byte) BlockMode {
 	if len(iv) != b.BlockSize() {
 		panic("cipher.NewCBCDecrypter: IV length must equal block size")
 	}
-	if cbc, ok := b.(cbcDecAble); ok {
-		return cbc.NewCBCDecrypter(iv)
+	if b, ok := b.(*aes.Block); ok {
+		return aes.NewCBCDecrypter(b, [16]byte(iv))
 	}
 	return (*cbcDecrypter)(newCBC(b, iv))
 }
@@ -142,6 +130,9 @@ func (x *cbcDecrypter) CryptBlocks(dst, src []byte) {
 	}
 	if alias.InexactOverlap(dst[:len(src)], src) {
 		panic("crypto/cipher: invalid buffer overlap")
+	}
+	if _, ok := x.b.(*aes.Block); ok {
+		panic("crypto/cipher: internal error: generic CBC used with AES")
 	}
 	if len(src) == 0 {
 		return
