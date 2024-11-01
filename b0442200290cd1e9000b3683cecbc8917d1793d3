@@ -16,6 +16,46 @@
       "message": "hey Cherry, PTAL.\n\nthis is fixing a subtle bug in mark termination with respect to weak pointers. it\u0027s fairly difficult to reproduce, but we\u0027ve got users using unique at scale that have been running into crashes that are likely the result of this issue. (and, at the very least, this does seem like a real issue.)\n\nin addition to a code review, I\u0027d appreciate feedback on testing this and whether backporting it seems OK. most of the lines changed are not very interesting, it is a small change at its core. but there is plenty of room for error.",
       "revId": "b0442200290cd1e9000b3683cecbc8917d1793d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eabeb9ed_2843318b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-01T22:04:41Z",
+      "side": 1,
+      "message": "Interesting bug!",
+      "revId": "b0442200290cd1e9000b3683cecbc8917d1793d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ce3d008_31ae70d9",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2106,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-01T22:04:41Z",
+      "side": 1,
+      "message": "I\u0027m not sure I like that it can change the M while the caller has called acquirem.\n\nLocking the lock prevents preemption. So the caller needs to lock it just for checking `work.strongFromWeak.block`. Perhaps we can put the whole wait loop in this function, and returns an acquired M?",
+      "range": {
+        "startLine": 2104,
+        "startChar": 0,
+        "endLine": 2106,
+        "endChar": 36
+      },
+      "revId": "b0442200290cd1e9000b3683cecbc8917d1793d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
