@@ -14,6 +14,7 @@ package cipher
 
 import (
 	"bytes"
+	"crypto/internal/fips/aes"
 	"crypto/internal/fips/alias"
 	"crypto/subtle"
 )
@@ -27,18 +28,11 @@ type ctr struct {
 
 const streamBufferSize = 512
 
-// ctrAble is an interface implemented by ciphers that have a specific optimized
-// implementation of CTR, like crypto/aes. NewCTR will check for this interface
-// and return the specific Stream if found.
-type ctrAble interface {
-	NewCTR(iv []byte) Stream
-}
-
 // NewCTR returns a [Stream] which encrypts/decrypts using the given [Block] in
 // counter mode. The length of iv must be the same as the [Block]'s block size.
 func NewCTR(block Block, iv []byte) Stream {
-	if ctr, ok := block.(ctrAble); ok {
-		return ctr.NewCTR(iv)
+	if block, ok := block.(*aes.Block); ok {
+		return aes.NewCTR(block, iv)
 	}
 	if len(iv) != block.BlockSize() {
 		panic("cipher.NewCTR: IV length must equal block size")
@@ -82,6 +76,9 @@ func (x *ctr) XORKeyStream(dst, src []byte) {
 	}
 	if alias.InexactOverlap(dst[:len(src)], src) {
 		panic("crypto/cipher: invalid buffer overlap")
+	}
+	if _, ok := x.b.(*aes.Block); ok {
+		panic("crypto/cipher: internal error: generic CTR used with AES")
 	}
 	for len(src) > 0 {
 		if x.outUsed >= len(x.out)-x.b.BlockSize() {
