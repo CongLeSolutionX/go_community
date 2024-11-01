@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b75078a6_06cf4afe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-01T17:21:19Z",
+      "side": 1,
+      "message": "Changes in x/sys cause more allocations on Windows, as reported by failing tests. For those more familiar with x/sys and Windows - is that expected, or a problem that needs to be fixed in x/sys? Thanks.",
+      "revId": "4f4b10281c4f1445ba5ba8654b8c2b38838c0a88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
