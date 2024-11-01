@@ -16,6 +16,24 @@
       "message": "Thanks.  This is a reasonable example, but using an Output line means that this will be run while testing.  When testing the time is not going to be accurated; sometimes it won\u0027t sleep for exactly 2 seconds.  Also, right now \"go test test.short time\" takes a bit less than 6 seconds, which is already a long time.  We don\u0027t want to add another 2 seconds to that.",
       "revId": "f9052fd57700f336c59526d468b10f83c39a4768",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abf11153_c9ce5588",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2024-11-01T07:02:42Z",
+      "side": 1,
+      "message": "Thanks for your patient reply. Yes, I ignored the impact of `testing.Short` and should try not to use `time.Sleep`. \n\nI have made the corresponding changes. Please review again.",
+      "parentUuid": "f520528c_a80cbf7a",
+      "revId": "f9052fd57700f336c59526d468b10f83c39a4768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
