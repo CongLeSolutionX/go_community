@@ -56,6 +56,30 @@
       },
       "revId": "b0442200290cd1e9000b3683cecbc8917d1793d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d39b9574_a4abcdd0",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2106,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-01T22:05:59Z",
+      "side": 1,
+      "message": "\u003e So the caller needs to lock it\n\nI meant, the caller needs to acquirem...",
+      "parentUuid": "5ce3d008_31ae70d9",
+      "range": {
+        "startLine": 2104,
+        "startChar": 0,
+        "endLine": 2106,
+        "endChar": 36
+      },
+      "revId": "b0442200290cd1e9000b3683cecbc8917d1793d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
