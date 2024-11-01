@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa5755cc_64e9e1ce",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2506,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-11-01T21:20:51Z",
+      "side": 1,
+      "message": "The regular expression is pretty long. What\u0027s the line you\u0027re using to decide what\u0027s a system path?",
+      "range": {
+        "startLine": 2506,
+        "startChar": 0,
+        "endLine": 2506,
+        "endChar": 52
+      },
+      "revId": "7bc932f23dc81f856c026e36719dff462a6f28e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
