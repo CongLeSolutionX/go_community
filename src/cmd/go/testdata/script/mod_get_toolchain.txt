@@ -123,6 +123,16 @@ go get go@1.21
 grep 'go 1.21$' go.mod
 ! grep toolchain go.mod
 
+# go get go@1.22.1 should output 'go: add go 1.22.1' instead of 'go: downgraded...'
+cp go.mod.issue.70090 go.mod
+go get go@1.22.1
+stderr '^go: added go 1.22.1$'
+! stderr '^go: downgraded go 1.\d\d => 1.22.1$'
+
+-- go.mod.issue.70090 --
+// missing go line in go.mod
+module m
+
 -- go.mod.orig --
 module m
 

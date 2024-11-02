@@ -412,7 +412,7 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	}
 
 	// Everything succeeded. Update go.mod.
-	oldReqs := reqsFromGoMod(modload.ModFile())
+	oldReqs := reqsFromGoMod(modload.ModFile(), false)
 
 	if err := modload.WriteGoMod(ctx, opts); err != nil {
 		// A TooNewError can happen for 'go get go@newversion'
@@ -423,7 +423,7 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 		toolchain.SwitchOrFatal(ctx, err)
 	}
 
-	newReqs := reqsFromGoMod(modload.ModFile())
+	newReqs := reqsFromGoMod(modload.ModFile(), true)
 	r.reportChanges(oldReqs, newReqs)
 
 	if gowork := modload.FindGoWork(base.Cwd()); gowork != "" {
@@ -1976,12 +1976,18 @@ func (r *resolver) updateBuildList(ctx context.Context, additions []module.Versi
 	return true
 }
 
-func reqsFromGoMod(f *modfile.File) []module.Version {
+// reqsFromGoMod gets the requirements from a go mod file. When go line in go.mod is missing,
+// go tries to give it a default version.
+// ignoreMissingGoLine indicates to ignore the missing go line in go.mod and
+// include the default version given by go inside the requirements.
+func reqsFromGoMod(f *modfile.File, ignoreMissingGoLine bool) []module.Version {
 	reqs := make([]module.Version, len(f.Require), 2+len(f.Require))
 	for i, r := range f.Require {
 		reqs[i] = r.Mod
 	}
-	if f.Go != nil {
+	// if go line is missing and we cannot ignore it's missing, we shouldn't put it as a change.
+	// see issue #70090
+	if f.Go != nil && (ignoreMissingGoLine || !modload.MissingGoLine(f)) {
 		reqs = append(reqs, module.Version{Path: "go", Version: f.Go.Version})
 	}
 	if f.Toolchain != nil {
