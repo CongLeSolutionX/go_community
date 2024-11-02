@@ -97,13 +97,6 @@ func (x *cbcEncrypter) CryptBlocks(dst, src []byte) {
 	copy(x.iv, iv)
 }
 
-func (x *cbcEncrypter) SetIV(iv []byte) {
-	if len(iv) != len(x.iv) {
-		panic("cipher: incorrect length IV")
-	}
-	copy(x.iv, iv)
-}
-
 type cbcDecrypter cbc
 
 // cbcDecAble is an interface implemented by ciphers that have a specific
@@ -179,11 +172,4 @@ func (x *cbcDecrypter) CryptBlocks(dst, src []byte) {
 
 	// Set the new iv to the first block we copied earlier.
 	x.iv, x.tmp = x.tmp, x.iv
-}
-
-func (x *cbcDecrypter) SetIV(iv []byte) {
-	if len(iv) != len(x.iv) {
-		panic("cipher: incorrect length IV")
-	}
-	copy(x.iv, iv)
 }
