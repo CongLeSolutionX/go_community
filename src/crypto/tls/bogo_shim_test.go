@@ -394,8 +394,10 @@ func TestBogoSuite(t *testing.T) {
 	if *bogoLocalDir != "" {
 		bogoDir = *bogoLocalDir
 	} else {
-		const boringsslModVer = "v0.0.0-20240523173554-273a920f84e8"
-		output, err := exec.Command("go", "mod", "download", "-json", "boringssl.googlesource.com/boringssl.git@"+boringsslModVer).CombinedOutput()
+		// boringssl.googlesource.com/boringssl.git@v0.0.0-20240523173554-273a920f84e8
+		// with https://boringssl-review.googlesource.com/c/boringssl/+/72947 cherry-picked.
+		const boringsslModVer = "v0.0.0-20241105142219-058507882d1d"
+		output, err := exec.Command("go", "mod", "download", "-json", "github.com/FiloSottile/boringssl@"+boringsslModVer).CombinedOutput()
 		if err != nil {
 			t.Fatalf("failed to download boringssl: %s", err)
 		}
@@ -435,6 +437,7 @@ func TestBogoSuite(t *testing.T) {
 	}
 	cmd := exec.Command(goCmd, args...)
 	out := &strings.Builder{}
+	cmd.Stdout = out
 	cmd.Stderr = out
 	cmd.Dir = filepath.Join(bogoDir, "ssl/test/runner")
 	err = cmd.Run()
