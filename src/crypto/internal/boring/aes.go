@@ -147,13 +147,6 @@ func (x *aesCBC) CryptBlocks(dst, src []byte) {
 	}
 }
 
-func (x *aesCBC) SetIV(iv []byte) {
-	if len(iv) != aesBlockSize {
-		panic("cipher: incorrect length IV")
-	}
-	copy(x.iv[:], iv)
-}
-
 func (c *aesCipher) NewCBCEncrypter(iv []byte) cipher.BlockMode {
 	x := &aesCBC{key: &c.enc, mode: C.GO_AES_ENCRYPT}
 	copy(x.iv[:], iv)
