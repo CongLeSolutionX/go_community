@@ -52,6 +52,24 @@
       "parentUuid": "2e3b3cf5_89a60950",
       "revId": "4f4b10281c4f1445ba5ba8654b8c2b38838c0a88",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45947c15_a66e8511",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-11-02T07:04:28Z",
+      "side": 1,
+      "message": "Hmm, tried reverting CL 618497 and the issue wasn\u0027t gone, so it is not the cause of the additional allocations.",
+      "parentUuid": "66681d1a_eaf7a29f",
+      "revId": "4f4b10281c4f1445ba5ba8654b8c2b38838c0a88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
