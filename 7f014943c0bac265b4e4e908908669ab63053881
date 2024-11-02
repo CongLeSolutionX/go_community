@@ -59,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f7d1cc1_bbd9c74f",
+        "filename": "test/fixedbugs/issue70150.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2024-11-02T02:42:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6571671_0830d721",
+      "range": {
+        "startLine": 1,
+        "startChar": 3,
+        "endLine": 1,
+        "endChar": 13
+      },
+      "revId": "7f014943c0bac265b4e4e908908669ab63053881",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08df1f4a_68021e0e",
@@ -90,6 +114,24 @@
           ]
         }
       ],
+      "revId": "7f014943c0bac265b4e4e908908669ab63053881",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e193b730_36687d9e",
+        "filename": "test/fixedbugs/issue70150.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2024-11-02T02:42:43Z",
+      "side": 1,
+      "message": "Really thanks for your guidance, I learned a lot from your comments. Thank you very much.",
+      "parentUuid": "08df1f4a_68021e0e",
       "revId": "7f014943c0bac265b4e4e908908669ab63053881",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -145,6 +187,24 @@
           ]
         }
       ],
+      "revId": "7f014943c0bac265b4e4e908908669ab63053881",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "847a5788_ca4f6ff4",
+        "filename": "test/fixedbugs/issue70150.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2024-11-02T02:42:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff30b338_b5a8fd94",
       "revId": "7f014943c0bac265b4e4e908908669ab63053881",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
