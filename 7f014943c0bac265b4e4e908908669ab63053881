@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ec95b6f_01f02916",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-11-02T01:28:55Z",
+      "side": 1,
+      "message": "Thanks for this fix.\nSome suggestions.",
+      "revId": "7f014943c0bac265b4e4e908908669ab63053881",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6571671_0830d721",
+        "filename": "test/fixedbugs/issue70150.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-11-02T01:28:55Z",
+      "side": 1,
+      "message": "you don\u0027t need this for type checker tests",
+      "range": {
+        "startLine": 1,
+        "startChar": 3,
+        "endLine": 1,
+        "endChar": 13
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "f1f6bad5_b2aec35b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "test/fixedbugs/issue70150.go",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 3,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "7f014943c0bac265b4e4e908908669ab63053881",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08df1f4a_68021e0e",
+        "filename": "test/fixedbugs/issue70150.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-11-02T01:28:55Z",
+      "side": 1,
+      "message": "change this into\n\n/* ERRORx \"...\" */\n\nERRORx accepts a regular expression. Alternatively use\n\n/* ERROR \"...\" */\n\nwhere the text in \"\" must be a substring of the error message reported.\n\nAlso, the error comment must be placed immediately after the token where the error is reported.\n\n(These errors also check the error location (column), in contrast to the compiler tests which only look at the line.)\n\nIf go/types reports a different position than types2 (sometimes this happens because go/types has more source positions recorded in its AST), use the go/types position for the tests to pass.\n\nTo check that the tests pass run:\n\ngo test go/types -short\ngo test cmd/compile/internal/types2 -short\n\n(no need to install the compiler beforehand).",
+      "fixSuggestions": [
+        {
+          "fixId": "aae3c515_f7bdb938",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "test/fixedbugs/issue70150.go",
+              "range": {
+                "startLine": 13,
+                "startChar": 0,
+                "endLine": 15,
+                "endChar": 0
+              },
+              "replacement": "\tvari(context.Background(), values...)             /* ERROR \"have \\(context\\.Context, \\.\\.\\.int\\)\" */\n\tvari(context.Background(), \"ab\", \"cd\", values...) /* ERROR \"have \\(context\\.Context, string, string, \\.\\.\\.int\\)\" */\n"
+            }
+          ]
+        }
+      ],
+      "revId": "7f014943c0bac265b4e4e908908669ab63053881",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff30b338_b5a8fd94",
+        "filename": "test/fixedbugs/issue70150.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-11-02T01:28:55Z",
+      "side": 1,
+      "message": "remove the context.Context parameter - it\u0027s not relevant for this test",
+      "fixSuggestions": [
+        {
+          "fixId": "75c4962e_55629f3a",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "test/fixedbugs/issue70150.go",
+              "range": {
+                "startLine": 9,
+                "startChar": 0,
+                "endLine": 11,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "test/fixedbugs/issue70150.go",
+              "range": {
+                "startLine": 13,
+                "startChar": 0,
+                "endLine": 15,
+                "endChar": 0
+              },
+              "replacement": "\tvari(values...)             // ERROR \"have \\(\\.\\.\\.int\\)\"\n\tvari(\"ab\", \"cd\", values...) // ERROR \"have \\(string, string, \\.\\.\\.int\\)\"\n"
+            },
+            {
+              "path": "test/fixedbugs/issue70150.go",
+              "range": {
+                "startLine": 17,
+                "startChar": 0,
+                "endLine": 18,
+                "endChar": 0
+              },
+              "replacement": "func vari(method string, values ...int) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "7f014943c0bac265b4e4e908908669ab63053881",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
