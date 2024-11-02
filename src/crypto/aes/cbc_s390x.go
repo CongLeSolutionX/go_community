@@ -59,10 +59,3 @@ func (x *cbc) CryptBlocks(dst, src []byte) {
 		cryptBlocksChain(x.c, &x.iv[0], &x.b.key[0], &dst[0], &src[0], len(src))
 	}
 }
-
-func (x *cbc) SetIV(iv []byte) {
-	if len(iv) != BlockSize {
-		panic("cipher: incorrect length IV")
-	}
-	copy(x.iv[:], iv)
-}
