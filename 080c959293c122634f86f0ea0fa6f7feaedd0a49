@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a13fd798_d6d65a10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58169
+      },
+      "writtenOn": "2024-11-02T12:22:57Z",
+      "side": 1,
+      "message": "By checking whether the go line is missing in `go.mod`, if I run `go get go@go1.21.0`, it will output:\n```\n$ cat go.mod\nmodule example.com/main%\n$ /home/xieyuschen/codespace/go/bin/go get go@1.22.1\ngo: added go 1.22.1\ngo: added toolchain go1.24\n$ cat go.mod\nmodule example.com/main\n\ngo 1.22.1\n\ntoolchain go1.24\n```",
+      "revId": "080c959293c122634f86f0ea0fa6f7feaedd0a49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
