@@ -107,6 +107,8 @@ type MainModuleSet struct {
 	inGorootSrc map[module.Version]bool
 
 	modFiles map[module.Version]*modfile.File
+	// modMissingGoLine stores the map to indicate whether the go.mod file misses go line.
+	modMissingGoLine map[*modfile.File]bool
 
 	tools map[string]bool
 
@@ -210,6 +212,10 @@ func (mms *MainModuleSet) SetIndex(m module.Version, index *modFileIndex) {
 
 func (mms *MainModuleSet) ModFile(m module.Version) *modfile.File {
 	return mms.modFiles[m]
+}
+
+func (mms *MainModuleSet) MissingGoLine(f *modfile.File) bool {
+	return mms.modMissingGoLine[f]
 }
 
 func (mms *MainModuleSet) WorkFile() *modfile.WorkFile {
@@ -337,6 +343,11 @@ func ModFile() *modfile.File {
 		die()
 	}
 	return modFile
+}
+
+func MissingGoLine(f *modfile.File) bool {
+	Init()
+	return MainModules.MissingGoLine(f)
 }
 
 func BinDir() string {
@@ -1030,6 +1041,7 @@ func loadModFile(ctx context.Context, opts *PackageOpts) (*Requirements, error) 
 		// cfg.CmdName directly here.
 		if cfg.BuildMod == "mod" && cfg.CmdName != "mod graph" && cfg.CmdName != "mod why" {
 			// go line is missing from go.mod; add one there and add to derived requirements.
+			MainModules.modMissingGoLine[MainModules.ModFile(mainModule)] = true
 			v := gover.Local()
 			if opts != nil && opts.TidyGoVersion != "" {
 				v = opts.TidyGoVersion
@@ -1224,15 +1236,16 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 	}
 	modRootContainingCWD := findModuleRoot(base.Cwd())
 	mainModules := &MainModuleSet{
-		versions:        slices.Clip(ms),
-		inGorootSrc:     map[module.Version]bool{},
-		pathPrefix:      map[module.Version]string{},
-		modRoot:         map[module.Version]string{},
-		modFiles:        map[module.Version]*modfile.File{},
-		indices:         map[module.Version]*modFileIndex{},
-		highestReplaced: map[string]string{},
-		tools:           map[string]bool{},
-		workFile:        workFile,
+		versions:         slices.Clip(ms),
+		inGorootSrc:      map[module.Version]bool{},
+		pathPrefix:       map[module.Version]string{},
+		modRoot:          map[module.Version]string{},
+		modFiles:         map[module.Version]*modfile.File{},
+		modMissingGoLine: map[*modfile.File]bool{},
+		indices:          map[module.Version]*modFileIndex{},
+		highestReplaced:  map[string]string{},
+		tools:            map[string]bool{},
+		workFile:         workFile,
 	}
 	var workFileReplaces []*modfile.Replace
 	if workFile != nil {
