@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "593c38ca_51bd3a69",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-02T04:25:52Z",
+      "side": 1,
+      "message": "I\u0027m still worried about these Output lines.  On a very slow system they may still fail unexpectedly and pointlessly.  I think we should write examples that show people how to use these functions.  Those examples don\u0027t have to have any output.",
+      "revId": "7f3804880af0b583e522c28d83d687156d5017b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
