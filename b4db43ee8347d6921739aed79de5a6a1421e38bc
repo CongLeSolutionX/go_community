@@ -1,0 +1,143 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef59e4af_cc02d700",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-11-02T17:25:22Z",
+      "side": 1,
+      "message": "LGTM.\nJust a couple of minor comments. Thanks.",
+      "revId": "b4db43ee8347d6921739aed79de5a6a1421e38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fb7afc3_39a9cf4c",
+        "filename": "src/internal/types/testdata/fixedbugs/issue70150.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-11-02T17:25:22Z",
+      "side": 1,
+      "message": "make this:\n\nvar values []int\n\n(the actual values don\u0027t matter for the test)",
+      "fixSuggestions": [
+        {
+          "fixId": "d74a58e7_00df954a",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/internal/types/testdata/fixedbugs/issue70150.go",
+              "range": {
+                "startLine": 8,
+                "startChar": 0,
+                "endLine": 9,
+                "endChar": 0
+              },
+              "replacement": "\tvar values []int\n"
+            }
+          ]
+        }
+      ],
+      "revId": "b4db43ee8347d6921739aed79de5a6a1421e38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "021a0476_bcc1e83a",
+        "filename": "src/internal/types/testdata/fixedbugs/issue70150.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-11-02T17:25:22Z",
+      "side": 1,
+      "message": "maybe add:\n\nvf(values)\n\n(w/o ...)",
+      "fixSuggestions": [
+        {
+          "fixId": "84eb717b_9d80f07b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/internal/types/testdata/fixedbugs/issue70150.go",
+              "range": {
+                "startLine": 10,
+                "startChar": 0,
+                "endLine": 10,
+                "endChar": 0
+              },
+              "replacement": "\tvf(values)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "b4db43ee8347d6921739aed79de5a6a1421e38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d925f1b_5058536e",
+        "filename": "src/internal/types/testdata/fixedbugs/issue70150.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-11-02T17:25:22Z",
+      "side": 1,
+      "message": "remove empty line",
+      "revId": "b4db43ee8347d6921739aed79de5a6a1421e38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "000ddab0_145e329c",
+        "filename": "src/internal/types/testdata/fixedbugs/issue70150.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-11-02T17:25:22Z",
+      "side": 1,
+      "message": "just leave this line away - it\u0027s not needed\n(ideally, we want the tests to just contain the code that\u0027s needed for the test)",
+      "fixSuggestions": [
+        {
+          "fixId": "3d1f1b4e_0b2db40e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/internal/types/testdata/fixedbugs/issue70150.go",
+              "range": {
+                "startLine": 15,
+                "startChar": 0,
+                "endLine": 16,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "b4db43ee8347d6921739aed79de5a6a1421e38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
