@@ -15,9 +15,17 @@ const cbcEncrypt = 1
 const cbcDecrypt = 0
 
 func cryptBlocksEnc(b *Block, civ *[BlockSize]byte, dst, src []byte) {
-	cryptBlocksChain(&src[0], &dst[0], len(src), &b.enc[0], &civ[0], cbcEncrypt, b.rounds)
+	if !supportsAES {
+		cryptBlocksEncGeneric(b, civ, dst, src)
+	} else {
+		cryptBlocksChain(&src[0], &dst[0], len(src), &b.enc[0], &civ[0], cbcEncrypt, b.rounds)
+	}
 }
 
 func cryptBlocksDec(b *Block, civ *[BlockSize]byte, dst, src []byte) {
-	cryptBlocksChain(&src[0], &dst[0], len(src), &b.dec[0], &civ[0], cbcDecrypt, b.rounds)
+	if !supportsAES {
+		cryptBlocksDecGeneric(b, civ, dst, src)
+	} else {
+		cryptBlocksChain(&src[0], &dst[0], len(src), &b.dec[0], &civ[0], cbcDecrypt, b.rounds)
+	}
 }

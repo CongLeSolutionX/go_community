@@ -6,7 +6,10 @@
 
 package aes
 
-import "internal/cpu"
+import (
+	"crypto/internal/impl"
+	"internal/cpu"
+)
 
 type code int
 
@@ -32,9 +35,16 @@ type block struct {
 //go:noescape
 func cryptBlocks(c code, key, dst, src *byte, length int)
 
+var supportsAES = cpu.S390X.HasAES && cpu.S390X.HasAESCBC && cpu.S390X.HasAESCTR
+
+func init() {
+	// CP Assist for Cryptographic Functions (CPACF)
+	// https://www.ibm.com/docs/en/zos/3.1.0?topic=icsf-cp-assist-cryptographic-functions-cpacf
+	impl.Register("aes", "CPACF", &supportsAES)
+}
+
 func newBlock(c *Block, key []byte) *Block {
-	// Keep in sync with crypto/tls/common.go.
-	if !(cpu.S390X.HasAES && cpu.S390X.HasAESCBC && cpu.S390X.HasAESCTR && (cpu.S390X.HasGHASH || cpu.S390X.HasAESGCM)) {
+	if !supportsAES {
 		c.fallback = &blockExpanded{}
 		newBlockExpanded(c.fallback, key)
 		return c
