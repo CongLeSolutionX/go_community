@@ -51,6 +51,10 @@ func (b *blockExpanded) roundKeysSize() int {
 	return (b.rounds + 1) * (128 / 32)
 }
 
+func (c *Block) EncryptionKeySchedule() []uint32 {
+	return encryptionKeySchedule(c)
+}
+
 type KeySizeError int
 
 func (k KeySizeError) Error() string {
@@ -107,10 +111,4 @@ func (c *Block) Decrypt(dst, src []byte) {
 		panic("crypto/aes: invalid buffer overlap")
 	}
 	decryptBlock(c, dst, src)
-}
-
-// NewGCM returns the AES cipher wrapped in Galois Counter Mode. This is only
-// called by [crypto/cipher.NewGCM] via an interface upgrade.
-func (c *Block) NewGCM(nonceSize, tagSize int) (*GCM, error) {
-	return newGCM(c, nonceSize, tagSize)
 }
