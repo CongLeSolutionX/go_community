@@ -9,6 +9,7 @@ package gcm
 import (
 	"crypto/internal/fips/aes"
 	"crypto/internal/fips/subtle"
+	"crypto/internal/impl"
 	"internal/byteorder"
 	"internal/cpu"
 )
@@ -21,6 +22,11 @@ import (
 
 var useGHASH = cpu.S390X.HasAES && cpu.S390X.HasGHASH
 var useGCM = useGHASH && cpu.S390X.HasAESGCM
+
+func init() {
+	impl.Register("gcm", "CPACF/KIMD", &useGHASH)
+	impl.Register("gcm", "CPACF/KMA", &useGCM)
+}
 
 func checkGenericIsExpected() {
 	if useGHASH || useGCM {
