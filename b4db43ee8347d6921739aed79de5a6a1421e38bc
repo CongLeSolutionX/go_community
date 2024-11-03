@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c5ac5ff_af3baebb",
+        "filename": "src/internal/types/testdata/fixedbugs/issue70150.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2024-11-03T04:48:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fb7afc3_39a9cf4c",
+      "revId": "b4db43ee8347d6921739aed79de5a6a1421e38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "021a0476_bcc1e83a",
@@ -88,6 +106,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "708ef75d_55611857",
+        "filename": "src/internal/types/testdata/fixedbugs/issue70150.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2024-11-03T04:48:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "021a0476_bcc1e83a",
+      "revId": "b4db43ee8347d6921739aed79de5a6a1421e38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d925f1b_5058536e",
@@ -101,6 +137,24 @@
       "writtenOn": "2024-11-02T17:25:22Z",
       "side": 1,
       "message": "remove empty line",
+      "revId": "b4db43ee8347d6921739aed79de5a6a1421e38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e68e1130_9a6c6e79",
+        "filename": "src/internal/types/testdata/fixedbugs/issue70150.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2024-11-03T04:48:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d925f1b_5058536e",
       "revId": "b4db43ee8347d6921739aed79de5a6a1421e38bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -136,6 +190,24 @@
           ]
         }
       ],
+      "revId": "b4db43ee8347d6921739aed79de5a6a1421e38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68938f09_895f7fab",
+        "filename": "src/internal/types/testdata/fixedbugs/issue70150.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2024-11-03T04:48:58Z",
+      "side": 1,
+      "message": "Yeah, this is more rigorous.",
+      "parentUuid": "000ddab0_145e329c",
       "revId": "b4db43ee8347d6921739aed79de5a6a1421e38bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
