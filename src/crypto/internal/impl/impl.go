@@ -23,7 +23,7 @@ var allImplementations []implementation
 // remaining one must be used (i.e. disabling one implementation must not
 // implicitly disable any other). Each package has an implicit base
 // implementation that is selected when all alternatives are unavailable or
-// disabled.
+// disabled. pkg must be the package name, not path (e.g. "aes" not "crypto/aes").
 func Register(pkg, name string, available *bool) {
 	allImplementations = append(allImplementations, implementation{
 		Package:   pkg,
