@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01b2850f_9036d4cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-03T16:33:55Z",
+      "side": 1,
+      "message": "Bogo seems broken but I can\u0027t reproduce locally, I get a separate non-zero exit fetching the bssl module. Will have to circle back.",
+      "revId": "d1c79848361ea08d48b5bead55b88b0c18dd15d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
