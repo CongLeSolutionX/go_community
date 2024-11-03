@@ -16,6 +16,24 @@
       "message": "Why a script test instead of a regular (test/fixedbugs) test?",
       "revId": "f1b28b9d935a4ccf3eb753fbe5df898f19def769",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56f1b613_88bb26a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-11-03T16:21:24Z",
+      "side": 1,
+      "message": "I just want to start pushing test related to compiler only here, so others can benefit. For example, types2 and go/types wont have to test this file during TestStd and TestStdFixed.",
+      "parentUuid": "c0b8ee00_eb24cd5d",
+      "revId": "f1b28b9d935a4ccf3eb753fbe5df898f19def769",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
