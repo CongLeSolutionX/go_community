@@ -17,8 +17,7 @@ func AnyOverlap(x, y []byte) bool {
 }
 
 // InexactOverlap reports whether x and y share memory at any non-corresponding
-// index. The memory beyond the slice length is ignored. Note that x and y can
-// have different lengths and still not have any inexact overlap.
+// index. The memory beyond the slice length is ignored.
 //
 // InexactOverlap can be used to implement the requirements of the crypto/cipher
 // AEAD, Block, BlockMode and Stream interfaces.
@@ -27,4 +26,10 @@ func InexactOverlap(x, y []byte) bool {
 		return false
 	}
 	return AnyOverlap(x, y)
+}
+
+// ExactOverlap reports whether x and y share memory at all corresponding
+// indexes. They can have different lengths and still have exact overlap.
+func ExactOverlap(x, y []byte) bool {
+	return len(x) > 0 && len(y) > 0 && &x[0] == &y[0]
 }
