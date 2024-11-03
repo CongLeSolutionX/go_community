@@ -8,7 +8,6 @@ package gcm
 
 import (
 	"crypto/internal/fips/aes"
-	"crypto/internal/fips/alias"
 	"crypto/internal/fips/subtle"
 	"crypto/internal/impl"
 	"internal/cpu"
@@ -62,10 +61,11 @@ func initGCM(g *GCM) {
 	gcmAesInit(&g.productTable, b.EncryptionKeySchedule())
 }
 
-func seal(g *GCM, dst, nonce, plaintext, data []byte) []byte {
+func seal(out []byte, g *GCM, nonce, plaintext, data []byte) {
 	b, ok := g.cipher.(*aes.Block)
 	if !ok || !supportsAESGCM {
-		return sealGeneric(g, dst, nonce, plaintext, data)
+		sealGeneric(out, g, nonce, plaintext, data)
+		return
 	}
 
 	var counter, tagMask [gcmBlockSize]byte
@@ -85,23 +85,17 @@ func seal(g *GCM, dst, nonce, plaintext, data []byte) []byte {
 	var tagOut [gcmTagSize]byte
 	gcmAesData(&g.productTable, data, &tagOut)
 
-	ret, out := sliceForAppend(dst, len(plaintext)+g.tagSize)
-	if alias.InexactOverlap(out[:len(plaintext)], plaintext) {
-		panic("crypto/cipher: invalid buffer overlap")
-	}
 	if len(plaintext) > 0 {
 		gcmAesEnc(&g.productTable, out, plaintext, &counter, &tagOut, b.EncryptionKeySchedule())
 	}
 	gcmAesFinish(&g.productTable, &tagMask, &tagOut, uint64(len(plaintext)), uint64(len(data)))
 	copy(out[len(plaintext):], tagOut[:])
-
-	return ret
 }
 
-func open(g *GCM, dst, nonce, ciphertext, data []byte) ([]byte, error) {
+func open(out []byte, g *GCM, nonce, ciphertext, data []byte) error {
 	b, ok := g.cipher.(*aes.Block)
 	if !ok || !supportsAESGCM {
-		return openGeneric(g, dst, nonce, ciphertext, data)
+		return openGeneric(out, g, nonce, ciphertext, data)
 	}
 
 	tag := ciphertext[len(ciphertext)-g.tagSize:]
@@ -125,19 +119,13 @@ func open(g *GCM, dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	var expectedTag [gcmTagSize]byte
 	gcmAesData(&g.productTable, data, &expectedTag)
 
-	ret, out := sliceForAppend(dst, len(ciphertext))
-	if alias.InexactOverlap(out, ciphertext) {
-		panic("crypto/cipher: invalid buffer overlap")
-	}
 	if len(ciphertext) > 0 {
 		gcmAesDec(&g.productTable, out, ciphertext, &counter, &expectedTag, b.EncryptionKeySchedule())
 	}
 	gcmAesFinish(&g.productTable, &tagMask, &expectedTag, uint64(len(ciphertext)), uint64(len(data)))
 
 	if subtle.ConstantTimeCompare(expectedTag[:g.tagSize], tag) != 1 {
-		clear(out)
-		return nil, errOpen
+		return errOpen
 	}
-
-	return ret, nil
+	return nil
 }
