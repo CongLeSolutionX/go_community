@@ -10,7 +10,9 @@ import (
 	"crypto/internal/fips/aes"
 	"crypto/internal/fips/alias"
 	"crypto/internal/fips/subtle"
+	"crypto/internal/impl"
 	"internal/byteorder"
+	"internal/godebug"
 	"runtime"
 )
 
@@ -38,14 +40,14 @@ func init() {
 }
 
 func checkGenericIsExpected(b Block) {
-	if _, ok := b.(*aes.Block); ok {
+	if _, ok := b.(*aes.Block); ok && supportsAESGCM {
 		panic("gcm: internal error: using generic implementation despite hardware support")
 	}
 }
 
 func initGCM(g *GCM) {
 	b, ok := g.cipher.(*aes.Block)
-	if !ok {
+	if !ok || !supportsAESGCM {
 		initGCMGeneric(g)
 		return
 	}
@@ -126,7 +128,7 @@ func auth(out, ciphertext, aad []byte, tagMask *[gcmTagSize]byte, productTable *
 
 func seal(g *GCM, dst, nonce, plaintext, data []byte) []byte {
 	b, ok := g.cipher.(*aes.Block)
-	if !ok {
+	if !ok || !supportsAESGCM {
 		return sealGeneric(g, dst, nonce, plaintext, data)
 	}
 
@@ -149,7 +151,7 @@ func seal(g *GCM, dst, nonce, plaintext, data []byte) []byte {
 
 func open(g *GCM, dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	b, ok := g.cipher.(*aes.Block)
-	if !ok {
+	if !ok || !supportsAESGCM {
 		return openGeneric(g, dst, nonce, ciphertext, data)
 	}
 
