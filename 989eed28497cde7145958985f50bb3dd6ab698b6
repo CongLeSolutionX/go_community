@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05c11c4b_4fc69dbb",
+        "filename": "src/image/jpeg/dct_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-03T15:11:33Z",
+      "side": 0,
+      "message": "Whenever refactoring a computation that can be done ahead of time and encoded in the source code, instead of at package load time, consider whether it\u0027d be worthwhile to keep the original computation in the form of a test. Something like:\n\n```\nfunc TestCosines(t *testing.T) {\n\tfor k :\u003d range cosines {\n\t\tif math.Abs(math.Cos(math.Pi*float64(k)/16)-cosines[k]) \u003e\u003d 0.000000000000001 {\n\t\t\tt.Errorf(\"cosines[%d] is %.60f, want something closer to %.60f\", k, cosines[k], math.Cos(math.Pi*float64(k)/16))\n\t\t}\n\t}\n}\n```\n\nThat said, cosines is already a part of the package\u0027s tests, and this is a pretty trivial lookup map, so I don\u0027t think it\u0027s very useful in this particular case. Just mentioning it for completeness.",
+      "revId": "989eed28497cde7145958985f50bb3dd6ab698b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
