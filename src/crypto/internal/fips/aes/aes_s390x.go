@@ -41,15 +41,22 @@ func newBlock(c *Block, key []byte) {
 	}
 
 	switch len(key) {
-	case 128 / 8:
+	case aes128KeySize:
 		c.function = aes128
-	case 192 / 8:
+	case aes192KeySize:
 		c.function = aes192
-	case 256 / 8:
+	case aes256KeySize:
 		c.function = aes256
 	}
 	c.key = c.storage[:len(key)]
 	copy(c.key, key)
+}
+
+func encryptionKeySchedule(c *Block) []uint32 {
+	if c.fallback != nil {
+		return c.fallback.enc[:c.fallback.roundKeysSize()]
+	}
+	return nil
 }
 
 func encryptBlock(c *Block, dst, src []byte) {

@@ -2,50 +2,14 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package cipher
+package gcm
 
 import (
-	"crypto/internal/fips/aes"
 	"crypto/internal/fips/alias"
 	"crypto/subtle"
 	"errors"
 	"internal/byteorder"
 )
-
-// AEAD is a cipher mode providing authenticated encryption with associated
-// data. For a description of the methodology, see
-// https://en.wikipedia.org/wiki/Authenticated_encryption.
-type AEAD interface {
-	// NonceSize returns the size of the nonce that must be passed to Seal
-	// and Open.
-	NonceSize() int
-
-	// Overhead returns the maximum difference between the lengths of a
-	// plaintext and its ciphertext.
-	Overhead() int
-
-	// Seal encrypts and authenticates plaintext, authenticates the
-	// additional data and appends the result to dst, returning the updated
-	// slice. The nonce must be NonceSize() bytes long and unique for all
-	// time, for a given key.
-	//
-	// To reuse plaintext's storage for the encrypted output, use plaintext[:0]
-	// as dst. Otherwise, the remaining capacity of dst must not overlap plaintext.
-	Seal(dst, nonce, plaintext, additionalData []byte) []byte
-
-	// Open decrypts and authenticates ciphertext, authenticates the
-	// additional data and, if successful, appends the resulting plaintext
-	// to dst, returning the updated slice. The nonce must be NonceSize()
-	// bytes long and both it and the additional data must match the
-	// value passed to Seal.
-	//
-	// To reuse ciphertext's storage for the decrypted output, use ciphertext[:0]
-	// as dst. Otherwise, the remaining capacity of dst must not overlap ciphertext.
-	//
-	// Even if the function fails, the contents of dst, up to its capacity,
-	// may be overwritten.
-	Open(dst, nonce, ciphertext, additionalData []byte) ([]byte, error)
-}
 
 // gcmFieldElement represents a value in GF(2¹²⁸). In order to reflect the GCM
 // standard and make binary.BigEndian suitable for marshaling these values, the
@@ -59,78 +23,45 @@ type gcmFieldElement struct {
 	low, high uint64
 }
 
-// gcm represents a Galois Counter Mode with a specific key. See
-// https://csrc.nist.gov/groups/ST/toolkit/BCM/documents/proposedmodes/gcm/gcm-revised-spec.pdf
-type gcm struct {
+// Block is a subset of cipher.Block to avoid a circular dependency.
+type Block interface {
+	BlockSize() int
+	Encrypt(dst, src []byte)
+}
+
+// GCM represents a Galois Counter Mode with a specific key. See
+// https://csrc.nist.gov/groups/ST/toolkit/BCM/documents/proposedmodes/GCM/GCM-revised-spec.pdf
+type GCM struct {
 	cipher    Block
 	nonceSize int
 	tagSize   int
 	// productTable contains the first sixteen powers of the key, H.
-	// However, they are in bit reversed order. See NewGCMWithNonceSize.
+	// However, they are in bit reversed order. See initGCMGeneric.
+	//
+	// TODO: the assembly implementations don't store the table in the same
+	// format, in violation of AssemblyPolicy. They need to be reconciled or at
+	// least documented.
 	productTable [16]gcmFieldElement
 }
 
-// NewGCM returns the given 128-bit, block cipher wrapped in Galois Counter Mode
-// with the standard nonce length.
-//
-// In general, the GHASH operation performed by this implementation of GCM is not constant-time.
-// An exception is when the underlying [Block] was created by aes.NewCipher
-// on systems with hardware support for AES. See the [crypto/aes] package documentation for details.
-func NewGCM(cipher Block) (AEAD, error) {
-	return newGCMWithNonceAndTagSize(cipher, gcmStandardNonceSize, gcmTagSize)
-}
-
-// NewGCMWithNonceSize returns the given 128-bit, block cipher wrapped in Galois
-// Counter Mode, which accepts nonces of the given length. The length must not
-// be zero.
-//
-// Only use this function if you require compatibility with an existing
-// cryptosystem that uses non-standard nonce lengths. All other users should use
-// [NewGCM], which is faster and more resistant to misuse.
-func NewGCMWithNonceSize(cipher Block, size int) (AEAD, error) {
-	return newGCMWithNonceAndTagSize(cipher, size, gcmTagSize)
-}
-
-// NewGCMWithTagSize returns the given 128-bit, block cipher wrapped in Galois
-// Counter Mode, which generates tags with the given length.
-//
-// Tag sizes between 12 and 16 bytes are allowed.
-//
-// Only use this function if you require compatibility with an existing
-// cryptosystem that uses non-standard tag lengths. All other users should use
-// [NewGCM], which is more resistant to misuse.
-func NewGCMWithTagSize(cipher Block, tagSize int) (AEAD, error) {
-	return newGCMWithNonceAndTagSize(cipher, gcmStandardNonceSize, tagSize)
-}
-
-func newGCMWithNonceAndTagSize(cipher Block, nonceSize, tagSize int) (AEAD, error) {
+func New(cipher Block, nonceSize, tagSize int) (*GCM, error) {
 	if tagSize < gcmMinimumTagSize || tagSize > gcmBlockSize {
 		return nil, errors.New("cipher: incorrect tag size given to GCM")
 	}
-
 	if nonceSize <= 0 {
-		return nil, errors.New("cipher: the nonce can't have zero length, or the security of the key will be immediately compromised")
+		return nil, errors.New("cipher: the nonce can't have zero length")
 	}
-
-	if cipher, ok := cipher.(interface {
-		NewGCM(nonceSize, tagSize int) (*aes.GCM, error)
-	}); ok {
-		gcm, err := cipher.NewGCM(nonceSize, tagSize)
-		// TODO(filippo): Remove this check once the generic implementation is
-		// moved to crypto/internal/fips/aes and this always returns non-nil.
-		if gcm != nil || err != nil {
-			return gcm, err
-		}
-	}
-
 	if cipher.BlockSize() != gcmBlockSize {
 		return nil, errors.New("cipher: NewGCM requires 128-bit block cipher")
 	}
+	g := &GCM{cipher: cipher, nonceSize: nonceSize, tagSize: tagSize}
+	initGCM(g)
+	return g, nil
+}
 
+func initGCMGeneric(g *GCM) {
 	var key [gcmBlockSize]byte
-	cipher.Encrypt(key[:], key[:])
-
-	g := &gcm{cipher: cipher, nonceSize: nonceSize, tagSize: tagSize}
+	g.cipher.Encrypt(key[:], key[:])
 
 	// We precompute 16 multiples of |key|. However, when we do lookups
 	// into this table we'll be using bits from a field element and
@@ -147,8 +78,6 @@ func newGCMWithNonceAndTagSize(cipher Block, nonceSize, tagSize int) (AEAD, erro
 		g.productTable[reverseBits(i)] = gcmDouble(&g.productTable[reverseBits(i/2)])
 		g.productTable[reverseBits(i+1)] = gcmAdd(&g.productTable[reverseBits(i)], &x)
 	}
-
-	return g, nil
 }
 
 const (
@@ -158,22 +87,25 @@ const (
 	gcmStandardNonceSize = 12
 )
 
-func (g *gcm) NonceSize() int {
+func (g *GCM) NonceSize() int {
 	return g.nonceSize
 }
 
-func (g *gcm) Overhead() int {
+func (g *GCM) Overhead() int {
 	return g.tagSize
 }
 
-func (g *gcm) Seal(dst, nonce, plaintext, data []byte) []byte {
+func (g *GCM) Seal(dst, nonce, plaintext, data []byte) []byte {
 	if len(nonce) != g.nonceSize {
 		panic("crypto/cipher: incorrect nonce length given to GCM")
 	}
-	if uint64(len(plaintext)) > ((1<<32)-2)*uint64(g.cipher.BlockSize()) {
+	if uint64(len(plaintext)) > ((1<<32)-2)*uint64(gcmBlockSize) {
 		panic("crypto/cipher: message too large for GCM")
 	}
+	return seal(g, dst, nonce, plaintext, data)
+}
 
+func sealGeneric(g *GCM, dst, nonce, plaintext, data []byte) []byte {
 	ret, out := sliceForAppend(dst, len(plaintext)+g.tagSize)
 	if alias.InexactOverlap(out, plaintext) {
 		panic("crypto/cipher: invalid buffer overlap")
@@ -196,7 +128,7 @@ func (g *gcm) Seal(dst, nonce, plaintext, data []byte) []byte {
 
 var errOpen = errors.New("cipher: message authentication failed")
 
-func (g *gcm) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
+func (g *GCM) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	if len(nonce) != g.nonceSize {
 		panic("crypto/cipher: incorrect nonce length given to GCM")
 	}
@@ -209,10 +141,14 @@ func (g *gcm) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	if len(ciphertext) < g.tagSize {
 		return nil, errOpen
 	}
-	if uint64(len(ciphertext)) > ((1<<32)-2)*uint64(g.cipher.BlockSize())+uint64(g.tagSize) {
+	if uint64(len(ciphertext)) > ((1<<32)-2)*uint64(gcmBlockSize)+uint64(g.tagSize) {
 		return nil, errOpen
 	}
 
+	return open(g, dst, nonce, ciphertext, data)
+}
+
+func openGeneric(g *GCM, dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	tag := ciphertext[len(ciphertext)-g.tagSize:]
 	ciphertext = ciphertext[:len(ciphertext)-g.tagSize]
 
@@ -286,7 +222,7 @@ var gcmReductionTable = []uint16{
 }
 
 // mul sets y to y*H, where H is the GCM key, fixed during NewGCMWithNonceSize.
-func (g *gcm) mul(y *gcmFieldElement) {
+func (g *GCM) mul(y *gcmFieldElement) {
 	var z gcmFieldElement
 
 	for i := 0; i < 2; i++ {
@@ -320,7 +256,7 @@ func (g *gcm) mul(y *gcmFieldElement) {
 
 // updateBlocks extends y with more polynomial terms from blocks, based on
 // Horner's rule. There must be a multiple of gcmBlockSize bytes in blocks.
-func (g *gcm) updateBlocks(y *gcmFieldElement, blocks []byte) {
+func (g *GCM) updateBlocks(y *gcmFieldElement, blocks []byte) {
 	for len(blocks) > 0 {
 		y.low ^= byteorder.BeUint64(blocks)
 		y.high ^= byteorder.BeUint64(blocks[8:])
@@ -331,7 +267,7 @@ func (g *gcm) updateBlocks(y *gcmFieldElement, blocks []byte) {
 
 // update extends y with more polynomial terms from data. If data is not a
 // multiple of gcmBlockSize bytes long then the remainder is zero padded.
-func (g *gcm) update(y *gcmFieldElement, data []byte) {
+func (g *GCM) update(y *gcmFieldElement, data []byte) {
 	fullBlocks := (len(data) >> 4) << 4
 	g.updateBlocks(y, data[:fullBlocks])
 
@@ -365,7 +301,7 @@ func sliceForAppend(in []byte, n int) (head, tail []byte) {
 }
 
 // counterCrypt crypts in to out using g.cipher in counter mode.
-func (g *gcm) counterCrypt(out, in []byte, counter *[gcmBlockSize]byte) {
+func (g *GCM) counterCrypt(out, in []byte, counter *[gcmBlockSize]byte) {
 	var mask [gcmBlockSize]byte
 
 	for len(in) >= gcmBlockSize {
@@ -387,7 +323,7 @@ func (g *gcm) counterCrypt(out, in []byte, counter *[gcmBlockSize]byte) {
 // deriveCounter computes the initial GCM counter state from the given nonce.
 // See NIST SP 800-38D, section 7.1. This assumes that counter is filled with
 // zeros on entry.
-func (g *gcm) deriveCounter(counter *[gcmBlockSize]byte, nonce []byte) {
+func (g *GCM) deriveCounter(counter *[gcmBlockSize]byte, nonce []byte) {
 	// GCM has two modes of operation with respect to the initial counter
 	// state: a "fast path" for 96-bit (12-byte) nonces, and a "slow path"
 	// for nonces of other lengths. For a 96-bit nonce, the nonce, along
@@ -409,7 +345,7 @@ func (g *gcm) deriveCounter(counter *[gcmBlockSize]byte, nonce []byte) {
 
 // auth calculates GHASH(ciphertext, additionalData), masks the result with
 // tagMask and writes the result to out.
-func (g *gcm) auth(out, ciphertext, additionalData []byte, tagMask *[gcmTagSize]byte) {
+func (g *GCM) auth(out, ciphertext, additionalData []byte, tagMask *[gcmTagSize]byte) {
 	var y gcmFieldElement
 	g.update(&y, additionalData)
 	g.update(&y, ciphertext)

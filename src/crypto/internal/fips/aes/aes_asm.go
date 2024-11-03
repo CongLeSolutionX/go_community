@@ -21,7 +21,6 @@ func decryptBlockAsm(nr int, xk *uint32, dst, src *byte)
 func expandKeyAsm(nr int, key *byte, enc *uint32, dec *uint32)
 
 var supportsAES = cpu.X86.HasAES || cpu.ARM64.HasAES || goarch.IsPpc64 == 1 || goarch.IsPpc64le == 1
-var supportsGFMUL = cpu.X86.HasPCLMULQDQ || cpu.ARM64.HasPMULL
 
 // checkGenericIsExpected is called by the variable-time implementation to make
 // sure it is not used when hardware support is available. It shouldn't happen,
@@ -50,6 +49,10 @@ func newBlock(c *Block, key []byte) {
 	} else {
 		expandKeyGeneric(&c.blockExpanded, key)
 	}
+}
+
+func encryptionKeySchedule(c *Block) []uint32 {
+	return c.enc[:c.roundKeysSize()]
 }
 
 func encryptBlock(c *Block, dst, src []byte) {

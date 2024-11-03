@@ -14,6 +14,10 @@ func newBlock(c *Block, key []byte) {
 	newBlockExpanded(&c.blockExpanded, key)
 }
 
+func encryptionKeySchedule(c *Block) []uint32 {
+	return c.enc[:c.roundKeysSize()]
+}
+
 func encryptBlock(c *Block, dst, src []byte) {
 	encryptBlockGeneric(&c.blockExpanded, dst, src)
 }

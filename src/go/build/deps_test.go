@@ -453,6 +453,7 @@ var depsRules = `
 	< crypto/internal/fips/alias
 	< crypto/internal/fips/subtle
 	< crypto/internal/fips/aes
+	< crypto/internal/fips/gcm
 	< crypto/internal/fips/sha256
 	< crypto/internal/fips/sha512
 	< crypto/internal/fips/sha3
