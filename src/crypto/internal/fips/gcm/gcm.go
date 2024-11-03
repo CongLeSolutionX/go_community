@@ -5,7 +5,9 @@
 package gcm
 
 import (
+	"crypto/internal/fips/aes"
 	"crypto/internal/fips/alias"
+	"crypto/internal/fips/drbg"
 	"crypto/internal/fips/subtle"
 	"errors"
 	"internal/byteorder"
@@ -101,19 +103,24 @@ func (g *GCM) Seal(dst, nonce, plaintext, data []byte) []byte {
 	if len(nonce) != g.nonceSize {
 		panic("crypto/cipher: incorrect nonce length given to GCM")
 	}
-	if uint64(len(plaintext)) > ((1<<32)-2)*uint64(gcmBlockSize) {
+	if uint64(len(plaintext)) > uint64((1<<32)-2)*gcmBlockSize {
 		panic("crypto/cipher: message too large for GCM")
 	}
-	return seal(g, dst, nonce, plaintext, data)
-}
-
-func sealGeneric(g *GCM, dst, nonce, plaintext, data []byte) []byte {
-	checkGenericIsExpected(g.cipher)
 
 	ret, out := sliceForAppend(dst, len(plaintext)+g.tagSize)
 	if alias.InexactOverlap(out, plaintext) {
-		panic("crypto/cipher: invalid buffer overlap")
+		panic("crypto/cipher: invalid buffer overlap of output and input")
 	}
+	if alias.AnyOverlap(out, data) {
+		panic("crypto/cipher: invalid buffer overlap of output and additional data")
+	}
+
+	seal(out, g, nonce, plaintext, data)
+	return ret
+}
+
+func sealGeneric(out []byte, g *GCM, nonce, plaintext, data []byte) {
+	checkGenericIsExpected(g.cipher)
 
 	var counter, tagMask [gcmBlockSize]byte
 	g.deriveCounter(&counter, nonce)
@@ -126,8 +133,6 @@ func sealGeneric(g *GCM, dst, nonce, plaintext, data []byte) []byte {
 	var tag [gcmTagSize]byte
 	g.auth(tag[:], out[:len(plaintext)], data, &tagMask)
 	copy(out[len(plaintext):], tag[:])
-
-	return ret
 }
 
 var errOpen = errors.New("cipher: message authentication failed")
@@ -145,14 +150,30 @@ func (g *GCM) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	if len(ciphertext) < g.tagSize {
 		return nil, errOpen
 	}
-	if uint64(len(ciphertext)) > ((1<<32)-2)*uint64(gcmBlockSize)+uint64(g.tagSize) {
+	if uint64(len(ciphertext)) > uint64((1<<32)-2)*gcmBlockSize+uint64(g.tagSize) {
 		return nil, errOpen
 	}
 
-	return open(g, dst, nonce, ciphertext, data)
+	ret, out := sliceForAppend(dst, len(ciphertext)-g.tagSize)
+	if alias.InexactOverlap(out, ciphertext) {
+		panic("crypto/cipher: invalid buffer overlap of output and input")
+	}
+	if alias.AnyOverlap(out, data) {
+		panic("crypto/cipher: invalid buffer overlap of output and additional data")
+	}
+
+	if err := open(out, g, nonce, ciphertext, data); err != nil {
+		// We decrypt and authenticate concurrently, so we overwrite dst in the
+		// event of a tag mismatch. To be consistent across platforms and to
+		// avoid releasing unauthenticated plaintext, we clear the buffer in the
+		// event of an error.
+		clear(out)
+		return nil, err
+	}
+	return ret, nil
 }
 
-func openGeneric(g *GCM, dst, nonce, ciphertext, data []byte) ([]byte, error) {
+func openGeneric(out []byte, g *GCM, nonce, ciphertext, data []byte) error {
 	checkGenericIsExpected(g.cipher)
 
 	tag := ciphertext[len(ciphertext)-g.tagSize:]
@@ -167,22 +188,114 @@ func openGeneric(g *GCM, dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	var expectedTag [gcmTagSize]byte
 	g.auth(expectedTag[:], ciphertext, data, &tagMask)
 
-	ret, out := sliceForAppend(dst, len(ciphertext))
-	if alias.InexactOverlap(out, ciphertext) {
-		panic("crypto/cipher: invalid buffer overlap")
-	}
-
 	if subtle.ConstantTimeCompare(expectedTag[:g.tagSize], tag) != 1 {
-		// The AESNI code decrypts and authenticates concurrently, and
-		// so overwrites dst in the event of a tag mismatch. That
-		// behavior is mimicked here in order to be consistent across
-		// platforms.
-		clear(out)
-		return nil, errOpen
+		return errOpen
 	}
 
 	g.counterCrypt(out, ciphertext, &counter)
 
+	return nil
+}
+
+// GCMWithRandomNonce is an AEAD that automatically generates random nonces and
+// prepends them to the ciphertext. The nonce size exposed through the AEAD
+// interface is zero, and the nonce size is folded into the overhead.
+type GCMWithRandomNonce struct {
+	g GCM
+}
+
+func NewWithRandomNonce(cipher *aes.Block) *GCMWithRandomNonce {
+	g := &GCMWithRandomNonce{GCM{cipher: cipher, nonceSize: gcmStandardNonceSize, tagSize: gcmTagSize}}
+	initGCM(&g.g)
+	return g
+}
+
+func (g *GCMWithRandomNonce) NonceSize() int {
+	return 0
+}
+
+func (g *GCMWithRandomNonce) Overhead() int {
+	return gcmStandardNonceSize + gcmTagSize
+}
+
+// Seal appends a random nonce and the encryption of plaintext to dst.
+// nonce must be empty.
+func (g *GCMWithRandomNonce) Seal(dst, nonce, plaintext, data []byte) []byte {
+	if len(nonce) != 0 {
+		panic("crypto/cipher: non-empty nonce passed to GCMWithRandomNonce")
+	}
+	if uint64(len(plaintext)) > uint64((1<<32)-2)*gcmBlockSize {
+		panic("crypto/cipher: message too large for GCM")
+	}
+
+	ret, out := sliceForAppend(dst, gcmStandardNonceSize+len(plaintext)+gcmTagSize)
+	if alias.InexactOverlap(out, plaintext) {
+		panic("crypto/cipher: invalid buffer overlap of output and input")
+	}
+	if alias.AnyOverlap(out, data) {
+		panic("crypto/cipher: invalid buffer overlap of output and additional data")
+	}
+
+	// The AEAD interface allows using plaintext[:0] or ciphertext[:0] as dst.
+	//
+	// This is kind of a problem when trying to prepend or trim a nonce, because the
+	// actual AES-CTR blocks end up overlapping but not exactly.
+	//
+	// In Open, we write the output *before* the input, so unless we do something
+	// weird like working through a chunk of block backwards, it works out.
+	//
+	// In Seal, we could work through the input backwards or intentionally load
+	// ahead before writing, but for now we just do a memmove if we detect overlap.
+	//
+	//     ┌───────────────────────────┬ ─ ─
+	//     │PPPPPPPPPPPPPPPPPPPPPPPPPPP│    │
+	//     └▽─────────────────────────▲┴ ─ ─
+	//       ╲ Seal                    ╲
+	//        ╲                    Open ╲
+	//     ┌───▼─────────────────────────△──┐
+	//     │NN|CCCCCCCCCCCCCCCCCCCCCCCCCCC|T│
+	//     └────────────────────────────────┘
+	//
+	if alias.ExactOverlap(out, plaintext) {
+		copy(out[gcmStandardNonceSize:], plaintext)
+		plaintext = out[gcmStandardNonceSize : gcmStandardNonceSize+len(plaintext)]
+	}
+
+	drbg.Read(out[:gcmStandardNonceSize])
+	seal(out[gcmStandardNonceSize:], &g.g, out[:gcmStandardNonceSize], plaintext, data)
+	return ret
+}
+
+// Open extracts the nonce from the ciphertext and appends the plaintext to dst.
+// nonce must be empty.
+func (g *GCMWithRandomNonce) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
+	if len(nonce) != 0 {
+		panic("crypto/cipher: non-empty nonce passed to GCMWithRandomNonce")
+	}
+
+	if len(ciphertext) < gcmStandardNonceSize+gcmTagSize {
+		return nil, errOpen
+	}
+	if uint64(len(ciphertext)) > gcmStandardNonceSize+((1<<32)-2)*gcmBlockSize+gcmTagSize {
+		return nil, errOpen
+	}
+
+	ret, out := sliceForAppend(dst, len(ciphertext)-gcmStandardNonceSize-gcmTagSize)
+	if alias.InexactOverlap(out, ciphertext) {
+		panic("crypto/cipher: invalid buffer overlap of output and input")
+	}
+	if alias.AnyOverlap(out, data) {
+		panic("crypto/cipher: invalid buffer overlap of output and additional data")
+	}
+
+	if err := open(out, &g.g, ciphertext[:gcmStandardNonceSize], ciphertext[gcmStandardNonceSize:], data); err != nil {
+		// We decrypt and authenticate concurrently, so we overwrite dst in the
+		// event of a tag mismatch. To be consistent across platforms and to
+		// avoid releasing unauthenticated plaintext, we clear the buffer in the
+		// event of an error.
+		clear(out)
+		return nil, err
+	}
 	return ret, nil
 }
 
