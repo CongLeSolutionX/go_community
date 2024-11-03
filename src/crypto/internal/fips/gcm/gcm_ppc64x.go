@@ -8,7 +8,6 @@ package gcm
 
 import (
 	"crypto/internal/fips/aes"
-	"crypto/internal/fips/alias"
 	"crypto/internal/fips/subtle"
 	"crypto/internal/impl"
 	"internal/byteorder"
@@ -126,15 +125,11 @@ func auth(out, ciphertext, aad []byte, tagMask *[gcmTagSize]byte, productTable *
 	}
 }
 
-func seal(g *GCM, dst, nonce, plaintext, data []byte) []byte {
+func seal(out []byte, g *GCM, nonce, plaintext, data []byte) {
 	b, ok := g.cipher.(*aes.Block)
 	if !ok || !supportsAESGCM {
-		return sealGeneric(g, dst, nonce, plaintext, data)
-	}
-
-	ret, out := sliceForAppend(dst, len(plaintext)+g.tagSize)
-	if alias.InexactOverlap(out[:len(plaintext)], plaintext) {
-		panic("crypto/cipher: invalid buffer overlap")
+		sealGeneric(out, g, nonce, plaintext, data)
+		return
 	}
 
 	var counter, tagMask [gcmBlockSize]byte
@@ -145,14 +140,12 @@ func seal(g *GCM, dst, nonce, plaintext, data []byte) []byte {
 
 	counterCrypt(b, out, plaintext, &counter)
 	auth(out[len(plaintext):], out[:len(plaintext)], data, &tagMask, &g.productTable)
-
-	return ret
 }
 
-func open(g *GCM, dst, nonce, ciphertext, data []byte) ([]byte, error) {
+func open(out []byte, g *GCM, nonce, ciphertext, data []byte) error {
 	b, ok := g.cipher.(*aes.Block)
 	if !ok || !supportsAESGCM {
-		return openGeneric(g, dst, nonce, ciphertext, data)
+		return openGeneric(out, g, nonce, ciphertext, data)
 	}
 
 	tag := ciphertext[len(ciphertext)-g.tagSize:]
@@ -167,18 +160,12 @@ func open(g *GCM, dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	var expectedTag [gcmTagSize]byte
 	auth(expectedTag[:], ciphertext, data, &tagMask, &g.productTable)
 
-	ret, out := sliceForAppend(dst, len(ciphertext))
-	if alias.InexactOverlap(out, ciphertext) {
-		panic("crypto/cipher: invalid buffer overlap")
-	}
-
 	if subtle.ConstantTimeCompare(expectedTag[:g.tagSize], tag) != 1 {
-		clear(out)
-		return nil, errOpen
+		return errOpen
 	}
 
 	counterCrypt(b, out, ciphertext, &counter)
-	return ret, nil
+	return nil
 }
 
 func gcmLengths(len0, len1 uint64) [16]byte {
