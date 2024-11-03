@@ -94,6 +94,18 @@
 #define ESPERM V10
 #define TMP2 V11
 
+DATA ·rcon+0x00(SB)/8, $0x0f0e0d0c0b0a0908 // Permute for vector doubleword endian swap
+DATA ·rcon+0x08(SB)/8, $0x0706050403020100
+DATA ·rcon+0x10(SB)/8, $0x0100000001000000 // RCON
+DATA ·rcon+0x18(SB)/8, $0x0100000001000000 // RCON
+DATA ·rcon+0x20(SB)/8, $0x1b0000001b000000
+DATA ·rcon+0x28(SB)/8, $0x1b0000001b000000
+DATA ·rcon+0x30(SB)/8, $0x0d0e0f0c0d0e0f0c // MASK
+DATA ·rcon+0x38(SB)/8, $0x0d0e0f0c0d0e0f0c // MASK
+DATA ·rcon+0x40(SB)/8, $0x0000000000000000
+DATA ·rcon+0x48(SB)/8, $0x0000000000000000
+GLOBL ·rcon(SB), RODATA, $80
+
 // The following macros provide appropriate
 // implementations for endianness as well as
 // ISA specific for power8 and power9.
