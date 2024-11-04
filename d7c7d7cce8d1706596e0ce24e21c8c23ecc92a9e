@@ -16,6 +16,41 @@
       "message": "Thanks, but I\u0027m not sure I understand.  If you are cross-compiling to Darwin, and you have enabled cgo, then you must have a Darwin cross-compiler.  That cross-compiler should be able to #include the Darwin version of \u003cresolv.h\u003e.  What actually fails without this change?  Thanks.",
       "revId": "d7c7d7cce8d1706596e0ce24e21c8c23ecc92a9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f64c772_ad9cbf8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3703158
+      },
+      "writtenOn": "2024-11-04T09:05:49Z",
+      "side": 1,
+      "message": "Hi, we cross compile a golang tool via bazel and the hermetic_cc_toolchain for cgo.\nbut in there is no resolv.h for darwin.\n\nIt is working fine with golang 1.22.8 and the netgo tags set.\nBut with 1.23.x the build is no longer working since the resolv.h is now required.\n\nIs the resolv.h really needed when netgo is used?",
+      "parentUuid": "12617328_6a5e5ab8",
+      "revId": "d7c7d7cce8d1706596e0ce24e21c8c23ecc92a9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45b56d84_18a594cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3703158
+      },
+      "writtenOn": "2024-11-04T09:05:49Z",
+      "side": 1,
+      "message": "Hi, we cross compile a golang tool via bazel and the hermetic_cc_toolchain for cgo.\nbut in there is no resolv.h for darwin.\n\nIt is working fine with golang 1.22.8 and the netgo tags set.\nBut with 1.23.x the build is no longer working since the resolv.h is now required.\n\nIs the resolv.h really needed when netgo is used?",
+      "revId": "d7c7d7cce8d1706596e0ce24e21c8c23ecc92a9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
