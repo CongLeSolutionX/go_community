@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4df45c5d_389b3591",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3703158
+      },
+      "writtenOn": "2024-11-04T19:11:59Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "863c3dc4_d4041352",
+      "revId": "d7c7d7cce8d1706596e0ce24e21c8c23ecc92a9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80ca8f1b_c691f06b",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-11-04T18:34:34Z",
       "side": 1,
       "message": "When using bazel with hermetic_cc_toolchain resolv.h is not available.\n\nI don\u0027t think you need to say anything else.",
+      "revId": "d7c7d7cce8d1706596e0ce24e21c8c23ecc92a9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2247c8a0_f2f8ae22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3703158
+      },
+      "writtenOn": "2024-11-04T19:11:59Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "80ca8f1b_c691f06b",
       "revId": "d7c7d7cce8d1706596e0ce24e21c8c23ecc92a9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
