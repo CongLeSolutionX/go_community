@@ -16,6 +16,24 @@
       "message": "I\u0027m still worried about these Output lines.  On a very slow system they may still fail unexpectedly and pointlessly.  I think we should write examples that show people how to use these functions.  Those examples don\u0027t have to have any output.",
       "revId": "7f3804880af0b583e522c28d83d687156d5017b1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5aea230_5b6f889d",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2024-11-04T09:54:54Z",
+      "side": 1,
+      "message": "Thank you for your guidance, that\u0027s right. I referred to the Duration example, and there is no output here, which should be due to the same considerations.\n\nhttps://pkg.go.dev/time@go1.23.2#example-Duration",
+      "parentUuid": "593c38ca_51bd3a69",
+      "revId": "7f3804880af0b583e522c28d83d687156d5017b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
