@@ -49,9 +49,21 @@ func NewZero(pos src.XPos, typ *types.Type) Node {
 		return NewBasicLit(pos, typ, constant.MakeBool(false))
 	case typ.IsString():
 		return NewBasicLit(pos, typ, constant.MakeString(""))
-	case typ.IsArray() || typ.IsStruct():
-		// TODO(mdempsky): Return a typechecked expression instead.
-		return NewCompLitExpr(pos, OCOMPLIT, typ, nil)
+	case typ.IsArray():
+		length := typ.NumElem()
+		elemType := typ.Elem()
+		elements := make([]Node, length)
+		for i := int64(0); i < length; i++ {
+			elements[i] = NewZero(pos, elemType)
+		}
+		return NewCompLitExpr(pos, OCOMPLIT, typ, elements)
+	case typ.IsStruct():
+		fields := typ.Fields()
+		components := make([]Node, len(fields))
+		for i, field := range fields {
+			components[i] = NewZero(pos, field.Type)
+		}
+		return NewCompLitExpr(pos, OCOMPLIT, typ, components)
 	}
 
 	base.FatalfAt(pos, "unexpected type: %v", typ)
