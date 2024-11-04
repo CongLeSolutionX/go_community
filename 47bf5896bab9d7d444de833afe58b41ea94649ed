@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bac05b02_b407a9f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-11-04T19:27:04Z",
+      "side": 1,
+      "message": "I guess that this can also be kind of solved with `CGO_ENABLED\u003d0` instead, but i agree that `netgo` tag should have the same behaviour in this case.",
+      "revId": "47bf5896bab9d7d444de833afe58b41ea94649ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
