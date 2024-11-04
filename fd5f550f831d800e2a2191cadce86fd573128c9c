@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74a4088a_81eaa0af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2024-11-04T11:28:32Z",
+      "side": 1,
+      "message": "I was trying to remember how the DCT (Discrete Cosine Transform) works, as part of some separate experiments in image compression, and was studying this `dct_test.go` code. I was printf-debugging and stepping through the `slowFDCT` and `slowIDCT` and was momentarily confused by where the `6.123233995736757e-17` number was coming from, before realizing that it was supposed to be `cos(pi/2)`, which is exactly zero (in real numbers) but slightly not-zero (in float64 math).\n\nIt\u0027s not really a big deal, but it might just save any \"I wonder how DCT works\" explorer in the future a little bit of time.",
+      "parentUuid": "4d54261e_d8264f45",
+      "revId": "fd5f550f831d800e2a2191cadce86fd573128c9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e0b239a_f09ada51",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-11-03T15:11:33Z",
       "side": 1,
       "message": "What\u0027s the motivation to make the change on this line? The math.Sqrt2 constant has enough precision to fill in a float64: https://go.dev/play/p/s6yhE3QvEKI. (If it didn\u0027t, it\u0027d create motivation to upstream the change to the math constant...)\n\nIs it so that it\u0027s possible to drop the \"math\" package import from this file? That doesn\u0027t seem like a good reason, since the \"math\" package is still present in the dependency graph, so there\u0027s not really an upside not to use it in one of the files.\n\nGiven math.Sqrt2 is shorter and more readable, it seems better to keep it as is. Unless I misunderstood something.",
+      "revId": "fd5f550f831d800e2a2191cadce86fd573128c9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9ed18ba_5f3c485a",
+        "filename": "src/image/jpeg/dct_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2024-11-04T11:28:32Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s so that we can drop the `import \"math\"`. It\u0027s a bit of a micro-optimization, but just the general principle of fewer dependencies means faster builds and tests.\n\nI didn\u0027t realize that `math/rand` already depends on `math`, though, so it\u0027s even less of a win than I thought. I\u0027ll revert.",
+      "parentUuid": "2e0b239a_f09ada51",
       "revId": "fd5f550f831d800e2a2191cadce86fd573128c9c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
