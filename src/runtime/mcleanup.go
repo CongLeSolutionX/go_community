@@ -6,6 +6,9 @@ package runtime
 
 import (
 	"internal/abi"
+	"internal/runtime/atomic"
+
+	//"sync/atomic"
 	"unsafe"
 )
 
@@ -45,11 +48,17 @@ func AddCleanup[T, S any](ptr *T, cleanup func(S), arg S) Cleanup {
 		// debug.sbrk never frees memory, so no finalizers run
 		// (and we don't have the data structures to record them).
 		// return a noop cleanup.
-		return Cleanup{}
+		return Cleanup{
+			stopped: new(atomic.Bool),
+		}
 	}
 
+	stopped := new(atomic.Bool)
 	var fn func()
 	fn = func() {
+		if stopped.Load() {
+			return
+		}
 		cleanup(arg)
 	}
 	// closure must escape
@@ -61,7 +70,9 @@ func AddCleanup[T, S any](ptr *T, cleanup func(S), arg S) Cleanup {
 	base, _, _ := findObject(usptr, 0, 0)
 	if base == 0 {
 		if isGoPointerWithoutSpan(unsafe.Pointer(ptr)) {
-			return Cleanup{}
+			return Cleanup{
+				stopped: new(atomic.Bool),
+			}
 		}
 		throw("runtime.AddCleanup: ptr not in allocated block")
 	}
@@ -78,11 +89,15 @@ func AddCleanup[T, S any](ptr *T, cleanup func(S), arg S) Cleanup {
 	KeepAlive(usptr)
 	KeepAlive(fn)
 	KeepAlive(fv)
-	return Cleanup{}
+	return Cleanup{
+		stopped: stopped,
+	}
 }
 
 // Cleanup is a handle to a cleanup call for a specific object.
-type Cleanup struct{}
+type Cleanup struct {
+	stopped *atomic.Bool
+}
 
 // Stop cancels the cleanup call. Stop will have no effect if the cleanup call
 // has already been queued for execution (because ptr became unreachable).
@@ -90,4 +105,6 @@ type Cleanup struct{}
 // that the pointer that was passed to AddCleanup is reachable across the call to Stop.
 //
 // TODO(amedee) do not work on stop until after the rest of the implementation is complete.
-func (c Cleanup) Stop() {}
+func (c Cleanup) Stop() {
+	c.stopped.Store(true)
+}
