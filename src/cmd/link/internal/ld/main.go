@@ -454,7 +454,6 @@ func Main(arch *sys.Arch, theArch Arch) {
 	// will be applied directly there.
 	bench.Start("Asmb")
 	asmb(ctxt)
-
 	exitIfErrors()
 
 	// Generate additional symbols for the native symbol table just prior
@@ -463,6 +462,8 @@ func Main(arch *sys.Arch, theArch Arch) {
 	if thearch.GenSymsLate != nil {
 		thearch.GenSymsLate(ctxt, ctxt.loader)
 	}
+
+	asmbfips(ctxt, "fips.o")
 
 	bench.Start("Asmb2")
 	asmb2(ctxt)
