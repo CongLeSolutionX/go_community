@@ -6,6 +6,7 @@ package runtime
 
 import (
 	"internal/abi"
+	"sync"
 	"unsafe"
 )
 
@@ -48,8 +49,12 @@ func AddCleanup[T, S any](ptr *T, cleanup func(S), arg S) Cleanup {
 		return Cleanup{}
 	}
 
+	stopped := new(bool)
 	var fn func()
 	fn = func() {
+		if *stopped {
+			return
+		}
 		cleanup(arg)
 	}
 	// closure must escape
@@ -78,11 +83,26 @@ func AddCleanup[T, S any](ptr *T, cleanup func(S), arg S) Cleanup {
 	KeepAlive(usptr)
 	KeepAlive(fn)
 	KeepAlive(fv)
-	return Cleanup{}
+	return Cleanup{
+		stopped: stopped,
+		object:  usptr,
+	}
+}
+
+// cleanupStop checks if the object is live.
+func cleanupStop(object uintptr) bool {
+	// lookup object and span
+	// ensure swept
+	// if the object is alive return true
+	return false
 }
 
 // Cleanup is a handle to a cleanup call for a specific object.
-type Cleanup struct{}
+type Cleanup struct {
+	object  uintptr
+	once    sync.Once
+	stopped *bool
+}
 
 // Stop cancels the cleanup call. Stop will have no effect if the cleanup call
 // has already been queued for execution (because ptr became unreachable).
@@ -90,4 +110,10 @@ type Cleanup struct{}
 // that the pointer that was passed to AddCleanup is reachable across the call to Stop.
 //
 // TODO(amedee) do not work on stop until after the rest of the implementation is complete.
-func (c Cleanup) Stop() {}
+func (c Cleanup) Stop() {
+	c.once.Do(func() {
+		if cleanupStop(c.object) {
+			*c.stopped = true
+		}
+	})
+}
