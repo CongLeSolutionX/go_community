@@ -51,4 +51,6 @@ func TestCleanupZeroSizedStruct(t *testing.T) {
 
 func TestCleanupAfterFinalizer(t *testing.T) {}
 
+func TestCleanupStop(t *testing.T) {}
+
 func BenchmarkCleanup(b *testing.B) {}
