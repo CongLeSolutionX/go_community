@@ -395,6 +395,7 @@ var wantIntrinsics = map[testIntrinsicKey]struct{}{
 	{"loong64", "internal/runtime/sys", "GetClosurePtr"}:       struct{}{},
 	{"loong64", "math", "Abs"}:                                 struct{}{},
 	{"loong64", "math", "Copysign"}:                            struct{}{},
+	{"loong64", "math", "FMA"}:                                 struct{}{},
 	{"loong64", "math", "sqrt"}:                                struct{}{},
 	{"loong64", "math/big", "mulWW"}:                           struct{}{},
 	{"loong64", "math/bits", "Add"}:                            struct{}{},
