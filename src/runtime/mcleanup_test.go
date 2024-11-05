@@ -32,4 +32,6 @@ func TestCleanupZeroSizedStruct(t *testing.T) {
 	runtime.AddCleanup(z, func(s string) {}, "foo")
 }
 
+func TestCleanupStop(t *testing.T) {}
+
 func BenchmarkCleanup(b *testing.B) {}
