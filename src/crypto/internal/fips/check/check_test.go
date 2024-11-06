@@ -21,7 +21,7 @@ import (
 	"unsafe"
 )
 
-const enableFIPSTest = false
+const enableFIPSTest = true
 
 func TestVerify(t *testing.T) {
 	if *Verified {
