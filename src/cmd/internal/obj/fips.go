@@ -144,7 +144,7 @@ import (
 	"strings"
 )
 
-const enableFIPS = false
+const enableFIPS = true
 
 // IsFIPS reports whether we are compiling one of the crypto/internal/fips/... packages.
 func (ctxt *Link) IsFIPS() bool {
