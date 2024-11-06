@@ -33,6 +33,24 @@
       "message": "This is an Avo generated file, please see the _asm directory.",
       "revId": "9e582ecb9985b82e9a6a62397861ba5ec1dfc2af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f9ef4d5_a9861d5c",
+        "filename": "src/crypto/internal/fips/sha512/sha512block_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-06T17:34:24Z",
+      "side": 1,
+      "message": "Done, which is to say I updated the generator too.\n\nI didn\u0027t _run_ the generator, since \"go generate\" prints a lot of errors and then mangles the assembly file. But I updated it, so if someone else makes it run again, it should do the right thing.",
+      "parentUuid": "3b968dcd_b31f2629",
+      "revId": "9e582ecb9985b82e9a6a62397861ba5ec1dfc2af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
