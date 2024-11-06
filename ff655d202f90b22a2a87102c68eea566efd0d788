@@ -33,6 +33,24 @@
       "message": "What is the goal?  I don\u0027t see any reason to make this change.",
       "revId": "ff655d202f90b22a2a87102c68eea566efd0d788",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0734196_ab52ee9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3723872
+      },
+      "writtenOn": "2024-11-06T08:08:31Z",
+      "side": 1,
+      "message": "mmap() in NetBSD\u0027s libc allows you to specify either MAP_ANON or MAP_ANONYMOUS -- one is #define\u0027d as the other. If the constants in defs_netbsd.go are supposed to be a reflection of what\u0027s available in NetBSD, then it could be argued that MAP_ANONYMOUS is *missing* from the runtime and thus should be added.\n\nEarlier today, I\u0027d spotted some Go code in the wild that -- although was written with Linux in mind -- would have also worked perfectly on NetBSD iff MAP_ANONYMOUS was also available. I.e., I expected the Go code to work because I know MAP_ANONYMOUS is a valid symbol in NetBSD\u0027s libc, but it didn\u0027t compile. Hence my patch.\n\nTruthfully, the only real force which drove me to write this change is to synchronize with the information NetBSD\u0027s man page for mmap(). And this fruit was hanging really low for me. I\u0027ll admit these might not be good enough reasons to accept my patch, though.",
+      "parentUuid": "4eb33f03_ffd68942",
+      "revId": "ff655d202f90b22a2a87102c68eea566efd0d788",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
