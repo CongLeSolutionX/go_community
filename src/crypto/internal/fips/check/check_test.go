@@ -16,12 +16,13 @@ import (
 	"internal/godebug"
 	"os"
 	"os/exec"
+	"runtime"
 	"testing"
 	"unicode"
 	"unsafe"
 )
 
-const enableFIPSTest = false
+const enableFIPSTest = true
 
 func TestVerify(t *testing.T) {
 	if *Verified {
