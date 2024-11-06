@@ -21,7 +21,7 @@ import (
 	"unsafe"
 )
 
-const enableFIPSTest = false
+const enableFIPSTest = runtime.GOOS == "darwin" || runtime.GOOS == "linux"
 
 func TestVerify(t *testing.T) {
 	if *Verified {
