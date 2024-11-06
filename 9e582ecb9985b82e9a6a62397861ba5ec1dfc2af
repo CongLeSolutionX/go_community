@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e5b9c42_c3c108af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-06T11:48:49Z",
+      "side": 1,
+      "message": "Hrm, looks like the sha256 amd64 code duplicates the K array in assembly for some reason. Taking a note to fix that.",
+      "revId": "9e582ecb9985b82e9a6a62397861ba5ec1dfc2af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b968dcd_b31f2629",
+        "filename": "src/crypto/internal/fips/sha512/sha512block_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-06T11:48:49Z",
+      "side": 1,
+      "message": "This is an Avo generated file, please see the _asm directory.",
+      "revId": "9e582ecb9985b82e9a6a62397861ba5ec1dfc2af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
