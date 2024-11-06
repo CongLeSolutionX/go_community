@@ -802,7 +802,7 @@ func (t *tester) registerTests() {
 
 	// Test internal linking of PIE binaries where it is supported.
 	if t.internalLinkPIE() && !disablePIE {
-		t.registerTest("internal linking of -buildmode=pie",
+		t.registerTest("internal linking, -buildmode=pie",
 			&goTest{
 				variant:   "pie_internal",
 				timeout:   60 * time.Second,
@@ -811,15 +811,47 @@ func (t *tester) registerTests() {
 				env:       []string{"CGO_ENABLED=0"},
 				pkg:       "reflect",
 			})
+		t.registerTest("internal linking, -buildmode=pie",
+			&goTest{
+				variant:   "pie_internal",
+				timeout:   60 * time.Second,
+				buildmode: "pie",
+				ldflags:   "-linkmode=internal",
+				env:       []string{"CGO_ENABLED=0"},
+				pkg:       "crypto/internal/fips/check",
+			})
 		// Also test a cgo package.
 		if t.cgoEnabled && t.internalLink() && !disablePIE {
-			t.registerTest("internal linking of -buildmode=pie",
+			t.registerTest("internal linking, -buildmode=pie",
 				&goTest{
 					variant:   "pie_internal",
 					timeout:   60 * time.Second,
 					buildmode: "pie",
 					ldflags:   "-linkmode=internal",
 					pkg:       "os/user",
+				})
+		}
+	}
+
+	if t.extLink() {
+		t.registerTest("external linking, -buildmode=exe",
+			&goTest{
+				variant:   "exe_external",
+				timeout:   60 * time.Second,
+				buildmode: "exe",
+				ldflags:   "-linkmode=external",
+				env:       []string{"CGO_ENABLED=1"},
+				pkg:       "crypto/internal/fips/check",
+			})
+		if !disablePIE {
+			t.registerTest("external linking, -buildmode=pie",
+				&goTest{
+					variant:   "pie_external",
+					timeout:   60 * time.Second,
+					buildmode: "pie",
+					ldflags:   "-linkmode=external",
+					env:       []string{"CGO_ENABLED=1"},
+					pkg:       "crypto/internal/fips/check",
 				})
 		}
 	}
