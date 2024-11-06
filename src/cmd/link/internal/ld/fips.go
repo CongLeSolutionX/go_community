@@ -112,7 +112,7 @@ import (
 	"os"
 )
 
-const enableFIPS = false
+const enableFIPS = true
 
 // fipsSyms are the special FIPS section bracketing symbols.
 var fipsSyms = []struct {
