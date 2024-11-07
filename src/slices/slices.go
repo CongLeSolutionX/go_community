@@ -513,3 +513,34 @@ func Repeat[S ~[]E, E any](x S, count int) S {
 	}
 	return newslice
 }
+
+// Intersection returns the intersection of two slices without requiring them to be sorted.
+// Intersection works with any comparable type E.
+// The result is also unsorted slice that contains unique elements.
+func Intersection[S ~[]E, E comparable](a, b S) S {
+	if len(a) == 0 || len(b) == 0 {
+		return nil
+	}
+
+	smaller, larger := a, b
+	if len(a) >= len(b) {
+		smaller, larger = b, a
+	}
+
+	m := make(map[E]struct{}, len(smaller))
+	for _, item := range smaller {
+		m[item] = struct{}{}
+	}
+
+	var res S
+	for _, item := range larger {
+		if _, exists := m[item]; exists {
+			res = append(res, item)
+			delete(m, item)
+			if len(m) == 0 {
+				break
+			}
+		}
+	}
+	return res
+}
