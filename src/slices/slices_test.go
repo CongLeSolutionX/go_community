@@ -12,6 +12,7 @@ import (
 	"internal/testenv"
 	"math"
 	. "slices"
+	"std/slices"
 	"strings"
 	"testing"
 	"unsafe"
@@ -1460,5 +1461,54 @@ func TestIssue68488(t *testing.T) {
 	switch unsafe.SliceData(clone) {
 	case &s[0], &s[1], &s[2]:
 		t.Error("clone keeps alive s due to array overlap")
+	}
+}
+
+func TestIntersection(t *testing.T) {
+	tests := []struct {
+		name string
+		a    []int
+		b    []int
+		want []int
+	}{
+		{
+			name: "No common elements",
+			a:    []int{1, 2, 3},
+			b:    []int{4, 5, 6},
+			want: []int{},
+		},
+		{
+			name: "Some common elements",
+			a:    []int{1, 2, 3, 4},
+			b:    []int{3, 4, 5, 6},
+			want: []int{3, 4},
+		},
+		{
+			name: "All common elements",
+			a:    []int{1, 2, 3},
+			b:    []int{1, 2, 3},
+			want: []int{1, 2, 3},
+		},
+		{
+			name: "Duplicates in input",
+			a:    []int{1, 2, 2, 3},
+			b:    []int{2, 2, 4},
+			want: []int{2},
+		},
+		{
+			name: "Empty slices",
+			a:    []int{},
+			b:    []int{},
+			want: []int{},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := slices.Intersection(tt.a, tt.b)
+			if !Equal(result, tt.want) {
+				t.Errorf("Intersection(%v, %v): got: %v, want: %v", tt.a, tt.b, result, tt.want)
+			}
+		})
 	}
 }
