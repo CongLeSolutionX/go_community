@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57dcac9d_6f979df9",
+        "filename": "src/runtime/pprof/label.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-07T19:49:03Z",
+      "side": 1,
+      "message": "return bytealg.CompareString(a.key, b.key)",
+      "revId": "8801145af29092476c0c34c2faf04532657c9940",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
