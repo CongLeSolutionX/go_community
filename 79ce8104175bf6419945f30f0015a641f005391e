@@ -16,6 +16,24 @@
       "message": "LGTM, but I don\u0027t understand why this is any different with swissmaps.",
       "revId": "79ce8104175bf6419945f30f0015a641f005391e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d97a08e_345f33ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-11-07T15:14:29Z",
+      "side": 1,
+      "message": "Neither do I.\nI have a slight suspicion it is because we used to do 32-bit operations and now we\u0027re doing 8-bit operations. But that suspicion is based on no evidence.",
+      "parentUuid": "b06d0352_5daff781",
+      "revId": "79ce8104175bf6419945f30f0015a641f005391e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
