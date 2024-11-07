@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a29b741_a3d33f4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2024-11-07T19:25:38Z",
+      "side": 1,
+      "message": "This is an API addition and probably needs a proposal https://github.com/golang/proposal#proposing-changes-to-go to make this change.",
+      "revId": "0ac2de8044bac5e743bc7962986b9f5e9d65ea3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "391751f2_6bb8ae96",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2024-11-07T19:25:38Z",
+      "side": 1,
+      "message": "you probably only want to do this for the smaller one of the two slices to conserve memory when there is e.g. one slice with 4 elements and one with 40000.",
+      "revId": "0ac2de8044bac5e743bc7962986b9f5e9d65ea3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74f6f334_b5856d5b",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2024-11-07T19:25:38Z",
+      "side": 1,
+      "message": "why the deletion? What if we have the element twice?\n\nIf duplicate elements should be suppressed, you can stop the loop, once len(m) is or becomes 0.\n\nyou could check this len(m) \u003d\u003d 0 at the beginning of the loop and break immediately.\n\nThat would save a lot of loops when the slice is small and all common elements are close to the beginning.",
+      "revId": "0ac2de8044bac5e743bc7962986b9f5e9d65ea3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
