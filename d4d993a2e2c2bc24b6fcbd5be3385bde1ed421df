@@ -34,6 +34,24 @@
       "parentUuid": "e4b4524e_1352295a",
       "revId": "d4d993a2e2c2bc24b6fcbd5be3385bde1ed421df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "898e5e12_e68b1507",
+        "filename": "src/crypto/internal/fips/aes/gcm/cmac.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-08T15:46:04Z",
+      "side": 1,
+      "message": "Oh! OK, yes I follow now. Thank you",
+      "parentUuid": "9b713327_ac39006c",
+      "revId": "d4d993a2e2c2bc24b6fcbd5be3385bde1ed421df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
