@@ -52,25 +52,16 @@ func runtime_mapaccess1_fast32(typ *abi.SwissMapType, m *Map, key uint32) unsafe
 	t := m.directoryAt(idx)
 
 	// Probe table.
+	slotSize := typ.SlotSize
 	seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
 	for ; ; seq = seq.next() {
 		g := t.groups.group(typ, seq.offset)
-
-		match := g.ctrls().matchH2(h2(hash))
-
-		for match != 0 {
-			i := match.first()
-
-			slotKey := g.key(typ, i)
-			if key == *(*uint32)(slotKey) {
-				slotElem := g.elem(typ, i)
-				return slotElem
+		for i, slotKey := uintptr(0), g.key(typ, 0); i < abi.SwissMapGroupSlots; i, slotKey = i+1, unsafe.Pointer(uintptr(slotKey)+slotSize) {
+			if key == *(*uint32)(slotKey) && (g.ctrls().get(i)&(1<<7)) == 0 {
+				return unsafe.Pointer(uintptr(slotKey) + typ.ElemOff)
 			}
-			match = match.removeFirst()
 		}
-
-		match = g.ctrls().matchEmpty()
-		if match != 0 {
+		if g.ctrls().matchEmpty() != 0 {
 			// Finding an empty slot means we've reached the end of
 			// the probe sequence.
 			return unsafe.Pointer(&zeroVal[0])
@@ -117,25 +108,16 @@ func runtime_mapaccess2_fast32(typ *abi.SwissMapType, m *Map, key uint32) (unsaf
 	t := m.directoryAt(idx)
 
 	// Probe table.
+	slotSize := typ.SlotSize
 	seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
 	for ; ; seq = seq.next() {
 		g := t.groups.group(typ, seq.offset)
-
-		match := g.ctrls().matchH2(h2(hash))
-
-		for match != 0 {
-			i := match.first()
-
-			slotKey := g.key(typ, i)
-			if key == *(*uint32)(slotKey) {
-				slotElem := g.elem(typ, i)
-				return slotElem, true
+		for i, slotKey := uintptr(0), g.key(typ, 0); i < abi.SwissMapGroupSlots; i, slotKey = i+1, unsafe.Pointer(uintptr(slotKey)+slotSize) {
+			if key == *(*uint32)(slotKey) && (g.ctrls().get(i)&(1<<7)) == 0 {
+				return unsafe.Pointer(uintptr(slotKey) + typ.ElemOff), true
 			}
-			match = match.removeFirst()
 		}
-
-		match = g.ctrls().matchEmpty()
-		if match != 0 {
+		if g.ctrls().matchEmpty() != 0 {
 			// Finding an empty slot means we've reached the end of
 			// the probe sequence.
 			return unsafe.Pointer(&zeroVal[0]), false
