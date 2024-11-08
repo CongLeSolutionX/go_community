@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9740e5ef_004bf270",
+        "filename": "src/crypto/internal/fips/sha256/sha256block_arm64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-11-08T14:22:49Z",
+      "side": 1,
+      "message": "Nit: please backspace by one to keep the comment formatted like the others.",
+      "revId": "8c37103ee81f5e0bbf7c9aa132a7062ddc55cd08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
