@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bca5b5ea_07092eeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-11-08T19:35:25Z",
+      "side": 1,
+      "message": "This should clear up some latency bugs; large stack frames are one cause of mark assist hiccups.",
+      "revId": "c992739a3b3f141aaccc70362c618e8db1c0def3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
