@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e806356_3c080d29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-08T00:34:24Z",
+      "side": 1,
+      "message": "Thanks.  The only reason to complicate the code like this would be to improve performance.  Do you have any benchmarks showing a noticeable performance increase?  Thanks.",
+      "revId": "b3c0f8b3f170e85b65e81dd0ac69e3e6348bec6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
