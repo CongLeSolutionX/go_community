@@ -162,12 +162,24 @@ func TestVersionHandling(t *testing.T) {
 		// test that export data can be imported
 		_, err := Import(make(map[string]*types2.Package), pkgpath, dir, nil)
 		if err != nil {
+			// ok to fail if it fails with not the start of an archive file error for select files
+			if strings.Contains(err.Error(), "no longer supported") {
+				switch name {
+				case "test_go1.8_4.a",
+					"test_go1.8_5.a":
+					continue
+				}
+				// fall through
+			}
 			// ok to fail if it fails with a no longer supported error for select files
 			if strings.Contains(err.Error(), "no longer supported") {
 				switch name {
-				case "test_go1.7_0.a", "test_go1.7_1.a",
-					"test_go1.8_4.a", "test_go1.8_5.a",
-					"test_go1.11_6b.a", "test_go1.11_999b.a":
+				case "test_go1.7_0.a",
+					"test_go1.7_1.a",
+					"test_go1.8_4.a",
+					"test_go1.8_5.a",
+					"test_go1.11_6b.a",
+					"test_go1.11_999b.a":
 					continue
 				}
 				// fall through
