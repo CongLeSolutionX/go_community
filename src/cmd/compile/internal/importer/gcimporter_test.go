@@ -204,7 +204,7 @@ func TestVersionHandling(t *testing.T) {
 		}
 		// 2) find export data
 		i := bytes.Index(data, []byte("\n$$B\n")) + 5
-		j := bytes.Index(data[i:], []byte("\n$$\n")) + i
+		j := bytes.Index(data[i:], []byte("\n$$\n")) + i // A good enough way to find the end of the section for these files.
 		if i < 0 || j < 0 || i > j {
 			t.Fatalf("export data section not found (i = %d, j = %d)", i, j)
 		}
