@@ -16,6 +16,24 @@
       "message": "On the structs.HostLayout check:\n\n1. Should it permit structs with no fields?\n2. Does it consider type aliases of HostLayout?",
       "revId": "027e00b71dec4f0ea1a3c810945740d4cde326de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e71740f_dc801539",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-08T23:06:23Z",
+      "side": 1,
+      "message": "Good question!\n\n1. The proposal reads \"If the struct has any fields, it must embed structs.HostLayout\", so it sounds like we should allow struct with no field. Updated the CL to do so. I\u0027m not sure why we want it, though, as passing a pointer to an empty struct to/from the host doesn\u0027t seem to be useful. It can\u0027t do anything with it.\n\n2. In the current implementation it is allowed. At this stage in the compiler aliases are already resolved. Reading the HostLayout proposal #66408 (\"type alias, ought to act just like structs.HostLayout\") this sounds okay? cc @drchase@google.com",
+      "parentUuid": "7efa747a_9c5cb36d",
+      "revId": "027e00b71dec4f0ea1a3c810945740d4cde326de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
