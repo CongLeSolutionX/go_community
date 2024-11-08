@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4b4524e_1352295a",
+        "filename": "src/crypto/internal/fips/aes/gcm/cmac.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-08T15:31:24Z",
+      "side": 1,
+      "message": "I think I\u0027m missing something here. In 800-38b 6.2 the description of what happens if the message len is not a positive multiple of the block size says:\n\n\u003e A padding string is appended to this final bit string, in particular, a single ‘1’ bit followed by the minimum number of ‘0’ bits, possibly none, that are necessary to form a complete block. The complete final block is masked, as described in the previous bullet, with the second subkey. The resulting sequence of blocks is the formatted message.  \n\nI expected to see that padding string being appended before masking with k2 and can\u0027t square what\u0027s going on here with that assumption. Can you point me in the right direction? (Similar thinking w.r.t single empty partial final block)",
+      "revId": "d4d993a2e2c2bc24b6fcbd5be3385bde1ed421df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
