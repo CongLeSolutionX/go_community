@@ -34,6 +34,24 @@
       "parentUuid": "7efa747a_9c5cb36d",
       "revId": "027e00b71dec4f0ea1a3c810945740d4cde326de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4681be8_5292cd2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66733
+      },
+      "writtenOn": "2024-11-09T01:13:13Z",
+      "side": 1,
+      "message": "Thanks! I replied to your comment in the proposal with some (hopefully helpful) context on where we use struct{}.",
+      "parentUuid": "6e71740f_dc801539",
+      "revId": "027e00b71dec4f0ea1a3c810945740d4cde326de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
