@@ -88,6 +88,24 @@
       "parentUuid": "d31b011d_a75a9976",
       "revId": "806d86b0dbca8e31fcc3324d6ea8a9a0c7a409ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfcad035_b379e7fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 68445
+      },
+      "writtenOn": "2024-11-09T21:21:24Z",
+      "side": 1,
+      "message": "@khr@golang.org, have you any news of this CL?",
+      "parentUuid": "3413de29_3a2da2cf",
+      "revId": "806d86b0dbca8e31fcc3324d6ea8a9a0c7a409ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
