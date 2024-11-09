@@ -463,6 +463,7 @@ var depsRules = `
 	< crypto/internal/fips/sha3
 	< crypto/internal/fips/hmac
 	< crypto/internal/fips/hkdf
+	< crypto/internal/fips/tls12
 	< crypto/internal/fips/tls13
 	< FIPS;
 
