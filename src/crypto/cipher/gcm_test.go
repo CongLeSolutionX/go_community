@@ -8,7 +8,9 @@ import (
 	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
+	"crypto/internal/boring"
 	"crypto/internal/cryptotest"
+	"crypto/internal/fips"
 	"crypto/rand"
 	"encoding/hex"
 	"errors"
@@ -722,4 +724,72 @@ func testGCMAEAD(t *testing.T, newCipher func(key []byte) cipher.Block) {
 			}
 		})
 	}
+}
+
+func TestFIPSServiceIndicator(t *testing.T) {
+	if boring.Enabled {
+		t.Skip("in BoringCrypto mode aes.NewCipher is not from the Go FIPS module")
+	}
+
+	newGCM := func() cipher.AEAD {
+		key := make([]byte, 16)
+		block, _ := aes.NewCipher(key)
+		aead, _ := cipher.NewGCM(block)
+		return aead
+	}
+	tryNonce := func(aead cipher.AEAD, nonce []byte) bool {
+		fips.ResetServiceIndicator()
+		aead.Seal(nil, nonce, []byte("x"), nil)
+		return fips.ServiceIndicator()
+	}
+	expectTrue := func(t *testing.T, aead cipher.AEAD, nonce []byte) {
+		t.Helper()
+		if !tryNonce(aead, nonce) {
+			t.Errorf("expected service indicator true for %x", nonce)
+		}
+	}
+	expectFalse := func(t *testing.T, aead cipher.AEAD, nonce []byte) {
+		t.Helper()
+		if tryNonce(aead, nonce) {
+			t.Errorf("expected service indicator false for %x", nonce)
+		}
+	}
+
+	g := newGCM()
+	expectTrue(t, g, []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
+	expectTrue(t, g, []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1})
+	expectTrue(t, g, []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100})
+	expectTrue(t, g, []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0})
+	expectTrue(t, g, []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0})
+	expectTrue(t, g, []byte{0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0})
+	expectTrue(t, g, []byte{0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0})
+	expectTrue(t, g, []byte{0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0})
+	expectTrue(t, g, []byte{0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0})
+	expectTrue(t, g, []byte{0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0})
+	// Changed name.
+	expectFalse(t, g, []byte{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0})
+
+	g = newGCM()
+	expectTrue(t, g, []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1})
+	// Went down.
+	expectFalse(t, g, []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
+	// After it fails out of FIPS mode, can't get back.
+	expectFalse(t, g, []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2})
+
+	g = newGCM()
+	expectTrue(t, g, []byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12})
+	expectTrue(t, g, []byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13})
+	// Did not increment.
+	expectFalse(t, g, []byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13})
+
+	g = newGCM()
+	expectTrue(t, g, []byte{1, 2, 3, 4, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfe})
+	expectTrue(t, g, []byte{1, 2, 3, 4, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff})
+	// Wrap.
+	expectFalse(t, g, []byte{1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0})
+
+	g = newGCM()
+	expectTrue(t, g, []byte{1, 2, 3, 4, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff})
+	// Wrap with overflow.
+	expectFalse(t, g, []byte{1, 2, 3, 5, 0, 0, 0, 0, 0, 0, 0, 0})
 }
