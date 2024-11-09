@@ -5,9 +5,12 @@
 package gcm
 
 import (
+	"crypto/internal/fips"
 	"crypto/internal/fips/aes"
 	"crypto/internal/fips/alias"
 	"errors"
+	"internal/byteorder"
+	"math"
 )
 
 // GCM represents a Galois Counter Mode with a specific key.
@@ -16,6 +19,12 @@ type GCM struct {
 	nonceSize int
 	tagSize   int
 	gcmPlatformData
+
+	// Used to check for IG C.H Scenario 3 compliance.
+	ready       bool
+	nonApproved bool
+	fixedName   uint32
+	nextCounter uint64
 }
 
 func New(cipher *aes.Block, nonceSize, tagSize int) (*GCM, error) {
@@ -59,7 +68,52 @@ func (g *GCM) Overhead() int {
 	return g.tagSize
 }
 
+// Seal implements the [crypto/cipher.AEAD].Seal method.
+//
+// To operate it in FIPS mode, the nonce must be 96 bits, the first 32 bits must
+// be an encoding of the module name, and the last 64 bits must be a counter.
+//
+// This complies with FIPS 140-3 IG C.H Scenario 3.
 func (g *GCM) Seal(dst, nonce, plaintext, data []byte) []byte {
+	checkScenario3Nonce(g, nonce)
+	return g.sealAfterIndicator(dst, nonce, plaintext, data)
+}
+
+func checkScenario3Nonce(g *GCM, nonce []byte) {
+	if g.nonApproved {
+		fips.RecordNonApproved()
+		return
+	}
+	if len(nonce) != gcmStandardNonceSize {
+		g.nonApproved = true
+		fips.RecordNonApproved()
+		return
+	}
+	if !g.ready {
+		// The first invocation sets the fixed name encoding.
+		g.fixedName = byteorder.BeUint32(nonce[:4])
+		g.ready = true
+	}
+	if g.fixedName != byteorder.BeUint32(nonce[:4]) {
+		g.nonApproved = true
+		fips.RecordNonApproved()
+		return
+	}
+	counter := byteorder.BeUint64(nonce[4:])
+	if counter < g.nextCounter {
+		g.nonApproved = true
+		fips.RecordNonApproved()
+		return
+	}
+	if counter == math.MaxUint64 {
+		// This time it's approved, but the next one will be non-approved.
+		g.nonApproved = true
+	}
+	g.nextCounter = counter + 1
+	fips.RecordApproved()
+}
+
+func (g *GCM) sealAfterIndicator(dst, nonce, plaintext, data []byte) []byte {
 	if len(nonce) != g.nonceSize {
 		panic("crypto/cipher: incorrect nonce length given to GCM")
 	}
