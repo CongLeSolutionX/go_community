@@ -5,6 +5,7 @@
 package aes
 
 import (
+	"crypto/internal/fips"
 	"crypto/internal/fips/alias"
 	"strconv"
 )
@@ -93,6 +94,7 @@ func (c *Block) Encrypt(dst, src []byte) {
 	if alias.InexactOverlap(dst[:BlockSize], src[:BlockSize]) {
 		panic("crypto/aes: invalid buffer overlap")
 	}
+	fips.RecordApproved()
 	encryptBlock(c, dst, src)
 }
 
@@ -106,5 +108,6 @@ func (c *Block) Decrypt(dst, src []byte) {
 	if alias.InexactOverlap(dst[:BlockSize], src[:BlockSize]) {
 		panic("crypto/aes: invalid buffer overlap")
 	}
+	fips.RecordApproved()
 	decryptBlock(c, dst, src)
 }
