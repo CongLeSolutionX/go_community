@@ -5,6 +5,7 @@
 package gcm
 
 import (
+	"crypto/internal/fips"
 	"crypto/internal/fips/aes"
 	"crypto/internal/fips/alias"
 	"crypto/internal/fips/drbg"
@@ -17,7 +18,7 @@ import (
 // out and plaintext may overlap exactly or not at all. additionalData and out
 // must not overlap.
 //
-// This complies with FIPS 140-3 IG C.H Resolution 2.
+// This complies with FIPS 140-3 IG C.H Scenario 2.
 //
 // Note that this is NOT a [cipher.AEAD].Seal method.
 func SealWithRandomNonce(g *GCM, nonce, out, plaintext, additionalData []byte) {
@@ -36,6 +37,7 @@ func SealWithRandomNonce(g *GCM, nonce, out, plaintext, additionalData []byte) {
 	if alias.AnyOverlap(out, additionalData) {
 		panic("crypto/cipher: invalid buffer overlap of output and additional data")
 	}
+	fips.RecordApproved()
 	drbg.Read(nonce)
 	seal(out, g, nonce, plaintext, additionalData)
 }
@@ -44,7 +46,7 @@ func SealWithRandomNonce(g *GCM, nonce, out, plaintext, additionalData []byte) {
 // construction of nonces as specified in RFC 5288, Section 3 and RFC 9325,
 // Section 7.2.1.
 //
-// This complies with FIPS 140-3 IG C.H Resolution 1.a.
+// This complies with FIPS 140-3 IG C.H Scenario 1.a.
 func NewGCMForTLS12(cipher *aes.Block) (*GCMForTLS12, error) {
 	g, err := newGCM(&GCM{}, cipher, gcmStandardNonceSize, gcmTagSize)
 	if err != nil {
@@ -78,10 +80,12 @@ func (g *GCMForTLS12) Seal(dst, nonce, plaintext, data []byte) []byte {
 	}
 	g.next = counter + 1
 
-	return g.g.Seal(dst, nonce, plaintext, data)
+	fips.RecordApproved()
+	return g.g.sealAfterIndicator(dst, nonce, plaintext, data)
 }
 
 func (g *GCMForTLS12) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
+	fips.RecordApproved()
 	return g.g.Open(dst, nonce, ciphertext, data)
 }
 
@@ -128,9 +132,11 @@ func (g *GCMForTLS13) Seal(dst, nonce, plaintext, data []byte) []byte {
 	}
 	g.next = counter + 1
 
-	return g.g.Seal(dst, nonce, plaintext, data)
+	fips.RecordApproved()
+	return g.g.sealAfterIndicator(dst, nonce, plaintext, data)
 }
 
 func (g *GCMForTLS13) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
+	fips.RecordApproved()
 	return g.g.Open(dst, nonce, ciphertext, data)
 }
