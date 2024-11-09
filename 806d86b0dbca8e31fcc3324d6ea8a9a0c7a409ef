@@ -124,6 +124,24 @@
       "parentUuid": "dfcad035_b379e7fe",
       "revId": "806d86b0dbca8e31fcc3324d6ea8a9a0c7a409ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cc978ae_5be53dfe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 68445
+      },
+      "writtenOn": "2024-11-09T21:41:02Z",
+      "side": 1,
+      "message": "Maybe I should just close CL?",
+      "parentUuid": "29c15423_a0bbe233",
+      "revId": "806d86b0dbca8e31fcc3324d6ea8a9a0c7a409ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
