@@ -32,15 +32,14 @@ func ExampleFrames() {
 		for {
 			frame, more := frames.Next()
 
-			// Process this frame.
-			//
-			// To keep this example's output stable
-			// even if there are changes in the testing package,
-			// stop unwinding when we leave package runtime.
-			if !strings.Contains(frame.File, "runtime/") {
+			// See issue #70057.
+			const mainFunc = "main.main"
+			const thisPkgFunc = "runtime_test.ExampleFrames"
+			replacedFunc := strings.ReplaceAll(frame.Function, mainFunc, thisPkgFunc)
+			fmt.Printf("- more:%v | %s\n", more, replacedFunc)
+			if replacedFunc == thisPkgFunc {
 				break
 			}
-			fmt.Printf("- more:%v | %s\n", more, frame.Function)
 
 			// Check whether there are more frames to process after this one.
 			if !more {
