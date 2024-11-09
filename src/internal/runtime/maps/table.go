@@ -412,9 +412,7 @@ func (t *table) uncheckedPutSlot(typ *abi.SwissMapType, hash uintptr, key, elem 
 	}
 }
 
-func (t *table) Delete(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) {
-	hash := typ.Hasher(key, m.seed)
-
+func (t *table) Delete(typ *abi.SwissMapType, m *Map, hash uintptr, key unsafe.Pointer) {
 	seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
 	for ; ; seq = seq.next() {
 		g := t.groups.group(typ, seq.offset)
