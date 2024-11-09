@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e8e9eee_7a8fbce3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-11-09T19:47:17Z",
+      "side": 1,
+      "message": "Could you move all the logic that is not exclusively TLS-PRF3-related to crypto/tls? (That is, all *Secret types and the label definitions). This would facilitate replacing the TLS-PRF3 algorithm with our OpenSSl/CNG backends without having to reimplement all the labeling stuff. Also, IMO the less \"business logic\" inside the FIPS boundary, the better.",
+      "revId": "774403525393cbbe2753ef269a9c439267f622e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
