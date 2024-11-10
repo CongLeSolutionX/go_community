@@ -102,6 +102,7 @@ type Location struct {
 type Line struct {
 	Function *Function
 	Line     int64
+	Column   int64
 
 	functionIDX uint64
 }

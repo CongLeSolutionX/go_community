@@ -119,6 +119,7 @@ const (
 	// message Line
 	tagLine_FunctionID = 1 // uint64
 	tagLine_Line       = 2 // int64
+	tagLine_Column     = 3 // int64
 
 	// message Function
 	tagFunction_ID         = 1 // uint64
@@ -178,10 +179,11 @@ func (b *profileBuilder) pbLabel(tag int, key, str string, num int64) {
 }
 
 // pbLine encodes a Line message to b.pb.
-func (b *profileBuilder) pbLine(tag int, funcID uint64, line int64) {
+func (b *profileBuilder) pbLine(tag int, funcID uint64, line int64, col int64) {
 	start := b.pb.startMessage()
 	b.pb.uint64Opt(tagLine_FunctionID, funcID)
 	b.pb.int64Opt(tagLine_Line, line)
+	b.pb.int64Opt(tagLine_Column, col)
 	b.pb.endMessage(tag, start)
 }
 
@@ -627,7 +629,8 @@ func (b *profileBuilder) emitLocation() uint64 {
 				startLine: int64(runtime_FrameStartLine(&frame)),
 			})
 		}
-		b.pbLine(tagLocation_Line, funcID, int64(frame.Line))
+		col := int64(runtime_FrameColumnNum(&frame))
+		b.pbLine(tagLocation_Line, funcID, int64(frame.Line), col)
 	}
 	for i := range b.mem {
 		if b.mem[i].start <= addr && addr < b.mem[i].end || b.mem[i].fake {

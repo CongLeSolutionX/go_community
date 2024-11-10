@@ -1076,6 +1076,7 @@ type Pcln struct {
 	Pcsp      *LSym
 	Pcfile    *LSym
 	Pcline    *LSym
+	Pccol     *LSym
 	Pcinline  *LSym
 	Pcdata    []*LSym
 	Funcdata  []*LSym

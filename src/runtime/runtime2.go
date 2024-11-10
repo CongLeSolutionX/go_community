@@ -905,6 +905,7 @@ type _func struct {
 	pcln      uint32
 	npcdata   uint32
 	cuOffset  uint32     // runtime.cutab offset of this function's CU
+	pccol     uint32     // column number, as companion of line number pcln
 	startLine int32      // line number of start of function (func keyword/TEXT directive)
 	funcID    abi.FuncID // set for certain special runtime functions
 	flag      abi.FuncFlag

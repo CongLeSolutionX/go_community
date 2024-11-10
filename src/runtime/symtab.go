@@ -54,6 +54,10 @@ type Frame struct {
 	File string
 	Line int
 
+	// col is the column number of the location in the
+	// frame.
+	col int
+
 	// startLine is the line number of the beginning of the function in
 	// this frame. Specifically, it is the line number of the func keyword
 	// for Go functions. Note that //line directives can change the
@@ -191,6 +195,7 @@ func (ci *Frames) Next() (frame Frame, more bool) {
 		// for the Frame we find but don't return. See issue 32093.
 		file, line := funcline1(frame.funcInfo, frame.PC, false)
 		frame.File, frame.Line = file, int(line)
+		frame.col = int(funccol(frame.funcInfo, frame.PC, false))
 	}
 	return
 }
@@ -208,6 +213,13 @@ func (ci *Frames) Next() (frame Frame, more bool) {
 //go:linkname runtime_FrameStartLine runtime/pprof.runtime_FrameStartLine
 func runtime_FrameStartLine(f *Frame) int {
 	return f.startLine
+}
+
+// runtime_FrameColumnNum returns the column number.
+//
+//go:linkname runtime_FrameColumnNum runtime/pprof.runtime_FrameColumnNum
+func runtime_FrameColumnNum(f *Frame) int {
+	return f.col
 }
 
 // runtime_FrameSymbolName returns the full symbol name of the function in a Frame.
@@ -1128,6 +1140,14 @@ func funcline1(f funcInfo, targetpc uintptr, strict bool) (file string, line int
 
 func funcline(f funcInfo, targetpc uintptr) (file string, line int32) {
 	return funcline1(f, targetpc, true)
+}
+
+func funccol(f funcInfo, targetpc uintptr, strict bool) int32 {
+	col, _ := pcvalue(f, f.pccol, targetpc, strict)
+	if col == -1 {
+		return 0
+	}
+	return col
 }
 
 func funcspdelta(f funcInfo, targetpc uintptr) int32 {

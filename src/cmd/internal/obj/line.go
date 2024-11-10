@@ -25,3 +25,13 @@ func (ctxt *Link) getFileIndexAndLine(xpos src.XPos) (int, int32) {
 	}
 	return pos.FileIndex(), int32(pos.RelLine())
 }
+
+// getCol returns the relative col number for a position (i.e., as adjusted by a //line
+// directive). This is the column visible in the final binary (pccol).
+func (ctxt *Link) getCol(xpos src.XPos) int32 {
+	pos := ctxt.InnermostPos(xpos)
+	if !pos.IsKnown() {
+		pos = src.Pos{}
+	}
+	return int32(pos.RelCol())
+}

@@ -446,6 +446,7 @@ const (
 	AuxPcsp
 	AuxPcfile
 	AuxPcline
+	AuxPccol
 	AuxPcinline
 	AuxPcdata
 	AuxWasmImport

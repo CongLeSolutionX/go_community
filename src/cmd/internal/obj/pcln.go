@@ -151,6 +151,14 @@ func pctofileline(ctxt *Link, sym *LSym, oldval int32, p *Prog, phase int32, arg
 	return int32(f)
 }
 
+// pctocol computes the column number to use at p.
+func pctocol(ctxt *Link, sym *LSym, oldval int32, p *Prog, phase int32, arg interface{}) int32 {
+	if phase == 1 {
+		return oldval
+	}
+	return ctxt.getCol(p.Pos)
+}
+
 // pcinlineState holds the state used to create a function's inlining
 // tree and the PC-value table that maps PCs to nodes in that tree.
 type pcinlineState struct {
@@ -285,6 +293,7 @@ func linkpcln(ctxt *Link, cursym *LSym) {
 	pcln.Pcsp = funcpctab(ctxt, cursym, "pctospadj", pctospadj, nil)
 	pcln.Pcfile = funcpctab(ctxt, cursym, "pctofile", pctofileline, pcln)
 	pcln.Pcline = funcpctab(ctxt, cursym, "pctoline", pctofileline, nil)
+	pcln.Pccol = funcpctab(ctxt, cursym, "pctocol", pctocol, nil)
 
 	// Check that all the Progs used as inline markers are still reachable.
 	// See issue #40473.

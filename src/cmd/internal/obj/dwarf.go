@@ -47,6 +47,7 @@ func (ctxt *Link) generateDebugLinesSymbol(s, lines *LSym) {
 	// we expect at the start of a new sequence.
 	stmt := true
 	line := int64(1)
+	col := int64(1)
 	pc := s.Func().Text.Pc
 	var lastpc int64 // last PC written to line table, not last PC in func
 	fileIndex := 1
@@ -60,6 +61,7 @@ func (ctxt *Link) generateDebugLinesSymbol(s, lines *LSym) {
 		}
 		newStmt := p.Pos.IsStmt() != src.PosNotStmt
 		newFileIndex, newLine := ctxt.getFileIndexAndLine(p.Pos)
+		newCol := ctxt.getCol(p.Pos)
 		newFileIndex++ // 1 indexing for the table
 
 		// Output debug info.
@@ -81,6 +83,12 @@ func (ctxt *Link) generateDebugLinesSymbol(s, lines *LSym) {
 			wrote = true
 		}
 
+		if col != int64(newCol) || wrote {
+			dctxt.AddUint8(lines, dwarf.DW_LNS_set_column)
+			dwarf.Uleb128put(dctxt, lines, int64(newCol))
+			col = int64(newCol)
+			wrote = true
+		}
 		if line != int64(newLine) || wrote {
 			pcdelta := p.Pc - pc
 			lastpc = p.Pc

@@ -617,6 +617,9 @@ func (w *writer) Aux(s *LSym) {
 		if fn.Pcln.Pcline != nil && fn.Pcln.Pcline.Size != 0 {
 			w.aux1(goobj.AuxPcline, fn.Pcln.Pcline)
 		}
+		if fn.Pcln.Pccol != nil && fn.Pcln.Pccol.Size != 0 {
+			w.aux1(goobj.AuxPccol, fn.Pcln.Pccol)
+		}
 		if fn.Pcln.Pcinline != nil && fn.Pcln.Pcinline.Size != 0 {
 			w.aux1(goobj.AuxPcinline, fn.Pcln.Pcinline)
 		}
@@ -730,6 +733,9 @@ func nAuxSym(s *LSym) int {
 			n++
 		}
 		if fn.Pcln.Pcline != nil && fn.Pcln.Pcline.Size != 0 {
+			n++
+		}
+		if fn.Pcln.Pccol != nil && fn.Pcln.Pccol.Size != 0 {
 			n++
 		}
 		if fn.Pcln.Pcinline != nil && fn.Pcln.Pcinline.Size != 0 {

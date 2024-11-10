@@ -15,6 +15,11 @@ import (
 //go:noescape
 func runtime_FrameStartLine(f *runtime.Frame) int
 
+// runtime_FrameColumnNum is defined in runtime/symtab.go.
+//
+//go:noescape
+func runtime_FrameColumnNum(f *runtime.Frame) int
+
 // runtime_FrameSymbolName is defined in runtime/symtab.go.
 //
 //go:noescape
