@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a11fd91_8f9b8885",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-10T11:46:27Z",
+      "side": 1,
+      "message": "Thanks for contributing this fix!",
+      "revId": "6a84d13a18af0c05af0b02ac4b65bdbece0ce93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afe0e29a_422554b6",
+        "filename": "src/runtime/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-10T11:46:27Z",
+      "side": 1,
+      "message": "The previous code had a comment explaining why it was there; this new code does not. How about:\n\n\n\t// This function has different names when compiled as a\n\t// test (runtime_test.ExampleFrames), or as a standalone\n\t// example (main.main) in the playground.\n\t// The enclosing call stack differs in those cases too.\n\t// \n\t// To ensure predictable output,\n\t// canonicalize the name of this function...\n\tname :\u003d strings.ReplaceAll(frame.Function, \"main.main\", \"runtime_test.ExampleFrames\")\n\t// ...and don\u0027t unwind beyond it.\n\tif strings.HasSuffix(name, \"runtime_test.ExampleFrames\") {\n\t\tbreak\n\t}\n\tfmt.Printf(\"- more:%v | %s\\n\", more, name)",
+      "range": {
+        "startLine": 36,
+        "startChar": 3,
+        "endLine": 40,
+        "endChar": 35
+      },
+      "revId": "6a84d13a18af0c05af0b02ac4b65bdbece0ce93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
