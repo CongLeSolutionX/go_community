@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f43c2902_b0d64832",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-11-11T17:31:05Z",
+      "side": 1,
+      "message": "We need to make the commit subject and message more descriptive\nand give more details summarized, perhaps this please:\n\n```\ndatabase/sql: add RowsColumnScanner for custom Scan control\n\nThis change adds a new interface RowsColumnScanner, which\nallows drivers to control how columns are scanned. If the\ndriver doesn\u0027t know how to scan a column or simply would\nlike a fallback to default behavior, it should return\nthe error driver.ErrSkip.\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 45
+      },
+      "revId": "0ef13263a4492d410a5879103e3f82efdbe664ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ffe8829_ac15b8c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-11-11T17:31:05Z",
+      "side": 1,
+      "message": "Thank you Jack for this change. Please take a look at my suggestions.",
+      "revId": "0ef13263a4492d410a5879103e3f82efdbe664ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcd547e3_5ebb2a57",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 4248,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-11-11T17:31:05Z",
+      "side": 1,
+      "message": "Please run `go fmt` over your code.",
+      "range": {
+        "startLine": 4229,
+        "startChar": 0,
+        "endLine": 4248,
+        "endChar": 0
+      },
+      "revId": "0ef13263a4492d410a5879103e3f82efdbe664ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "979d6600_c80df169",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 4256,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-11-11T17:31:05Z",
+      "side": 1,
+      "message": "No need for this comment, it is already apparent but also it is quite a long comment warped across multiple lines.",
+      "range": {
+        "startLine": 4255,
+        "startChar": 0,
+        "endLine": 4256,
+        "endChar": 71
+      },
+      "revId": "0ef13263a4492d410a5879103e3f82efdbe664ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e68cb11_470b2273",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 4297,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-11-11T17:31:05Z",
+      "side": 1,
+      "message": "To truly demonstrate that only int64 shall be parsed, please make your columns more diverse: please add int, float64, uint64 then check that only int64 gets parsed.",
+      "range": {
+        "startLine": 4276,
+        "startChar": 1,
+        "endLine": 4297,
+        "endChar": 2
+      },
+      "revId": "0ef13263a4492d410a5879103e3f82efdbe664ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
