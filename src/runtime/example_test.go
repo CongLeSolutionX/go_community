@@ -32,15 +32,19 @@ func ExampleFrames() {
 		for {
 			frame, more := frames.Next()
 
-			// Process this frame.
+			// This function has different names when compiled as a
+			// test (runtime_test.ExampleFrames), or as a standalone
+			// example (main.main) in the playground.
+			// The enclosing call stack differs in those cases too.
 			//
-			// To keep this example's output stable
-			// even if there are changes in the testing package,
-			// stop unwinding when we leave package runtime.
-			if !strings.Contains(frame.File, "runtime/") {
+			// To ensure predicatable output,
+			// canonicalize the name of this function...
+			name := strings.ReplaceAll(frame.Function, "main.main", "runtime_test.ExampleFrames")
+			fmt.Printf("- more:%v | %s\n", more, name)
+			// ...and don't unwind beyond it.
+			if strings.HasSuffix(name, "runtime_test.ExampleFrames") {
 				break
 			}
-			fmt.Printf("- more:%v | %s\n", more, frame.Function)
 
 			// Check whether there are more frames to process after this one.
 			if !more {
