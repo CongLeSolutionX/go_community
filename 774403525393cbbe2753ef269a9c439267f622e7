@@ -16,6 +16,40 @@
       "message": "Could you move all the logic that is not exclusively TLS-PRF3-related to crypto/tls? (That is, all *Secret types and the label definitions). This would facilitate replacing the TLS-PRF3 algorithm with our OpenSSl/CNG backends without having to reimplement all the labeling stuff. Also, IMO the less \"business logic\" inside the FIPS boundary, the better.",
       "revId": "774403525393cbbe2753ef269a9c439267f622e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bb1c1a1_65aada44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-11T17:03:35Z",
+      "side": 1,
+      "message": "I like the direction you went here introducing types for the derived secrets. I had one small comment about the label expand func.\n\nI think Quim\u0027s suggestion to try and minimize the amount of TLS code in the FIPS boundary is sensible if it doesn\u0027t have any unexpected knock-on effects.",
+      "revId": "774403525393cbbe2753ef269a9c439267f622e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79cdf0fc_e7f4fa9f",
+        "filename": "src/crypto/internal/fips/tls13/tls13.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-11T17:03:35Z",
+      "side": 1,
+      "message": "The previous form of this used `cryptobyte` and handled the marshaling error that would occur if `label` or `context` were longer than can be expressed with a uint8 length prefix. I think this version will truncate without error.\n\nPerhaps worth keeping some of the original version\u0027s comment justifying that this is unlikely to matter since the call-sites are internal, the labels are fixed, and the context len is itself constrained by protocol def?\n\nThis sort of thing feels like an occasion for a debug assert but I don\u0027t feel strongly and cluttering the code with if\u0027s and panic()\u0027s doesn\u0027t seem worthwhile. WDYT?",
+      "revId": "774403525393cbbe2753ef269a9c439267f622e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
