@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a739aed5_0e24e2da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-11-11T15:09:15Z",
+      "side": 1,
+      "message": "Makes sense.  Just one small comment.",
+      "revId": "f8109af39468c0aeb6ea3b8ef667fb67dac7b54b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2da7b116_75367139",
@@ -20,6 +37,23 @@
         "endLine": 55,
         "endChar": 11
       },
+      "revId": "f8109af39468c0aeb6ea3b8ef667fb67dac7b54b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "179c6a5b_52d88c87",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-11-11T15:09:15Z",
+      "side": 1,
+      "message": "The comparison against obj.REG_NONE seems a little odd as insData.immForm is a obj.As rather than a register.  Perhaps obj.AXXX would be better, although it\u0027s not particularly readable.",
       "revId": "f8109af39468c0aeb6ea3b8ef667fb67dac7b54b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
