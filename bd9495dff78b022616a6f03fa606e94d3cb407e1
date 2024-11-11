@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a41c73ff_4d33b8be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-11T15:43:11Z",
+      "side": 1,
+      "message": "I reviewed this alongside the IGs and it generally looks good to me.\n\nJust had a couple small considerations to raise.",
+      "revId": "bd9495dff78b022616a6f03fa606e94d3cb407e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e40c69e_d039179d",
+        "filename": "src/crypto/internal/fips/aes/gcm/gcm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-11T15:43:11Z",
+      "side": 1,
+      "message": "Is maintaining a separate `ready` state necessary or could this be accomplished by making `fixedName` into a `*uint32` and assuming `fixedName \u003d\u003d nil` is the `!ready` state?",
+      "revId": "bd9495dff78b022616a6f03fa606e94d3cb407e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a55b73b5_ca67738d",
+        "filename": "src/crypto/internal/fips/aes/gcm/gcm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-11T15:43:11Z",
+      "side": 1,
+      "message": "\u003e The implementation of the deterministic non-repetitive counter management logic inside the module shall ensure that when the counter part of the IV exhausts the maximum number of possible values for a given session key (e.g., a 32-bit counter starting from 0 and increasing, when it reaches the maximum value of 232 -1) the encryptor shall abort the session\n\nMy first read of this req is that it should return an error in place of setting non-approved in order to \"abort the session\". Is this reading inaccurate?",
+      "revId": "bd9495dff78b022616a6f03fa606e94d3cb407e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
