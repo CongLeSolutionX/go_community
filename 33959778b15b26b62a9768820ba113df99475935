@@ -16,6 +16,23 @@
       "message": "Trybot failure is #70290.",
       "revId": "33959778b15b26b62a9768820ba113df99475935",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "935289b5_e4ed0bb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-11-12T18:32:44Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "33959778b15b26b62a9768820ba113df99475935",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
