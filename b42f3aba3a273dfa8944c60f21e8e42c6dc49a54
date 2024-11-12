@@ -53,6 +53,24 @@
       "message": "The point of an example is to show people how to use a function, in this case CallersFrames. This comment is long and doesn\u0027t help people use CallerFrames. I suggest something much shorter.\n\n// Canonicalize function name and skip callers of this function\n// for predictable example output.\n// You probably don\u0027t need this in your own code.\n\n    function :\u003d strings.Replace(frame.Function, \"main.main\", \"runtime_test.ExampleFrames\")\n    if !strings.HasPrefix(function, \"runtime\") { break }\n\n    fmt.Printf(...)",
       "revId": "b42f3aba3a273dfa8944c60f21e8e42c6dc49a54",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fab764a5_9d8cf6e4",
+        "filename": "src/runtime/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-12T10:39:24Z",
+      "side": 1,
+      "message": "Good point.",
+      "parentUuid": "11b8152b_7a055a56",
+      "revId": "b42f3aba3a273dfa8944c60f21e8e42c6dc49a54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
