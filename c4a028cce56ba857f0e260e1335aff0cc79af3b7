@@ -16,6 +16,24 @@
       "message": "Should this magic value 64 be a constant and explain at a comment why 64 and not 128 or 32? I saw a 2nd such optimization where the value 32 was used instead.",
       "revId": "c4a028cce56ba857f0e260e1335aff0cc79af3b7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99f9c022_6a23834d",
+        "filename": "src/internal/runtime/maps/runtime_faststr_swiss.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-11-12T00:04:07Z",
+      "side": 1,
+      "message": "I will add a comment explaining the number.\n(There\u0027s no need for a symbolic constant, as this is the only place it appears.)",
+      "parentUuid": "b4cb44f6_86a85078",
+      "revId": "c4a028cce56ba857f0e260e1335aff0cc79af3b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
