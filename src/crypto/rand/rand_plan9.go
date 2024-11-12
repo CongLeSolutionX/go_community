@@ -59,7 +59,7 @@ func read(b []byte) error {
 		if counter == 0 {
 			panic("crypto/rand counter wrapped")
 		}
-		byteorder.LePutUint64(block[:], counter)
+		byteorder.LEPutUint64(block[:], counter)
 	}
 	blockCipher.Encrypt(key[:aes.BlockSize], block[:])
 	inc()

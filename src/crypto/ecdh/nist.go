@@ -156,7 +156,7 @@ func isLess(a, b []byte) bool {
 	// Perform a subtraction with borrow.
 	var borrow uint64
 	for i := 0; i < len(bufA); i += 8 {
-		limbA, limbB := byteorder.LeUint64(bufA[i:]), byteorder.LeUint64(bufB[i:])
+		limbA, limbB := byteorder.LEUint64(bufA[i:]), byteorder.LEUint64(bufB[i:])
 		_, borrow = bits.Sub64(limbA, limbB, borrow)
 	}
 

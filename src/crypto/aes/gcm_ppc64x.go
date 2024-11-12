@@ -67,14 +67,14 @@ func (c *aesCipherAsm) NewGCM(nonceSize, tagSize int) (cipher.AEAD, error) {
 	// Reverse the bytes in each 8 byte chunk
 	// Load little endian, store big endian
 	if runtime.GOARCH == "ppc64le" {
-		h1 = byteorder.LeUint64(hle[:8])
-		h2 = byteorder.LeUint64(hle[8:])
+		h1 = byteorder.LEUint64(hle[:8])
+		h2 = byteorder.LEUint64(hle[8:])
 	} else {
-		h1 = byteorder.BeUint64(hle[:8])
-		h2 = byteorder.BeUint64(hle[8:])
+		h1 = byteorder.BEUint64(hle[:8])
+		h2 = byteorder.BEUint64(hle[8:])
 	}
-	byteorder.BePutUint64(hle[:8], h1)
-	byteorder.BePutUint64(hle[8:], h2)
+	byteorder.BEPutUint64(hle[:8], h1)
+	byteorder.BEPutUint64(hle[8:], h2)
 	gcmInit(&g.productTable, hle)
 
 	return g, nil
@@ -127,8 +127,8 @@ func (g *gcmAsm) counterCrypt(out, in []byte, counter *[gcmBlockSize]byte) {
 // increments the rightmost 32-bits of the count value by 1.
 func gcmInc32(counterBlock *[16]byte) {
 	c := counterBlock[len(counterBlock)-4:]
-	x := byteorder.BeUint32(c) + 1
-	byteorder.BePutUint32(c, x)
+	x := byteorder.BEUint32(c) + 1
+	byteorder.BEPutUint32(c, x)
 }
 
 // paddedGHASH pads data with zeroes until its length is a multiple of
