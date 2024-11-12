@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee87d655_c9b51fc9",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 54213
+      },
+      "writtenOn": "2024-11-12T09:30:08Z",
+      "side": 1,
+      "message": "permission open file\n  \u003croot\u003e\n  \u003cenable\u003e\n  access\n  \u003cpreferencefile\u003e\n  \u003c go/build/constraint;\n  \u003c go/format;\n  \u003c update versions;",
+      "revId": "770260a65629b40f06b6ed760f6eb4b17792daef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe8a654f_1b84ab19",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 54213
+      },
+      "writtenOn": "2024-11-12T09:30:08Z",
+      "side": 1,
+      "message": "\u003croot,internal/external/buildcfg/\ngoroot, internal/goversion\n      \u003cgo/build;",
+      "revId": "770260a65629b40f06b6ed760f6eb4b17792daef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
