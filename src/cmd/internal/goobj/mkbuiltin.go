@@ -16,6 +16,7 @@ import (
 	"go/format"
 	"go/parser"
 	"go/token"
+	"internal/goversion"
 	"io"
 	"log"
 	"os"
@@ -33,6 +34,7 @@ func main() {
 	fmt.Fprintln(&b)
 	fmt.Fprintln(&b, "package goobj")
 
+	mkmagic(&b)
 	mkbuiltin(&b)
 
 	out, err := format.Source(b.Bytes())
@@ -47,6 +49,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func mkmagic(w io.Writer) {
+	version := fmt.Sprintf("go1%d", goversion.Version)
+	fmt.Fprintln(w, fmt.Sprintf(`const Magic = "\x00%sld"`, version))
 }
 
 func mkbuiltin(w io.Writer) {

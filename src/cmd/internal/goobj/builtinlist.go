@@ -2,6 +2,8 @@
 
 package goobj
 
+const Magic = "\x00go124ld"
+
 var builtins = [...]struct {
 	name string
 	abi  int
