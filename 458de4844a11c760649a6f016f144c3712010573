@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d454a836_4ff360cb",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 58169
+      },
+      "writtenOn": "2024-11-13T11:07:49Z",
+      "side": 1,
+      "message": "I want to add this because at beginning I thought `go list` will lead the modules after pruning but actually it doesn\u0027t when I check the \u0027module graph pruning\u0027.\n\nIt\u0027s better if we can document it here as well:)",
+      "revId": "458de4844a11c760649a6f016f144c3712010573",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
