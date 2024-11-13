@@ -434,6 +434,36 @@ func TestRootOpenRoot(t *testing.T) {
 	}
 }
 
+func TestRootReadlink(t *testing.T) {
+	for _, test := range rootTestCases {
+		test.run(t, func(t *testing.T, target string, root *os.Root) {
+			var want string
+			wantError := test.wantError
+			if test.ltarget != "" {
+				var err error
+				want, err = os.Readlink(filepath.Join(root.Name(), test.ltarget))
+				if err != nil {
+					t.Fatal(err)
+				}
+				wantError = false
+			} else if target != "" {
+				want = "symlink_target"
+				if err := os.Symlink(want, target); err != nil {
+					t.Fatal(err)
+				}
+			}
+
+			got, err := root.Readlink(test.open)
+			if errEndsTest(t, err, wantError, "root.Readlink(%q)", test.open) {
+				return
+			}
+			if got != want {
+				t.Fatalf(`root.Readlink(%q) = %q, want %q`, test.open, got, want)
+			}
+		})
+	}
+}
+
 func TestRootRemoveFile(t *testing.T) {
 	for _, test := range rootTestCases {
 		test.run(t, func(t *testing.T, target string, root *os.Root) {
@@ -875,6 +905,18 @@ func TestRootConsistencyMkdir(t *testing.T) {
 				err = r.Mkdir(path, 0o777)
 			}
 			return "", err
+		})
+	}
+}
+
+func TestRootConsistencyReadlink(t *testing.T) {
+	for _, test := range rootConsistencyTestCases {
+		test.run(t, func(t *testing.T, path string, r *os.Root) (string, error) {
+			if r == nil {
+				return os.Readlink(path)
+			} else {
+				return r.Readlink(path)
+			}
 		})
 	}
 }

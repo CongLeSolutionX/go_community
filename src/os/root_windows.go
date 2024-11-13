@@ -239,3 +239,12 @@ func mkdirat(dirfd syscall.Handle, name string, perm FileMode) error {
 func removeat(dirfd syscall.Handle, name string) error {
 	return windows.Deleteat(dirfd, name)
 }
+
+func readlinkat(dirfd syscall.Handle, name string) (string, error) {
+	fd, err := openat(dirfd, name, windows.O_OPEN_REPARSE, 0)
+	if err != nil {
+		return "", err
+	}
+	defer syscall.CloseHandle(fd)
+	return readReparseLinkHandle(fd)
+}
