@@ -178,6 +178,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c741583c_bb69dfb2",
+        "filename": "src/crypto/subtle/dit.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-13T20:27:03Z",
+      "side": 1,
+      "message": "\u003e hm... I\u0027m not the expert to talk to about this, but given that enableDIT and disableDIT are defined in assembly, I\u0027m not sure it is safe for the compiler to ever truly move them around, because it can\u0027t be sure they\u0027re side-effect-free.\n\nThis was also my assumption, but it seems not to hold, i.e.e see: https://go.dev/play/p/_XYTWOUnf9k. Without the calls to `barrier`, `CALL main.enableDIT.abi0(SB)` and `CALL main.disableDIT.abi0(SB)` get re-arranged together, such that the `ORR` instruction is not covered.",
+      "parentUuid": "d6b0da49_2e29ac83",
+      "revId": "a5fb616e5de20b48cffa9d232e365e646a472e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7ebe3fbd_fe83435f",
         "filename": "src/crypto/subtle/dit_arm64.go",
         "patchSetId": 13
