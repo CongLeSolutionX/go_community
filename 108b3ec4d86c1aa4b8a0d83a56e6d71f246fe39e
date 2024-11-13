@@ -16,6 +16,41 @@
       "message": "Proposal is likely accept.",
       "revId": "108b3ec4d86c1aa4b8a0d83a56e6d71f246fe39e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0dbcb8c_72d2c12d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-13T20:05:46Z",
+      "side": 1,
+      "message": "Actually, I suppose the GODEBUG is already landed, and that was the proposal-visible part. I\u0027m guessing it\u0027s late enough in the dev window that likely accept is enough (I posted this comment to give myself time to check), but either way this isn\u0027t the CL that\u0027d be affected by that.",
+      "parentUuid": "2cddc3fd_846203d1",
+      "revId": "108b3ec4d86c1aa4b8a0d83a56e6d71f246fe39e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fbf6f38_7129db71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-13T20:05:46Z",
+      "side": 1,
+      "message": "Actually,",
+      "revId": "108b3ec4d86c1aa4b8a0d83a56e6d71f246fe39e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
