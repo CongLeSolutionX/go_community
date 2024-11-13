@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4fa79f2_f252b03c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-13T18:57:02Z",
+      "side": 1,
+      "message": "Pending backport approval, but LGTM. Thanks.",
+      "revId": "d5003402ededfe0a0a646b9ca390ab824f7ea7f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
