@@ -64,6 +64,16 @@ func (r *root) Name() string {
 	return r.name
 }
 
+func rootReadlink(r *Root, name string) (string, error) {
+	link, err := doInRoot(r, name, func(parent sysfdType, n string) (string, error) {
+		return readlinkat(parent, n)
+	})
+	if err != nil {
+		return "", &PathError{Op: "readlinkat", Path: name, Err: err}
+	}
+	return link, err
+}
+
 func rootMkdir(r *Root, name string, perm FileMode) error {
 	_, err := doInRoot(r, name, func(parent sysfdType, name string) (struct{}, error) {
 		return struct{}{}, mkdirat(parent, name, perm)
