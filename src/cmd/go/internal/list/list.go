@@ -314,11 +314,14 @@ With arguments, list -m shows the modules specified by the arguments.
 Any of the active modules can be specified by its module path.
 The special pattern "all" specifies all the active modules, first the main
 module and then dependencies sorted by module path.
+Modules whose requirements have been pruned out are still reported by
+'go list -m all'.
 A pattern containing "..." specifies the active modules whose
 module paths match the pattern.
 A query of the form path@version specifies the result of that query,
 which is not limited to active modules.
 See 'go help modules' for more about module queries.
+See https://go.dev/ref/mod#graph-pruning for more about module graph pruning.
 
 The template function "module" takes a single string argument
 that must be a module path or query and returns the specified
