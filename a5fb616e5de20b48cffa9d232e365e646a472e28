@@ -140,6 +140,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "05ccfdf8_85f32745",
+        "filename": "src/crypto/subtle/dit.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-13T19:44:25Z",
+      "side": 1,
+      "message": "In classic fashion I\u0027ve now somewhat forgotten the context for this. My partial memory for the rational is as follows: the compiler will re-order operations that do not involve other calls, or \"memory\" accesses, around the two enableDIT, disableDIT calls.\n\nThe call to `f` should result in a construction which avoids this problem, but if f() is inlined, and its arguments are on the stack, and WithDataIndependentTiming is itself inlined, we may end up in a place were the compiler can rearrange assembly in such a way that the enableDIT and disableDIT get moved in an undesirable way.\n\nAs far as I know, there is no way we can disable inlining of `f`, since we do not control its declaration. But, we can prevent WithDataIndependentTiming from being inlined, which _I think should_(?) prevent the worst version of this. I think it\u0027s still possible for the contents of WithDataIndependentTiming to be rearranged, but I\u0027m not sure there is anything we can do about that?",
+      "parentUuid": "dbb340dd_fa89fcd4",
+      "revId": "a5fb616e5de20b48cffa9d232e365e646a472e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7ebe3fbd_fe83435f",
