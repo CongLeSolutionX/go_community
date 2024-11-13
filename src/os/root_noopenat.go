@@ -75,6 +75,13 @@ func rootOpenFileNolog(r *Root, name string, flag int, perm FileMode) (*File, er
 	return f, nil
 }
 
+func rootReadlink(r *Root, name string) (string, error) {
+	if err := checkPathEscapesLstat(r, name); err != nil {
+		return "", &PathError{Op: "readlinkat", Path: name, Err: err}
+	}
+	return Readlink(joinPath(r.root.name, name))
+}
+
 func rootStat(r *Root, name string, lstat bool) (FileInfo, error) {
 	var fi FileInfo
 	var err error

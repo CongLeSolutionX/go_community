@@ -145,6 +145,12 @@ func (r *Root) Remove(name string) error {
 	return rootRemove(r, name)
 }
 
+// Readlink returns the destination of the named symbolic link in the root.
+// See [Readlink] for more details.
+func (r *Root) Readlink(name string) (string, error) {
+	return rootReadlink(r, name)
+}
+
 // Stat returns a [FileInfo] describing the named file in the root.
 // See [Stat] for more details.
 func (r *Root) Stat(name string) (FileInfo, error) {
