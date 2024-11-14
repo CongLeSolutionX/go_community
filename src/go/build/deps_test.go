@@ -513,6 +513,8 @@ var depsRules = `
 	crypto/boring, crypto/internal/fips/edwards25519/field
 	< crypto/ecdh;
 
+	crypto/hmac < crypto/pbkdf2;
+
 	# Unfortunately, stuck with reflect via encoding/binary.
 	encoding/binary, crypto/boring < golang.org/x/crypto/sha3;
 
