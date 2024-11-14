@@ -39,6 +39,47 @@
       },
       "revId": "cd2243312acd25163daabdad36c47c27c8f808f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be43a163_f454d2d6",
+        "filename": "src/runtime/cgo/gcc_libinit_windows.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-14T15:03:45Z",
+      "side": 1,
+      "message": "I don\u0027t think \"not supported by cgo\" is quite right here.\n\n#error \"don\u0027t use the cygwin compiler to build native Windows programs; use MinGW instead\"",
+      "parentUuid": "42a7702d_ec237b22",
+      "range": {
+        "startLine": 6,
+        "startChar": 60,
+        "endLine": 6,
+        "endChar": 62
+      },
+      "revId": "cd2243312acd25163daabdad36c47c27c8f808f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76e6b3b6_f838dc53",
+        "filename": "src/runtime/cgo/gcc_libinit_windows.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-14T15:03:45Z",
+      "side": 1,
+      "message": "I think just #endif and drop the comment and the final #endif, the #error should be enough.",
+      "revId": "cd2243312acd25163daabdad36c47c27c8f808f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
