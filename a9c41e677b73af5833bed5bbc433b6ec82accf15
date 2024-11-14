@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57473e35_228df1b5",
+        "filename": "src/crypto/internal/fips/check/checktest/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-14T12:03:47Z",
+      "side": 1,
+      "message": "Are these changes a leftover of an attempt to make it work, or are they needed?",
+      "revId": "a9c41e677b73af5833bed5bbc433b6ec82accf15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
