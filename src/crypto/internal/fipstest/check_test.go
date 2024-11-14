@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package check_test
+package fipstest
 
 import (
 	. "crypto/internal/fips/check"
@@ -21,8 +21,8 @@ import (
 
 const enableFIPSTest = true
 
-func TestVerify(t *testing.T) {
-	if *Verified {
+func TestCheckVerify(t *testing.T) {
+	if Verified {
 		t.Logf("verified")
 		return
 	}
@@ -53,7 +53,7 @@ func TestVerify(t *testing.T) {
 	t.Logf("exec'ed GODEBUG=fips140=on and succeeded:\n%s", out)
 }
 
-func TestInfo(t *testing.T) {
+func TestCheckInfo(t *testing.T) {
 	if !enableFIPSTest {
 		return
 	}
