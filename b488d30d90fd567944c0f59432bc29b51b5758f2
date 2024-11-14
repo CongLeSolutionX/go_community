@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "045eb82b_8c54dd34",
+        "filename": "src/cmd/asm/internal/arch/ppc64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 65933
+      },
+      "writtenOn": "2024-11-14T19:22:37Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "bd688d32_c03967de",
+      "revId": "b488d30d90fd567944c0f59432bc29b51b5758f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "291c82e6_2e859448",
@@ -58,6 +76,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9f29fd5_7d442bca",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 65933
+      },
+      "writtenOn": "2024-11-14T19:22:37Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "291c82e6_2e859448",
+      "range": {
+        "startLine": 799,
+        "startChar": 1,
+        "endLine": 799,
+        "endChar": 7
+      },
+      "revId": "b488d30d90fd567944c0f59432bc29b51b5758f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b97279ea_127e8b3d",
@@ -71,6 +113,30 @@
       "writtenOn": "2024-11-13T15:56:07Z",
       "side": 1,
       "message": "I think DCMPOQ and DCMPUQ will need a couple new entries added in optab above. They only accept FREGP type arguments.",
+      "range": {
+        "startLine": 1920,
+        "startChar": 9,
+        "endLine": 1920,
+        "endChar": 16
+      },
+      "revId": "b488d30d90fd567944c0f59432bc29b51b5758f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "528425a8_86160bb3",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1920,
+      "author": {
+        "id": 65933
+      },
+      "writtenOn": "2024-11-14T19:22:37Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b97279ea_127e8b3d",
       "range": {
         "startLine": 1920,
         "startChar": 9,
