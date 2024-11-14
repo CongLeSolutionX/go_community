@@ -34,6 +34,24 @@
       "parentUuid": "b94b89e1_dbb5d63b",
       "revId": "70d1b68734753a9fb3803ce80bf1a30a521947d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba7c9af9_cb0d0ab1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 39
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-14T23:35:12Z",
+      "side": 1,
+      "message": "Adjusted the test from CL 620615 to run both with and without *at.",
+      "parentUuid": "83215917_7ecaeea2",
+      "revId": "70d1b68734753a9fb3803ce80bf1a30a521947d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

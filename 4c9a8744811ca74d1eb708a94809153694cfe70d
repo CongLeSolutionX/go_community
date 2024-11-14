@@ -332,6 +332,24 @@
       "parentUuid": "15e53188_77ae3933",
       "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a77c472d_2599ba46",
+        "filename": "src/os/root_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-14T23:35:12Z",
+      "side": 1,
+      "message": "I don\u0027t have a good racing-symlink test yet, and I think I\u0027ll leave it for a followup CL if I come up with a good approach rather than blocking this one on it.",
+      "parentUuid": "29975a9a_63ab2198",
+      "revId": "4c9a8744811ca74d1eb708a94809153694cfe70d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
