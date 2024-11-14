@@ -7,8 +7,8 @@
 package nistec
 
 import (
-	"crypto/internal/nistec/fiat"
-	"crypto/subtle"
+	"crypto/internal/fips/nistec/fiat"
+	"crypto/internal/fips/subtle"
 	_ "embed"
 	"errors"
 	"internal/byteorder"

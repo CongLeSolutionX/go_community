@@ -453,7 +453,7 @@ var depsRules = `
 
 	# FIPS is the FIPS 140 module.
 	# It must not depend on external crypto packages.
-	STR, crypto/internal/impl, crypto/internal/entropy,
+	STR, embed, crypto/internal/impl, crypto/internal/entropy,
 	crypto/internal/fipsdeps/byteorder,
 	crypto/internal/fipsdeps/cpu,
 	crypto/internal/fipsdeps/godebug
@@ -472,6 +472,8 @@ var depsRules = `
 	< crypto/internal/fips/ssh
 	< crypto/internal/fips/tls12
 	< crypto/internal/fips/tls13
+	< crypto/internal/fips/nistec/fiat
+	< crypto/internal/fips/nistec
 	< FIPS;
 
 	NONE < crypto/internal/boring/sig, crypto/internal/boring/syso;
@@ -496,8 +498,6 @@ var depsRules = `
 	crypto/internal/fips/alias, math/rand/v2,
 	crypto/subtle, embed
 	< crypto/internal/randutil
-	< crypto/internal/nistec/fiat
-	< crypto/internal/nistec
 	< crypto/internal/edwards25519/field
 	< crypto/internal/edwards25519;
 

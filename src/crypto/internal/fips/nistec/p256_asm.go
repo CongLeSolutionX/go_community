@@ -15,9 +15,9 @@
 package nistec
 
 import (
+	"crypto/internal/fipsdeps/byteorder"
 	_ "embed"
 	"errors"
-	"internal/byteorder"
 	"math/bits"
 	"runtime"
 	"unsafe"
@@ -183,10 +183,10 @@ func p256BigToLittle(l *p256Element, b *[32]byte) {
 }
 
 func bytesToLimbs(l *[4]uint64, b *[32]byte) {
-	l[0] = byteorder.BeUint64(b[24:])
-	l[1] = byteorder.BeUint64(b[16:])
-	l[2] = byteorder.BeUint64(b[8:])
-	l[3] = byteorder.BeUint64(b[:])
+	l[0] = byteorder.BEUint64(b[24:])
+	l[1] = byteorder.BEUint64(b[16:])
+	l[2] = byteorder.BEUint64(b[8:])
+	l[3] = byteorder.BEUint64(b[:])
 }
 
 func p256LittleToBig(b *[32]byte, l *p256Element) {
@@ -194,10 +194,10 @@ func p256LittleToBig(b *[32]byte, l *p256Element) {
 }
 
 func limbsToBytes(b *[32]byte, l *[4]uint64) {
-	byteorder.BePutUint64(b[24:], l[0])
-	byteorder.BePutUint64(b[16:], l[1])
-	byteorder.BePutUint64(b[8:], l[2])
-	byteorder.BePutUint64(b[:], l[3])
+	byteorder.BEPutUint64(b[24:], l[0])
+	byteorder.BEPutUint64(b[16:], l[1])
+	byteorder.BEPutUint64(b[8:], l[2])
+	byteorder.BEPutUint64(b[:], l[3])
 }
 
 // p256Add sets res = x + y.
@@ -337,7 +337,7 @@ func init() {
 	if runtime.GOARCH == "s390x" {
 		var newTable [43 * 32 * 2 * 4]uint64
 		for i, x := range (*[43 * 32 * 2 * 4][8]byte)(*p256PrecomputedPtr) {
-			newTable[i] = byteorder.LeUint64(x[:])
+			newTable[i] = byteorder.LEUint64(x[:])
 		}
 		newTablePtr := unsafe.Pointer(&newTable)
 		p256PrecomputedPtr = &newTablePtr
