@@ -1,0 +1,88 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fde79a1_eae8703e",
+        "filename": "src/runtime/pprof/label.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-11-14T17:23:34Z",
+      "side": 1,
+      "message": "maybe strings.Compare? it just calls bytealg.CompareString, saves you an import, and is a little clearer.",
+      "range": {
+        "startLine": 76,
+        "startChar": 9,
+        "endLine": 76,
+        "endChar": 30
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "0fc74947_a5a12c05",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/pprof/label.go",
+              "range": {
+                "startLine": 10,
+                "startChar": 0,
+                "endLine": 11,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "src/runtime/pprof/label.go",
+              "range": {
+                "startLine": 76,
+                "startChar": 0,
+                "endLine": 77,
+                "endChar": 0
+              },
+              "replacement": "\t\tswitch strings.Compare(left.list[l].key, right.list[r].key) {\n"
+            },
+            {
+              "path": "src/runtime/pprof/label.go",
+              "range": {
+                "startLine": 116,
+                "startChar": 0,
+                "endLine": 117,
+                "endChar": 0
+              },
+              "replacement": "\t\t\treturn strings.Compare(a.key, b.key)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "d9ceee45c5da0d47663d782a6f68331e67eaecd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d76c3e17_8cba3cf1",
+        "filename": "src/runtime/pprof/label.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-11-14T17:23:34Z",
+      "side": 1,
+      "message": "same here re: strings.Compare",
+      "range": {
+        "startLine": 116,
+        "startChar": 10,
+        "endLine": 116,
+        "endChar": 31
+      },
+      "revId": "d9ceee45c5da0d47663d782a6f68331e67eaecd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
