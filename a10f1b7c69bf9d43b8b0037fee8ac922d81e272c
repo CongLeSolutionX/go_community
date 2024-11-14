@@ -69,6 +69,58 @@
       "parentUuid": "de7cfb3f_ec076da0",
       "revId": "a10f1b7c69bf9d43b8b0037fee8ac922d81e272c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0eb1e75a_912bdf25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-14T14:42:04Z",
+      "side": 1,
+      "message": "We need to update the Magic number if the new object file parsing is not compatible with the old one. Changing the list of builtins can be one cause of that, but there can be others. E.g. we change the object file format (see the big comment at the start of cmd/internal/goobj/objfile.go), which has nothing to do with the builtin list, but will cause the new parser unable to parse old file.",
+      "parentUuid": "a37ebd23_282d8dbc",
+      "revId": "a10f1b7c69bf9d43b8b0037fee8ac922d81e272c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f411dbb7_e6d71686",
+        "filename": "src/cmd/internal/goobj/mkbuiltin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-14T14:42:04Z",
+      "side": 1,
+      "message": "Thinking this again, I\u0027m not sure it\u0027s a good idea to use the Go version. If anything changed, we want to bump to Magic to the current Go version, which this line handles well. But if nothing change, we want re-run mkbuiltin to be a no-op. It doesn\u0027t seem desired if nothing changes and it still updates the Magic number just because the Go version increases.",
+      "revId": "a10f1b7c69bf9d43b8b0037fee8ac922d81e272c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54958041_3049ffc4",
+        "filename": "src/cmd/internal/goobj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-14T14:42:04Z",
+      "side": 1,
+      "message": "Update this comment. Also mention how to update this.",
+      "revId": "a10f1b7c69bf9d43b8b0037fee8ac922d81e272c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
