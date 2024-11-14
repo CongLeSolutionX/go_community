@@ -33,6 +33,42 @@
       "message": "This seems okay. On the other hand, we may change the file format without changing the builtin list, and we\u0027d also need to update the magic number. Maybe we\u0027ll just remember to run mkbuiltin in that case, instead of manually updating the magic number?",
       "revId": "a10f1b7c69bf9d43b8b0037fee8ac922d81e272c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a37ebd23_282d8dbc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3657746
+      },
+      "writtenOn": "2024-11-14T11:05:38Z",
+      "side": 1,
+      "message": "`mkbuiltin.go` is to \"write to builtinlist.go\".\nNot sure I understand \"change the file format without changing the builtin list\", does that mean writing a new `magic.go` file containing the Magic?",
+      "parentUuid": "7737fc6f_c2fb0884",
+      "revId": "a10f1b7c69bf9d43b8b0037fee8ac922d81e272c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31966c45_0bbe6d93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3657746
+      },
+      "writtenOn": "2024-11-14T11:05:38Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "de7cfb3f_ec076da0",
+      "revId": "a10f1b7c69bf9d43b8b0037fee8ac922d81e272c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
