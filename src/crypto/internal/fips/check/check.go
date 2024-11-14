@@ -15,6 +15,7 @@ package check
 import (
 	"crypto/internal/fips/hmac"
 	"crypto/internal/fips/sha256"
+	"internal/asan"
 	"internal/byteorder"
 	"internal/godebug"
 	"io"
@@ -75,6 +76,13 @@ func init() {
 	v := godebug.New("#fips140").Value()
 	enabled = v != "" && v != "off"
 	if !enabled {
+		return
+	}
+
+	if asan.Enabled {
+		// ASAN disapproves of reading swaths of global memory below.
+		// If this is made to work, also re-enable the test in check_test.go.
+		panic("fips140: cannot verify in asan mode")
 		return
 	}
 
