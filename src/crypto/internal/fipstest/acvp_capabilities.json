@@ -21,5 +21,10 @@
   {"algorithm":"HMAC-SHA3-224","keyLen":[{"increment":8,"max":524288,"min":8}],"macLen":[{"increment":8,"max":224,"min":32}],"revision":"1.0"},
   {"algorithm":"HMAC-SHA3-256","keyLen":[{"increment":8,"max":524288,"min":8}],"macLen":[{"increment":8,"max":256,"min":32}],"revision":"1.0"},
   {"algorithm":"HMAC-SHA3-384","keyLen":[{"increment":8,"max":524288,"min":8}],"macLen":[{"increment":8,"max":384,"min":32}],"revision":"1.0"},
-  {"algorithm":"HMAC-SHA3-512","keyLen":[{"increment":8,"max":524288,"min":8}],"macLen":[{"increment":8,"max":512,"min":32}],"revision":"1.0"}
+  {"algorithm":"HMAC-SHA3-512","keyLen":[{"increment":8,"max":524288,"min":8}],"macLen":[{"increment":8,"max":512,"min":32}],"revision":"1.0"},
+
+  {"algorithm":"EDDSA","mode":"keyGen","revision":"1.0","curve":["ED-25519"]},
+  {"algorithm":"EDDSA","mode":"keyVer","revision":"1.0","curve":["ED-25519"]},
+  {"algorithm":"EDDSA","mode":"sigGen","revision":"1.0","pure":true,"preHash":true,"contextLength":[{"min":0,"max":255,"increment":1}],"curve":["ED-25519"]},
+  {"algorithm":"EDDSA","mode":"sigVer","revision":"1.0","pure":true,"preHash":true,"curve":["ED-25519"]}
 ]
