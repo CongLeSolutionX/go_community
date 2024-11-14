@@ -43,6 +43,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "45867724_c20d168a",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-14T20:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7a82d90_191e5d1b",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 37
+      },
+      "revId": "32fb3b0418978bdbcb13ff7b412c0410d136b4f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ca5d4ba4_be4a4890",
         "filename": "src/runtime/lock_spinbit.go",
         "patchSetId": 3
@@ -54,6 +78,30 @@
       "writtenOn": "2024-11-14T05:22:36Z",
       "side": 1,
       "message": "just to clarify, this is necessary to avoid a regression with Tile38 specifically?\n\nit might be worth noting the concrete example this was motivated by, but I can see an argument for not doing so, too.",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 22
+      },
+      "revId": "32fb3b0418978bdbcb13ff7b412c0410d136b4f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d429133_306e6286",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-14T20:19:57Z",
+      "side": 1,
+      "message": "Tile38 is what exhibited (and measured) the behavior, but I don\u0027t think it was caused by any peculiarity of Tile38 in particular. With Patchset 2 (before adding this function), Tile38 was slow to get to STW at the start and end of GC Mark, and so I\u0027d expect most other apps (running on several dozen threads) would have experienced similar behavior.\n\nTile38 does have quite a few STWs due to its use of `runtime.ReadMemStats`. Those STWs were also slow at PS 2, but so were the GC STWs.\n\nTile38 does rely quite a lot on `sched.lock` due to its use of `runtime.Gosched`. But that doesn\u0027t explain the slow GC STWs. And CPU profiles from PS2 showed much more time in `unlock2` as called by `injectglist` than anything related to `Gosched`.\n\nAs I see it, the STWs and the netpoller-related `injectglist` calls are relatively concrete by themselves.",
+      "parentUuid": "ca5d4ba4_be4a4890",
       "range": {
         "startLine": 141,
         "startChar": 0,
@@ -81,6 +129,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceeac0f0_f94959c1",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-14T20:19:57Z",
+      "side": 1,
+      "message": "I don\u0027t see how to get it below an inlining cost of 80. The function call to get to the slow path costs 60 by itself (so lockWithRank meets that threshold). There\u0027s also a `throw`, and a few intrinsics (`getg`, `atomic.Xchg8`, maybe also `atomic.Or8`). Maybe those are calculated to have more inlining cost than they should, I don\u0027t know.\n\nThe basic outlining below results in a cost of 177. Maybe there\u0027s an improvement to be had when PGO is in effect? But I\u0027m reluctant to do that without clear guidance on what target to meet (if not 80).\n\n```\ndiff --git a/src/runtime/lock_spinbit.go b/src/runtime/lock_spinbit.go\nindex 46bd1861f9..bc374c065f 100644\n--- a/src/runtime/lock_spinbit.go\n+++ b/src/runtime/lock_spinbit.go\n@@ -167,6 +167,13 @@ func lock2(l *mutex) {\n                }\n                return\n        }\n+       lock2Slow(l)\n+}\n+\n+func lock2Slow(l *mutex) {\n+       gp :\u003d getg()\n+       k8 :\u003d key8(\u0026l.key)\n+\n        semacreate(gp.m)\n \n        timer :\u003d \u0026lockTimer{lock: l}\n```",
+      "parentUuid": "dc615bdd_8f5aec1c",
+      "revId": "32fb3b0418978bdbcb13ff7b412c0410d136b4f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "150f8bd7_a58ab9d4",
@@ -94,6 +160,30 @@
       "writtenOn": "2024-11-14T05:22:36Z",
       "side": 1,
       "message": "nit: extra \u0027",
+      "range": {
+        "startLine": 179,
+        "startChar": 19,
+        "endLine": 179,
+        "endChar": 20
+      },
+      "revId": "32fb3b0418978bdbcb13ff7b412c0410d136b4f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb6d317f_210ec229",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-14T20:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "150f8bd7_a58ab9d4",
       "range": {
         "startLine": 179,
         "startChar": 19,
@@ -161,6 +251,30 @@
           ]
         }
       ],
+      "revId": "32fb3b0418978bdbcb13ff7b412c0410d136b4f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c9b674b_84e13665",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-14T20:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b77ae91c_cf1f5cf3",
+      "range": {
+        "startLine": 285,
+        "startChar": 5,
+        "endLine": 285,
+        "endChar": 16
+      },
       "revId": "32fb3b0418978bdbcb13ff7b412c0410d136b4f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
