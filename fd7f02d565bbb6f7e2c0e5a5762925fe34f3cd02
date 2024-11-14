@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "066d5363_d680c027",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-14T16:31:33Z",
+      "side": 1,
+      "message": "Perhaps for shared linkage, for each package, we can have the compiler include the type descriptors or all its global in the object file, even if they are defined in the other package. This way we don\u0027t need to find type descriptors from a .so file.\n(The current approach is okay.)",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 70
+      },
+      "revId": "fd7f02d565bbb6f7e2c0e5a5762925fe34f3cd02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c913af6_e3873343",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 2711,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-14T16:31:33Z",
+      "side": 1,
+      "message": "It doesn\u0027t seem to be supported on loong64. Anyway, okay to include.",
+      "range": {
+        "startLine": 2711,
+        "startChar": 57,
+        "endLine": 2711,
+        "endChar": 64
+      },
+      "revId": "fd7f02d565bbb6f7e2c0e5a5762925fe34f3cd02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
