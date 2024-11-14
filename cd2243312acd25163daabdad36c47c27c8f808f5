@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42a7702d_ec237b22",
+        "filename": "src/runtime/cgo/gcc_libinit_windows.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-14T14:34:32Z",
+      "side": 1,
+      "message": "Does this mean a 64-bit toolchain? Even on 32-bit 386?",
+      "range": {
+        "startLine": 6,
+        "startChar": 60,
+        "endLine": 6,
+        "endChar": 62
+      },
+      "revId": "cd2243312acd25163daabdad36c47c27c8f808f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
