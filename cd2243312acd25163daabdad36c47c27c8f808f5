@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41632381_461936f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-14T15:01:14Z",
+      "side": 1,
+      "message": "This is a weird thing to try.  Cygwin is a wrapper that permits building and running programs written for Unix systems on Windows.  Why would somebody use cygwin to build Go on Windows?  That doesn\u0027t make any sense.  It would only make sense to use cygwin to build Go with GOOS\u003dlinux; that wouldn\u0027t actually work but at least it would make sense.",
+      "revId": "cd2243312acd25163daabdad36c47c27c8f808f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42a7702d_ec237b22",
