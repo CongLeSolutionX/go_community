@@ -8,8 +8,8 @@ import (
 	"crypto/internal/fips"
 	"crypto/internal/fips/aes"
 	"crypto/internal/fips/alias"
+	"crypto/internal/fipsdeps/byteorder"
 	"errors"
-	"internal/byteorder"
 	"math"
 )
 
@@ -91,15 +91,15 @@ func checkScenario3Nonce(g *GCM, nonce []byte) {
 	}
 	if !g.ready {
 		// The first invocation sets the fixed name encoding.
-		g.fixedName = byteorder.BeUint32(nonce[:4])
+		g.fixedName = byteorder.BEUint32(nonce[:4])
 		g.ready = true
 	}
-	if g.fixedName != byteorder.BeUint32(nonce[:4]) {
+	if g.fixedName != byteorder.BEUint32(nonce[:4]) {
 		g.nonApproved = true
 		fips.RecordNonApproved()
 		return
 	}
-	counter := byteorder.BeUint64(nonce[4:])
+	counter := byteorder.BEUint64(nonce[4:])
 	if counter < g.nextCounter {
 		g.nonApproved = true
 		fips.RecordNonApproved()
