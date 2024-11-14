@@ -1,0 +1,168 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa742dad_154f5b1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-11-14T05:22:36Z",
+      "side": 1,
+      "message": "quick nits, I want to spend some time absorbing unlock2wake a bit, but otherwise looks mostly like the previous algorithm and thus good overall. thanks!",
+      "revId": "32fb3b0418978bdbcb13ff7b412c0410d136b4f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7a82d90_191e5d1b",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-11-14T05:22:36Z",
+      "side": 1,
+      "message": "small note, but I think I\u0027d prefer to decouple this from the lock implementation and instead define this field on the m so we have better control over the m layout. (that is, everything is still ordered and grouped the same, there\u0027s just extra padding at the end, instead of in the middle).\n\nthe lockVerifyMSize calls are sufficient to glue all this together and make sure that it still works.\n\nif you want to make sure you turn off the padding if the experiment is off, you can always do the fun and slightly terrible multiplication trick:\n\n```\n_ [(700*(2-goarch.PtrSize/4))*goexperiment.SpinBitMutexInt]byte\n```\n\n(this is not so bad, IMO, because it\u0027s very clear that this padding only exists if the experiment is enabled.)",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 37
+      },
+      "revId": "32fb3b0418978bdbcb13ff7b412c0410d136b4f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca5d4ba4_be4a4890",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-11-14T05:22:36Z",
+      "side": 1,
+      "message": "just to clarify, this is necessary to avoid a regression with Tile38 specifically?\n\nit might be worth noting the concrete example this was motivated by, but I can see an argument for not doing so, too.",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 22
+      },
+      "revId": "32fb3b0418978bdbcb13ff7b412c0410d136b4f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc615bdd_8f5aec1c",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-11-14T05:22:36Z",
+      "side": 1,
+      "message": "just a thought, maybe break out this point and below into a function? is that enough to make lock2 inlineable?",
+      "revId": "32fb3b0418978bdbcb13ff7b412c0410d136b4f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "150f8bd7_a58ab9d4",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-11-14T05:22:36Z",
+      "side": 1,
+      "message": "nit: extra \u0027",
+      "range": {
+        "startLine": 179,
+        "startChar": 19,
+        "endLine": 179,
+        "endChar": 20
+      },
+      "revId": "32fb3b0418978bdbcb13ff7b412c0410d136b4f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b77ae91c_cf1f5cf3",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-11-14T05:22:36Z",
+      "side": 1,
+      "message": "nit: unlock2Wake to match typical Go style",
+      "range": {
+        "startLine": 285,
+        "startChar": 5,
+        "endLine": 285,
+        "endChar": 16
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "73c32c17_03be22de",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 269,
+                "startChar": 0,
+                "endLine": 270,
+                "endChar": 0
+              },
+              "replacement": "\t\tunlock2Wake(l)\n"
+            },
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 282,
+                "startChar": 0,
+                "endLine": 283,
+                "endChar": 0
+              },
+              "replacement": "// unlock2Wake updates the list of Ms waiting on l, waking an M if necessary.\n"
+            },
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 285,
+                "startChar": 0,
+                "endLine": 286,
+                "endChar": 0
+              },
+              "replacement": "func unlock2Wake(l *mutex) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "32fb3b0418978bdbcb13ff7b412c0410d136b4f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
