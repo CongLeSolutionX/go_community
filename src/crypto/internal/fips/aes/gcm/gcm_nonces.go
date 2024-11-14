@@ -9,7 +9,7 @@ import (
 	"crypto/internal/fips/aes"
 	"crypto/internal/fips/alias"
 	"crypto/internal/fips/drbg"
-	"internal/byteorder"
+	"crypto/internal/fipsdeps/byteorder"
 	"math"
 )
 
@@ -69,7 +69,7 @@ func (g *GCMForTLS12) Seal(dst, nonce, plaintext, data []byte) []byte {
 		panic("crypto/cipher: incorrect nonce length given to GCM")
 	}
 
-	counter := byteorder.BeUint64(nonce[len(nonce)-8:])
+	counter := byteorder.BEUint64(nonce[len(nonce)-8:])
 
 	// Ensure the counter is monotonically increasing.
 	if counter == math.MaxUint64 {
@@ -115,7 +115,7 @@ func (g *GCMForTLS13) Seal(dst, nonce, plaintext, data []byte) []byte {
 		panic("crypto/cipher: incorrect nonce length given to GCM")
 	}
 
-	counter := byteorder.BeUint64(nonce[len(nonce)-8:])
+	counter := byteorder.BEUint64(nonce[len(nonce)-8:])
 	if !g.ready {
 		// In the first call, the counter is zero, so we learn the XOR mask.
 		g.ready = true
