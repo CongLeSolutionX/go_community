@@ -9,6 +9,7 @@ import (
 	"crypto"
 	"crypto/cipher"
 	"crypto/ecdh"
+	"crypto/internal/fips"
 	"crypto/rand"
 	"crypto/sha256"
 	"encoding/hex"
@@ -440,6 +441,9 @@ func main() {
 // implementations into the binary. This also guarantees that govulncheck can
 // avoid warning about a curve-specific vulnerability if that curve is not used.
 func TestLinker(t *testing.T) {
+	if fips.Enabled {
+		t.Skip("skipping test in FIPS mode, since CAST brings in P-256")
+	}
 	if testing.Short() {
 		t.Skip("test requires running 'go build'")
 	}
