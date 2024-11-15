@@ -16,6 +16,24 @@
       "message": "updated, thanks.",
       "revId": "1bd280ca888da48126490a5abde463ec3bf7809e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1614b611_84a7d16b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2024-11-15T11:36:18Z",
+      "side": 1,
+      "message": "I mean you don\u0027t need to add a link just the string `#47513`.\n\nAlso when you think you dealt with the concerns raised you can press the resolved checkmark.",
+      "parentUuid": "d1a12c2f_9af99f7a",
+      "revId": "1bd280ca888da48126490a5abde463ec3bf7809e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
