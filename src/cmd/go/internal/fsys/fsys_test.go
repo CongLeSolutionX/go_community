@@ -1119,3 +1119,35 @@ func TestStatSymlink(t *testing.T) {
 		t.Errorf("Stat(%q).Size(): got %v, want 11", f, fi.Size())
 	}
 }
+
+var badOverlayTests = []struct {
+	json string
+	err  string
+}{
+	{`{`,
+		"parsing overlay JSON: unexpected end of JSON input"},
+	{`{"Replace": {"":"a"}}`,
+		"empty string key in overlay map"},
+	{`{"Replace": {"/tmp/x": "y", "x": "y"}}`,
+		`duplicate paths /tmp/x and x in overlay map`},
+	{`{"Replace": {"/tmp/x/z": "z", "x":"y"}}`,
+		`inconsistent files /tmp/x/z and /tmp/x in overlay map`},
+	{`{"Replace": {"/tmp/x/z/z2": "z", "x":"y"}}`,
+		// TODO: Error should say /tmp/x/z/z2
+		`inconsistent files /tmp/x/z and /tmp/x in overlay map`},
+	{`{"Replace": {"/tmp/x": "y", "x/z/z2": "z"}}`,
+		// TODO: Error should say /tmp/x/z/z2
+		`inconsistent files /tmp/x and /tmp/x/z/z2 in overlay map`},
+}
+
+func TestBadOverlay(t *testing.T) {
+	cwd = sync.OnceValue(func() string { return "/tmp" })
+	defer resetForTesting()
+
+	for i, tt := range badOverlayTests {
+		err := initFromJSON([]byte(tt.json))
+		if err == nil || err.Error() != tt.err {
+			t.Errorf("#%d: err=%v, want %q", i, err, tt.err)
+		}
+	}
+}
