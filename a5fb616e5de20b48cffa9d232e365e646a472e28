@@ -105,6 +105,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e5afbaf_f33bd7c8",
+        "filename": "doc/next/6-stdlib/99-minor/crypto/subtle/66450.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-15T23:47:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abdd3784_deb426b8",
+      "range": {
+        "startLine": 5,
+        "startChar": 40,
+        "endLine": 5,
+        "endChar": 45
+      },
+      "revId": "a5fb616e5de20b48cffa9d232e365e646a472e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89937f0f_22c63c39",
@@ -207,6 +231,30 @@
       "writtenOn": "2024-10-24T22:34:52Z",
       "side": 1,
       "message": "out of curiosity, why disabled with purego?",
+      "range": {
+        "startLine": 5,
+        "startChar": 12,
+        "endLine": 5,
+        "endChar": 18
+      },
+      "revId": "a5fb616e5de20b48cffa9d232e365e646a472e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77bcd032_d3e22c02",
+        "filename": "src/crypto/subtle/dit_arm64.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-15T23:47:20Z",
+      "side": 1,
+      "message": "My memory (which may be wrong?) is that purego is essentially \"no assembly\", so since we need assembly here we only build it when it\u0027s not built with the purego tag.",
+      "parentUuid": "7ebe3fbd_fe83435f",
       "range": {
         "startLine": 5,
         "startChar": 12,
