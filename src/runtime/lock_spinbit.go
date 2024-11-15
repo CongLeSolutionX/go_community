@@ -84,8 +84,13 @@ func key8(p *uintptr) *uint8 {
 // of Ms waiting for the lock. It does that via this struct's next field,
 // forming a singly-linked list with the mutex's key field pointing to the head
 // of the list.
+//
+// On occasion, unlock2Wake will double-link the list so it can identify the M
+// at the end in amortized-constant time.
 type mWaitList struct {
 	next muintptr // next m waiting for lock
+	prev muintptr // previous m waiting for lock (an amortized hint)
+	tail muintptr // final m waiting for lock (an amortized hint)
 }
 
 // lockVerifyMSize confirms that we can recreate the low bits of the M pointer.
@@ -323,47 +328,162 @@ func unlock2Wake(l *mutex) {
 
 	var committed *m // If we choose an M within the stack, we've made a promise to wake it
 	for {
-		headM := v &^ mutexMMask
 		flags := v & (mutexMMask &^ mutexStackLocked) // preserve low bits, but release stack lock
+		head := mutexWaitListHead(v)
+		fixMutexWaitList(head)
 
-		mp := mutexWaitListHead(v).ptr()
 		wakem := committed
 		if committed == nil {
 			if v&mutexSpinning == 0 || mutexPreferLowLatency(l) {
-				wakem = mp
+				wakem = head.ptr()
 			}
 			if antiStarve {
-				// Wake the M at the bottom of the stack of waiters. (This is
-				// O(N) with the number of waiters.)
-				wakem = mp
-				prev := mp
-				for {
-					next := wakem.mWaitList.next.ptr()
-					if next == nil {
-						break
-					}
-					prev, wakem = wakem, next
-				}
-				if wakem != mp {
-					prev.mWaitList.next = wakem.mWaitList.next
+				wakem = head.ptr().mWaitList.tail.ptr()
+			}
+
+			if wakem != nil {
+				if wakem != head.ptr() {
 					committed = wakem
 				}
+				head = removeMutexWaitList(head, wakem)
 			}
 		}
 
-		if wakem == mp {
-			headM = uintptr(mp.mWaitList.next) &^ mutexMMask
-		}
-
-		next := headM | flags
+		next := (uintptr(head) &^ mutexMMask) | flags
 		if atomic.Casuintptr(&l.key, v, next) {
 			if wakem != nil {
 				// Claimed an M. Wake it.
-				semawakeup(wakem)
+				wakem.mWaitList.clearLinks()
+				semawakeup(wakem) // no use of wakem after this point; it's awake
 			}
 			break
 		}
 
 		v = atomic.Loaduintptr(&l.key)
 	}
+}
+
+// clearLinks resets the fields related to the M's position in the list of Ms
+// waiting for a mutex.
+func (l *mWaitList) clearLinks() {
+	l.next = 0
+	l.prev = 0
+	l.tail = 0
+}
+
+// verifyMutexWaitList instructs fixMutexWaitList to confirm that the mutex wait
+// list invariants are intact. Operations on the list are typically
+// amortized-constant; but when active, these extra checks require visiting
+// every other M that is waiting for the lock.
+const verifyMutexWaitList = false
+
+// fixMutexWaitList restores the invariants of the linked list of Ms waiting for
+// a particular mutex.
+//
+// It takes as an argument the muintptr that is stored in the mutex's key. (The
+// caller is responsible for adjusting the low bits so the pointer is either
+// valid or nil.)
+//
+// On return, the list will be doubly-linked, and the head of the list (if not
+// nil) will point to an M where mWaitList.tail points to the end of the linked
+// list.
+//
+// The caller must have exclusive access for editing elements of the list.
+func fixMutexWaitList(head muintptr) {
+	if head == 0 {
+		return
+	}
+	hp := head.ptr()
+	node := hp
+
+	var tail *m
+	for {
+		// For amortized-constant cost, stop searching once we reach part of the
+		// list that's been visited before. Identify it by the presence of a
+		// tail pointer.
+		if node.mWaitList.tail.ptr() != nil {
+			tail = node.mWaitList.tail.ptr()
+			break
+		}
+
+		next := node.mWaitList.next.ptr()
+		if next == nil {
+			break
+		}
+		next.mWaitList.prev.set(node)
+
+		node = next
+	}
+	if tail == nil {
+		tail = node
+	}
+	hp.mWaitList.tail.set(tail)
+
+	if verifyMutexWaitList {
+		var reTail *m
+		for node := hp; node != nil; node = node.mWaitList.next.ptr() {
+			reTail = node
+		}
+
+		if reTail != tail {
+			throw("incorrect mutex wait list tail")
+		}
+	}
+}
+
+// removeMutexWaitList removes mp from the list of Ms waiting for a particular
+// mutex. It relies on (and keeps up to date) the invariants that
+// fixMutexWaitList establishes and repairs.
+//
+// It modifies the nodes that are to remain in the list. It returns the value to
+// assign as the head of the list, with the caller responsible for ensuring that
+// the (atomic, contended) head assignment worked and subsequently clearing the
+// list-related fields of mp.
+//
+// The only change it makes to mp is to clear the tail field -- so a subsequent
+// call to fixMutexWaitList will be able to re-establish the prev link from its
+// next node (just in time for another removeMutexWaitList call to clear it
+// again).
+//
+// The caller must have exclusive access for editing elements of the list.
+func removeMutexWaitList(head muintptr, mp *m) muintptr {
+	if head == 0 {
+		return 0
+	}
+	hp := head.ptr()
+	tail := hp.mWaitList.tail
+
+	mp.mWaitList.tail = 0
+
+	if head.ptr() == mp {
+		// mp is the head
+		if mp.mWaitList.prev.ptr() != nil {
+			throw("removeMutexWaitList node at head of list, but has prev field set")
+		}
+		head = mp.mWaitList.next
+	} else {
+		// mp is not the head
+		if mp.mWaitList.prev.ptr() == nil {
+			throw("removeMutexWaitList node not in list (not at head, no prev pointer)")
+		}
+		mp.mWaitList.prev.ptr().mWaitList.next = mp.mWaitList.next
+		if tail.ptr() == mp {
+			// mp is the tail
+			if mp.mWaitList.next.ptr() != nil {
+				throw("removeMutexWaitList node at tail of list, but has next field set")
+			}
+			tail = mp.mWaitList.prev
+		} else {
+			if mp.mWaitList.next.ptr() == nil {
+				throw("removeMutexWaitList node in body of list, but without next field set")
+			}
+			mp.mWaitList.next.ptr().mWaitList.prev = mp.mWaitList.prev
+		}
+	}
+
+	if hp := head.ptr(); hp != nil {
+		hp.mWaitList.prev = 0
+		hp.mWaitList.tail = tail
+	}
+	return head
 }
