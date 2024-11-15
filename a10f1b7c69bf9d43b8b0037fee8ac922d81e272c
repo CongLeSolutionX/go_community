@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b918ca2e_85524ee8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3657746
+      },
+      "writtenOn": "2024-11-15T04:05:46Z",
+      "side": 1,
+      "message": "Any pointers to implement? Seems not easy.",
+      "parentUuid": "0eb1e75a_912bdf25",
+      "revId": "a10f1b7c69bf9d43b8b0037fee8ac922d81e272c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f411dbb7_e6d71686",
         "filename": "src/cmd/internal/goobj/mkbuiltin.go",
         "patchSetId": 1
