@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b17dc823_d3855313",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-15T18:50:09Z",
+      "side": 1,
+      "message": "I chewed on this diff for quite a while working through the math to convince myself I followed what was going on. I think it all checks out but I don\u0027t have a lot of experience reviewing this kind of diff.",
+      "revId": "9d64dc4b632ee50a14929c8e1837a983e4954e25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cd71bca_bd30ff5b",
+        "filename": "src/crypto/internal/nistec/p256.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-15T18:50:09Z",
+      "side": 1,
+      "message": "Spurious diff or something that should be expanded on?",
+      "revId": "9d64dc4b632ee50a14929c8e1837a983e4954e25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
