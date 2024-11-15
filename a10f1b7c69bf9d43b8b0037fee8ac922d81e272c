@@ -109,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "811f1653_97e75c81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-15T14:23:03Z",
+      "side": 1,
+      "message": "I\u0027m not sure. I\u0027d keep thinking. Perhaps we can have mkbuiltin generate a new Magic if and only if the builtin list changes. If nothing changes, don\u0027t update Magic either.\n\n(For now we probably could just manually update Magic.)",
+      "parentUuid": "b918ca2e_85524ee8",
+      "revId": "a10f1b7c69bf9d43b8b0037fee8ac922d81e272c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f411dbb7_e6d71686",
         "filename": "src/cmd/internal/goobj/mkbuiltin.go",
         "patchSetId": 1
