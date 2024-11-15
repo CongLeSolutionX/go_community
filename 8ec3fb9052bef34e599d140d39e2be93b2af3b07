@@ -16,6 +16,23 @@
       "message": "LGTM! Thank you!",
       "revId": "8ec3fb9052bef34e599d140d39e2be93b2af3b07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0a656f3_2ab6530c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64506
+      },
+      "writtenOn": "2024-11-15T02:27:48Z",
+      "side": 1,
+      "message": "BTW, need `go generate`",
+      "revId": "8ec3fb9052bef34e599d140d39e2be93b2af3b07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
