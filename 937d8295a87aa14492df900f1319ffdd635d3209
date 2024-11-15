@@ -16,6 +16,69 @@
       "message": "PS4 failed with what looks like #70288, which was fixed on tip. PS5 is a rebase, but failed with what looks like #58570. I\u0027ll re-run the bots.",
       "revId": "937d8295a87aa14492df900f1319ffdd635d3209",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb9f5594_a3ddc123",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-11-15T15:44:32Z",
+      "side": 1,
+      "message": "I have unlock2Wake a thorough read, and it makes sense to me. thanks!",
+      "revId": "937d8295a87aa14492df900f1319ffdd635d3209",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fba59fc_ecc15bba",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-11-15T15:44:32Z",
+      "side": 1,
+      "message": "here and next to \"Bit 9\": perhaps mention the name of the constant below?",
+      "range": {
+        "startLine": 33,
+        "startChar": 9,
+        "endLine": 33,
+        "endChar": 10
+      },
+      "revId": "937d8295a87aa14492df900f1319ffdd635d3209",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36292e42_c9833fb5",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-11-15T15:44:32Z",
+      "side": 1,
+      "message": "it occurs to me that this list could be doubly-linked, and I feel like maybe we even talked about it, but I don\u0027t remember why it isn\u0027t. does that just substantially complicate the implementation?",
+      "range": {
+        "startLine": 335,
+        "startChar": 58,
+        "endLine": 336,
+        "endChar": 39
+      },
+      "revId": "937d8295a87aa14492df900f1319ffdd635d3209",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
