@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1c3e84b_664033f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-15T21:36:47Z",
+      "side": 1,
+      "message": "👍\n\nIt looks like the `Test/fixedbugs/issue52193.go` failure is a true positive for this CR but it\u0027s a bit too in the weeds w.r.t compiler internals for me to speculate on the right fix. Does it ring a bell for you? The other failures look unrelated or were inherited from the parent CR.",
+      "revId": "2a0de4e7379c08b4bc1ce993a7b3f3a82470b73a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbc7f7d1_0f6caf38",
+        "filename": "src/crypto/internal/fips/ecdh/ecdh.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-15T21:36:47Z",
+      "side": 1,
+      "message": "Should these functions be named `P224()`, `P256()`, etc to avoid the stutter with the package name?",
+      "revId": "2a0de4e7379c08b4bc1ce993a7b3f3a82470b73a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
