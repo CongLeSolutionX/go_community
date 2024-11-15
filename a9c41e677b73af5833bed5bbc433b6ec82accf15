@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31210478_0998cf15",
+        "filename": "src/crypto/internal/fips/check/check.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-15T22:44:34Z",
+      "side": 1,
+      "message": "Yes, using asanunpoison will mean that asan won\u0027t report invalid accesses that happen to land in the middle of that range.  We could call asanpoison after reading the memory; that would run the risk of causing valid existing pointers to fail, although since we presumably do this early in the execution there may not be any such pointers.\n\nWe could also modify the compiler to permit disabling asan instrumentation in this function.\n\nIn any case doing something seems better than refusing to run the code in ASAN mode.  In fact, we already have go:norace.  And in fact that might already work in ASAN mode, as it seems to apply to instrumentation in general.",
+      "parentUuid": "be44c9a9_81960af5",
+      "revId": "a9c41e677b73af5833bed5bbc433b6ec82accf15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57473e35_228df1b5",
