@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50203bcf_c0786ba4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-15T23:20:13Z",
+      "side": 1,
+      "message": "This is a follow-up to CL 620435. It\u0027s significantly slower at `runtime.BenchmarkMutexContention`, I haven\u0027t dug into why in detail. At PS1, this updates the list invariants _every_ time it removes/wakes an M. Without this change, `unlock2Wake` only needs to consider non-head elements when it\u0027s trying to find and wake the tail (1/16th of the time).\n\nVoting \"Hold\" because this performance doesn\u0027t look so good.\n\n```\ngoos: linux\ngoarch: amd64\npkg: runtime\ncpu: 13th Gen Intel(R) Core(TM) i7-13700H\n                   │   /tmp/old   │               /tmp/new               │\n                   │    sec/op    │    sec/op     vs base                │\nMutexContention      17.77n ±  0%   17.77n ±  0%        ~ (p\u003d0.419 n\u003d10)\nMutexContention-2    22.42n ± 11%   23.83n ± 16%        ~ (p\u003d0.280 n\u003d10)\nMutexContention-3    21.13n ±  2%   23.59n ± 11%  +11.64% (p\u003d0.015 n\u003d10)\nMutexContention-4    21.81n ±  4%   23.20n ±  8%        ~ (p\u003d0.123 n\u003d10)\nMutexContention-5    21.82n ±  7%   23.18n ±  6%        ~ (p\u003d0.171 n\u003d10)\nMutexContention-6    22.68n ±  7%   22.79n ±  8%        ~ (p\u003d0.796 n\u003d10)\nMutexContention-7    22.61n ±  4%   25.02n ±  3%  +10.66% (p\u003d0.001 n\u003d10)\nMutexContention-8    23.38n ±  4%   25.44n ±  4%   +8.83% (p\u003d0.005 n\u003d10)\nMutexContention-9    23.13n ±  4%   25.69n ±  3%  +11.07% (p\u003d0.000 n\u003d10)\nMutexContention-10   23.38n ± 10%   25.66n ± 11%        ~ (p\u003d0.105 n\u003d10)\nMutexContention-11   23.21n ±  6%   25.54n ±  6%  +10.06% (p\u003d0.000 n\u003d10)\nMutexContention-12   24.43n ±  5%   26.59n ± 47%   +8.84% (p\u003d0.001 n\u003d10)\nMutexContention-13   24.98n ±  8%   25.57n ± 20%        ~ (p\u003d0.089 n\u003d10)\nMutexContention-14   25.27n ±  2%   26.24n ± 19%   +3.84% (p\u003d0.001 n\u003d10)\nMutexContention-15   25.47n ±  7%   27.11n ± 66%   +6.44% (p\u003d0.020 n\u003d10)\nMutexContention-16   26.29n ±  4%   43.21n ± 42%        ~ (p\u003d0.123 n\u003d10)\nMutexContention-17   26.12n ±  7%   36.07n ± 22%  +38.09% (p\u003d0.001 n\u003d10)\nMutexContention-18   26.82n ±  7%   30.08n ± 49%        ~ (p\u003d0.128 n\u003d10)\nMutexContention-19   26.74n ± 11%   48.55n ± 25%  +81.54% (p\u003d0.000 n\u003d10)\nMutexContention-20   26.74n ±  4%   46.39n ± 25%  +73.49% (p\u003d0.000 n\u003d10)\ngeomean              23.70n         27.62n        +16.58%\n```",
+      "revId": "b73639868c35e823971702faf298379b026091f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
