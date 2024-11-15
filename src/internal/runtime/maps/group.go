@@ -239,7 +239,7 @@ func newGroups(typ *abi.SwissMapType, length uint64) groupsReference {
 func (g *groupsReference) group(typ *abi.SwissMapType, i uint64) groupReference {
 	// TODO(prattmic): Do something here about truncation on cast to
 	// uintptr on 32-bit systems?
-	offset := uintptr(i) * typ.Group.Size_
+	offset := uintptr(i) * typ.GroupSize
 
 	return groupReference{
 		data: unsafe.Pointer(uintptr(g.data) + offset),
