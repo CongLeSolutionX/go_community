@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5c44ffd3_010a6878",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-15T01:33:46Z",
+      "side": 1,
+      "message": "Is this a problem for zero-length array?",
+      "revId": "fd7f02d565bbb6f7e2c0e5a5762925fe34f3cd02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c913af6_e3873343",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 21
