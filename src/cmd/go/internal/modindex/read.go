@@ -92,12 +92,12 @@ func dirHash(modroot, pkgdir string) (cache.ActionID, error) {
 		return cache.ActionID{}, ErrNotIndexed
 	}
 	cutoff := time.Now().Add(-modTimeCutoff)
-	for _, info := range entries {
-		if info.IsDir() {
+	for _, d := range entries {
+		if d.IsDir() {
 			continue
 		}
 
-		if !info.Mode().IsRegular() {
+		if !d.Type().IsRegular() {
 			return cache.ActionID{}, ErrNotIndexed
 		}
 		// To avoid problems for very recent files where a new
@@ -108,6 +108,10 @@ func dirHash(modroot, pkgdir string) (cache.ActionID, error) {
 		// This is the same strategy used for hashing test inputs.
 		// See hashOpen in cmd/go/internal/test/test.go for the
 		// corresponding code.
+		info, err := d.Info()
+		if err != nil {
+			return cache.ActionID{}, ErrNotIndexed
+		}
 		if info.ModTime().After(cutoff) {
 			return cache.ActionID{}, ErrNotIndexed
 		}
