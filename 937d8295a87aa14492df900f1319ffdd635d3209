@@ -127,6 +127,30 @@
       },
       "revId": "937d8295a87aa14492df900f1319ffdd635d3209",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaa9aed2_8d9cc5ff",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-11-15T17:29:27Z",
+      "side": 1,
+      "message": "I don\u0027t feel strongly about this, the performance seems OK to me, but maybe there\u0027s something to be said for the risk O(N^2) behavior from repeated wakeups on locks with a lot of waiters.\n\nif you\u0027re up to it, I\u0027d be interested in and would promptly review a follow-up CL. (as an aside, it\u0027s pretty nice now that we can control the trade-off with a single constant.)",
+      "parentUuid": "f7aadb61_a601349c",
+      "range": {
+        "startLine": 335,
+        "startChar": 58,
+        "endLine": 336,
+        "endChar": 39
+      },
+      "revId": "937d8295a87aa14492df900f1319ffdd635d3209",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
