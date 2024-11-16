@@ -214,7 +214,7 @@ type Header struct {
 	Offsets     [NBlk]uint32
 }
 
-const Magic = "\x00go120ld"
+const Magic = "\x00go124ld"
 
 func (h *Header) Write(w *Writer) {
 	w.RawString(h.Magic)
