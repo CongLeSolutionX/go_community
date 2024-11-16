@@ -35,12 +35,13 @@
 // corresponding to the Go struct:
 //
 //	type TestEvent struct {
-//		Time    time.Time // encodes as an RFC3339-format string
-//		Action  string
-//		Package string
-//		Test    string
-//		Elapsed float64 // seconds
-//		Output  string
+//		Time       time.Time // encodes as an RFC3339-format string
+//		Action     string
+//		Package    string
+//		Test       string
+//		Elapsed    float64 // seconds
+//		Output     string
+//		OutputType string
 //	}
 //
 // The Time field holds the time the event happened.
@@ -78,6 +79,14 @@
 // into valid UTF-8 by use of replacement characters. With that one exception,
 // the concatenation of the Output fields of all output events is the exact
 // output of the test execution.
+//
+// The OutputType field *may* be set for Action == "output" and indicates the type of
+// output. OutputType will be one of the following:
+//
+//	(blank)        - regular output
+//	frame          - test framing, such as "=== RUN ..." or "--- FAIL: ..."
+//	error          - an error produced by Error(f) or Fatal(f)
+//	error-continue - continuation of a multi-line error
 //
 // When a benchmark runs, it typically produces a single line of output
 // giving timing results. That line is reported in an event with Action == "output"
