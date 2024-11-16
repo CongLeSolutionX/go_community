@@ -8,6 +8,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"strconv"
 )
 
 // Serialization of a Profile allows go tool preprofile to construct the edge
@@ -28,6 +29,8 @@ import (
 // Entries are sorted by "call edge weight", from highest to lowest.
 
 const serializationHeader = "GO PREPROFILE V1\n"
+
+const licoToBlocksEnd = "!LCTBLKE"
 
 // WriteTo writes a serialized representation of Profile to w.
 //
@@ -65,6 +68,38 @@ func (d *Profile) WriteTo(w io.Writer) (int64, error) {
 		written += int64(n)
 		if err != nil {
 			return written, err
+		}
+	}
+
+	n, err = bw.WriteString(licoToBlocksEnd + "\n")
+	written += int64(n)
+	if err != nil {
+		return written, err
+	}
+	for fName, m1 := range d.InlineProfile {
+		fline := fName + "\n"
+		for inlT, m2 := range m1 {
+			iline := inlT + "\n"
+			for l, m3 := range m2 {
+				for c, freq := range m3 {
+					n, err = bw.WriteString(fline)
+					written += int64(n)
+					if err != nil {
+						return written, err
+					}
+					n, err = bw.WriteString(iline)
+					written += int64(n)
+					if err != nil {
+						return written, err
+					}
+					line := strconv.FormatInt(int64(l), 10) + " " + strconv.FormatInt(int64(c), 10) + " " + strconv.FormatInt(int64(freq), 10) + "\n"
+					n, err = bw.WriteString(line)
+					written += int64(n)
+					if err != nil {
+						return written, err
+					}
+				}
+			}
 		}
 	}
 

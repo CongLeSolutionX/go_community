@@ -18,6 +18,8 @@ func layoutRegallocOrder(f *Func) []*Block {
 	return layoutOrder(f)
 }
 
+const bbfreqUsableThres = 500
+
 func layoutOrder(f *Func) []*Block {
 	order := make([]*Block, 0, f.NumBlocks())
 	scheduled := f.Cache.allocBoolSlice(f.NumBlocks())
@@ -130,6 +132,17 @@ blockloop:
 		case BranchUnlikely:
 			likely = b.Succs[1].b
 		}
+
+		if likely == nil && len(b.Succs) == 2 &&
+			b.Succs[0].b.BBFreq > bbfreqUsableThres &&
+			b.Succs[1].b.BBFreq > bbfreqUsableThres {
+			if b.Succs[0].b.BBFreq > b.Succs[1].b.BBFreq {
+				likely = b.Succs[0].b
+			} else {
+				likely = b.Succs[1].b
+			}
+		}
+
 		if likely != nil && !scheduled[likely.ID] {
 			bid = likely.ID
 			continue

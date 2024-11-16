@@ -7,6 +7,10 @@
 // intermediate representation.
 package pgo
 
+// Containing function -> InlineFuncStack(serialized) -> #line -> #col -> frequency
+// The #line and #col will be the innermost(or leaf) function's line/col information.
+type InlineProfile = map[string]map[string]map[int]map[int]int
+
 // Profile contains the processed data from the PGO profile.
 type Profile struct {
 	// TotalWeight is the aggregated edge weights across the profile. This
@@ -17,6 +21,10 @@ type Profile struct {
 	// NamedEdgeMap contains all unique call edges in the profile and their
 	// edge weight.
 	NamedEdgeMap NamedEdgeMap
+
+	// InlineProfile contains a map from inlined function calls, grainuity
+	// up to line/col number, to the sample frequency.
+	InlineProfile InlineProfile
 }
 
 // NamedCallEdge identifies a call edge by linker symbol names and call site
@@ -52,4 +60,3 @@ func emptyProfile() *Profile {
 func WeightInPercentage(value int64, total int64) float64 {
 	return (float64(value) / float64(total)) * 100
 }
-

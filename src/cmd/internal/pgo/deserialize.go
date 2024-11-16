@@ -8,8 +8,8 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 // IsSerialized returns true if r is a serialized Profile.
@@ -47,6 +47,9 @@ func FromSerialized(r io.Reader) (*Profile, error) {
 
 	for scanner.Scan() {
 		readStr := scanner.Text()
+		if readStr == licoToBlocksEnd {
+			break
+		}
 
 		callerName := readStr
 
@@ -95,6 +98,36 @@ func FromSerialized(r io.Reader) (*Profile, error) {
 		d.NamedEdgeMap.ByWeight = append(d.NamedEdgeMap.ByWeight, edge) // N.B. serialization is ordered.
 		d.NamedEdgeMap.Weight[edge] += weight
 		d.TotalWeight += weight
+	}
+
+	d.InlineProfile = make(map[string]map[string]map[int]map[int]int)
+	for scanner.Scan() {
+		fName := scanner.Text()
+		if !scanner.Scan() {
+			return nil, fmt.Errorf("preprocessed profile error processing inline profile, missing inline tree")
+		}
+		inlT := scanner.Text()
+		if !scanner.Scan() {
+			return nil, fmt.Errorf("preprocessed profile error processing inline profile, missing lico freq map entry")
+		}
+		readStr := scanner.Text()
+		split := strings.Split(readStr, " ")
+		if len(split) != 3 {
+			return nil, fmt.Errorf("preprocessed profile error processing inline profile, lico freq map entry format error, expect 'line col freq', got %s", readStr)
+		}
+		if d.InlineProfile[fName] == nil {
+			d.InlineProfile[fName] = make(map[string]map[int]map[int]int)
+		}
+		if d.InlineProfile[fName][inlT] == nil {
+			d.InlineProfile[fName][inlT] = make(map[int]map[int]int)
+		}
+		l, _ := strconv.ParseInt(split[0], 10, 64)
+		c, _ := strconv.ParseInt(split[1], 10, 64)
+		freq, _ := strconv.ParseInt(split[2], 10, 64)
+		if d.InlineProfile[fName][inlT][int(l)] == nil {
+			d.InlineProfile[fName][inlT][int(l)] = make(map[int]int)
+		}
+		d.InlineProfile[fName][inlT][int(l)][int(c)] += int(freq)
 	}
 
 	return d, nil

@@ -69,6 +69,10 @@ type Block struct {
 	succstorage [2]Edge
 	predstorage [4]Edge
 	valstorage  [9]*Value
+
+	// Used for PGO basic block reordering passes.
+	// Basic block frequencies in the pgo profile.
+	BBFreq int
 }
 
 // Edge represents a CFG edge.
@@ -102,6 +106,10 @@ type Edge struct {
 	//   e.b.Preds[e.i] = Edge{x,idx}
 	// and similarly for predecessors.
 	i int
+
+	// Used for PGO basic block reordering passes
+	// Edge frequency in the pgo profile.
+	EdgeFreq int
 }
 
 func (e Edge) Block() *Block {
@@ -275,8 +283,8 @@ func (b *Block) truncateValues(i int) {
 func (b *Block) AddEdgeTo(c *Block) {
 	i := len(b.Succs)
 	j := len(c.Preds)
-	b.Succs = append(b.Succs, Edge{c, j})
-	c.Preds = append(c.Preds, Edge{b, i})
+	b.Succs = append(b.Succs, Edge{b: c, i: j})
+	c.Preds = append(c.Preds, Edge{b: b, i: i})
 	b.Func.invalidateCFG()
 }
 

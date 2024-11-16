@@ -150,6 +150,10 @@ type Func struct {
 	// WasmExport is used by the //go:wasmexport directive to store info about
 	// a WebAssembly function import.
 	WasmExport *WasmExport
+
+	// Used for PGO basic block reordering passes.
+	// InlineTree(serialized) -> line number -> column number -> frequency
+	LicoFreqMap map[string]map[int]map[int]int
 }
 
 // WasmImport stores metadata associated with the //go:wasmimport pragma.

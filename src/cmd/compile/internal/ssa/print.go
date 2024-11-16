@@ -95,7 +95,7 @@ func StmtString(p src.XPos) string {
 		if p.IsStmt() == src.PosNotStmt {
 			pfx = "-"
 		}
-		linenumber = fmt.Sprintf("(%s%d) ", pfx, p.Line())
+		linenumber = fmt.Sprintf("(%s%d,%d) ", pfx, p.Line(), p.Col())
 	}
 	return linenumber
 }
