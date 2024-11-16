@@ -313,11 +313,15 @@ func fuseBlockPlain(b *Block) bool {
 	}
 	for i, e := range c.Preds {
 		p := e.b
-		p.Succs[e.i] = Edge{c, i}
+		p.Succs[e.i] = Edge{b: c, i: i}
 	}
 	f := b.Func
 	if f.Entry == b {
 		f.Entry = c
+	}
+
+	if b.BBFreq != 0 && c.BBFreq == 0 {
+		c.BBFreq = b.BBFreq
 	}
 
 	// trash b's fields, just in case

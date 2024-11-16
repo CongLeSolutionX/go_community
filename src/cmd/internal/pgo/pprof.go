@@ -59,9 +59,11 @@ func FromPProf(r io.Reader) (*Profile, error) {
 		return emptyProfile(), nil // accept but ignore profile with no samples.
 	}
 
+	inlp := newInlineProfile(p)
 	return &Profile{
-		TotalWeight:  totalWeight,
-		NamedEdgeMap: namedEdgeMap,
+		TotalWeight:   totalWeight,
+		NamedEdgeMap:  namedEdgeMap,
+		InlineProfile: inlp,
 	}, nil
 }
 
@@ -137,4 +139,34 @@ func postProcessNamedEdgeMap(weight map[NamedCallEdge]int64, weightVal int64) (e
 	totalWeight = weightVal
 
 	return edgeMap, totalWeight, nil
+}
+
+func insertOrUpdateInlineProfile(inlprof InlineProfile, inlineTree []profile.Line, freq int) {
+	funcName := inlineTree[len(inlineTree)-1].Function.Name
+	leafLine := int(inlineTree[0].Line)
+	leafCol := int(inlineTree[0].Column)
+	var serializedInlineTree string
+	for _, l := range inlineTree {
+		serializedInlineTree += ";" + l.Function.Name
+	}
+	if _, ok := inlprof[funcName]; !ok {
+		inlprof[funcName] = make(map[string]map[int]map[int]int)
+	}
+	if _, ok := inlprof[funcName][serializedInlineTree]; !ok {
+		inlprof[funcName][serializedInlineTree] = make(map[int]map[int]int)
+	}
+	if _, ok := inlprof[funcName][serializedInlineTree][leafLine]; !ok {
+		inlprof[funcName][serializedInlineTree][leafLine] = make(map[int]int)
+	}
+	inlprof[funcName][serializedInlineTree][leafLine][leafCol] += freq
+}
+
+func newInlineProfile(prof *profile.Profile) InlineProfile {
+	inlineProfile := make(InlineProfile)
+	for _, s := range prof.Sample {
+		for _, l := range s.Location {
+			insertOrUpdateInlineProfile(inlineProfile, l.Line, int(s.Value[0]))
+		}
+	}
+	return inlineProfile
 }

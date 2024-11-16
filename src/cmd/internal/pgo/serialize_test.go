@@ -56,8 +56,9 @@ func TestEmpty(t *testing.T) {
 	b := testRoundTrip(t, d)
 
 	// Contents should consist of only a header.
-	if string(b) != serializationHeader {
-		t.Errorf("WriteTo got %q want %q", string(b), serializationHeader)
+	want := serializationHeader + licoToBlocksEnd + "\n"
+	if string(b) != want {
+		t.Errorf("WriteTo got %q want %q", string(b), want)
 	}
 }
 
@@ -67,25 +68,25 @@ func TestRoundTrip(t *testing.T) {
 		NamedEdgeMap: NamedEdgeMap{
 			ByWeight: []NamedCallEdge{
 				{
-					CallerName: "a",
-					CalleeName: "b",
+					CallerName:     "a",
+					CalleeName:     "b",
 					CallSiteOffset: 14,
 				},
 				{
-					CallerName: "c",
-					CalleeName: "d",
+					CallerName:     "c",
+					CalleeName:     "d",
 					CallSiteOffset: 15,
 				},
 			},
 			Weight: map[NamedCallEdge]int64{
 				{
-					CallerName: "a",
-					CalleeName: "b",
+					CallerName:     "a",
+					CalleeName:     "b",
 					CallSiteOffset: 14,
 				}: 2,
 				{
-					CallerName: "c",
-					CalleeName: "d",
+					CallerName:     "c",
+					CalleeName:     "d",
 					CallSiteOffset: 15,
 				}: 1,
 			},
@@ -157,8 +158,8 @@ func constructFuzzProfile(t *testing.T, b []byte) *Profile {
 		}
 
 		edge := NamedCallEdge{
-			CallerName: caller,
-			CalleeName: callee,
+			CallerName:     caller,
+			CalleeName:     callee,
 			CallSiteOffset: int(line),
 		}
 

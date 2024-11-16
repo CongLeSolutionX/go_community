@@ -23,7 +23,7 @@ import (
 )
 
 // Matches lines in genssa output that are marked "isstmt", and the parenthesized plus-prefixed line number is a submatch
-var asmLine *regexp.Regexp = regexp.MustCompile(`^\s[vb]\d+\s+\d+\s\(\+(\d+)\)`)
+var asmLine *regexp.Regexp = regexp.MustCompile(`^\s[vb]\d+\s+\d+\s\(\+(\d+)\,\d+\)`)
 
 // this matches e.g.                            `   v123456789   000007   (+9876654310) MOVUPS	X15, ""..autotmp_2-32(SP)`
 
