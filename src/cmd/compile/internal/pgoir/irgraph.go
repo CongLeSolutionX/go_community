@@ -118,6 +118,21 @@ type Profile struct {
 	WeightedCG *IRGraph
 }
 
+func (p *Profile) UpdateFuncProf() {
+	if p.InlineProfile == nil {
+		return
+	}
+	ir.VisitFuncsBottomUp(typecheck.Target.Funcs, func(list []*ir.Func, recursive bool) {
+		for _, fn := range list {
+			funcName := ir.LinkFuncName(fn)
+			if p.InlineProfile[funcName] == nil {
+				continue
+			}
+			fn.LicoFreqMap = p.InlineProfile[funcName]
+		}
+	})
+}
+
 // New generates a profile-graph from the profile or pre-processed profile.
 func New(profileFile string) (*Profile, error) {
 	f, err := os.Open(profileFile)
@@ -152,10 +167,12 @@ func New(profileFile string) (*Profile, error) {
 	// Create package-level call graph with weights from profile and IR.
 	wg := createIRGraph(base.NamedEdgeMap)
 
-	return &Profile{
+	p := Profile{
 		Profile:    base,
 		WeightedCG: wg,
-	}, nil
+	}
+	p.UpdateFuncProf()
+	return &p, nil
 }
 
 // initializeIRGraph builds the IRGraph by visiting all the ir.Func in decl list

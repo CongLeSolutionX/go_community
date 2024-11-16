@@ -199,10 +199,10 @@ func shortcircuitBlock(b *Block) bool {
 	b.removePhiArg(ctl, cidx)
 
 	// Redirect p's outgoing edge to t.
-	p.Succs[pi] = Edge{t, len(t.Preds)}
+	p.Succs[pi] = Edge{b: t, i: len(t.Preds)}
 
 	// Fix up t to have one more predecessor.
-	t.Preds = append(t.Preds, Edge{p, pi})
+	t.Preds = append(t.Preds, Edge{b: p, i: pi})
 	for _, v := range t.Values {
 		if v.Op != OpPhi {
 			continue
