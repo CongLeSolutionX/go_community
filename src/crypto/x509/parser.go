@@ -747,6 +747,16 @@ func processExtensions(out *Certificate) error {
 				if err != nil {
 					return err
 				}
+			case 36:
+				val := cryptobyte.String(e.Value)
+				if !val.ReadOptionalASN1Integer(&out.RequireExplicitPolicy, cryptobyte_asn1.Tag(0).Constructed().ContextSpecific(), 0) {
+					return errors.New("x509: invalid policy constraints extension")
+				}
+				out.RequireExplicitPolicyZero = out.RequireExplicitPolicy == 0
+				if !val.ReadOptionalASN1Integer(&out.InhibitPolicyMapping, cryptobyte_asn1.Tag(1).Constructed().ContextSpecific(), 0) {
+					return errors.New("x509: invalid policy constraints extension")
+				}
+				out.InhibitPolicyMappingZero = out.InhibitPolicyMapping == 0
 			case 37:
 				out.ExtKeyUsage, out.UnknownExtKeyUsage, err = parseExtKeyUsageExtension(e.Value)
 				if err != nil {
@@ -775,6 +785,27 @@ func processExtensions(out *Certificate) error {
 						out.PolicyIdentifiers = append(out.PolicyIdentifiers, oid)
 					}
 				}
+			case 33:
+				val := cryptobyte.String(e.Value)
+				if !val.ReadASN1(&val, cryptobyte_asn1.SEQUENCE) {
+					return errors.New("x509: invalid policy mappings extension")
+				}
+				for !val.Empty() {
+					var s cryptobyte.String
+					var issuer, subject cryptobyte.String
+					if !val.ReadASN1(&s, cryptobyte_asn1.SEQUENCE) ||
+						!s.ReadASN1(&issuer, cryptobyte_asn1.OBJECT_IDENTIFIER) ||
+						!s.ReadASN1(&subject, cryptobyte_asn1.OBJECT_IDENTIFIER) {
+						return errors.New("x509: invalid policy mappings extension")
+					}
+					out.PolicyMappings = append(out.PolicyMappings, PolicyMapping{OID{issuer}, OID{subject}})
+				}
+			case 54:
+				val := cryptobyte.String(e.Value)
+				if !val.ReadASN1Integer(&out.InhibitAnyPolicy) {
+					return errors.New("x509: invalid inhibit any policy extension")
+				}
+				out.InhibitAnyPolicyZero = out.InhibitAnyPolicy == 0
 			default:
 				// Unknown extensions are recorded if critical.
 				unhandled = true
