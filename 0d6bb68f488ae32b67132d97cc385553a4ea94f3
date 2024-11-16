@@ -96,6 +96,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a06f72f_a57c57a0",
+        "filename": "src/cmd/go/internal/base/tool.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 12445
+      },
+      "writtenOn": "2024-11-16T02:16:05Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "06fe2881_4784d9d8",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 12
+      },
+      "revId": "0d6bb68f488ae32b67132d97cc385553a4ea94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d17bf5ea_a09ed55d",

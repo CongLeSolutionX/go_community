@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "670d90cf_669bd941",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12445
+      },
+      "writtenOn": "2024-11-16T02:16:05Z",
+      "side": 1,
+      "message": "Here is the version of tool support without caching changes in lieu of your proposal.\n\nPlease let me know if you\u0027d like any changes on this.",
+      "revId": "59375488e12030ebccbb86d86824fe0860f560d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
