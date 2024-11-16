@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85f70393_cafff95f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-11-16T13:49:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcdd08a2_1b2ed105",
+      "range": {
+        "startLine": 13,
+        "startChar": 42,
+        "endLine": 13,
+        "endChar": 57
+      },
+      "revId": "d9ceee45c5da0d47663d782a6f68331e67eaecd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fde79a1_eae8703e",
@@ -87,6 +111,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0483711e_dba4dfa3",
+        "filename": "src/runtime/pprof/label.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-11-16T13:49:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fde79a1_eae8703e",
+      "range": {
+        "startLine": 76,
+        "startChar": 9,
+        "endLine": 76,
+        "endChar": 30
+      },
+      "revId": "d9ceee45c5da0d47663d782a6f68331e67eaecd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d71c7343_f9a12f8a",
         "filename": "src/runtime/pprof/label.go",
         "patchSetId": 6
@@ -98,6 +146,24 @@
       "writtenOn": "2024-11-14T21:49:27Z",
       "side": 1,
       "message": "Is there any particular reason we expect this to be sorted? I looked at a variety of callers and they seem to just pass arbitrary values with no particular ordering.",
+      "revId": "d9ceee45c5da0d47663d782a6f68331e67eaecd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "801755d1_bc9ac807",
+        "filename": "src/runtime/pprof/label.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-11-16T13:49:00Z",
+      "side": 1,
+      "message": "My idea is that callers who are aware of this optimization can take advantage of it by passing the keys in sorted order. I\u0027m planning to do this for the places where we use pprof labels in our libraries. Other callers could do the same.\n\nMaybe the main question is whether or not this behavior should be documented. I figured it\u0027s better to not advertise it to give us more flexibility on changing the behavior again in the future. But I don\u0027t feel strongly about it.",
+      "parentUuid": "d71c7343_f9a12f8a",
       "revId": "d9ceee45c5da0d47663d782a6f68331e67eaecd7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -115,6 +181,30 @@
       "writtenOn": "2024-11-14T17:23:34Z",
       "side": 1,
       "message": "same here re: strings.Compare",
+      "range": {
+        "startLine": 116,
+        "startChar": 10,
+        "endLine": 116,
+        "endChar": 31
+      },
+      "revId": "d9ceee45c5da0d47663d782a6f68331e67eaecd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "feb73b3a_cb9ff043",
+        "filename": "src/runtime/pprof/label.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-11-16T13:49:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d76c3e17_8cba3cf1",
       "range": {
         "startLine": 116,
         "startChar": 10,
