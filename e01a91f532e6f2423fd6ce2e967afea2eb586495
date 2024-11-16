@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f2f9ef3_24fff02c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-16T15:59:12Z",
+      "side": 1,
+      "message": "This is split off from CL 601535.",
+      "revId": "e01a91f532e6f2423fd6ce2e967afea2eb586495",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
