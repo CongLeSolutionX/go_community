@@ -196,7 +196,7 @@ var verifyTests = []verifyTest{
 		roots:         []string{smimeRoot},
 		currentTime:   1594673418,
 
-		errorCallback: expectUsageError,
+		errorCallback: expectNoChainError,
 	},
 	{
 		name:          "EKULeafExplicit",
@@ -206,7 +206,7 @@ var verifyTests = []verifyTest{
 		currentTime:   1594673418,
 		keyUsages:     []ExtKeyUsage{ExtKeyUsageServerAuth},
 
-		errorCallback: expectUsageError,
+		errorCallback: expectNoChainError,
 	},
 	{
 		name:          "EKULeafValid",
@@ -404,6 +404,12 @@ func expectExpired(t *testing.T, err error) {
 func expectUsageError(t *testing.T, err error) {
 	if inval, ok := err.(CertificateInvalidError); !ok || inval.Reason != IncompatibleUsage {
 		t.Fatalf("error was not IncompatibleUsage: %v", err)
+	}
+}
+
+func expectNoChainError(t *testing.T, err error) {
+	if inval, ok := err.(CertificateInvalidError); !ok || inval.Reason != NoValidChains {
+		t.Fatalf("error was not NoValidChains: %v", err)
 	}
 }
 
@@ -2634,7 +2640,7 @@ func TestEKUEnforcement(t *testing.T) {
 			inters:     []ekuDescs{ekuDescs{EKUs: []ExtKeyUsage{ExtKeyUsageServerAuth, ExtKeyUsageClientAuth}}},
 			leaf:       ekuDescs{EKUs: []ExtKeyUsage{ExtKeyUsageServerAuth, ExtKeyUsageClientAuth}},
 			verifyEKUs: []ExtKeyUsage{ExtKeyUsageServerAuth},
-			err:        "x509: certificate specifies an incompatible key usage",
+			err:        "x509: no valid chains built: 1 chains with incompatible key usage",
 		},
 		{
 			name:       "valid, two EKUs, one path",
@@ -2654,7 +2660,7 @@ func TestEKUEnforcement(t *testing.T) {
 			},
 			leaf:       ekuDescs{EKUs: []ExtKeyUsage{ExtKeyUsageServerAuth}},
 			verifyEKUs: []ExtKeyUsage{ExtKeyUsageServerAuth, ExtKeyUsageClientAuth},
-			err:        "x509: certificate specifies an incompatible key usage",
+			err:        "x509: no valid chains built: 1 chains with incompatible key usage",
 		},
 		{
 			name:       "valid, intermediate has no EKU",
@@ -2669,7 +2675,7 @@ func TestEKUEnforcement(t *testing.T) {
 			inters:     []ekuDescs{ekuDescs{}},
 			leaf:       ekuDescs{EKUs: []ExtKeyUsage{ExtKeyUsageServerAuth}},
 			verifyEKUs: []ExtKeyUsage{ExtKeyUsageServerAuth, ExtKeyUsageClientAuth},
-			err:        "x509: certificate specifies an incompatible key usage",
+			err:        "x509: no valid chains built: 1 chains with incompatible key usage",
 		},
 		{
 			name:       "invalid, intermediate has unknown EKU",
@@ -2677,7 +2683,7 @@ func TestEKUEnforcement(t *testing.T) {
 			inters:     []ekuDescs{ekuDescs{Unknown: []asn1.ObjectIdentifier{{1, 2, 3}}}},
 			leaf:       ekuDescs{EKUs: []ExtKeyUsage{ExtKeyUsageServerAuth}},
 			verifyEKUs: []ExtKeyUsage{ExtKeyUsageServerAuth},
-			err:        "x509: certificate specifies an incompatible key usage",
+			err:        "x509: no valid chains built: 1 chains with incompatible key usage",
 		},
 	}
 
@@ -2715,7 +2721,7 @@ func TestEKUEnforcement(t *testing.T) {
 			if err == nil && tc.err != "" {
 				t.Errorf("expected error")
 			} else if err != nil && err.Error() != tc.err {
-				t.Errorf("unexpected error: want %q, got %q", err.Error(), tc.err)
+				t.Errorf("unexpected error: got %q, want %q", err.Error(), tc.err)
 			}
 		})
 	}
