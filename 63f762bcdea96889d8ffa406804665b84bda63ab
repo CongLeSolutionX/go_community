@@ -16,6 +16,24 @@
       "message": "Note that internal/runtime/maps.TestMapPut [fails](https://ci.chromium.org/b/8730991533000725377) on the `GOEXPERIMENT\u003dnoswissmap` builder.",
       "revId": "63f762bcdea96889d8ffa406804665b84bda63ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5af5e750_3813a033",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-11-17T21:27:43Z",
+      "side": 1,
+      "message": "Thanks. Fix at CL 628895.",
+      "parentUuid": "126e09a9_bfed1095",
+      "revId": "63f762bcdea96889d8ffa406804665b84bda63ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
