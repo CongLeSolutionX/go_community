@@ -13,6 +13,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"slices"
 	"sync"
 	"testing"
 )
@@ -20,6 +21,7 @@ import (
 func resetForTesting() {
 	cwd = sync.OnceValue(cwdOnce)
 	overlay = nil
+	binds = nil
 }
 
 // initOverlay resets the overlay state to reflect the config.
@@ -1120,6 +1122,35 @@ func TestStatSymlink(t *testing.T) {
 	}
 }
 
+func TestBindOverlay(t *testing.T) {
+	initOverlay(t, `{"Replace": {"mtpt/x.go": "xx.go"}}
+-- mtpt/x.go --
+mtpt/x.go
+-- mtpt2/x.go --
+mtpt/x.go
+-- replaced/x.go --
+replaced/x.go
+-- replaced/x/y/z.go --
+replaced/x/y/z.go
+-- xx.go --
+xx.go
+`)
+
+	testReadFile(t, "mtpt/x.go", "xx.go\n")
+
+	Bind("replaced", "mtpt")
+	testReadFile(t, "mtpt/x.go", "replaced/x.go\n")
+	testReadDir(t, "mtpt/x", "y/")
+	testReadDir(t, "mtpt/x/y", "z.go")
+	testReadFile(t, "mtpt/x/y/z.go", "replaced/x/y/z.go\n")
+
+	Bind("replaced", "mtpt2/a/b")
+	testReadDir(t, "mtpt2", "a/", "x.go")
+	testReadDir(t, "mtpt2/a", "b/")
+	testReadDir(t, "mtpt2/a/b", "x/", "x.go")
+	testReadFile(t, "mtpt2/a/b/x.go", "replaced/x.go\n")
+}
+
 var badOverlayTests = []struct {
 	json string
 	err  string
@@ -1147,5 +1178,28 @@ func TestBadOverlay(t *testing.T) {
 		if err == nil || err.Error() != tt.err {
 			t.Errorf("#%d: err=%v, want %q", i, err, tt.err)
 		}
+	}
+}
+
+func testReadFile(t *testing.T, name string, want string) {
+	t.Helper()
+	data, err := ReadFile(name)
+	if string(data) != want || err != nil {
+		t.Errorf("ReadFile(%q) = %q, %v, want %q, nil", name, data, err, want)
+	}
+}
+func testReadDir(t *testing.T, name string, want ...string) {
+	t.Helper()
+	dirs, err := ReadDir(name)
+	var names []string
+	for _, d := range dirs {
+		name := d.Name()
+		if d.IsDir() {
+			name += "/"
+		}
+		names = append(names, name)
+	}
+	if !slices.Equal(names, want) || err != nil {
+		t.Errorf("ReadDir(%q) = %q, %v, want %q, nil", name, names, err, want)
 	}
 }
