@@ -46,6 +46,30 @@
       },
       "revId": "918c65b85800147ab9856591e0e3409b6d67a868",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d0afe8a_6868a947",
+        "filename": "src/internal/runtime/maps/runtime_fast32_swiss.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-11-17T20:20:36Z",
+      "side": 1,
+      "message": "This is a bit test + branch on amd64 (BTL/JCS: bit test, jump carry set) and a single instruction on arm64 (TBNZ - test bit not zero?).\nSo I think that\u0027s as good as it can be.",
+      "parentUuid": "55f1a83a_d22a62ea",
+      "range": {
+        "startLine": 41,
+        "startChar": 36,
+        "endLine": 41,
+        "endChar": 47
+      },
+      "revId": "918c65b85800147ab9856591e0e3409b6d67a868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
