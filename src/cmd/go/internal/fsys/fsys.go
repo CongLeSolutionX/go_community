@@ -96,6 +96,22 @@ type replace struct {
 	to   string
 }
 
+var binds []replace
+
+// Bind makes the virtual file system use dir as if it were mounted at mtpt,
+// like Plan 9's “bind” or Linux's “mount --bind”, or like os.Symlink
+// but without the symbolic link.
+//
+// For now, the behavior of using Bind on multiple overlapping
+// mountpoints (for example Bind("x", "/a") and Bind("y", "/a/b"))
+// is undefined.
+func Bind(dir, mtpt string) {
+	if dir == "" || mtpt == "" {
+		panic("Bind of empty directory")
+	}
+	binds = append(binds, replace{abs(mtpt), abs(dir)})
+}
+
 // cwd returns the current directory, caching it on first use.
 var cwd = sync.OnceValue(cwdOnce)
 
@@ -140,7 +156,8 @@ type info struct {
 	abs      string
 	deleted  bool
 	replaced bool
-	dir      bool
+	dir      bool // must be dir
+	file     bool // must be file
 	actual   string
 }
 
@@ -150,6 +167,20 @@ func stat(path string) info {
 	if path == "" {
 		return info{abs: apath, actual: path}
 	}
+
+	replaced := false
+	for _, r := range binds {
+		if str.HasPathPrefix(apath, r.from) {
+			apath = r.to + apath[len(r.from):]
+			path = apath
+			replaced = true
+			break
+		}
+		if str.HasPathPrefix(r.from, apath) {
+			return info{abs: apath, replaced: true, dir: true, actual: path}
+		}
+	}
+
 	i, ok := slices.BinarySearchFunc(overlay, apath, searchcmp)
 	if ok {
 		r := overlay[i]
@@ -162,7 +193,7 @@ func stat(path string) info {
 			return info{abs: apath, replaced: true, dir: true, actual: path}
 		}
 		// Replaced file.
-		return info{abs: apath, replaced: true, actual: r.to}
+		return info{abs: apath, replaced: true, file: true, actual: r.to}
 	}
 	if i < len(overlay) && str.HasPathPrefix(overlay[i].from, apath) {
 		// Replacement for child path; infer existence of parent directory.
@@ -179,26 +210,41 @@ func stat(path string) info {
 		// Parent replaced by file; path is deleted.
 		return info{abs: apath, deleted: true}
 	}
-	return info{abs: apath, actual: path}
+	return info{abs: apath, replaced: replaced, actual: path}
 }
 
 // children returns a sequence of (name, info)
 // for all the children of the directory i.
 func (i *info) children() iter.Seq2[string, info] {
 	return func(yield func(string, info) bool) {
+		var dirs []string
+		for _, m := range binds {
+			if str.HasPathPrefix(m.from, i.abs) && m.from != i.abs {
+				name := m.from[len(i.abs)+1:]
+				if i := strings.IndexByte(name, filepath.Separator); i >= 0 {
+					name = name[:i]
+				}
+				dirs = append(dirs, name)
+			}
+		}
+		if len(dirs) > 1 {
+			slices.Sort(dirs)
+			str.Uniq(&dirs)
+		}
+
 		target := i.abs + string(filepath.Separator) + "\x00"
 		for {
 			j, _ := slices.BinarySearchFunc(overlay, target, func(r replace, t string) int {
 				return cmp(r.from, t)
 			})
 			if j >= len(overlay) {
-				return
+				break
 			}
 
 		Loop:
 			r := overlay[j]
 			if !str.HasPathPrefix(r.from, i.abs) {
-				return
+				break
 			}
 			name := r.from[len(i.abs)+1:]
 			actual := r.to
@@ -215,6 +261,14 @@ func (i *info) children() iter.Seq2[string, info] {
 				dir:      dir || strings.HasSuffix(r.to, string(filepath.Separator)),
 				actual:   actual,
 			}
+			for ; len(dirs) > 0 && dirs[0] < name; dirs = dirs[1:] {
+				if !yield(dirs[0], info{abs: filepath.Join(i.abs, dirs[0]), replaced: true, dir: true}) {
+					return
+				}
+			}
+			if len(dirs) > 0 && dirs[0] == name {
+				dirs = dirs[1:]
+			}
 			if !yield(name, ci) {
 				return
 			}
@@ -225,6 +279,12 @@ func (i *info) children() iter.Seq2[string, info] {
 			if j+1 < len(overlay) && cmp(target, overlay[j+1].from) < 0 {
 				j++
 				goto Loop
+			}
+		}
+
+		for _, dir := range dirs {
+			if !yield(dir, info{abs: filepath.Join(i.abs, dir), replaced: true, dir: true}) {
+				return
 			}
 		}
 	}
@@ -339,15 +399,16 @@ func ReadDir(name string) ([]fs.DirEntry, error) {
 	if !info.replaced {
 		return osReadDir(name)
 	}
-	if !info.dir {
+	if info.file {
 		return nil, &fs.PathError{Op: "read", Path: name, Err: errNotDir}
 	}
 
 	// Start with normal disk listing.
-	dirs, err := osReadDir(name)
+	dirs, err := osReadDir(info.actual)
 	if err != nil && !os.IsNotExist(err) && !errors.Is(err, errNotDir) {
 		return nil, err
 	}
+	dirErr := err
 
 	// Merge disk listing and overlay entries in map.
 	all := make(map[string]fs.DirEntry)
@@ -383,6 +444,10 @@ func ReadDir(name string) ([]fs.DirEntry, error) {
 		dirs = append(dirs, d)
 	}
 	slices.SortFunc(dirs, func(x, y fs.DirEntry) int { return strings.Compare(x.Name(), y.Name()) })
+
+	if len(dirs) == 0 {
+		return nil, dirErr
+	}
 	return dirs, nil
 }
 
