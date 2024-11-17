@@ -501,6 +501,7 @@ var passes = [...]pass{
 	{name: "phi tighten", fn: phiTighten},            // place rematerializable phi args near uses to reduce value lifetimes
 	{name: "likelyadjust", fn: likelyadjust},
 	{name: "block freq assignment", fn: assignblockfreq, required: true},
+	{name: "freq prog", fn: freqPropagate, required: true},
 	{name: "layout", fn: layout, required: true},     // schedule blocks
 	{name: "schedule", fn: schedule, required: true}, // schedule values
 	{name: "late nilcheck", fn: nilcheckelim2},
@@ -584,7 +585,9 @@ var passOrder = [...]constraint{
 	// memcombine is a arch-independent pass.
 	{"memcombine", "lower"},
 	// layout might use block frequencies for block reordering
+	{"block freq assignment", "freq prog"},
 	{"block freq assignment", "layout"},
+	{"freq prog", "layout"},
 }
 
 func init() {

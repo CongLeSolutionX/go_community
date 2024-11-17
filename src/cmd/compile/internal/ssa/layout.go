@@ -21,6 +21,7 @@ func layoutRegallocOrder(f *Func) []*Block {
 }
 
 const bbfreqUsableThres = 50
+const edgefreqUsableThres = 20
 
 func layoutOrder(f *Func) []*Block {
 	order := make([]*Block, 0, f.NumBlocks())
@@ -130,9 +131,17 @@ blockloop:
 		var likely *Block
 
 		if base.Debug.PGOBBReorder != 0 && len(b.Succs) == 2 {
+			ef0 := b.Succs[0].EdgeFreq
+			ef1 := b.Succs[1].EdgeFreq
 			bf0 := b.Succs[0].b.BBFreq
 			bf1 := b.Succs[1].b.BBFreq
-			if bf0 > bbfreqUsableThres && bf1 > bbfreqUsableThres {
+			if ef0 > edgefreqUsableThres && ef1 > edgefreqUsableThres {
+				if ef0 > ef1 {
+					likely = b.Succs[0].b
+				} else {
+					likely = b.Succs[1].b
+				}
+			} else if bf0 > bbfreqUsableThres && bf1 > bbfreqUsableThres {
 				if bf0 > bf1 {
 					likely = b.Succs[0].b
 				} else {
