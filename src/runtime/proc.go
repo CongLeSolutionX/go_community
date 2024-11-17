@@ -119,6 +119,12 @@ var (
 	mcache0      *mcache
 	raceprocctx0 uintptr
 	raceFiniLock mutex
+
+	// m0func pass f from a call to mainthread.Do on non-main thread to the main thread.
+	m0func = make(chan func())
+	// m0exec notifies mainthread.Do when the f passed from mainthread.Do on non-main thread
+	// to main thread has completed.
+	m0exec = make(chan struct{})
 )
 
 // This slice records the initializing tasks that need to be
@@ -142,6 +148,25 @@ var runtimeInitTime int64
 
 // Value to use for signal mask for newly created M's.
 var initSigmask sigset
+
+// initLockMainThread record whether init call LockOSThread,
+// but not call UnlockOSThread.
+var initLockMainThread bool
+
+func mainThreadDo(f func()) {
+	g := getg()
+	if g.inMainThreadDo {
+		panic("runtime: nested call mainthread.Do")
+	}
+	if inittrace.active {
+		panic("runtime: call mainthread.Do in init")
+	}
+	if initLockMainThread {
+		panic("runtime: call mainthread.Do when init call runtime.LockOSThread")
+	}
+	m0func <- f
+	_ = <-m0exec
+}
 
 // The main goroutine.
 func main() {
@@ -260,9 +285,6 @@ func main() {
 
 	close(main_init_done)
 
-	needUnlock = false
-	unlockOSThread()
-
 	if isarchive || islibrary {
 		// A program compiled with -buildmode=c-archive or c-shared
 		// has a main, but it is not executed.
@@ -279,8 +301,37 @@ func main() {
 		}
 		return
 	}
+
 	fn := main_main // make an indirect call, as the linker doesn't know the address of the main package when laying down the runtime
-	fn()
+	done := make(chan struct{})
+	if m0.lockedExt != 0 {
+		initLockMainThread = true
+		needUnlock = false
+		unlockOSThread()
+		fn()
+		done <- struct{}{}
+	} else {
+		// If runtime.LockOSThread is not called in init, reserve the main thread for mainthread.Do.
+		go func() {
+			defer func() { done <- struct{}{} }()
+			fn()
+		}()
+		g := getg()
+		g.inMainThreadDo = true
+	loop:
+		for {
+			select {
+			case f := <-m0func:
+				f()
+				m0exec <- struct{}{}
+			case <-done:
+				needUnlock = false
+				unlockOSThread()
+				break loop
+			}
+		}
+	}
+
 	if raceenabled {
 		runExitHooks(0) // run hooks now, since racefini does not return
 		racefini()
@@ -5366,6 +5417,7 @@ func UnlockOSThread() {
 	if gp.m.lockedExt == 0 {
 		return
 	}
+	initLockMainThread = false
 	gp.m.lockedExt--
 	dounlockOSThread()
 }

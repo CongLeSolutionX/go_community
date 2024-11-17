@@ -4,7 +4,10 @@
 
 package main
 
-import "os"
+import (
+	"os"
+	"runtime"
+)
 
 var cmds = map[string]func(){}
 
@@ -32,4 +35,10 @@ func main() {
 		return
 	}
 	f()
+}
+
+func init() {
+	if os.Args[1] != "MainGoroutineID" {
+		runtime.UnlockOSThread()
+	}
 }

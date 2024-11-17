@@ -12,6 +12,7 @@ import (
 	"net"
 	"runtime"
 	"runtime/debug"
+	"runtime/mainthread"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -1157,4 +1158,36 @@ func TestBigGOMAXPROCS(t *testing.T) {
 	if !strings.Contains(output, "unknown function: NonexistentTest") {
 		t.Errorf("output:\n%s\nwanted:\nunknown function: NonexistentTest", output)
 	}
+}
+
+func TestMainThread(t *testing.T) {
+	output := runTestProg(t, "testprog", "MainThread")
+	want := "Ok"
+	if !strings.Contains(output, want) {
+		t.Fatalf("expected %s in the output, got:\n%s", want, output)
+	}
+	t.Run("in mainthread call UnlockOSThread", func(t *testing.T) {
+		mainthread.Do(func() {
+			for range 1000 {
+				runtime.Gosched()
+				m := runtime.Acquirem()
+				runtime.Releasem()
+				if m != runtime.M0 {
+					// don`t use t.Fatal, because it call
+					// Goexit, cause goroutine on main thread exit,
+					// and test timeout.
+					t.Fail()
+					t.Log("mainthread.Do.f must on main thread")
+					return
+				}
+			}
+		})
+	})
+	t.Run("nested call mainthread.Do", func(t *testing.T) {
+		output := runTestProg(t, "testprog", "MainThread2")
+		want := "hello,panic: runtime: nested call mainthread.Do"
+		if !strings.Contains(output, want) {
+			t.Fatalf("expected %s in the output, got:\n%s", want, output)
+		}
+	})
 }
