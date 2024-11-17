@@ -17,6 +17,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"internal/abi"
+	"internal/buildcfg"
 	"io"
 	"log"
 	"os"
@@ -409,6 +410,13 @@ func (w *writer) Sym(s *LSym) {
 	}
 	if s.Size > cutoff {
 		w.ctxt.Diag("%s: symbol too large (%d bytes > %d bytes)", s.Name, s.Size, cutoff)
+	}
+	if s.Type == objabi.SRODATAFIPS && buildcfg.GOARCH == "arm64" && align < 8 {
+		// In FIPS packages, disabled compiler optimizations cause the compiler
+		// to emit a MOVD for code like x := [12]byte{1,2,3,4,5,6,7,8,9,10,11,12},
+		// and the PC-relative relocation in that instruction requires 8-byte alignment.
+		// Align all RODATA to 8-byte boundaries to avoid relocation errors.
+		align = 8
 	}
 	o := &w.tmpSym
 	o.SetName(name, w.Writer)
