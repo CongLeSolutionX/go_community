@@ -390,7 +390,7 @@ func TestGoNil(t *testing.T) {
 
 func TestMainGoroutineID(t *testing.T) {
 	output := runTestProg(t, "testprog", "MainGoroutineID")
-	want := "panic: test\n\ngoroutine 1 [running]:\n"
+	want := "panic: test\n\ngoroutine 1 [running, locked to thread]:\n"
 	if !strings.HasPrefix(output, want) {
 		t.Fatalf("output does not start with %q:\n%s", want, output)
 	}

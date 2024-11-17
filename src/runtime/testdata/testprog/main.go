@@ -4,7 +4,11 @@
 
 package main
 
-import "os"
+import (
+	"os"
+	"runtime"
+	"strings"
+)
 
 var cmds = map[string]func(){}
 
@@ -32,4 +36,10 @@ func main() {
 		return
 	}
 	f()
+}
+
+func init() {
+	if strings.HasPrefix(os.Args[1], "MainThread") {
+		runtime.UnlockOSThread()
+	}
 }
