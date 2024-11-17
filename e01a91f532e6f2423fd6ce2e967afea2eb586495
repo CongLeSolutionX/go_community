@@ -16,6 +16,91 @@
       "message": "This is split off from CL 601535.",
       "revId": "e01a91f532e6f2423fd6ce2e967afea2eb586495",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "612d18b0_744c41e2",
+        "filename": "src/cmd/internal/script/scripttest/run.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-17T04:44:08Z",
+      "side": 1,
+      "message": "It\u0027s not standard library style to name one result.  The fact that the slice is the environment should be clear from the doc comment.",
+      "revId": "e01a91f532e6f2423fd6ce2e967afea2eb586495",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54fc7a56_48459cd2",
+        "filename": "src/cmd/internal/script/scripttest/run.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-17T04:44:08Z",
+      "side": 1,
+      "message": "This function needs a doc comment.",
+      "revId": "e01a91f532e6f2423fd6ce2e967afea2eb586495",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd8933fd_be6a5468",
+        "filename": "src/cmd/internal/script/scripttest/run.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-17T04:44:08Z",
+      "side": 1,
+      "message": "Now that this is exported, it needs a doc cocmment.",
+      "revId": "e01a91f532e6f2423fd6ce2e967afea2eb586495",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36cdcaf5_034315f8",
+        "filename": "src/cmd/internal/script/scripttest/scripttest.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-17T04:44:08Z",
+      "side": 1,
+      "message": "Doc comment.",
+      "revId": "e01a91f532e6f2423fd6ce2e967afea2eb586495",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b263432b_6f50957e",
+        "filename": "src/cmd/internal/test2json/test2json_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-17T04:44:08Z",
+      "side": 1,
+      "message": "Let\u0027s add a README file to the testdata directory explaining this.",
+      "revId": "e01a91f532e6f2423fd6ce2e967afea2eb586495",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
