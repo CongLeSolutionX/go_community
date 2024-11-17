@@ -1074,12 +1074,20 @@ func (o *Optab) size(ctxt *obj.Link, p *obj.Prog) int {
 		// Also symbols with prefix of "go:string." are Go strings, which will go into
 		// the symbol table, their addresses are not necessary aligned, rule this out.
 		align := int64(1 << sz)
-		if o.a1 == C_ADDR && p.From.Offset%align == 0 && !strings.HasPrefix(p.From.Sym.Name, "go:string.") ||
-			o.a4 == C_ADDR && p.To.Offset%align == 0 && !strings.HasPrefix(p.To.Sym.Name, "go:string.") {
+		if o.a1 == C_ADDR && p.From.Offset%align == 0 && !unaligned(p.From.Sym) ||
+			o.a4 == C_ADDR && p.To.Offset%align == 0 && !unaligned(p.To.Sym) {
 			return 8
 		}
 	}
 	return int(o.size_)
+}
+
+// unaligned reports whether sym should be treated as unaligned data.
+// String data is unaligned, as are some static temporaries that are only
+// generated in FIPS mode (which disables some static initialization optimizations).
+func unaligned(sym *obj.LSym) bool {
+	return strings.HasPrefix(sym.Name, "go:string.") ||
+		sym.Type == objabi.SRODATAFIPS && strings.Contains(sym.Name, obj.StaticNamePrefix)
 }
 
 func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
