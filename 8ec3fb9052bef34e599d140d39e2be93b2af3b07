@@ -33,6 +33,24 @@
       "message": "BTW, need `go generate`",
       "revId": "8ec3fb9052bef34e599d140d39e2be93b2af3b07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fad589d_756cdcbe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-11-17T20:51:55Z",
+      "side": 1,
+      "message": "Yep, thanks. Somehow I missed adding the rewritegeneric.go file to the CL.",
+      "parentUuid": "d0a656f3_2ab6530c",
+      "revId": "8ec3fb9052bef34e599d140d39e2be93b2af3b07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
