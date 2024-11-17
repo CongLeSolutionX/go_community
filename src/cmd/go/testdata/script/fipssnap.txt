@@ -4,7 +4,7 @@
 env snap=v0.0.1
 env alias=inprocess
 
-skip 'no snapshots yet'
+# skip 'no snapshots yet'
 env GOFIPS140=$snap
 
 # default GODEBUG includes fips140=on
