@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac560a74_5756928e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-17T20:47:08Z",
+      "side": 1,
+      "message": "Note that this is extremely complicated to test, because policy validation is a real pain, and there doesn\u0027t exist any good test suites for it (really).\n\nI manually tested this against the NIST PKI path validation test suite (see https://go.dev/cl/618415, TestNISTPKITSPolicy), and it passed all of the policy specific cases.",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
