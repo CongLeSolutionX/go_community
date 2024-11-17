@@ -58,7 +58,7 @@ var expected = []wantFrame{
 	1: {"main.g", 31},
 	2: {"main.f", 27},
 	3: {"main.testCaller", 42},
-	4: {"main.main", 68},
+	4: {"main.main.2", 68},
 	5: {"runtime.main", -1},
 	6: {"runtime.goexit", -1},
 }

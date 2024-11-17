@@ -442,6 +442,8 @@ type g struct {
 	// safe point. This means there are frames on the stack
 	// without precise pointer information.
 	asyncSafePoint bool
+	// inMainThreadDo is g call mainthread.Do and not return.
+	inMainThreadDo bool
 
 	paniconfault bool // panic (instead of crash) on unexpected fault address
 	gcscandone   bool // g has scanned stack; protected by _Gscan bit in status

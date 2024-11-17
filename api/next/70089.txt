@@ -1,0 +1,1 @@
+pkg runtime/mainthread, func Do(func()) #70089

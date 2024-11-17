@@ -39,6 +39,7 @@ func init() {
 	register("GoschedInPanic", GoschedInPanic)
 	register("SyscallInPanic", SyscallInPanic)
 	register("PanicLoop", PanicLoop)
+	runtime.LockOSThread()
 }
 
 func SimpleDeadlock() {
