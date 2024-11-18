@@ -428,6 +428,10 @@ func blockUntilEmptyFinalizerQueue(timeout int64) bool {
 // The modifications in the main program and the inspection in the finalizer
 // need to use appropriate synchronization, such as mutexes or atomic updates,
 // to avoid read-write races.
+//
+// Deprecated: SetFinalizer exists for historical compatibility and should
+// not be used. AddCleanup is a safer, more performant finalization mechanism.
+// Use AddCleanup instead of SetFinalizer.
 func SetFinalizer(obj any, finalizer any) {
 	e := efaceOf(&obj)
 	etyp := e._type
