@@ -183,21 +183,16 @@ func lock2(l *mutex) {
 tryAcquire:
 	for i := 0; ; i++ {
 		if v&mutexLocked == 0 {
+			next := v | mutexSleeping | mutexLocked
+			if next&^mutexMMask == 0 {
+				next = next &^ mutexSleeping
+			}
 			if weSpin {
-				next := (v &^ mutexSpinning) | mutexSleeping | mutexLocked
-				if next&^mutexMMask == 0 {
-					next = next &^ mutexSleeping
-				}
-				if atomic.Casuintptr(&l.key, v, next) {
-					timer.end()
-					return
-				}
-			} else {
-				prev8 := atomic.Xchg8(k8, mutexLocked|mutexSleeping)
-				if prev8&mutexLocked == 0 {
-					timer.end()
-					return
-				}
+				next = next &^ mutexSpinning
+			}
+			if atomic.Casuintptr(&l.key, v, next) {
+				timer.end()
+				return
 			}
 			v = atomic.Loaduintptr(&l.key)
 			continue tryAcquire
