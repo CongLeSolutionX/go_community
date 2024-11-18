@@ -33,6 +33,24 @@
       "message": "@drchase did some pretty extensive benchmarking of this change and it came out very slightly negative. I don\u0027t think we want to take this CL as-is, unfortunately.\n\nI think there is a kernel of a good idea here, but maybe we\u0027d need to be more judicious in applying it. Probably investigating some of the regressing cases would help. Does it cause more spills? Something else?",
       "revId": "a52a74485b83aef2fac622e9a0665278bcb37c96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5bb73be_97093899",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-11-18T19:13:04Z",
+      "side": 1,
+      "message": "I double-checked for no-company-secrets, shared the spreadsheet to my personal account, then made a copy for public consumption: https://docs.google.com/spreadsheets/d/1TWtCvgLtet3unIf2t0SZcWtb-nrU8N7RCNZcUgmChJ4/edit?usp\u003dsharing\n\nThe TLDR summary is that this change didn\u0027t have much affect on almost all benchmarks, and the single benchmarks where it did change much, were super noisy.  This benchmarking was done with randomized link order (75 differently ordered binaries) to help wash out branch alignment effects, but that also causes noise on benchmarks that are sensitive to those (arguably we should get rid of those benchmarks).",
+      "parentUuid": "748b30f2_18859bb0",
+      "revId": "a52a74485b83aef2fac622e9a0665278bcb37c96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
