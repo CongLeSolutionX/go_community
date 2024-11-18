@@ -92,6 +92,30 @@
       },
       "revId": "ab96fbe4b87ce7e14e2842230786555dae656442",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dda4e7d3_a2014c1a",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-11-18T19:42:48Z",
+      "side": 1,
+      "message": "makes sense and fine with me. Carlos, do you want to update this CL to just put a note at the top of SetFinalizer?",
+      "parentUuid": "025d52a5_dfbfcd06",
+      "range": {
+        "startLine": 432,
+        "startChar": 15,
+        "endLine": 433,
+        "endChar": 15
+      },
+      "revId": "ab96fbe4b87ce7e14e2842230786555dae656442",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
