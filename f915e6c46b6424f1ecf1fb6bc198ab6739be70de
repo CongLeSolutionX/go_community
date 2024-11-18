@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "349ce377_5e68d9ca",
+        "filename": "src/crypto/internal/fips/aes/gcm/cmac_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2024-11-18T19:18:24Z",
+      "side": 0,
+      "message": "I take it this TestAllocations is deleted because the new TestAllocations in ctrkdf_test.go is a superset of it.",
+      "revId": "f915e6c46b6424f1ecf1fb6bc198ab6739be70de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
