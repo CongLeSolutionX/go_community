@@ -209,6 +209,8 @@ type Map struct {
 	// entries may point to the same table. See top-level comment for more
 	// details.
 	//
+	// ----------------
+	//
 	// Small map optimization: if the map always contained
 	// abi.SwissMapGroupSlots or fewer entries, it fits entirely in a
 	// single group. In that case dirPtr points directly to a single group.
@@ -218,7 +220,22 @@ type Map struct {
 	// In this case, dirLen is 0. used counts the number of used slots in
 	// the group. Note that small maps never have deleted slots (as there
 	// is no probe sequence to maintain).
+	//
+	// ----------------
+	//
+	// Medium map optimization: if there is only one table, then there
+	// is no directory and dirPtr points directly at the single table.
+	//
+	// dirPtr *table
+	//
+	// In this case, dirLen is 1.
+	//
+	// ----------------
+
 	dirPtr unsafe.Pointer
+	// dirLen == 0: dirPtr points directly at a group.
+	// dirLen == 1: dirPtr points directly at a table.
+	// dirLen > 1: dirPtr points at a directory of tables.
 	dirLen int
 
 	// The number of bits to use in table directory lookups.
@@ -305,6 +322,13 @@ func NewMap(mt *abi.SwissMapType, hint uintptr, m *Map, maxAlloc uintptr) *Map {
 	m.globalDepth = uint8(sys.TrailingZeros64(dirSize))
 	m.globalShift = depthToShift(m.globalDepth)
 
+	if dirSize == 1 {
+		// Medium map optimization. Just store the table directly.
+		m.dirPtr = unsafe.Pointer(newTable(mt, uint64(targetCapacity), 0, m.globalDepth))
+		m.dirLen = 1
+		return m
+	}
+
 	directory := make([]*table, dirSize)
 
 	for i := range directory {
@@ -325,14 +349,10 @@ func NewEmptyMap() *Map {
 	return m
 }
 
-func (m *Map) directoryIndex(hash uintptr) uintptr {
-	if m.dirLen == 1 {
-		return 0
-	}
-	return hash >> (m.globalShift & 63)
-}
-
 func (m *Map) directoryAt(i uintptr) *table {
+	if m.dirLen == 1 {
+		return (*table)(m.dirPtr)
+	}
 	return *(**table)(unsafe.Pointer(uintptr(m.dirPtr) + goarch.PtrSize*i))
 }
 
@@ -340,7 +360,22 @@ func (m *Map) directorySet(i uintptr, nt *table) {
 	*(**table)(unsafe.Pointer(uintptr(m.dirPtr) + goarch.PtrSize*i)) = nt
 }
 
+func (m *Map) table(hash uintptr) *table {
+	// No one should ever call this when m.dirLen == 0 because there's
+	// no table in that case. We could assert that here, but table() is
+	// a hot path so we want to avoid that overhead.
+	if m.dirLen == 1 {
+		return ((*table)(m.dirPtr))
+	}
+	idx := hash >> (m.globalShift & 63)
+	return *(**table)(unsafe.Pointer(uintptr(m.dirPtr) + goarch.PtrSize*idx))
+}
+
 func (m *Map) replaceTable(nt *table) {
+	if m.dirLen == 1 {
+		m.dirPtr = unsafe.Pointer(nt)
+		return
+	}
 	// The number of entries that reference the same table doubles for each
 	// time the globalDepth grows without the table splitting.
 	entries := 1 << (m.globalDepth - nt.localDepth)
@@ -409,8 +444,7 @@ func (m *Map) getWithKey(typ *abi.SwissMapType, key unsafe.Pointer) (unsafe.Poin
 		return m.getWithKeySmall(typ, hash, key)
 	}
 
-	idx := m.directoryIndex(hash)
-	return m.directoryAt(idx).getWithKey(typ, hash, key)
+	return m.table(hash).getWithKey(typ, hash, key)
 }
 
 func (m *Map) getWithoutKey(typ *abi.SwissMapType, key unsafe.Pointer) (unsafe.Pointer, bool) {
@@ -429,8 +463,7 @@ func (m *Map) getWithoutKey(typ *abi.SwissMapType, key unsafe.Pointer) (unsafe.P
 		return elem, ok
 	}
 
-	idx := m.directoryIndex(hash)
-	return m.directoryAt(idx).getWithoutKey(typ, hash, key)
+	return m.table(hash).getWithoutKey(typ, hash, key)
 }
 
 func (m *Map) getWithKeySmall(typ *abi.SwissMapType, hash uintptr, key unsafe.Pointer) (unsafe.Pointer, unsafe.Pointer, bool) {
@@ -509,8 +542,7 @@ func (m *Map) PutSlot(typ *abi.SwissMapType, key unsafe.Pointer) unsafe.Pointer 
 	}
 
 	for {
-		idx := m.directoryIndex(hash)
-		elem, ok := m.directoryAt(idx).PutSlot(typ, m, hash, key)
+		elem, ok := m.table(hash).PutSlot(typ, m, hash, key)
 		if !ok {
 			continue
 		}
@@ -624,12 +656,10 @@ func (m *Map) growToTable(typ *abi.SwissMapType) {
 		tab.uncheckedPutSlot(typ, hash, key, elem)
 	}
 
-	directory := make([]*table, 1)
-
-	directory[0] = tab
-
-	m.dirPtr = unsafe.Pointer(&directory[0])
-	m.dirLen = len(directory)
+	// Medium size optimization: table pointer is stored
+	// directly in m.dirPtr.
+	m.dirPtr = unsafe.Pointer(tab)
+	m.dirLen = 1
 
 	m.globalDepth = 0
 	m.globalShift = depthToShift(m.globalDepth)
@@ -656,8 +686,7 @@ func (m *Map) Delete(typ *abi.SwissMapType, key unsafe.Pointer) {
 	if m.dirLen == 0 {
 		m.deleteSmall(typ, hash, key)
 	} else {
-		idx := m.directoryIndex(hash)
-		m.directoryAt(idx).Delete(typ, m, hash, key)
+		m.table(hash).Delete(typ, m, hash, key)
 	}
 
 	if m.used == 0 {
@@ -743,10 +772,11 @@ func (m *Map) Clear(typ *abi.SwissMapType) {
 			t.Clear(typ)
 			lastTab = t
 		}
-		m.used = 0
-		m.clearSeq++
 		// TODO: shrink directory?
 	}
+
+	m.used = 0
+	m.clearSeq++
 
 	// Reset the hash seed to make it more difficult for attackers to
 	// repeatedly trigger hash collisions. See https://go.dev/issue/25237.
@@ -765,7 +795,4 @@ func (m *Map) clearSmall(typ *abi.SwissMapType) {
 
 	typedmemclr(typ.Group, g.data)
 	g.ctrls().setEmpty()
-
-	m.used = 0
-	m.clearSeq++
 }

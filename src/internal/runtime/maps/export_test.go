@@ -105,8 +105,7 @@ func (m *Map) TableFor(typ *abi.SwissMapType, key unsafe.Pointer) *table {
 	}
 
 	hash := typ.Hasher(key, m.seed)
-	idx := m.directoryIndex(hash)
-	return m.directoryAt(idx)
+	return m.table(hash)
 }
 
 func (t *table) GrowthLeft() uint64 {

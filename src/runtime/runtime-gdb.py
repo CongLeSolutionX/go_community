@@ -229,16 +229,21 @@ class MapTypePrinter:
 
 			return
 
-		# Full size map.
-
 		# *table[K,V]
 		ptr_table_type = table_type.pointer()
 		# [dirLen]*table[K,V]
 		array_ptr_table_type = ptr_table_type.array(self.val['dirLen']-1)
 		# *[dirLen]*table[K,V]
 		ptr_array_ptr_table_type = array_ptr_table_type.pointer()
-		# tables = (*[dirLen]*table[K,V])(dirPtr)
-		tables = self.val['dirPtr'].cast(ptr_array_ptr_table_type)
+
+		if self.val['dirLen'] == 1:
+			# Medium map
+			# tables = []*table[K,V]{dirPtr}
+			tables = [self.val['dirPtr'].cast(ptr_table_type)]
+		else:
+			# Full size map.
+			# tables = (*[dirLen]*table[K,V])(dirPtr)
+			tables = self.val['dirPtr'].cast(ptr_array_ptr_table_type)
 
 		cnt = 0
 		for t in xrange(self.val['dirLen']):

@@ -128,8 +128,7 @@ func runtime_mapaccess1_faststr(typ *abi.SwissMapType, m *Map, key string) unsaf
 	hash := typ.Hasher(abi.NoEscape(unsafe.Pointer(&k)), m.seed)
 
 	// Select table.
-	idx := m.directoryIndex(hash)
-	t := m.directoryAt(idx)
+	t := m.table(hash)
 
 	// Probe table.
 	seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
@@ -187,8 +186,7 @@ func runtime_mapaccess2_faststr(typ *abi.SwissMapType, m *Map, key string) (unsa
 	hash := typ.Hasher(abi.NoEscape(unsafe.Pointer(&k)), m.seed)
 
 	// Select table.
-	idx := m.directoryIndex(hash)
-	t := m.directoryAt(idx)
+	t := m.table(hash)
 
 	// Probe table.
 	seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
@@ -304,8 +302,7 @@ func runtime_mapassign_faststr(typ *abi.SwissMapType, m *Map, key string) unsafe
 outer:
 	for {
 		// Select table.
-		idx := m.directoryIndex(hash)
-		t := m.directoryAt(idx)
+		t := m.table(hash)
 
 		seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
 
