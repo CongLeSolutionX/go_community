@@ -116,6 +116,30 @@
       },
       "revId": "ab96fbe4b87ce7e14e2842230786555dae656442",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55b9ea2d_7db64e13",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-11-18T20:05:52Z",
+      "side": 1,
+      "message": "That sounds sensible to me.",
+      "parentUuid": "dda4e7d3_a2014c1a",
+      "range": {
+        "startLine": 432,
+        "startChar": 15,
+        "endLine": 433,
+        "endChar": 15
+      },
+      "revId": "ab96fbe4b87ce7e14e2842230786555dae656442",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
