@@ -69,7 +69,7 @@ func ParseGOEXPERIMENT(goos, goarch, goexp string) (*ExperimentFlags, error) {
 
 	var haveXchg8 bool
 	switch goarch {
-	case "386", "amd64", "arm", "arm64", "ppc64le", "ppc64":
+	case "386", "amd64", "arm", "arm64", "loong64", "ppc64le", "ppc64":
 		haveXchg8 = true
 	}
 
