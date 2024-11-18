@@ -11,6 +11,7 @@ import (
 	"crypto/ed25519"
 	"crypto/rsa"
 	"crypto/subtle"
+	"crypto/tls/internal/fipstls"
 	"crypto/x509"
 	"errors"
 	"fmt"
@@ -372,11 +373,11 @@ func (hs *serverHandshakeState) pickCipherSuite() error {
 	}
 	c.cipherSuite = hs.suite.id
 
-	if c.config.CipherSuites == nil && !needFIPS() && rsaKexCiphers[hs.suite.id] {
+	if c.config.CipherSuites == nil && !fipstls.Required() && rsaKexCiphers[hs.suite.id] {
 		tlsrsakex.Value() // ensure godebug is initialized
 		tlsrsakex.IncNonDefault()
 	}
-	if c.config.CipherSuites == nil && !needFIPS() && tdesCiphers[hs.suite.id] {
+	if c.config.CipherSuites == nil && !fipstls.Required() && tdesCiphers[hs.suite.id] {
 		tls3des.Value() // ensure godebug is initialized
 		tls3des.IncNonDefault()
 	}
@@ -912,18 +913,13 @@ func (c *Conn) processCertsFromClient(certificate Certificate) error {
 
 		chains, err := certs[0].Verify(opts)
 		if err != nil {
-			var errCertificateInvalid x509.CertificateInvalidError
-			if errors.As(err, &x509.UnknownAuthorityError{}) {
-				c.sendAlert(alertUnknownCA)
-			} else if errors.As(err, &errCertificateInvalid) && errCertificateInvalid.Reason == x509.Expired {
-				c.sendAlert(alertCertificateExpired)
-			} else {
-				c.sendAlert(alertBadCertificate)
-			}
-			return &CertificateVerificationError{UnverifiedCertificates: certs, Err: err}
+			return c.certificateVerificationError(err, certs)
 		}
 
-		c.verifiedChains = chains
+		c.verifiedChains, err = fipsAllowedChains(chains)
+		if err != nil {
+			return c.certificateVerificationError(err, certs)
+		}
 	}
 
 	c.peerCertificates = certs
@@ -947,6 +943,18 @@ func (c *Conn) processCertsFromClient(certificate Certificate) error {
 	}
 
 	return nil
+}
+
+func (c *Conn) certificateVerificationError(err error, certs []*x509.Certificate) error {
+	var errCertificateInvalid x509.CertificateInvalidError
+	if errors.As(err, &x509.UnknownAuthorityError{}) {
+		c.sendAlert(alertUnknownCA)
+	} else if errors.As(err, &errCertificateInvalid) && errCertificateInvalid.Reason == x509.Expired {
+		c.sendAlert(alertCertificateExpired)
+	} else {
+		c.sendAlert(alertBadCertificate)
+	}
+	return &CertificateVerificationError{UnverifiedCertificates: certs, Err: err}
 }
 
 func clientHelloInfo(ctx context.Context, c *Conn, clientHello *clientHelloMsg) *ClientHelloInfo {
