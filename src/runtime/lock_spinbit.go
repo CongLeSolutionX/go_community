@@ -63,7 +63,7 @@ const (
 	mutexMOffset     = mallocHeaderSize // alignment of heap-allocated Ms (those other than m0)
 
 	mutexActiveSpinCount  = 4
-	mutexActiveSpinSize   = 30
+	mutexActiveSpinSize   = 1
 	mutexPassiveSpinCount = 1
 
 	mutexTailWakePeriod = 16
