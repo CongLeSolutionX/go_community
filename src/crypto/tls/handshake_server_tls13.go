@@ -12,6 +12,7 @@ import (
 	"crypto/internal/fips/mlkem"
 	"crypto/internal/fips/tls13"
 	"crypto/rsa"
+	"crypto/tls/internal/fipstls"
 	"errors"
 	"hash"
 	"internal/byteorder"
@@ -162,7 +163,7 @@ func (hs *serverHandshakeStateTLS13) processClientHello() error {
 	if !hasAESGCMHardwareSupport || !aesgcmPreferred(hs.clientHello.cipherSuites) {
 		preferenceList = defaultCipherSuitesTLS13NoAES
 	}
-	if needFIPS() {
+	if fipstls.Required() {
 		preferenceList = defaultCipherSuitesTLS13FIPS
 	}
 	for _, suiteID := range preferenceList {
