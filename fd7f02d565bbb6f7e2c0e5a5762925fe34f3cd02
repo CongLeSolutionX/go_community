@@ -59,6 +59,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f27f5d8f_7330eb95",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-11-18T18:43:09Z",
+      "side": 1,
+      "message": "Yes, zero-length arrays can\u0027t happen here because we require at least one pointer in the type to call this function.",
+      "parentUuid": "23c0846e_0c3bb5d0",
+      "revId": "fd7f02d565bbb6f7e2c0e5a5762925fe34f3cd02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c913af6_e3873343",
@@ -72,6 +90,30 @@
       "writtenOn": "2024-11-14T16:31:33Z",
       "side": 1,
       "message": "It doesn\u0027t seem to be supported on loong64. Anyway, okay to include.",
+      "range": {
+        "startLine": 2711,
+        "startChar": 57,
+        "endLine": 2711,
+        "endChar": 64
+      },
+      "revId": "fd7f02d565bbb6f7e2c0e5a5762925fe34f3cd02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a12a2c1_453a0c20",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 2711,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-11-18T18:43:09Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4c913af6_e3873343",
       "range": {
         "startLine": 2711,
         "startChar": 57,
