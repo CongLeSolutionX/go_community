@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68fcea69_65c0e360",
+        "filename": "src/crypto/cipher/cipher.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-18T20:19:40Z",
+      "side": 1,
+      "message": "Yeah, good catch but this is intentional: overlapping output and additionalData never worked and I am not sure why anyone would do it, but I noticed it was not documented until now while moving the docs.",
+      "parentUuid": "ab5fd1a3_06d70af4",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 43
+      },
+      "revId": "ab178c9251f395b0493615f68ba6c220ec57bcdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0f57e45_949cd47c",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-11-18T19:46:14Z",
       "side": 1,
       "message": "Same question here.",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 43
+      },
+      "revId": "ab178c9251f395b0493615f68ba6c220ec57bcdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6023170_15f8539d",
+        "filename": "src/crypto/cipher/cipher.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-18T20:19:40Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c0f57e45_949cd47c",
       "range": {
         "startLine": 93,
         "startChar": 4,
