@@ -1,0 +1,246 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc5b35cd_da3dd982",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-18T15:30:08Z",
+      "side": 1,
+      "message": "v8 :\u003d ?",
+      "fixSuggestions": [
+        {
+          "fixId": "7b776e19_13f5d24c",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 162,
+                "startChar": 0,
+                "endLine": 163,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 164,
+                "startChar": 0,
+                "endLine": 165,
+                "endChar": 0
+              },
+              "replacement": "\tv8 :\u003d atomic.Xchg8(k8, mutexLocked)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23824226_37e17027",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-18T15:30:08Z",
+      "side": 1,
+      "message": "Can this be simplified? Is this \"v \u0026^ mutexSpinning\"?",
+      "fixSuggestions": [
+        {
+          "fixId": "103ec70c_7fa4b433",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 188,
+                "startChar": 0,
+                "endLine": 189,
+                "endChar": 0
+              },
+              "replacement": "\t\t\t\tnext :\u003d (v \u0026^ mutexMMask) | (v \u0026^ mutexSpinning) | mutexLocked\n"
+            }
+          ]
+        }
+      ],
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8256afc3_ac390439",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-18T15:30:08Z",
+      "side": 1,
+      "message": "On Nahalem processors PAUSE latency has increased from few cycles to 140 cycles:\nhttps://www.reddit.com/r/hardware/comments/8s011f/skylakex_cpus_have_140cycle_pause_latency_with/?rdt\u003d48638\nhttps://stackoverflow.com/questions/74295100/whats-a-good-alternative-to-pause-for-use-in-the-implementation-of-a-spinlock\n\nSo doing 30 of these takes 4200 cycles. I would say that\u0027s way too much, it should be 1 at most.\n\nFWIW Absl Mutex (which is Google best take on how a production Mutex should work) does not use PAUSE entirely.",
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b0e1f8e_68ee4c91",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-18T15:30:08Z",
+      "side": 1,
+      "message": "+1\nPassive spinning tend to create more problem than solve. Modern OSes are pretty good at low latency wakeups nowadays.",
+      "fixSuggestions": [
+        {
+          "fixId": "e703af94_72fc6f72",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 217,
+                "startChar": 0,
+                "endLine": 218,
+                "endChar": 0
+              },
+              "replacement": "\t\t\t\tosyield() // TODO: Consider removing this step. See https://go.dev/issue/69268.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "892d982a_bb910af8",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-18T15:30:08Z",
+      "side": 1,
+      "message": "A common optimization in mutexes is so called thundering herd problem avoidance.\nConsider that a wait list of, say, 10 Ms has built up.\nNow another M locks/unlocks the mutex in a tight loop (e.g. adds a bunch of timers or something). On each unlock it will wake another M from the the wait list, even though none of them is actually scheduled and had a chance to acquire the mutex.\nThe prevention for that is always waking with weSpin \u003d true, and make the unlocking M to set mutexSpinning on our behalf. When an M is woken, we do know that it will try to acquire the mutex soon, so there is no need to wake more Ms until the first one tried to. This helps to auto-tune contention level on heavily contended mutexes.\n\nThough, for mutexPreferLowLatency it may be counter-productive. A bit more complex solution is to allocate several bits for mutexSpinning and use them as a saturating counter that will account both spinning and woken threads. It would allow to trade some CPU cycles for lower latency.\n\nBut since it\u0027s more complex, just waking with weSpin may be a good first step.",
+      "fixSuggestions": [
+        {
+          "fixId": "f2208cd2_34677669",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 65,
+                "startChar": 0,
+                "endLine": 68,
+                "endChar": 0
+              },
+              "replacement": "\tmutexActiveSpinCount \u003d 4\n\tmutexActiveSpinSize  \u003d 30\n"
+            },
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 216,
+                "startChar": 0,
+                "endLine": 217,
+                "endChar": 0
+              },
+              "replacement": "\t\t\t} else if i \u003c spin+1 {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "698e119d_70e62b99",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-18T15:30:08Z",
+      "side": 1,
+      "message": "This mutexStackLocked logic looks rather complex and requires 3 atomic RMW for unlock with waiters instead of 1.\n\nI would use the mutexLocked bit as \"we own the list\" bit. This requires using full word CAS loop for actual unlock. But it should be fine for unlock b/c the memory is likely to be cached on unlock. In exchange we could do all of unlock+waiter pop with 1 CAS (if it observes mutexSpinning, then it can just drop mutexLocked bit and return).",
+      "fixSuggestions": [
+        {
+          "fixId": "21bb4f71_0a066040",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 40,
+                "startChar": 0,
+                "endLine": 42,
+                "endChar": 0
+              },
+              "replacement": "// Bit 9, mutexStackLocked, is a try-lock that grants an unlocking M permission to\n// inspect the list of waiting Ms and to pop an M off of that stack.\n"
+            },
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 294,
+                "startChar": 0,
+                "endLine": 295,
+                "endChar": 0
+              },
+              "replacement": "\t\tif v\u0026^mutexMMask \u003d\u003d 0 || v\u0026mutexLocked !\u003d 0 {\n"
+            },
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 313,
+                "startChar": 0,
+                "endLine": 314,
+                "endChar": 0
+              },
+              "replacement": "\t\tnext :\u003d v | mutexLocked\n"
+            },
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 327,
+                "startChar": 0,
+                "endLine": 328,
+                "endChar": 0
+              },
+              "replacement": "\t\tflags :\u003d v \u0026 (mutexMMask \u0026^ mutexLocked) // preserve low bits, but release stack lock\n"
+            }
+          ]
+        }
+      ],
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
