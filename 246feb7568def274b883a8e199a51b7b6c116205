@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3115584_69a1f2e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-18T22:02:20Z",
+      "side": 1,
+      "message": "h",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e4182f4_50128c3d",
+        "filename": "doc/godebug.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-18T22:02:20Z",
+      "side": 1,
+      "message": "Maybe worth mentioning that this one is not a change in behavior by default that can be reverted, but rather a new opt-in option?",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ccb7c3d_40885f6f",
@@ -43,6 +77,75 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "55895bc3_6694ef90",
+        "filename": "doc/next/6-stdlib/99-minor/crypto/subtle/66450.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-18T22:02:20Z",
+      "side": 1,
+      "message": "Very nice wording.",
+      "range": {
+        "startLine": 3,
+        "startChar": 29,
+        "endLine": 5,
+        "endChar": 26
+      },
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44735b86_c56bcb63",
+        "filename": "doc/next/6-stdlib/99-minor/crypto/subtle/66450.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-18T22:02:20Z",
+      "side": 1,
+      "message": "```suggestion\noperates in variable time. Currently, [WithDataIndependentTiming] uses\nthe PSTATE.DIT bit on arm64, and is a no-op on all other architectures.\n```",
+      "range": {
+        "startLine": 5,
+        "startChar": 27,
+        "endLine": 6,
+        "endChar": 62
+      },
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d6877aa_f45d6fa5",
+        "filename": "src/crypto/subtle/dit.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-18T22:02:20Z",
+      "side": 1,
+      "message": "Do we want to document this part, without a \"may\"? If in the future it become cheap and important to switch this on and off, we might want to carry that state around with a goroutine as it moves between threads, but we\u0027ll have to worry about people relying on the side-effect instead of calling runtime.LockOSThread?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 21
+      },
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "eb0fa897_fca64544",
         "filename": "src/crypto/subtle/dit.go",
         "patchSetId": 17
@@ -54,6 +157,41 @@
       "writtenOn": "2024-11-18T21:23:12Z",
       "side": 1,
       "message": "Should this note that the purego build tag disables this as well?\n\n(FWIW, that seems over the top to me. We don\u0027t prevent the runtime from using assembly just because a build tag is set.)",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01e1b6f3_ec72a639",
+        "filename": "src/crypto/subtle/dit.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-18T22:02:20Z",
+      "side": 1,
+      "message": "Yeah agreed, the purego tag is there so that e.g. TinyGo doesn\u0027t have to fork all over the crypto package, but surely they already have patches for the runtime, and this feels more like the latter.\n\nMaybe take the suggestion to move the actual code to internal/runtime/sys, so there isn\u0027t assembly in the crypto packages and my purego test doesn\u0027t trip?",
+      "parentUuid": "eb0fa897_fca64544",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddb42d3b_7ff163cf",
+        "filename": "src/crypto/subtle/dit.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-18T22:02:20Z",
+      "side": 1,
+      "message": "currently",
       "revId": "246feb7568def274b883a8e199a51b7b6c116205",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -75,6 +213,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3e66d47_fa1abb49",
+        "filename": "src/internal/godebugs/table.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-18T22:02:20Z",
+      "side": 1,
+      "message": "```suggestion\n\t{Name: \"dataindependenttiming\", Package: \"crypto/subtle\", Opaque: true},\n```\n\nI think that setting Changed implies that there is a new default, and that before Go 1.24 it needs to be reverted by setting to Old, but here nothing changed, right?\n\nActually, should this even be here? You are not ever accessing the GODEBUG via package godebug, it\u0027s a runtime GODEBUG like a dozen others that are not listed here.",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b18687e0_ede69bdb",
@@ -88,6 +243,24 @@
       "writtenOn": "2024-11-18T21:23:12Z",
       "side": 1,
       "message": "Disable when returning to C?\n\nI don\u0027t feel too strongly, but IMO the semantics with C are already confusing and only get more confusing if calling into Go once permanently enables DIT for the rest of the thread\u0027s lifetime.",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbd0d6c9_587239ea",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-18T22:02:20Z",
+      "side": 1,
+      "message": "Yeah that feels weird.",
+      "parentUuid": "b18687e0_ede69bdb",
       "revId": "246feb7568def274b883a8e199a51b7b6c116205",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
