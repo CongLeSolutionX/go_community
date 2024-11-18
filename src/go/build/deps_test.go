@@ -499,7 +499,8 @@ var depsRules = `
 	hash, embed
 	< crypto
 	< crypto/subtle
-	< crypto/cipher;
+	< crypto/cipher
+	< crypto/sha3;
 
 	crypto/cipher,
 	crypto/internal/boring/bcache
@@ -513,9 +514,6 @@ var depsRules = `
 	crypto/boring, crypto/internal/fips/edwards25519/field
 	< crypto/ecdh;
 
-	# Unfortunately, stuck with reflect via encoding/binary.
-	encoding/binary, crypto/boring < golang.org/x/crypto/sha3;
-
 	crypto/aes,
 	crypto/des,
 	crypto/ecdh,
@@ -525,7 +523,7 @@ var depsRules = `
 	crypto/sha1,
 	crypto/sha256,
 	crypto/sha512,
-	golang.org/x/crypto/sha3
+	crypto/sha3
 	< CRYPTO;
 
 	CGO, fmt, net !< CRYPTO;
