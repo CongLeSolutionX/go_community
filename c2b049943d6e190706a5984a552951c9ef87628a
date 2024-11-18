@@ -16,6 +16,261 @@
       "message": "Note that this is extremely complicated to test, because policy validation is a real pain, and there doesn\u0027t exist any good test suites for it (really).\n\nI manually tested this against the NIST PKI path validation test suite (see https://go.dev/cl/618415, TestNISTPKITSPolicy), and it passed all of the policy specific cases.",
       "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0e794bb_91a53e18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-18T20:29:06Z",
+      "side": 1,
+      "message": "😵 I\u0027m coming in to this review with 0 effective experience with policy extensions and a healthy fear for their design, which I think we can all agree is pretty bonkers.\n\nI walked through the diff as carefully as I could manage and tried to map the implementation both to the original flawed 5280 algorithm and the updated draft-ietf-lamps-x509-policy-graph algorithm. I think what you\u0027ve done here matches up with the latter and avoids the mess of the former. While I haven\u0027t spotted any mistakes myself I would encourage finding as many reviewers as you can 😄\n\nBeyond the above I think it would make sense to merge this CR with https://go.dev/cl/618415 since seeing the implementation work through the NIST data set seems like the best way to gain confidence beyond careful manual review. \n\nWhile reviewing I also found it helpful to set some breakpoints and observe the algorithm at work, which was easier with test cases to feed it.",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9aae3f96_de714bff",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-18T20:29:06Z",
+      "side": 1,
+      "message": "should there be a check that `e.Critical` is true or an error returned, or is there an indication this will be an interop hazard due to $MISTAKES_MADE.\n\n528 04.2.1.11 says:\n\u003e Conforming CAs MUST mark this extension as critical.",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "607c7395_a99f491d",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-18T20:29:06Z",
+      "side": 1,
+      "message": "Compared to case 36 I think this one is fine for not consider criticality since marking it such is a SHOULD in 5280.",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "931b92b7_adce777f",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-18T20:29:06Z",
+      "side": 1,
+      "message": "Another where I think it makes sense to assert criticality, or leave some indicator why that\u0027s not a good idea.\n\n5280 4.2.1.14 says:\n\u003e    Conforming CAs MUST mark this extension as critical.",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6b25013_6674a450",
+        "filename": "src/crypto/x509/parser_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-18T20:29:06Z",
+      "side": 1,
+      "message": "nit: maybe there should be an assert these are non-empty and `len(c.PolicyIdentifiers)` \u003d\u003d `len(c.Policies)`? It feels like there\u0027s more juice to squeeze from the test.",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b21e0c5_ec80b453",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-18T20:29:06Z",
+      "side": 1,
+      "message": "typo? \"In order to validated the policy graph \" -\u003e \"In order to validate the policy graph\"",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7826fbb6_f8c01bdc",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-18T20:29:06Z",
+      "side": 1,
+      "message": "Should it be passed as the _only_ `CertificatePolicies` entry since it\u0027s a `[]OID`?",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a1245b6_d4896783",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-18T20:29:06Z",
+      "side": 1,
+      "message": "typo? \"if the path contain a policy\" -\u003e \"if the path contains a policy\"?",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d0941f3_16f95e70",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-18T20:29:06Z",
+      "side": 1,
+      "message": "hmm, yeah a bit tricky. It feels to me like you either need to split up the key usage and policy checks or give up on giving a more specific reason beyond \"No chains, sorry\"\n\nI was thinking something like:\n\n```diff\ndiff --git a/src/crypto/x509/verify.go b/src/crypto/x509/verify.go\nindex 13071f2d05..2f049a2467 100644\n--- a/src/crypto/x509/verify.go\n+++ b/src/crypto/x509/verify.go\n@@ -846,16 +846,30 @@ func (c *Certificate) Verify(opts VerifyOptions) (chains [][]*Certificate, err e\n \t\t}\n \t}\n \n+\tkeyUsageRejections :\u003d 0\n+\tpolicyRejections :\u003d 0\n \tchains \u003d make([][]*Certificate, 0, len(candidateChains))\n \tfor _, candidate :\u003d range candidateChains {\n-\t\tif checkChainForKeyUsage(candidate, opts.KeyUsages) \u0026\u0026 policiesValid(candidate, opts) {\n+\t\tkuOk :\u003d checkChainForKeyUsage(candidate, opts.KeyUsages)\n+\t\tif !kuOk {\n+\t\t\tkeyUsageRejections++\n+\t\t}\n+\t\tpolicyOk :\u003d policiesValid(candidate, opts)\n+\t\tif !kuOk {\n+\t\t\tpolicyRejections++\n+\t\t}\n+\t\tif kuOk \u0026\u0026 policyOk {\n \t\t\tchains \u003d append(chains, candidate)\n \t\t}\n \t}\n \tif len(chains) \u003d\u003d 0 {\n-\t\t// TODO: incompatible usage is not really correct here, in the case of\n-\t\t// policies being incorrect. Not obvious what the right thing to say is.\n-\t\treturn nil, CertificateInvalidError{c, IncompatibleUsage, \"\"}\n+\t\tif keyUsageRejections !\u003d 0 \u0026\u0026 policyRejections \u003d\u003d 0 {\n+\t\t\treturn nil, CertificateInvalidError{c, IncompatibleUsage, \"\"}\n+\t\t} else if keyUsageRejections \u003d\u003d 0 \u0026\u0026 policyRejections !\u003d 0 {\n+\t\t\treturn nil, CertificateInvalidError{c, ..., \"\"}\n+\t\t} else {\n+\t\t\treturn nil, CertificateInvalidError{c, ..., \"\"}\n+\t\t}\n \t}\n \n \treturn chains, nil\n\n```\n\nIt\u0027s still prettttty awkward though :-/ I\u0027m not sure it\u0027s a strong improvement.",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37c1311c_899a3c5d",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1232,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-18T20:29:06Z",
+      "side": 1,
+      "message": "is this a TODO, or ? It looks like `strata` in `policyGraph` is doing this.",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40d33c2e_9a603cfb",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-18T20:29:06Z",
+      "side": 1,
+      "message": "leftover?\n\nMy read of draft-ietf-lamps-x509-policy-graph aligns with this impl, but all of this is pretty maddening 😵‍💫",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10873817_ace7a145",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1395,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-18T20:29:06Z",
+      "side": 1,
+      "message": "I\u0027m not sure the best way to square that these are RFC 5280 sections, but augmented by draft-ietf-lamps-x509-policy-graph. E.g. just looking up those section numbers in 5280 to match to the impl won\u0027t get you 1:1, you need to consider 5280 as the base and the layer the updates from the policy graph draft.\n\nMaybe just call that out explicitly with a comment up-front?",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59ec8439_a27c9e85",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1459,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-18T20:29:06Z",
+      "side": 1,
+      "message": "`// ?` 😄",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd81da21_dad67e85",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-18T20:29:06Z",
+      "side": 1,
+      "message": "typo: \"preence\" -\u003e \"presence\".",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0f45605_af3a6a14",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-18T20:29:06Z",
+      "side": 1,
+      "message": "editorial nit: maybe missing a word here? \n\n\"IssuerDomainPolicy indicates policy OID\" -\u003e \"IssuerDomainPolicy indicates a policy OID\" ?\n\nDitto for L877 if you agree.",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
