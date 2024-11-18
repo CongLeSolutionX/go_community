@@ -16,6 +16,24 @@
       "message": "It seems like this behavior was replicated in gcmFallback, but the same behavior was removed from all the other target specific implementations. Is that intentional?\n\nAlso: this comment is nice, we should probably copy it over.",
       "revId": "6fb5ebfe2a68df6e8c3013d55e93fdad42d5d706",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fecc7eb_15271eca",
+        "filename": "src/crypto/cipher/gcm.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-18T18:31:31Z",
+      "side": 0,
+      "message": "It was hard to make sure it was present everywhere, so I hoisted it into the top-level Open function, so it\u0027s done everywhere. https://go-review.googlesource.com/c/go/+/624736/17/src/crypto/internal/fips/aes/gcm/gcm.go\n\nDone on copying the comment over.",
+      "parentUuid": "700de710_1cb520c9",
+      "revId": "6fb5ebfe2a68df6e8c3013d55e93fdad42d5d706",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
