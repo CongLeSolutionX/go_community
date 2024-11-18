@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49a4f2b9_7695d422",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-18T21:58:43Z",
+      "side": 1,
+      "message": "These are the lowest-risk changes from Dmitry\u0027s review today of https://go.dev/cl/620435. I\u0027m preparing separate CLs for the other suggestions; from my testing so far, those have a larger (and more mixed) effect on performance.",
+      "revId": "6adb13828b16334f137a3349bee417e771f2e0fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
