@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0b0d208b_967007e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58169
+      },
+      "writtenOn": "2024-11-18T15:45:47Z",
+      "side": 1,
+      "message": "Hi, @iant@golang.org could I know your opinion about this CL? thanks",
+      "revId": "458de4844a11c760649a6f016f144c3712010573",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d454a836_4ff360cb",
         "filename": "src/cmd/go/internal/list/list.go",
         "patchSetId": 2
