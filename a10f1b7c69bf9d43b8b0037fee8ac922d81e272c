@@ -125,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "abed3350_46a9d0bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3657746
+      },
+      "writtenOn": "2024-11-18T10:41:03Z",
+      "side": 1,
+      "message": "Done, PTAL.",
+      "parentUuid": "811f1653_97e75c81",
+      "revId": "a10f1b7c69bf9d43b8b0037fee8ac922d81e272c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f411dbb7_e6d71686",
@@ -155,6 +173,24 @@
       "writtenOn": "2024-11-14T14:42:04Z",
       "side": 1,
       "message": "Update this comment. Also mention how to update this.",
+      "revId": "a10f1b7c69bf9d43b8b0037fee8ac922d81e272c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c858d91_f88952a2",
+        "filename": "src/cmd/internal/goobj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 3657746
+      },
+      "writtenOn": "2024-11-18T10:41:03Z",
+      "side": 1,
+      "message": "Updated, maybe mention how to update when figured it out.",
+      "parentUuid": "54958041_3049ffc4",
       "revId": "a10f1b7c69bf9d43b8b0037fee8ac922d81e272c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
