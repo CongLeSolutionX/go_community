@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de370d1e_148831de",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-11-18T22:05:21Z",
+      "side": 1,
+      "message": "maybe we can comment that the path ending in a slash means that the replacement is a directory?",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 12
+      },
+      "revId": "ed56b2e5615bf91ea14fecae4589e2ef3cd4aa6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d78e4f59_2fac66f7",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-11-18T22:05:21Z",
+      "side": 1,
+      "message": "So if I understand correctly, the idea is that since `\"\\x00\"` sorts after filepath.Separator, we\u0027ll find the next element in the overlay whose `name` would be different? If so, could we add a comment saying that?",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 27
+      },
+      "revId": "ed56b2e5615bf91ea14fecae4589e2ef3cd4aa6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
