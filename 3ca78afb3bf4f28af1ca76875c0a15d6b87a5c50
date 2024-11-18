@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cec1ddae_8a2f2b19",
+        "filename": "src/cmd/compile/internal/ssa/deadstore.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2024-11-18T09:45:02Z",
+      "side": 0,
+      "message": "This code adds the first OpLocalAddr of the same Sym that occurs in value order to the set loadUse. I think, there should be no point in doing this, so ignore OpLocalAddr completely here.",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 0
+      },
+      "revId": "3ca78afb3bf4f28af1ca76875c0a15d6b87a5c50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
