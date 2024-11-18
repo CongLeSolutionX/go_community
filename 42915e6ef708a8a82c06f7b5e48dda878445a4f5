@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8217b04_a8ed381f",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-18T02:03:55Z",
+      "side": 1,
+      "message": "ARM64 MOVD instruction doesn\u0027t really require the address to be 8-byte aligned. There are a few forms of encoding, some (not all) of which requires 8-byte aligned _offset_. Maybe it emits this form and generate a relocation like this? What specific error do you see?\n\nAlso, if this matters, we probably could apply to all architectures. (E.g. PPC64 is probably similar.)",
+      "range": {
+        "startLine": 414,
+        "startChar": 36,
+        "endLine": 414,
+        "endChar": 62
+      },
+      "revId": "42915e6ef708a8a82c06f7b5e48dda878445a4f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
