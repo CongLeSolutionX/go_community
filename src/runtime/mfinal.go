@@ -341,7 +341,12 @@ func blockUntilEmptyFinalizerQueue(timeout int64) bool {
 }
 
 // SetFinalizer sets the finalizer associated with obj to the provided
-// finalizer function. When the garbage collector finds an unreachable block
+// finalizer function. SetFinalizer is difficult to use correctly, has
+// significant limitations, and defers memory reclamation. [AddCleanup]
+// is a less error-prone and more flexible replacement. Prefer to use
+// [AddCleanup] where applicable.
+//
+// When the garbage collector finds an unreachable block
 // with an associated finalizer, it clears the association and runs
 // finalizer(obj) in a separate goroutine. This makes obj reachable again,
 // but now without an associated finalizer. Assuming that SetFinalizer
