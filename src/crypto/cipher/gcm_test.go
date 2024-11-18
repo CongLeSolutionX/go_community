@@ -723,6 +723,14 @@ func testGCMAEAD(t *testing.T, newCipher func(key []byte) cipher.Block) {
 					cryptotest.TestAEAD(t, func() (cipher.AEAD, error) { return cipher.NewGCMWithNonceSize(block, nonceSize) })
 				})
 			}
+
+			// Test NewGCMWithRandomNonce.
+			t.Run("GCMWithRandomNonce", func(t *testing.T) {
+				if _, ok := block.(*wrapper); ok {
+					t.Skip("NewGCMWithRandomNonce requires an AES block cipher")
+				}
+				cryptotest.TestAEAD(t, func() (cipher.AEAD, error) { return cipher.NewGCMWithRandomNonce(block) })
+			})
 		})
 	}
 }
