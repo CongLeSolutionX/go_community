@@ -16,6 +16,24 @@
       "message": "This is really confusing for me as it relies on the output of new built gc, at the beginning I thought I just need to run `go generate cmd/go` and that\u0027s all. I have released the rebuild is necessary after I saw the test cases.\n\nI use `$GOROOT/bin/go` to refer the new built gc as the contribution guide does.",
       "revId": "2bbc6a45121e6576554d7f5f1f568c17c4bf67dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ac58463_fa0ce271",
+        "filename": "src/cmd/go/internal/help/help.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-18T19:16:24Z",
+      "side": 0,
+      "message": "Let\u0027s not mix this kind of doc change with an unrelated doc change.  Thanks.",
+      "parentUuid": "f91d6a51_7f14ee74",
+      "revId": "2bbc6a45121e6576554d7f5f1f568c17c4bf67dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
