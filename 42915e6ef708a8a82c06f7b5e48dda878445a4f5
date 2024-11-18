@@ -22,6 +22,30 @@
       },
       "revId": "42915e6ef708a8a82c06f7b5e48dda878445a4f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67ce6175_63e45d78",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-18T19:39:54Z",
+      "side": 1,
+      "message": "It was\n\ncrypto/internal/fips/aes/gcm.init.0.func1: offset for 64-bit load/store has unaligned value 3756",
+      "parentUuid": "d8217b04_a8ed381f",
+      "range": {
+        "startLine": 414,
+        "startChar": 36,
+        "endLine": 414,
+        "endChar": 62
+      },
+      "revId": "42915e6ef708a8a82c06f7b5e48dda878445a4f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
