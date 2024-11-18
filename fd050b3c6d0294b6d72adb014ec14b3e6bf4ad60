@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb788891_6ee8529a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-18T23:34:10Z",
+      "side": 1,
+      "message": "Thank you for the review! I\u0027ve sent a few CLs for the changes you suggested (mentioned inline), and I plan to also write patches for the two state word changes (unlock2 sets spinning bit, and mutexLocked protects waiter list). I\u0027ll remove the osyield call at the start of the next cycle.",
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc5b35cd_da3dd982",
@@ -46,6 +63,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90daec04_c0e85560",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-18T23:34:10Z",
+      "side": 1,
+      "message": "Done, in CL 629415",
+      "parentUuid": "fc5b35cd_da3dd982",
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23824226_37e17027",
@@ -77,6 +112,24 @@
           ]
         }
       ],
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1cf3acd_c32bb6ac",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-18T23:34:10Z",
+      "side": 1,
+      "message": "Done, in CL 629415",
+      "parentUuid": "23824226_37e17027",
       "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -128,6 +181,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f4608ba6_d1f58ebe",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-18T23:34:10Z",
+      "side": 1,
+      "message": "I\u0027ve sent CL 629416 to try that. It\u0027s slower on the microbenchmark. I don\u0027t have a full understanding of what makes the CAS so much more expensive. Do you think it\u0027s worth a deeper look?",
+      "parentUuid": "2f5f512b_fb89a4d1",
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8256afc3_ac390439",
         "filename": "src/runtime/lock_spinbit.go",
         "patchSetId": 7
@@ -139,6 +210,24 @@
       "writtenOn": "2024-11-18T15:30:08Z",
       "side": 1,
       "message": "On Nahalem processors PAUSE latency has increased from few cycles to 140 cycles:\nhttps://www.reddit.com/r/hardware/comments/8s011f/skylakex_cpus_have_140cycle_pause_latency_with/?rdt\u003d48638\nhttps://stackoverflow.com/questions/74295100/whats-a-good-alternative-to-pause-for-use-in-the-implementation-of-a-spinlock\n\nSo doing 30 of these takes 4200 cycles. I would say that\u0027s way too much, it should be 1 at most.\n\nFWIW Absl Mutex (which is Google best take on how a production Mutex should work) does not use PAUSE entirely.",
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c79458af_f69bc01a",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-18T23:34:10Z",
+      "side": 1,
+      "message": "I\u0027ve sent CL 629417 to try reducing this to `procyield(1)`. It seems to result in the mutex ownership moving between threads more often, which helps on fairness but hurts throughput. I\u0027ll run the perf builders.",
+      "parentUuid": "8256afc3_ac390439",
       "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -180,6 +269,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3b0bb2f_27d5fc03",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-18T23:34:10Z",
+      "side": 1,
+      "message": "Thanks! My measurements so far have shown that removing osyield is fine, but -- in case it\u0027s necessary for some unusual workload -- I\u0027d prefer to leave this part of lock2\u0027s behavior in place until the Go 1.N+1 release.",
+      "parentUuid": "2b0e1f8e_68ee4c91",
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06166200_163f8baf",
         "filename": "src/runtime/lock_spinbit.go",
         "patchSetId": 7
@@ -191,6 +298,24 @@
       "writtenOn": "2024-11-18T15:46:24Z",
       "side": 1,
       "message": "Here we loop until we enqueue the current M into the wait list, right?\nWhat if this M is not weSpin, but there is another M that was weSpin and just acquired the mutex, don\u0027t we want this M to become spinning instead? I would assume we want that.\n\nThe code may be simpler, it\u0027s structured w/o nested loops as:\n\n```\ntryAcquire:\nfor i :\u003d 0; ; i++ {\n\tv \u003d atomic.Loaduintptr(\u0026l.key)\n\n\tif ... {\n\t\tif CAS(...) {\n\t\t\treturn\n\t\t}\n\t} else if ... {\n\t\tif CAS(...) {\n\t\t\treturn\n\t\t}\n\t}\n}\n```\n\nIt would make it simpler to reason about state transitions.",
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96c95f79_f5d9ac1a",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-18T23:34:10Z",
+      "side": 1,
+      "message": "Done, in CL 629415",
+      "parentUuid": "06166200_163f8baf",
       "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -236,6 +361,24 @@
           ]
         }
       ],
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a7e38b0_6f9efc6a",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-18T23:34:10Z",
+      "side": 1,
+      "message": "I tried something similar in CL 622997 (unlock2 sets the spinning bit). That CL changed a few other aspects as well (unlock2 woke the longest-sleeping / tail thread, rather than the most recently sleeping / head thread), and overall had unimpressive performance.\n\nMy interpretation was that CL\u0027s performance was that if the unlocker sets the spinning bit, then any new entrants to lock2 would be unable to spin. There\u0027d be no spinning at all until a specific thread awoke from sleep, which could take a while.\n\nI made an attempt to have two spinning bits, one that was set in unlock2 on behalf of the thread it was about to wake, and another that could be claimed by any currently-awake thread. But I wasn\u0027t sure if the complexity would be worthwhile, and the performance results may have been muddied by the other changes in that CL (the decision to wake the longest sleeper, the decision to keep threads in the list until they leave lock2 rather than only while they\u0027re asleep, all of the logic on direct handoffs).\n\nI\u0027ll prototype with unlock2 setting the spinning bit, and with that plus a secondary bit that can be claimed by newcomers.",
+      "parentUuid": "892d982a_bb910af8",
       "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -301,6 +444,24 @@
           ]
         }
       ],
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5919afa7_3755d035",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-18T23:34:10Z",
+      "side": 1,
+      "message": "I will prepare a CL to try that. There are two reasons it\u0027s not in this revision.\n\nFirst, in the zero-contention case there\u0027s a clear speedup of Xchg8 rather than CAS. On my darwin/arm64 machine (an M1 MacBook Air, which used lock_sema.go\u0027s CAS-based implementation as a baseline), it\u0027s a bit over 12%.\n\nSecond, anything protected by mutexLocked is part of the critical section, so I\u0027m reluctant to add non-essential code to that path. As this CL stands, we\u0027re out of the critical section at this point and can skip all of the CAS operations if some other thread has already claimed mutexStackLocked.\n\nI wasn\u0027t able to get the performance to work in my earlier attempts, but I\u0027ll give it another try. There are certainly benefits in simplicity and in profile accuracy (outlined in the comment that follows).",
+      "parentUuid": "698e119d_70e62b99",
       "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
