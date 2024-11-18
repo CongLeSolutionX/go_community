@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ccb7c3d_40885f6f",
+        "filename": "doc/godebug.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-11-18T21:23:12Z",
+      "side": 1,
+      "message": "Note that this only affects all Go code in the program, and explain the caveats for C code?",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1011e02a_853db13e",
+        "filename": "doc/godebug.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-11-18T21:23:12Z",
+      "side": 1,
+      "message": "1",
+      "range": {
+        "startLine": 180,
+        "startChar": 29,
+        "endLine": 180,
+        "endChar": 30
+      },
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb0fa897_fca64544",
+        "filename": "src/crypto/subtle/dit.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-11-18T21:23:12Z",
+      "side": 1,
+      "message": "Should this note that the purego build tag disables this as well?\n\n(FWIW, that seems over the top to me. We don\u0027t prevent the runtime from using assembly just because a build tag is set.)",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "877ea55a_c95f9c1e",
+        "filename": "src/crypto/subtle/dit_arm64.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-11-18T21:23:12Z",
+      "side": 1,
+      "message": "It\u0027s a tiny amount of code to duplicate so not a big deal, but this does seem like a reasonable for internal/runtime/sys and then both crypto/subtle and runtime could depend on the same implementation.",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b18687e0_ede69bdb",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-11-18T21:23:12Z",
+      "side": 1,
+      "message": "Disable when returning to C?\n\nI don\u0027t feel too strongly, but IMO the semantics with C are already confusing and only get more confusing if calling into Go once permanently enables DIT for the rest of the thread\u0027s lifetime.",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
