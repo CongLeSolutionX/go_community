@@ -140,6 +140,30 @@
       },
       "revId": "ab96fbe4b87ce7e14e2842230786555dae656442",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d712320e_e4bf8821",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-18T21:14:07Z",
+      "side": 1,
+      "message": "If there are common patterns for replacing SetFinalizer with AddCleanup, this doc should describe them (or link to them).",
+      "parentUuid": "55b9ea2d_7db64e13",
+      "range": {
+        "startLine": 432,
+        "startChar": 15,
+        "endLine": 433,
+        "endChar": 15
+      },
+      "revId": "ab96fbe4b87ce7e14e2842230786555dae656442",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
