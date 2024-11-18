@@ -83,6 +83,51 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f5f512b_fb89a4d1",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-18T15:46:24Z",
+      "side": 1,
+      "message": "Why do we unconditionally set mutexSleeping here?\nIs there real benefit of using Xchg8 instead of Casuintptr here? It looks like it only makes the code harder to reason.",
+      "fixSuggestions": [
+        {
+          "fixId": "be93f920_0d131d53",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 197,
+                "startChar": 0,
+                "endLine": 199,
+                "endChar": 0
+              },
+              "replacement": "\t\t\t\tv :\u003d atomic.Loaduintptr(\u0026l.key)\n\t\t\t\tif v\u0026mutexLocked \u003d\u003d 0 {\n\t\t\t\t\ttimer.end()\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t\tif atomic.Casuintptr(\u0026l.key, v, v|mutexLocked|mutexSleeping) {\n"
+            },
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 203,
+                "startChar": 0,
+                "endLine": 204,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8256afc3_ac390439",
         "filename": "src/runtime/lock_spinbit.go",
         "patchSetId": 7
@@ -129,6 +174,23 @@
           ]
         }
       ],
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06166200_163f8baf",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-18T15:46:24Z",
+      "side": 1,
+      "message": "Here we loop until we enqueue the current M into the wait list, right?\nWhat if this M is not weSpin, but there is another M that was weSpin and just acquired the mutex, don\u0027t we want this M to become spinning instead? I would assume we want that.\n\nThe code may be simpler, it\u0027s structured w/o nested loops as:\n\n```\ntryAcquire:\nfor i :\u003d 0; ; i++ {\n\tv \u003d atomic.Loaduintptr(\u0026l.key)\n\n\tif ... {\n\t\tif CAS(...) {\n\t\t\treturn\n\t\t}\n\t} else if ... {\n\t\tif CAS(...) {\n\t\t\treturn\n\t\t}\n\t}\n}\n```\n\nIt would make it simpler to reason about state transitions.",
       "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
