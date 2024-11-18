@@ -15,6 +15,7 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha512"
+	"crypto/tls/internal/fipstls"
 	"crypto/x509"
 	"errors"
 	"fmt"
@@ -760,10 +761,9 @@ type Config struct {
 	// which is currently TLS 1.3.
 	MaxVersion uint16
 
-	// CurvePreferences contains the elliptic curves that will be used in
-	// an ECDHE handshake, in preference order. If empty, the default will
-	// be used. The client will use the first preference as the type for
-	// its key share in TLS 1.3. This may change in the future.
+	// CurvePreferences contains the enabled key exchange mechanisms. The order
+	// of the list is ignored. If empty, a safe default list is used. The
+	// defaults might change over time.
 	//
 	// From Go 1.23, the default includes the X25519Kyber768Draft00 hybrid
 	// post-quantum key exchange. To disable it, set CurvePreferences explicitly
@@ -1061,12 +1061,12 @@ func (c *Config) time() time.Time {
 
 func (c *Config) cipherSuites() []uint16 {
 	if c.CipherSuites == nil {
-		if needFIPS() {
+		if fipstls.Required() {
 			return defaultCipherSuitesFIPS
 		}
 		return defaultCipherSuites()
 	}
-	if needFIPS() {
+	if fipstls.Required() {
 		cipherSuites := slices.Clone(c.CipherSuites)
 		return slices.DeleteFunc(cipherSuites, func(id uint16) bool {
 			return !slices.Contains(defaultCipherSuitesFIPS, id)
@@ -1092,7 +1092,7 @@ var tls10server = godebug.New("tls10server")
 func (c *Config) supportedVersions(isClient bool) []uint16 {
 	versions := make([]uint16, 0, len(supportedVersions))
 	for _, v := range supportedVersions {
-		if needFIPS() && !slices.Contains(defaultSupportedVersionsFIPS, v) {
+		if fipstls.Required() && !slices.Contains(defaultSupportedVersionsFIPS, v) {
 			continue
 		}
 		if (c == nil || c.MinVersion == 0) && v < VersionTLS12 {
@@ -1140,12 +1140,12 @@ func (c *Config) curvePreferences(version uint16) []CurveID {
 	var curvePreferences []CurveID
 	if c != nil && len(c.CurvePreferences) != 0 {
 		curvePreferences = slices.Clone(c.CurvePreferences)
-		if needFIPS() {
+		if fipstls.Required() {
 			return slices.DeleteFunc(curvePreferences, func(c CurveID) bool {
 				return !slices.Contains(defaultCurvePreferencesFIPS, c)
 			})
 		}
-	} else if needFIPS() {
+	} else if fipstls.Required() {
 		curvePreferences = slices.Clone(defaultCurvePreferencesFIPS)
 	} else {
 		curvePreferences = defaultCurvePreferences()
@@ -1617,7 +1617,7 @@ func unexpectedMessageError(wanted, got any) error {
 
 // supportedSignatureAlgorithms returns the supported signature algorithms.
 func supportedSignatureAlgorithms() []SignatureScheme {
-	if !needFIPS() {
+	if !fipstls.Required() {
 		return defaultSupportedSignatureAlgorithms
 	}
 	return defaultSupportedSignatureAlgorithmsFIPS
@@ -1645,4 +1645,61 @@ func (e *CertificateVerificationError) Error() string {
 
 func (e *CertificateVerificationError) Unwrap() error {
 	return e.Err
+}
+
+// fipsAllowedChains returns chains that are allowed to be used in a TLS connection
+// based on the current fipstls enforcement setting.
+//
+// If fipstls is not required, the chains are returned as-is with no processing.
+// Otherwise, the returned chains are filtered to only those allowed by FIPS-140-3.
+// if this results in no chains it returns an error.
+func fipsAllowedChains(chains [][]*x509.Certificate) ([][]*x509.Certificate, error) {
+	if !fipstls.Required() {
+		return chains, nil
+	}
+
+	var permittedChains [][]*x509.Certificate
+	for _, chain := range chains {
+		if fipsAllowChain(chain) {
+			permittedChains = append(permittedChains, chain)
+		}
+	}
+
+	if len(permittedChains) == 0 {
+		return nil, errors.New("tls: no FIPS compatible certificate chains found")
+	}
+
+	return permittedChains, nil
+}
+
+func fipsAllowChain(chain []*x509.Certificate) bool {
+	if len(chain) == 0 {
+		return false
+	}
+
+	for _, cert := range chain {
+		if !fipsAllowCert(cert) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func fipsAllowCert(c *x509.Certificate) bool {
+	// The key must be RSA 2048, RSA 3072, RSA 4096,
+	// or ECDSA P-256, P-384, P-521.
+	switch k := c.PublicKey.(type) {
+	default:
+		return false
+	case *rsa.PublicKey:
+		if size := k.N.BitLen(); size != 2048 && size != 3072 && size != 4096 {
+			return false
+		}
+	case *ecdsa.PublicKey:
+		if k.Curve != elliptic.P256() && k.Curve != elliptic.P384() && k.Curve != elliptic.P521() {
+			return false
+		}
+	}
+	return true
 }
