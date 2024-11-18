@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab5fd1a3_06d70af4",
+        "filename": "src/crypto/cipher/cipher.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2024-11-18T19:46:14Z",
+      "side": 1,
+      "message": "This statement is newly added to the doc (a part of exported API) while the CL description is that this is a move. Just checking if this is a small clarification and included here intentionally? (Fine if so.)",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 43
+      },
+      "revId": "ab178c9251f395b0493615f68ba6c220ec57bcdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0f57e45_949cd47c",
+        "filename": "src/crypto/cipher/cipher.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2024-11-18T19:46:14Z",
+      "side": 1,
+      "message": "Same question here.",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 43
+      },
+      "revId": "ab178c9251f395b0493615f68ba6c220ec57bcdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
