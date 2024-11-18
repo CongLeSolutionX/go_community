@@ -34,6 +34,24 @@
       "parentUuid": "9cb049c0_c1d72e83",
       "revId": "6eb9c6f47e9f7c02b52999a7957ff9d33634b8c0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fd90d9c_0fc2f8a0",
+        "filename": "test/codegen/issue70409.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2024-11-18T11:01:44Z",
+      "side": 1,
+      "message": "I see thx",
+      "parentUuid": "69216441_d2082cee",
+      "revId": "6eb9c6f47e9f7c02b52999a7957ff9d33634b8c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
