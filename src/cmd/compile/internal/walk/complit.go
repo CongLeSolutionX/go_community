@@ -85,7 +85,7 @@ const (
 func getdyn(n ir.Node, top bool) initGenType {
 	switch n.Op() {
 	default:
-		if ir.IsConstNode(n) {
+		if ir.IsConstNode(n) && (!n.Type().IsString() || !base.Ctxt.IsFIPS()) {
 			return initConst
 		}
 		return initDynamic
