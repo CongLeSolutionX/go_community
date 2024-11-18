@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "997777f7_0a7aa09f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-18T16:21:25Z",
+      "side": 1,
+      "message": "We should probably omit this. A non-zero number of people rely on the existence of this method (as evidenced by BoGo, and a cursory GitHub search), and removing it (at least this late in the cycle) is likely to be more painful than its worth.",
+      "revId": "0d1a8e3b42c8544502f5dfa4aa4ccef8c1d84d6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
