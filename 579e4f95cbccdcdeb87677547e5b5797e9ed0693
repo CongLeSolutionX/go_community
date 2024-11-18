@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fa98422_d3d886aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-18T16:48:33Z",
+      "side": 1,
+      "message": "I\u0027m not sure what to do with the CI failure, it seems unrelated to my changes",
+      "revId": "579e4f95cbccdcdeb87677547e5b5797e9ed0693",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
