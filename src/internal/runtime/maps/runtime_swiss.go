@@ -76,8 +76,7 @@ func runtime_mapaccess1(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsaf
 	}
 
 	// Select table.
-	idx := m.directoryIndex(hash)
-	t := m.directoryAt(idx)
+	t := m.table(hash)
 
 	// Probe table.
 	seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
@@ -150,8 +149,7 @@ func runtime_mapaccess2(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) (unsa
 	}
 
 	// Select table.
-	idx := m.directoryIndex(hash)
-	t := m.directoryAt(idx)
+	t := m.table(hash)
 
 	// Probe table.
 	seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
@@ -238,8 +236,7 @@ func runtime_mapassign(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsafe
 outer:
 	for {
 		// Select table.
-		idx := m.directoryIndex(hash)
-		t := m.directoryAt(idx)
+		t := m.table(hash)
 
 		seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
 
