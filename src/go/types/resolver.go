@@ -583,15 +583,13 @@ func (check *Checker) unpackRecv(rtyp ast.Expr, unpackParams bool) (ptr bool, ba
 // name exists, the returned base is nil.
 func (check *Checker) resolveBaseTypeName(seenPtr bool, typ ast.Expr, lookupScope func(*ast.Ident) *Scope) (ptr bool, base *TypeName) {
 	// Algorithm: Starting from a type expression, which may be a name,
-	// we follow that type through alias declarations until we reach a
-	// non-alias type name. If we encounter anything but pointer types or
-	// parentheses we're done. If we encounter more than one pointer type
-	// we're done.
+	// we follow that type through non-generic alias declarations until
+	// we reach a non-alias type name. A single pointer indirection and
+	// references to cgo types are permitted.
 	ptr = seenPtr
 	var seen map[*TypeName]bool
 	for {
-		// Note: this differs from types2, but is necessary. The syntax parser
-		// strips unnecessary parens.
+		// The go/parser keeps parentheses; strip them.
 		typ = ast.Unparen(typ)
 
 		// check if we have a pointer type
@@ -631,6 +629,11 @@ func (check *Checker) resolveBaseTypeName(seenPtr bool, typ ast.Expr, lookupScop
 			if name == "" {
 				return false, nil
 			}
+		// An instantiated type may appear on the RHS of an alias declaration.
+		// Defining new methods with receivers that are generic aliases (or
+		// which refer to generic aliases) is not permitted, so we're done.
+		// Treat like the default cases.
+		// case *ast.IndexExpr, *ast.IndexListExpr:
 		default:
 			return false, nil
 		}
@@ -658,6 +661,11 @@ func (check *Checker) resolveBaseTypeName(seenPtr bool, typ ast.Expr, lookupScop
 		tdecl := check.objMap[tname].tdecl // must exist for objects in package scope
 		if !tdecl.Assign.IsValid() {
 			return ptr, tname
+		}
+
+		// we're done if tdecl defined a generic alias
+		if tdecl.TypeParams != nil {
+			return false, nil
 		}
 
 		// otherwise, continue resolving
