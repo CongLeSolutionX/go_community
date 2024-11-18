@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0809a8e7_a12c2fb1",
+        "filename": "src/cmd/internal/obj/loong64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-18T17:02:24Z",
+      "side": 1,
+      "message": "These could use some comments.",
+      "range": {
+        "startLine": 851,
+        "startChar": 0,
+        "endLine": 856,
+        "endChar": 1
+      },
+      "revId": "4a3bb10e49fb0db27d9694b7fce47ad33f6168d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c7b4d57_6dac18bd",
+        "filename": "src/cmd/internal/obj/loong64/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-18T17:02:24Z",
+      "side": 1,
+      "message": "This could use a comment.",
+      "revId": "4a3bb10e49fb0db27d9694b7fce47ad33f6168d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
