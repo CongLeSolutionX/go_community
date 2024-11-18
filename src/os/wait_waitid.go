@@ -29,6 +29,9 @@ func (p *Process) blockUntilWaitable() (bool, error) {
 	psig := &siginfo[0]
 	err := ignoringEINTR(func() error {
 		_, _, errno := syscall.Syscall6(syscall.SYS_WAITID, _P_PID, uintptr(p.Pid), uintptr(unsafe.Pointer(psig)), syscall.WEXITED|syscall.WNOWAIT, 0, 0)
+		if errno == 0 {
+			return nil
+		}
 		return errno
 	})
 	runtime.KeepAlive(p)

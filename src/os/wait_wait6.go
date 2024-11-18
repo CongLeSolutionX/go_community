@@ -17,6 +17,9 @@ import (
 func (p *Process) blockUntilWaitable() (bool, error) {
 	err := ignoringEINTR(func() error {
 		_, errno := wait6(_P_PID, p.Pid, syscall.WEXITED|syscall.WNOWAIT)
+		if errno == 0 {
+			return nil
+		}
 		return errno
 	})
 	runtime.KeepAlive(p)
