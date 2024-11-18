@@ -188,6 +188,30 @@
       },
       "revId": "ab96fbe4b87ce7e14e2842230786555dae656442",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "875c2a94_68dd6f7d",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-11-18T21:35:28Z",
+      "side": 1,
+      "message": "This is great feedback. I will work on adding some examples to the documentation. Please note, go.dev/issue/70425 has been created to track the deprecation of SetFinalizer",
+      "parentUuid": "006090b0_03c3db24",
+      "range": {
+        "startLine": 432,
+        "startChar": 15,
+        "endLine": 433,
+        "endChar": 15
+      },
+      "revId": "ab96fbe4b87ce7e14e2842230786555dae656442",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
