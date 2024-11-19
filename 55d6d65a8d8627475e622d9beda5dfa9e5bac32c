@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66bde2d3_9109d459",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-19T23:09:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a777aac4_296ed95b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4101f296_6cf22034",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-11-19T21:51:42Z",
       "side": 1,
       "message": "missing space",
+      "range": {
+        "startLine": 16,
+        "startChar": 21,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6813ee28_10495d2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-19T23:09:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4101f296_6cf22034",
       "range": {
         "startLine": 16,
         "startChar": 21,
@@ -77,6 +125,30 @@
       "writtenOn": "2024-11-19T21:02:38Z",
       "side": 1,
       "message": "That means the escape character itself must be escaped, otherwise the decoder would not be able to distinguish an escaped ^V from a literal ^[ ^V sequence in t.Log.\n\n(The testdata/frameescape.test shows that this is implemented; but it\u0027s worth stating explicitly.)",
+      "range": {
+        "startLine": 104,
+        "startChar": 24,
+        "endLine": 104,
+        "endChar": 33
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1268857a_38206388",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-19T23:09:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74e73271_2d30112d",
       "range": {
         "startLine": 104,
         "startChar": 24,
@@ -147,6 +219,54 @@
       "side": 1,
       "message": "(Never mind; I see that the existing JSON protocol stipulates a line-oriented form.)",
       "parentUuid": "fb62c48e_f9d2a98e",
+      "range": {
+        "startLine": 109,
+        "startChar": 51,
+        "endLine": 109,
+        "endChar": 53
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64dfd907_c865b0a1",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-19T23:09:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbbdfca1_67db3ae4",
+      "range": {
+        "startLine": 109,
+        "startChar": 34,
+        "endLine": 109,
+        "endChar": 40
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3527653_c25806e7",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-19T23:09:26Z",
+      "side": 1,
+      "message": "For a bit more context, JavaScript does not support JSON streams. If you google \"JavaScript JSON multiple objects\", the responses are \"Don\u0027t\" or \"Use string manipulation to split it or turn it into valid JSON\". So the line-oriented form is a lot easier to handle in vscode-go.\nSide note, the majority of this change is unnecessary \nchurn due to the extension I use to automatically wrap comments so I\u0027m \ngoing to revert everything I didn\u0027t actually change.",
+      "parentUuid": "c95fd609_2fb38848",
       "range": {
         "startLine": 109,
         "startChar": 51,
@@ -229,6 +349,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ebfa8057_90cacbcf",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-19T23:09:26Z",
+      "side": 1,
+      "message": "I updated it to use a second buffer. I kept the begin and end cases separate because A) there are some nuances that I don\u0027t think your version preserves and B) IMO it\u0027s easier to read. The nuances:\n\n- Unconditionally setting the output type to `error` after markErrEnd is insufficient. The design as specified by Russ requires a separate event for each line of output and an output type of `error` for the first line of `t.Error(...)` and `error-continue` for subsequent lines. I\u0027d prefer one event per Log/Error call as it would make my life easier (when working on vscode-go), but not enough to try to change the design. I think the reason is that test2json processes line by line.\n\n- Because test2json processes line by line, `t.Error` emits the end mark before the newline. But if the user calls `t.Error(\"Error\\n\")`, they expect the new line to be part of the error message. Hence the \"if the next character is \\n, include it\" bit.",
+      "parentUuid": "fe88b658_cbe532de",
+      "range": {
+        "startLine": 447,
+        "startChar": 3,
+        "endLine": 447,
+        "endChar": 38
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb777b94_4921a423",
         "filename": "src/testing/sub_test.go",
         "patchSetId": 16
@@ -240,6 +384,24 @@
       "writtenOn": "2024-11-19T21:51:42Z",
       "side": 1,
       "message": "```\n// notateOutput transforms an output line into something more easily comparable\nvar notateOutput \u003d strings.NewReplacer(\n  string(markFraming), \"^V\",\n  string(markErrBegin), \"^O\",\n  string(markErrEnd), \"^N\",\n  string(markEscape), \"^[\",\n).Replace\n```",
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca805dc7_bdaa06aa",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-19T23:09:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb777b94_4921a423",
       "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -284,6 +446,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f1d0fc5_12aeb5c7",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-19T23:09:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f6b57a8_82f86c7d",
+      "range": {
+        "startLine": 531,
+        "startChar": 39,
+        "endLine": 531,
+        "endChar": 47
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79832e2e_3d206080",
@@ -307,6 +493,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be1f751e_5666726f",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-19T23:09:26Z",
+      "side": 1,
+      "message": "Oops, yes",
+      "parentUuid": "79832e2e_3d206080",
+      "range": {
+        "startLine": 580,
+        "startChar": 4,
+        "endLine": 580,
+        "endChar": 9
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c37b9bb_05e6fab7",
@@ -320,6 +530,30 @@
       "writtenOn": "2024-11-19T21:51:42Z",
       "side": 1,
       "message": "What\u0027s the purpose of implementing WriteString if it isn\u0027t more efficient than Write([]byte(s))?",
+      "range": {
+        "startLine": 640,
+        "startChar": 0,
+        "endLine": 644,
+        "endChar": 0
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae95cbde_4bce7f54",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-19T23:09:26Z",
+      "side": 1,
+      "message": "I did that because `common.decorate` calls `strings.Builder.WriteString` and I assumed it was a good idea to continue doing that. When writing a non-error output message, `chattyPrinter.escape` is a noop. `strings.Builder.WriteString` and `strings.Builder.Write` are virtually identical. If the compiler is sufficiently smart, I think `WriteString` will be more efficient: given `var b []byte` and `var s string`, `append(b, s...)` has to copy the string, but `append(b, []byte(s)...)` will copy twice, I think.",
+      "parentUuid": "8c37b9bb_05e6fab7",
       "range": {
         "startLine": 640,
         "startChar": 0,
