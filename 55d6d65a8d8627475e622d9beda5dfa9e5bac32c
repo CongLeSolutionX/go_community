@@ -423,6 +423,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01331058_f64918ce",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-19T23:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c6659a7_28a62a00",
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f6b57a8_82f86c7d",
@@ -566,6 +584,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e7a4964_4b49ee55",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-19T23:26:18Z",
+      "side": 1,
+      "message": "If I\u0027m right about the double copy, I don\u0027t know if that\u0027s enough of a difference to justify the complexity. My motivation was mainly to avoid a performance regression where I could.",
+      "parentUuid": "ae95cbde_4bce7f54",
+      "range": {
+        "startLine": 640,
+        "startChar": 0,
+        "endLine": 644,
+        "endChar": 0
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "60c6b564_62aa1f61",
         "filename": "src/testing/testing.go",
         "patchSetId": 16
@@ -577,6 +619,30 @@
       "writtenOn": "2024-11-19T21:51:42Z",
       "side": 1,
       "message": "This looks wrong: it will attempt to Write p again.\n\nI think you want something like this:\n```go\n\nfunc (w escapeWriter) Write(p []byte) (total int, err error) {\n\tescaped :\u003d [2]byte{markEscape, 0}\n\tfor len(p) \u003e 0 {\n\t\t// Are there any remaining escapes?\n\t\tvar n int\n\t\ti :\u003d bytes.IndexAny(p, string([]byte{markFraming, markErrBegin, markErrEnd, markEscape}))\n\t\tif i \u003c 0 {\n\t\t\t// Write final literal portion.\n\t\t\tn, err \u003d w.w.Write(p)\n\t\t\ttotal +\u003d n\n\t\t\tbreak\n\t\t}\n\n\t\t// Write literal portion.\n\t\tn, err \u003d w.w.Write(p[:i])\n\t\ttotal +\u003d n\n\t\tif err !\u003d nil {\n\t\t\tbreak\n\t\t}\n\n\t\t// Write escaped byte.\n\t\tescaped[1] \u003d p[i]\n\t\tn, err \u003d w.w.Write(escaped[:])\n\t\tif err !\u003d nil {\n\t\t\tbreak\n\t\t}\n\t\tif n \u003c len(escaped) {\n\t\t\terr \u003d fmt.Errorf(\"short write\")\n\t\t\tbreak\n\t\t}\n\t\ttotal++ // (only wrote 1 byte of p)\n\t\tp \u003d p[i+1:]\n\t}\n\treturn\n}\n```\n\nThe string literal could be hoisted out, but I don\u0027t think it should escape.",
+      "range": {
+        "startLine": 657,
+        "startChar": 3,
+        "endLine": 657,
+        "endChar": 8
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fe9d613_36a8d92d",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-19T23:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60c6b564_62aa1f61",
       "range": {
         "startLine": 657,
         "startChar": 3,
