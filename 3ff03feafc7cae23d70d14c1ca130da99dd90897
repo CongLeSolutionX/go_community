@@ -16,6 +16,68 @@
       "message": "Thanks for the reviews, I\u0027ll run the perf builders before submitting to be sure.",
       "revId": "3ff03feafc7cae23d70d14c1ca130da99dd90897",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "335790f3_0bf8bead",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-19T08:11:02Z",
+      "side": 1,
+      "message": "Can we also remove this loop?\nIf we just do \"continue tryAcquire\" as we do everywhere else, it should have the same effect.",
+      "fixSuggestions": [
+        {
+          "fixId": "6b790efd_821c8b05",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 185,
+                "startChar": 0,
+                "endLine": 186,
+                "endChar": 0
+              },
+              "replacement": "\t\tif v\u0026mutexLocked \u003d\u003d 0 {\n"
+            },
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 203,
+                "startChar": 0,
+                "endLine": 203,
+                "endChar": 0
+              },
+              "replacement": "\t\t\tcontinue tryAcquire\n"
+            }
+          ]
+        }
+      ],
+      "revId": "3ff03feafc7cae23d70d14c1ca130da99dd90897",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1643dfdd_88aad218",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-19T08:11:02Z",
+      "side": 1,
+      "message": "We just want to keep mutexSleeping flag from the current state, right? Why do we add it, and then remove? Can\u0027t we do just:\n```\nnext :\u003d (v \u0026 ^mutexSpinning) | mutexLocked\n```\n?",
+      "revId": "3ff03feafc7cae23d70d14c1ca130da99dd90897",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
