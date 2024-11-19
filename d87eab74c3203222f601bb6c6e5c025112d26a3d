@@ -22,6 +22,30 @@
       },
       "revId": "d87eab74c3203222f601bb6c6e5c025112d26a3d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94f76e97_a713f5b3",
+        "filename": "src/crypto/internal/nistec/generate.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T21:03:37Z",
+      "side": 1,
+      "message": "Good catch! Removed in a follow-up CL to avoid respinning the whole stack.",
+      "parentUuid": "34712e09_c3684f40",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "d87eab74c3203222f601bb6c6e5c025112d26a3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
