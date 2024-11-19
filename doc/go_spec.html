@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Language version go1.23 (Oct 1, 2024)",
+	"Subtitle": "Language version go1.24 (Nov 19, 2024)",
 	"Path": "/ref/spec"
 }-->
 
@@ -3115,6 +3115,22 @@ type Pair[A, B any] struct {
 
 func (p Pair[A, B]) Swap() Pair[B, A]  { … }  // receiver declares A, B
 func (p Pair[First, _]) First() First  { … }  // receiver declares First, corresponds to A in Pair
+</pre>
+
+<p>
+The receiver type may be denoted by an <a href="#Alias_declarations">alias</a>.
+In that case, the alias cannot be generic and the receiver base type cannot be
+an instantiated generic type.
+</p>
+
+<pre>
+type APoint        = *Point
+type GPoint[P any] = Point
+type IPair         = Pair[int, int]
+
+func (APoint)     X() float64   { … }  // ok
+func (GoPoint[P]) Draw(P)       { … }  // illegal: alias must not be generic
+func (IntPair)    Second() int  { … }  // illegal: receiver base type must not be an instantiated type
 </pre>
 
 <h2 id="Expressions">Expressions</h2>
