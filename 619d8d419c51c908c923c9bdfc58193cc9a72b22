@@ -16,6 +16,24 @@
       "message": "This doesn\u0027t look good on the microbenchmark; I don\u0027t think we should merge this change.\n\nMostly it\u0027s a practical answer to \"why does our exit from the lock2 slow path sometimes use Xchg8\". (At the moment, I don\u0027t have a precise answer for the theory.)",
       "revId": "619d8d419c51c908c923c9bdfc58193cc9a72b22",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93f80926_7bd66e71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-19T08:02:44Z",
+      "side": 1,
+      "message": "Does it change things if you set mutexSleeping unconditionally as it was before? I suspect that may have some effect.\n\nBut also see a comment about mutex benchmarks on 629417.\nNamely: these changes tell me almost nothing. I can also say that slight improvement in throughput on low contention levels outweighs everything else.",
+      "parentUuid": "217f7702_eaa435a8",
+      "revId": "619d8d419c51c908c923c9bdfc58193cc9a72b22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
