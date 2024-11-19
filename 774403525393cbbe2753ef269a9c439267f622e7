@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "daa49426_0fe4f8fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T21:01:23Z",
+      "side": 1,
+      "message": "Filippo has been coordinating with the Go Security team on this work, and we are generally in agreement. I\u0027ll elucidate on my thinking a little here.\n\nIn this case I think we have to weigh a number of things. We don\u0027t want to break the existing boring integration when implementing the pure-Go FIPS mode, so that we can provide time for people to migrate away from it, and think about how they can continue to maintain forks, if they wish to do so.\n\nBut that said, there is a limit to what we have the resources to do here, both in terms of the time we have to implement these changes, and the work we have to do to convince the validation lab that our choices are acceptable.\n\nWhile it\u0027s possible we can convince the lab that moving certain parts of the KDF out of the boundary, that is really up to them to decide, and it\u0027s safer on our end to take a conservative approach than try to convince them this would be okay (it should be noted that not every lab reads the rules the same way, it\u0027s entirely possible that the boring folks made an argument to their lab which the lab we use would not accept. Just because one module has done something one way doesn\u0027t mean we can necessarily do the same thing).\n\nUnfortunately I think if we need to keep the Secret types inside of the FIPS module, there is no clean diff to keep labels etc outside of it, and based on Filippos arguments, I\u0027m convinced we do need to keep this inside the boundary.\n\nLooking over this, I agree it is likely to introduce some pain to the Microsoft fork, and while I\u0027d like to continue to provide a path for you to maintain that for as long as we can while transitioning to the pure-Go FIPS module, I think unfortunately there are some places where we\u0027re going to have to make the choice to do what is easier for the main project rather than incurring complexity for the sake of forks.",
+      "parentUuid": "36d934a9_d2c1506b",
+      "revId": "774403525393cbbe2753ef269a9c439267f622e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79cdf0fc_e7f4fa9f",
         "filename": "src/crypto/internal/fips/tls13/tls13.go",
         "patchSetId": 5
