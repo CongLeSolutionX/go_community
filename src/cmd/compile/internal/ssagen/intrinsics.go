@@ -992,7 +992,11 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 	makeOnesCountAMD64 := func(op ssa.Op) func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 		return func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 			if cfg.goamd64 >= 2 {
-				return s.newValue1(op, types.Types[types.TINT], args[0])
+				cnt := s.newValue1(op, types.Types[types.TINT], args[0])
+
+				// Uselessly POR the result with itself.
+				zero := s.constInt(types.Types[types.TINT], 0)
+				return s.newValue2(ssa.OpAMD64POR, types.Types[types.TINT], cnt, zero)
 			}
 
 			v := s.entryNewValue0A(ssa.OpHasCPUFeature, types.Types[types.TBOOL], ir.Syms.X86HasPOPCNT)
