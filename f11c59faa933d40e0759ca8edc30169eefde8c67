@@ -16,6 +16,24 @@
       "message": "Confusing, please rephrase.\n\n// If a package p calls fips.CAST from its init function, \n// an import of p should also be added to cast_external_test.go.\n// If a package p calls fips.CAST during a key generation or key importing\n// function, an invocation of that function should be added to TestCAST.",
       "revId": "f11c59faa933d40e0759ca8edc30169eefde8c67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f09ad303_d0664c4a",
+        "filename": "src/crypto/internal/fips/cast.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T18:09:14Z",
+      "side": 1,
+      "message": "The final wording is from CL 628855. Done there to avoid the rebase conflict.",
+      "parentUuid": "163e4aeb_36dfdc7f",
+      "revId": "f11c59faa933d40e0759ca8edc30169eefde8c67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
