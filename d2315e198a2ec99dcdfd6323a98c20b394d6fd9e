@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec3b8005_26a045e5",
+        "filename": "src/crypto/ecdh/ecdh_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T20:12:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9244b33_b2398649",
+      "revId": "d2315e198a2ec99dcdfd6323a98c20b394d6fd9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0796bec_c494e412",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-11-19T18:41:04Z",
       "side": 1,
       "message": "We chatted about this offline: something\u0027s shifted so that the `rand \u003d\u003d boring.RandReader` clause is false for builds w/ the boring crypto experiment enabled which leaves the `*boring.PrivateKeyECDH` member unpopulated and causes a nil deref panic in those builds.",
+      "revId": "d2315e198a2ec99dcdfd6323a98c20b394d6fd9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c63481db_6e4a3092",
+        "filename": "src/crypto/ecdh/nist.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T20:12:04Z",
+      "side": 1,
+      "message": "Removed the \"rand \u003d\u003d boring.RandReader\" gate. In FIPS mode we decided to just ignore the provided rand, BoringCrypto can do the same.\n\nThank you!",
+      "parentUuid": "e0796bec_c494e412",
       "revId": "d2315e198a2ec99dcdfd6323a98c20b394d6fd9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70a61495_11a5e42d",
+        "filename": "src/crypto/ecdh/nist.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T20:12:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f7d6668_7cf79634",
+      "revId": "d2315e198a2ec99dcdfd6323a98c20b394d6fd9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cba1344_0033e7a0",
@@ -65,6 +119,24 @@
       "writtenOn": "2024-11-19T15:55:58Z",
       "side": 1,
       "message": "s/returns/reports/ \nhttps://go.dev/doc/comment#func\n\"returns whether\" is awkward because it sounds like whether is making the return itself conditional, so it\u0027s not the convention.\n\n\nAlso the awkwardness of \u0027a\u0027 looking like the English word is why I never name arguments \u0027a\u0027. x would be fine here.",
+      "revId": "d2315e198a2ec99dcdfd6323a98c20b394d6fd9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdc85524_309d0c54",
+        "filename": "src/crypto/ecdh/x25519.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T20:12:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cba1344_0033e7a0",
       "revId": "d2315e198a2ec99dcdfd6323a98c20b394d6fd9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +158,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3caee75_2a1ac505",
+        "filename": "src/crypto/internal/fips/ecdh/ecdh.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T20:12:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4541e89_581fe68e",
+      "revId": "d2315e198a2ec99dcdfd6323a98c20b394d6fd9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "082ca517_b8341806",
@@ -99,6 +189,24 @@
       "writtenOn": "2024-11-19T15:55:58Z",
       "side": 1,
       "message": "reports",
+      "revId": "d2315e198a2ec99dcdfd6323a98c20b394d6fd9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afe9109d_69f437f4",
+        "filename": "src/crypto/internal/fips/ecdh/ecdh.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T20:12:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "082ca517_b8341806",
       "revId": "d2315e198a2ec99dcdfd6323a98c20b394d6fd9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
