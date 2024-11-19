@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "539478bd_fa720193",
+        "filename": "src/cmd/go/testdata/script/fipssnap.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-19T20:07:15Z",
+      "side": 1,
+      "message": "TODO: Check that this test passes in CL 629202 before submitting.",
+      "revId": "e6faa79d027f68ce58d2c541bc89cb95c8b5bc67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
