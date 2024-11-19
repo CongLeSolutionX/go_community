@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "672d21ac_f189998e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-11-19T21:49:06Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand why this would be ok. Suppose we have:\n```\np1 \u003d (LocalAddr [a] mem1)\nmem2 \u003d (Store p1 0 mem1)   // initial zeroing\np2 : (LocalAddr [a] mem2)\nmem3 \u003d (Store p2 ptr mem2)   // user\u0027s code a\u003dptr\n```\n\nIf we determine that the zeroing is dead, then we get rid of it (and p1, as it is now dead). But then we\u0027re in a situation where we materialize the address of `a` before it has been initialized. If we suspend between the second LocalAddr and the last Store, p2 points to an uninitialized slot. That is not great.\n\nOf course, this happens already with the first 2 instructions. We\u0027re saved by the fact that there are no calls or any other suspension points between the LocalAddr and the zeroing, and that scanning during an interrupt is conservative. I\u0027m not 100% sure that the same guarantee is available for the second two instructions. But maybe?\n```\nvar a *int\n.. other stuff ..\na \u003d ptr\n```\n\nThe compiler guarantees that there\u0027s nothing bad in between the LocalAddr and the zeroing of `a`. But can there be bad stuff between the LocalAddr and the store in the assignment to `a`? I suspect there can\u0027t be, and this is ok, but I\u0027m not certain.\n\nThis would be a lot safer if it only pertained to pointerless objects.",
+      "revId": "6eb9c6f47e9f7c02b52999a7957ff9d33634b8c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9cb049c0_c1d72e83",
