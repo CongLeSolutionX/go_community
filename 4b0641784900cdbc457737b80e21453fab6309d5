@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2605bd59_406b121c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T22:27:23Z",
+      "side": 1,
+      "message": "LGTM, but I\u0027ll let Michael have the final word.",
+      "revId": "4b0641784900cdbc457737b80e21453fab6309d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1abb3102_179ea30e",
+        "filename": "src/cmd/internal/script/scripttest/run.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T22:27:23Z",
+      "side": 1,
+      "message": "\"environment\" is enough.",
+      "range": {
+        "startLine": 32,
+        "startChar": 60,
+        "endLine": 33,
+        "endChar": 6
+      },
+      "revId": "4b0641784900cdbc457737b80e21453fab6309d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "685d1cf1_6ce14a78",
+        "filename": "src/cmd/internal/script/scripttest/run.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T22:27:23Z",
+      "side": 1,
+      "message": "NewEngine (since clients will know it as scripttest.NewEngine)",
+      "range": {
+        "startLine": 34,
+        "startChar": 5,
+        "endLine": 34,
+        "endChar": 24
+      },
+      "revId": "4b0641784900cdbc457737b80e21453fab6309d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06719fcb_93316e46",
+        "filename": "src/cmd/internal/script/scripttest/run.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T22:27:23Z",
+      "side": 1,
+      "message": "Simplify with max:\n\ngracePeriod \u003d max(gracePeriod, timeout / 20)",
+      "revId": "4b0641784900cdbc457737b80e21453fab6309d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b252272f_0edc12d2",
+        "filename": "src/cmd/internal/script/scripttest/run.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T22:27:23Z",
+      "side": 1,
+      "message": ":\u003d\n\nand delete var declaration.",
+      "range": {
+        "startLine": 212,
+        "startChar": 13,
+        "endLine": 212,
+        "endChar": 14
+      },
+      "revId": "4b0641784900cdbc457737b80e21453fab6309d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
