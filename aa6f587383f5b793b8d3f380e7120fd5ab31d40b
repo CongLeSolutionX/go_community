@@ -16,6 +16,24 @@
       "message": "This change looks bad for throughput on the microbenchmark, but that appears to be due to the mutex changing hands between threads much more often -- which seems like a good thing.\n\nI\u0027m not sure where we should hit on that tradeoff. I\u0027ll run the perf builders.",
       "revId": "aa6f587383f5b793b8d3f380e7120fd5ab31d40b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cbc68a4_51fad634",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-19T07:55:49Z",
+      "side": 1,
+      "message": "It\u0027s almost impossible to create mutex benchmark that produces data consistent with real applications. All that often even direction of the signal mutex benchmarks produce is wrong.\n\nA mutex that will perform best on synthetic benchmarks is the one that allows no parallelism whatsoever, and puts all contending threads to a long deep sleep immediately. This will perform the worst in real life. Mutex must let threads progress past the mutex and do other useful work.\n\nThis is exactly the effect you see here.\n\nThe problem with \"streak\" is that if we have a thread doing \"streak\", and another competing thread, then in real life we never know if the streak thread is going to do another iteration or not (usually not). So I would argue that in real application it\u0027s always better to let another thread acquire the mutex asap, execute the critical section, and proceed doing whatever it was doing. So reduction of streak is not necessarily a bad thing.\n\nOnly 1 thread/0 contention produces useful number of synthetic benchmarks.\nAt the very least a benchmark needs to include some realistic amount of work inside of the critical section + some randomized amount of local work outside of the critical section. But even then numbers need to be taken with a grain of salt.",
+      "parentUuid": "b4a4eaf5_937f4973",
+      "revId": "aa6f587383f5b793b8d3f380e7120fd5ab31d40b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

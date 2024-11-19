@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8236f4ac_0fe522f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-19T07:55:49Z",
+      "side": 1,
+      "message": "Can even make sense to remove PAUSE entirely.",
+      "revId": "f6ac7cd9c749410abefdd5dde06ecde78d366cd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
