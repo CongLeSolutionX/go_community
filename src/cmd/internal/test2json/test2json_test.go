@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"internal/diff"
 	"io"
 	"os"
 	"path/filepath"
@@ -156,6 +157,10 @@ func writeAndKill(w io.Writer, b []byte) {
 func diffJSON(t *testing.T, have, want []byte) {
 	t.Helper()
 	type event map[string]any
+	type outputTypeSpan struct {
+		Start, End int
+		Type       string
+	}
 
 	// Parse into events, one per line.
 	parseEvents := func(b []byte) ([]event, []string) {
@@ -217,8 +222,10 @@ func diffJSON(t *testing.T, have, want []byte) {
 		t.Fatal(buf.String())
 	}
 
-	var outputTest string             // current "Test" key in "output" events
-	var wantOutput, haveOutput string // collected "Output" of those events
+	var outputTest string                   // current "Test" key in "output" events
+	var wantOutput, haveOutput string       // collected "Output" of those events
+	var wantType, haveType []outputTypeSpan // "OutputType" of those events
+	var wantPos, havePos int                // position in the overall output stream
 
 	// getTest returns the "Test" setting, or "" if it is missing.
 	getTest := func(e event) string {
@@ -226,15 +233,34 @@ func diffJSON(t *testing.T, have, want []byte) {
 		return s
 	}
 
+	// collectOutput adds the event's "Output" to the output string and updates
+	// output type spans
+	collectOutput := func(e event, output *string, pos *int, spans *[]outputTypeSpan) {
+		s := e["Output"].(string)
+		typ, _ := e["OutputType"].(string)
+		if typ == "error-continue" {
+			typ = "error"
+		}
+		i := len(*spans) - 1
+		if i < 0 || (*spans)[i].Type != typ {
+			*spans = append(*spans, outputTypeSpan{Type: typ, Start: *pos})
+			i++
+		}
+		*output += s
+		*pos += len(s)
+		(*spans)[i].End = *pos
+	}
+
 	// checkOutput collects output from the haveEvents for the current outputTest
 	// and then checks that the collected output matches the wanted output.
 	checkOutput := func() {
 		for i < len(haveEvents) && haveEvents[i]["Action"] == "output" && getTest(haveEvents[i]) == outputTest {
-			haveOutput += haveEvents[i]["Output"].(string)
+			collectOutput(haveEvents[i], &haveOutput, &havePos, &haveType)
 			i++
 		}
 		if haveOutput != wantOutput {
-			t.Errorf("output mismatch for Test=%q:\nhave %q\nwant %q", outputTest, haveOutput, wantOutput)
+			d := diff.Diff("have", []byte(haveOutput), "want", []byte(wantOutput))
+			t.Errorf("output mismatch for Test=%q:\nhave %q\nwant %q\n%s", outputTest, haveOutput, wantOutput, d)
 			fail()
 		}
 		haveOutput = ""
@@ -245,13 +271,13 @@ func diffJSON(t *testing.T, have, want []byte) {
 	for j = range wantEvents {
 		e := wantEvents[j]
 		if e["Action"] == "output" && getTest(e) == outputTest {
-			wantOutput += e["Output"].(string)
+			collectOutput(e, &wantOutput, &wantPos, &wantType)
 			continue
 		}
 		checkOutput()
 		if e["Action"] == "output" {
 			outputTest = getTest(e)
-			wantOutput += e["Output"].(string)
+			collectOutput(e, &wantOutput, &wantPos, &wantType)
 			continue
 		}
 		if i >= len(haveEvents) {
@@ -269,6 +295,20 @@ func diffJSON(t *testing.T, have, want []byte) {
 		t.Errorf("extra events in stream")
 		fail()
 	}
+
+	if !reflect.DeepEqual(haveType, wantType) {
+		t.Errorf("different output types")
+		var buf bytes.Buffer
+		fmt.Fprintf(&buf, "have:\n")
+		for _, l := range haveLines {
+			fmt.Fprintf(&buf, "\t%s\n", l)
+		}
+		fmt.Fprintf(&buf, "want:\n")
+		for _, l := range wantLines {
+			fmt.Fprintf(&buf, "\t%s\n", l)
+		}
+		t.Fatal(buf.String())
+	}
 }
 
 func TestTrimUTF8(t *testing.T) {
@@ -283,5 +323,34 @@ func TestTrimUTF8(t *testing.T) {
 		if utf8.FullRune(b[j:i]) {
 			t.Errorf("trimUTF8(%q) = %d (-%d), too early (missed: %q)", s[:j], j, i-j, s[j:i])
 		}
+	}
+}
+
+func TestCRLFError(t *testing.T) {
+	// Simulate a t.Error message where the trailing LF is replaced with CR LF
+	// and the stream is split immediately after ^N
+
+	oldIn := inBuffer
+	oldOut := outBuffer
+	defer func() {
+		inBuffer = oldIn
+		outBuffer = oldOut
+	}()
+	inBuffer = 7
+	outBuffer = 7
+
+	var buf bytes.Buffer
+	c := NewConverter(&buf, "", 0)
+	_, err := c.Write([]byte("\x0fError\x0e\r\n"))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Discard the first event and compare
+	have := bytes.TrimSpace(bytes.SplitN(buf.Bytes(), []byte("\n"), 2)[1])
+	want := []byte(`{"Action":"output","Output":"Error","OutputType":"error"}
+{"Action":"output","Output":"\r\n","OutputType":"error-continue"}`)
+	if !bytes.Equal(have, want) {
+		t.Errorf("have:\n%s\nwant:\n%s\n", have, want)
 	}
 }
