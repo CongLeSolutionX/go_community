@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf36911f_f6407979",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T15:57:39Z",
+      "side": 1,
+      "message": "My interpretation of the IGs is that the FIPS module \"service\" is the whole KDF, and https://pages.nist.gov/ACVP/draft-hammett-acvp-kdf-tls-v1.3.html seems to agree. There isn\u0027t a TLS-PRF3 function besides HKDF, so I am not sure what that would leave in the package.",
+      "parentUuid": "2376fb5e_4e4a9668",
+      "revId": "774403525393cbbe2753ef269a9c439267f622e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79cdf0fc_e7f4fa9f",
