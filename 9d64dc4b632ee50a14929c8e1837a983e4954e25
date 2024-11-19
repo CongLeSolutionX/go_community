@@ -33,6 +33,24 @@
       "message": "Spurious diff or something that should be expanded on?",
       "revId": "9d64dc4b632ee50a14929c8e1837a983e4954e25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d2028ea_23484a05",
+        "filename": "src/crypto/internal/nistec/p256.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T15:31:22Z",
+      "side": 1,
+      "message": "Oh I just meant to add a comment since this is an exported method.",
+      "parentUuid": "5cd71bca_bd30ff5b",
+      "revId": "9d64dc4b632ee50a14929c8e1837a983e4954e25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
