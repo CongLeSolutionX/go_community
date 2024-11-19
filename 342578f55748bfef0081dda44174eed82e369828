@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "027880c2_95548831",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T23:04:13Z",
+      "side": 1,
+      "message": "-longtest is broken by CL 591997, the rest pass.",
+      "revId": "342578f55748bfef0081dda44174eed82e369828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
