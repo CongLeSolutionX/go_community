@@ -16,6 +16,24 @@
       "message": "TODO: Check that this test passes in CL 629202 before submitting.",
       "revId": "e6faa79d027f68ce58d2c541bc89cb95c8b5bc67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a6144cd_155a0ab4",
+        "filename": "src/cmd/go/testdata/script/fipssnap.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-19T21:24:51Z",
+      "side": 1,
+      "message": "Every time I \u0027git sync\u0027 and the crypto/internal/fips tree changes,\nI have to run \u0027cd lib/fips140; make v0.0.1.rm; make v0.0.1.zip\u0027 \nto refresh the zip file to keep the test passing.\n(Once we take a snapshot we\u0027ll stop making changes like that.)",
+      "parentUuid": "539478bd_fa720193",
+      "revId": "e6faa79d027f68ce58d2c541bc89cb95c8b5bc67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
