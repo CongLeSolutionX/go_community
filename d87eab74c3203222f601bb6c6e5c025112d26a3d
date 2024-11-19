@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34712e09_c3684f40",
+        "filename": "src/crypto/internal/nistec/generate.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-19T20:53:03Z",
+      "side": 1,
+      "message": "Given this is still here, will the p256.go file not be overwritten next time `go generate` is done?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "d87eab74c3203222f601bb6c6e5c025112d26a3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
