@@ -142,6 +142,30 @@
       },
       "revId": "42915e6ef708a8a82c06f7b5e48dda878445a4f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4db166b6_39ea5fec",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-19T17:14:16Z",
+      "side": 1,
+      "message": "Does the patch below work? stmp in FIPS mode is a very targeted fix. In theory it could potentially happen in other cases. Maybe they all optimized out? But that seems we\u0027re playing with luck.\n\nIf you feel strong about a very minimal fix, that is fine. Thanks.\n\n```\ndiff --git a/src/cmd/internal/obj/arm64/asm7.go b/src/cmd/internal/obj/arm64/asm7.go\nindex 37de7706e8..e0a740924f 100644\n--- a/src/cmd/internal/obj/arm64/asm7.go\n+++ b/src/cmd/internal/obj/arm64/asm7.go\n@@ -1074,14 +1074,42 @@ func (o *Optab) size(ctxt *obj.Link, p *obj.Prog) int {\n \t\t// Also symbols with prefix of \"go:string.\" are Go strings, which will go into\n \t\t// the symbol table, their addresses are not necessary aligned, rule this out.\n \t\talign :\u003d int64(1 \u003c\u003c sz)\n-\t\tif o.a1 \u003d\u003d C_ADDR \u0026\u0026 p.From.Offset%align \u003d\u003d 0 \u0026\u0026 !strings.HasPrefix(p.From.Sym.Name, \"go:string.\") ||\n-\t\t\to.a4 \u003d\u003d C_ADDR \u0026\u0026 p.To.Offset%align \u003d\u003d 0 \u0026\u0026 !strings.HasPrefix(p.To.Sym.Name, \"go:string.\") {\n+\t\tif o.a1 \u003d\u003d C_ADDR \u0026\u0026 p.From.Offset%align \u003d\u003d 0 \u0026\u0026 symAlign(p.From.Sym) \u003e\u003d align ||\n+\t\t\to.a4 \u003d\u003d C_ADDR \u0026\u0026 p.To.Offset%align \u003d\u003d 0 \u0026\u0026 symAlign(p.To.Sym) \u003e\u003d align {\n \t\t\treturn 8\n \t\t}\n \t}\n \treturn int(o.size_)\n }\n \n+func symAlign(s *obj.LSym) int64 {\n+\tname :\u003d s.Name\n+\tswitch {\n+\tcase strings.HasPrefix(name, \"go:string.\"),\n+\t\tstrings.HasPrefix(name, \"type:.namedata.\"),\n+\t\tstrings.HasPrefix(name, \"type:.importpath.\"),\n+\t\tstrings.HasSuffix(name, \".opendefer\"),\n+\t\tstrings.HasSuffix(name, \".arginfo0\"),\n+\t\tstrings.HasSuffix(name, \".arginfo1\"),\n+\t\tstrings.HasSuffix(name, \".argliveinfo\"):\n+\t\t// These are just bytes, or varints.\n+\t\treturn 1\n+\tcase strings.HasPrefix(name, \"gclocals·\"):\n+\t\t// It has 32-bit fields.\n+\t\treturn 4\n+\tdefault:\n+\t\tswitch {\n+\t\tcase s.Size%8 \u003d\u003d 0:\n+\t\t\treturn 8\n+\t\tcase s.Size%4 \u003d\u003d 0:\n+\t\t\treturn 4\n+\t\tcase s.Size%2 \u003d\u003d 0:\n+\t\t\treturn 2\n+\t\t}\n+\t}\n+\treturn 1\n+}\n+\n func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {\n \tif ctxt.Retpoline {\n \t\tctxt.Diag(\"-spectre\u003dret not supported on arm64\")\n```",
+      "parentUuid": "0cc0db1d_a219c45b",
+      "range": {
+        "startLine": 414,
+        "startChar": 36,
+        "endLine": 414,
+        "endChar": 62
+      },
+      "revId": "42915e6ef708a8a82c06f7b5e48dda878445a4f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
