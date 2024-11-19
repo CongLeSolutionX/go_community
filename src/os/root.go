@@ -6,8 +6,11 @@ package os
 
 import (
 	"errors"
+	"internal/bytealg"
 	"internal/testlog"
+	"io/fs"
 	"runtime"
+	"slices"
 )
 
 // Root may be used to only access files within a single directory tree.
@@ -212,4 +215,71 @@ func splitPathInRoot(s string, prefix, suffix []string) (_ []string, err error) 
 	}
 	parts = append(parts, suffix...)
 	return parts, nil
+}
+
+// FS returns a file system (an fs.FS) for the tree of files in the root.
+//
+// The result implements [io/fs.StatFS], [io/fs.ReadFileFS] and
+// [io/fs.ReadDirFS].
+func (r *Root) FS() fs.FS {
+	return (*rootFS)(r)
+}
+
+type rootFS Root
+
+func (rfs *rootFS) Open(name string) (fs.File, error) {
+	r := (*Root)(rfs)
+	if !fs.ValidPath(name) {
+		return nil, &PathError{Op: "open", Path: name, Err: ErrInvalid}
+	}
+	f, err := r.Open(name)
+	if err != nil {
+		return nil, err
+	}
+	return f, nil
+}
+
+func (rfs *rootFS) ReadDir(name string) ([]DirEntry, error) {
+	r := (*Root)(rfs)
+	if !fs.ValidPath(name) {
+		return nil, &PathError{Op: "readdir", Path: name, Err: ErrInvalid}
+	}
+
+	// This isn't efficient: We just open a regular file and ReadDir it.
+	// Ideally, we would skip creating a *File entirely and operate directly
+	// on the file descriptor, but that will require some extensive reworking
+	// of directory reading in general.
+	//
+	// This suffices for the moment.
+	f, err := r.Open(name)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+	dirs, err := f.ReadDir(-1)
+	slices.SortFunc(dirs, func(a, b DirEntry) int {
+		return bytealg.CompareString(a.Name(), b.Name())
+	})
+	return dirs, err
+}
+
+func (rfs *rootFS) ReadFile(name string) ([]byte, error) {
+	r := (*Root)(rfs)
+	if !fs.ValidPath(name) {
+		return nil, &PathError{Op: "readfile", Path: name, Err: ErrInvalid}
+	}
+	f, err := r.Open(name)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+	return readFileContents(f)
+}
+
+func (rfs *rootFS) Stat(name string) (FileInfo, error) {
+	r := (*Root)(rfs)
+	if !fs.ValidPath(name) {
+		return nil, &PathError{Op: "stat", Path: name, Err: ErrInvalid}
+	}
+	return r.Stat(name)
 }
