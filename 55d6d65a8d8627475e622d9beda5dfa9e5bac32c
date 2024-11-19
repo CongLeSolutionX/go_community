@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b083aabf_7d7de2c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T21:02:38Z",
+      "side": 1,
+      "message": "Sorry for the immense delay in replying. I will try to be more responsive this week so that this can squeak in before the freeze.",
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74e73271_2d30112d",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T21:02:38Z",
+      "side": 1,
+      "message": "That means the escape character itself must be escaped, otherwise the decoder would not be able to distinguish an escaped ^V from a literal ^[ ^V sequence in t.Log.\n\n(The testdata/frameescape.test shows that this is implemented; but it\u0027s worth stating explicitly.)",
+      "range": {
+        "startLine": 104,
+        "startChar": 24,
+        "endLine": 104,
+        "endChar": 33
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbbdfca1_67db3ae4",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T21:02:38Z",
+      "side": 1,
+      "message": "values",
+      "range": {
+        "startLine": 109,
+        "startChar": 34,
+        "endLine": 109,
+        "endChar": 40
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb62c48e_f9d2a98e",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T21:02:38Z",
+      "side": 1,
+      "message": "I wonder why this detail is necessary. Isn\u0027t it enough that the file contains a sequence of JSON values, each written in its entirety?",
+      "range": {
+        "startLine": 109,
+        "startChar": 51,
+        "endLine": 109,
+        "endChar": 53
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c5b2d05_ffedcfcd",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T21:02:38Z",
+      "side": 1,
+      "message": "Again, I wonder why lines matter at all if the file is a JSON stream.",
+      "range": {
+        "startLine": 432,
+        "startChar": 34,
+        "endLine": 432,
+        "endChar": 71
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe88b658_cbe532de",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T21:02:38Z",
+      "side": 1,
+      "message": "This is an expensive way to skip a byte of input.\n\nI think it might be more efficient, and clearer, to express it by copying from the input (renamed \u0027in\u0027) to a second buffer (out), along these lines:\n\n```go\nfunc writeOutputEvent(in []byte) {\n...\n\tvar out []byte\n\tfor _, b :\u003d range in {\n\t\tif c.escape {\n\t\t\tc.escape \u003d false\n\t\t\tout \u003d append(out, b)\n\t\t\tcontinue\n\t\t}\n\n\t\tswitch b {\n\t\tcase markEscape:\n\t\t\tc.escape \u003d true\n\n\t\tcase markErrBegin, markErrEnd:\n\t\t\tif len(out) \u003e 0 {\n\t\t\t\tvar typ string\n\t\t\t\tif b \u003d\u003d markErrEnd {\n\t\t\t\t\ttyp \u003d \"error\"\n\t\t\t\t}\n\t\t\t\tc.writeEvent(\u0026event{\n\t\t\t\t\tAction:     \"output\",\n\t\t\t\t\tOutput:     (*textBytes)(\u0026out),\n\t\t\t\t\tOutputType: typ,\n\t\t\t\t})\n\t\t\t\tout \u003d out[:0]\n\t\t\t}\n\t\t\tc.withinErr \u003d b \u003d\u003d markErrBegin\n\t\t\t\n\t\tdefault:\n\t\t\tout \u003d append(out, b)\n\t\t}\n\t}\n\n\tif len(out) \u003e 0 {\n\t\tc.writeEvent(\u0026event{\n\t\t\tAction:     \"output\",\n\t\t\tOutput:     (*textBytes)(\u0026out),\n\t\t\tOutputType: typ,\n\t\t})\n\t}\n```",
+      "range": {
+        "startLine": 447,
+        "startChar": 3,
+        "endLine": 447,
+        "endChar": 38
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
