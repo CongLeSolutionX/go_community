@@ -230,6 +230,7 @@ func runDynamicRecordSizingTest(t *testing.T, config *Config) {
 }
 
 func TestDynamicRecordSizingWithStreamCipher(t *testing.T) {
+	skipFips(t) // No RC4 in FIPS mode.
 	config := testConfig.Clone()
 	config.MaxVersion = VersionTLS12
 	config.CipherSuites = []uint16{TLS_RSA_WITH_RC4_128_SHA}
@@ -237,6 +238,7 @@ func TestDynamicRecordSizingWithStreamCipher(t *testing.T) {
 }
 
 func TestDynamicRecordSizingWithCBC(t *testing.T) {
+	skipFips(t) // No RSA KX in defaultCipherSuitesFIPS.
 	config := testConfig.Clone()
 	config.MaxVersion = VersionTLS12
 	config.CipherSuites = []uint16{TLS_RSA_WITH_AES_256_CBC_SHA}

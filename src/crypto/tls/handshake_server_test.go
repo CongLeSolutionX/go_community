@@ -118,7 +118,7 @@ func TestRejectBadProtocolVersion(t *testing.T) {
 
 func TestNoSuiteOverlap(t *testing.T) {
 	clientHello := &clientHelloMsg{
-		vers:               VersionTLS10,
+		vers:               VersionTLS12,
 		random:             make([]byte, 32),
 		cipherSuites:       []uint16{0xff00},
 		compressionMethods: []uint8{compressionNone},
@@ -128,9 +128,9 @@ func TestNoSuiteOverlap(t *testing.T) {
 
 func TestNoCompressionOverlap(t *testing.T) {
 	clientHello := &clientHelloMsg{
-		vers:               VersionTLS10,
+		vers:               VersionTLS12,
 		random:             make([]byte, 32),
-		cipherSuites:       []uint16{TLS_RSA_WITH_RC4_128_SHA},
+		cipherSuites:       []uint16{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256},
 		compressionMethods: []uint8{0xff},
 	}
 	testClientHelloFailure(t, testConfig, clientHello, "client does not support uncompressed connections")
@@ -138,7 +138,7 @@ func TestNoCompressionOverlap(t *testing.T) {
 
 func TestNoRC4ByDefault(t *testing.T) {
 	clientHello := &clientHelloMsg{
-		vers:               VersionTLS10,
+		vers:               VersionTLS12,
 		random:             make([]byte, 32),
 		cipherSuites:       []uint16{TLS_RSA_WITH_RC4_128_SHA},
 		compressionMethods: []uint8{compressionNone},
@@ -162,9 +162,9 @@ func TestDontSelectECDSAWithRSAKey(t *testing.T) {
 	// Test that, even when both sides support an ECDSA cipher suite, it
 	// won't be selected if the server's private key doesn't support it.
 	clientHello := &clientHelloMsg{
-		vers:               VersionTLS10,
+		vers:               VersionTLS12,
 		random:             make([]byte, 32),
-		cipherSuites:       []uint16{TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA},
+		cipherSuites:       []uint16{TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384},
 		compressionMethods: []uint8{compressionNone},
 		supportedCurves:    []CurveID{CurveP256},
 		supportedPoints:    []uint8{pointFormatUncompressed},
@@ -188,9 +188,9 @@ func TestDontSelectRSAWithECDSAKey(t *testing.T) {
 	// Test that, even when both sides support an RSA cipher suite, it
 	// won't be selected if the server's private key doesn't support it.
 	clientHello := &clientHelloMsg{
-		vers:               VersionTLS10,
+		vers:               VersionTLS12,
 		random:             make([]byte, 32),
-		cipherSuites:       []uint16{TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA},
+		cipherSuites:       []uint16{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256},
 		compressionMethods: []uint8{compressionNone},
 		supportedCurves:    []CurveID{CurveP256},
 		supportedPoints:    []uint8{pointFormatUncompressed},
@@ -210,6 +210,8 @@ func TestDontSelectRSAWithECDSAKey(t *testing.T) {
 }
 
 func TestRenegotiationExtension(t *testing.T) {
+	skipFips(t) // no RC4 in FIPS mode.
+
 	clientHello := &clientHelloMsg{
 		vers:                         VersionTLS12,
 		compressionMethods:           []uint8{compressionNone},
@@ -262,6 +264,8 @@ func TestRenegotiationExtension(t *testing.T) {
 }
 
 func TestTLS12OnlyCipherSuites(t *testing.T) {
+	skipFips(t) // No TLS 1.1 in FIPS mode.
+
 	// Test that a Server doesn't select a TLS 1.2-only cipher suite when
 	// the client negotiates TLS 1.1.
 	clientHello := &clientHelloMsg{
@@ -314,6 +318,8 @@ func TestTLS12OnlyCipherSuites(t *testing.T) {
 }
 
 func TestTLSPointFormats(t *testing.T) {
+	skipFips(t) // no CBC in FIPS.
+
 	// Test that a Server returns the ec_point_format extension when ECC is
 	// negotiated, and not on a RSA handshake or if ec_point_format is missing.
 	tests := []struct {
@@ -433,6 +439,8 @@ func TestVersion(t *testing.T) {
 }
 
 func TestCipherSuitePreference(t *testing.T) {
+	skipFips(t) // No RC4 or CHACHA20_POLY1305 in FIPS mode.
+
 	serverConfig := &Config{
 		CipherSuites: []uint16{TLS_RSA_WITH_RC4_128_SHA, TLS_AES_128_GCM_SHA256,
 			TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256},
@@ -501,11 +509,11 @@ func TestCrossVersionResume(t *testing.T) {
 
 func testCrossVersionResume(t *testing.T, version uint16) {
 	serverConfig := &Config{
-		CipherSuites: []uint16{TLS_RSA_WITH_AES_128_CBC_SHA},
+		CipherSuites: []uint16{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256},
 		Certificates: testConfig.Certificates,
 	}
 	clientConfig := &Config{
-		CipherSuites:       []uint16{TLS_RSA_WITH_AES_128_CBC_SHA},
+		CipherSuites:       []uint16{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256},
 		InsecureSkipVerify: true,
 		ClientSessionCache: NewLRUClientSessionCache(1),
 		ServerName:         "servername",
@@ -777,6 +785,8 @@ func runServerTestTLS13(t *testing.T, template *serverTest) {
 }
 
 func TestHandshakeServerRSARC4(t *testing.T) {
+	skipFips(t) // no RC4 for FIPS.
+
 	test := &serverTest{
 		name:    "RSA-RC4",
 		command: []string{"openssl", "s_client", "-no_ticket", "-cipher", "RC4-SHA"},
@@ -787,6 +797,8 @@ func TestHandshakeServerRSARC4(t *testing.T) {
 }
 
 func TestHandshakeServerRSA3DES(t *testing.T) {
+	skipFips(t) // no 3DES for FIPS.
+
 	test := &serverTest{
 		name:    "RSA-3DES",
 		command: []string{"openssl", "s_client", "-no_ticket", "-cipher", "DES-CBC3-SHA"},
@@ -796,6 +808,8 @@ func TestHandshakeServerRSA3DES(t *testing.T) {
 }
 
 func TestHandshakeServerRSAAES(t *testing.T) {
+	skipFips(t) // No RSA key exchange for FIPS.
+
 	test := &serverTest{
 		name:    "RSA-AES",
 		command: []string{"openssl", "s_client", "-no_ticket", "-cipher", "AES128-SHA"},
@@ -805,6 +819,8 @@ func TestHandshakeServerRSAAES(t *testing.T) {
 }
 
 func TestHandshakeServerAESGCM(t *testing.T) {
+	skipFips(t) // No RSA key exchange for FIPS.
+
 	test := &serverTest{
 		name:    "RSA-AES-GCM",
 		command: []string{"openssl", "s_client", "-no_ticket", "-cipher", "ECDHE-RSA-AES128-GCM-SHA256"},
@@ -813,6 +829,8 @@ func TestHandshakeServerAESGCM(t *testing.T) {
 }
 
 func TestHandshakeServerAES256GCMSHA384(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	test := &serverTest{
 		name:    "RSA-AES256-GCM-SHA384",
 		command: []string{"openssl", "s_client", "-no_ticket", "-cipher", "ECDHE-RSA-AES256-GCM-SHA384"},
@@ -821,20 +839,28 @@ func TestHandshakeServerAES256GCMSHA384(t *testing.T) {
 }
 
 func TestHandshakeServerAES128SHA256(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	test := &serverTest{
 		name:    "AES128-SHA256",
 		command: []string{"openssl", "s_client", "-no_ticket", "-ciphersuites", "TLS_AES_128_GCM_SHA256"},
 	}
 	runServerTestTLS13(t, test)
 }
+
 func TestHandshakeServerAES256SHA384(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	test := &serverTest{
 		name:    "AES256-SHA384",
 		command: []string{"openssl", "s_client", "-no_ticket", "-ciphersuites", "TLS_AES_256_GCM_SHA384"},
 	}
 	runServerTestTLS13(t, test)
 }
+
 func TestHandshakeServerCHACHA20SHA256(t *testing.T) {
+	skipFips(t) // No CHACHA20_POLY1305 for FIPS
+
 	test := &serverTest{
 		name:    "CHACHA20-SHA256",
 		command: []string{"openssl", "s_client", "-no_ticket", "-ciphersuites", "TLS_CHACHA20_POLY1305_SHA256"},
@@ -843,6 +869,8 @@ func TestHandshakeServerCHACHA20SHA256(t *testing.T) {
 }
 
 func TestHandshakeServerECDHEECDSAAES(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts. No SHA1, TLS1.0.
+
 	config := testConfig.Clone()
 	config.Certificates = make([]Certificate, 1)
 	config.Certificates[0].Certificate = [][]byte{testECDSACertificate}
@@ -854,12 +882,15 @@ func TestHandshakeServerECDHEECDSAAES(t *testing.T) {
 		command: []string{"openssl", "s_client", "-no_ticket", "-cipher", "ECDHE-ECDSA-AES256-SHA", "-ciphersuites", "TLS_AES_128_GCM_SHA256"},
 		config:  config,
 	}
+
 	runServerTestTLS10(t, test)
 	runServerTestTLS12(t, test)
 	runServerTestTLS13(t, test)
 }
 
 func TestHandshakeServerX25519(t *testing.T) {
+	skipFips(t) // No X25519 in FIPS
+
 	config := testConfig.Clone()
 	config.CurvePreferences = []CurveID{X25519}
 
@@ -873,6 +904,8 @@ func TestHandshakeServerX25519(t *testing.T) {
 }
 
 func TestHandshakeServerP256(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	config := testConfig.Clone()
 	config.CurvePreferences = []CurveID{CurveP256}
 
@@ -886,6 +919,8 @@ func TestHandshakeServerP256(t *testing.T) {
 }
 
 func TestHandshakeServerHelloRetryRequest(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	config := testConfig.Clone()
 	config.CurvePreferences = []CurveID{CurveP256}
 
@@ -906,6 +941,8 @@ func TestHandshakeServerHelloRetryRequest(t *testing.T) {
 // TestHandshakeServerKeySharePreference checks that we prefer a key share even
 // if it's later in the CurvePreferences order.
 func TestHandshakeServerKeySharePreference(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	config := testConfig.Clone()
 	config.CurvePreferences = []CurveID{X25519, CurveP256}
 
@@ -926,6 +963,8 @@ func TestHandshakeServerKeySharePreference(t *testing.T) {
 // TestHandshakeServerUnsupportedKeyShare tests a client that sends a key share
 // that's not in the supported groups list.
 func TestHandshakeServerUnsupportedKeyShare(t *testing.T) {
+	skipFips(t) // No X25519 in FIPS
+
 	pk, _ := ecdh.X25519().GenerateKey(rand.Reader)
 	clientHello := &clientHelloMsg{
 		vers:               VersionTLS12,
@@ -940,6 +979,8 @@ func TestHandshakeServerUnsupportedKeyShare(t *testing.T) {
 }
 
 func TestHandshakeServerALPN(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	config := testConfig.Clone()
 	config.NextProtos = []string{"proto1", "proto2"}
 
@@ -962,6 +1003,8 @@ func TestHandshakeServerALPN(t *testing.T) {
 }
 
 func TestHandshakeServerALPNNoMatch(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	config := testConfig.Clone()
 	config.NextProtos = []string{"proto3"}
 
@@ -978,6 +1021,8 @@ func TestHandshakeServerALPNNoMatch(t *testing.T) {
 }
 
 func TestHandshakeServerALPNNotConfigured(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	config := testConfig.Clone()
 	config.NextProtos = nil
 
@@ -999,6 +1044,8 @@ func TestHandshakeServerALPNNotConfigured(t *testing.T) {
 }
 
 func TestHandshakeServerALPNFallback(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	config := testConfig.Clone()
 	config.NextProtos = []string{"proto1", "h2", "proto2"}
 
@@ -1023,6 +1070,8 @@ func TestHandshakeServerALPNFallback(t *testing.T) {
 // "snitest.com", which happens to match the CN of testSNICertificate. The test
 // verifies that the server correctly selects that certificate.
 func TestHandshakeServerSNI(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	test := &serverTest{
 		name:    "SNI",
 		command: []string{"openssl", "s_client", "-no_ticket", "-cipher", "AES128-SHA", "-servername", "snitest.com"},
@@ -1033,6 +1082,8 @@ func TestHandshakeServerSNI(t *testing.T) {
 // TestHandshakeServerSNIGetCertificate is similar to TestHandshakeServerSNI, but
 // tests the dynamic GetCertificate method
 func TestHandshakeServerSNIGetCertificate(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	config := testConfig.Clone()
 
 	// Replace the NameToCertificate map with a GetCertificate function
@@ -1055,6 +1106,8 @@ func TestHandshakeServerSNIGetCertificate(t *testing.T) {
 // GetCertificate method doesn't return a cert, we fall back to what's in
 // the NameToCertificate map.
 func TestHandshakeServerSNIGetCertificateNotFound(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	config := testConfig.Clone()
 
 	config.GetCertificate = func(clientHello *ClientHelloInfo) (*Certificate, error) {
@@ -1080,16 +1133,16 @@ func TestHandshakeServerGetCertificateExtensions(t *testing.T) {
 	testVersions := []uint16{VersionTLS12, VersionTLS13}
 	for _, vers := range testVersions {
 		t.Run(fmt.Sprintf("TLS version %04x", vers), func(t *testing.T) {
-			pk, _ := ecdh.X25519().GenerateKey(rand.Reader)
+			pk, _ := ecdh.P256().GenerateKey(rand.Reader)
 			clientHello := &clientHelloMsg{
 				vers:                         vers,
 				random:                       make([]byte, 32),
-				cipherSuites:                 []uint16{TLS_CHACHA20_POLY1305_SHA256},
+				cipherSuites:                 []uint16{TLS_AES_128_GCM_SHA256},
 				compressionMethods:           []uint8{compressionNone},
 				serverName:                   "test",
-				keyShares:                    []keyShare{{group: X25519, data: pk.PublicKey().Bytes()}},
-				supportedCurves:              []CurveID{X25519},
-				supportedSignatureAlgorithms: []SignatureScheme{Ed25519},
+				keyShares:                    []keyShare{{group: CurveP256, data: pk.PublicKey().Bytes()}},
+				supportedCurves:              []CurveID{CurveP256},
+				supportedSignatureAlgorithms: []SignatureScheme{ECDSAWithP256AndSHA256},
 			}
 
 			// the clientHelloMsg initialized just above is serialized with
@@ -1138,9 +1191,9 @@ func TestHandshakeServerSNIGetCertificateError(t *testing.T) {
 	}
 
 	clientHello := &clientHelloMsg{
-		vers:               VersionTLS10,
+		vers:               VersionTLS12,
 		random:             make([]byte, 32),
-		cipherSuites:       []uint16{TLS_RSA_WITH_RC4_128_SHA},
+		cipherSuites:       []uint16{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256},
 		compressionMethods: []uint8{compressionNone},
 		serverName:         "test",
 	}
@@ -1159,9 +1212,9 @@ func TestHandshakeServerEmptyCertificates(t *testing.T) {
 	serverConfig.Certificates = nil
 
 	clientHello := &clientHelloMsg{
-		vers:               VersionTLS10,
+		vers:               VersionTLS12,
 		random:             make([]byte, 32),
-		cipherSuites:       []uint16{TLS_RSA_WITH_RC4_128_SHA},
+		cipherSuites:       []uint16{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256},
 		compressionMethods: []uint8{compressionNone},
 	}
 	testClientHelloFailure(t, serverConfig, clientHello, errMsg)
@@ -1171,15 +1224,17 @@ func TestHandshakeServerEmptyCertificates(t *testing.T) {
 	serverConfig.GetCertificate = nil
 
 	clientHello = &clientHelloMsg{
-		vers:               VersionTLS10,
+		vers:               VersionTLS12,
 		random:             make([]byte, 32),
-		cipherSuites:       []uint16{TLS_RSA_WITH_RC4_128_SHA},
+		cipherSuites:       []uint16{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256},
 		compressionMethods: []uint8{compressionNone},
 	}
 	testClientHelloFailure(t, serverConfig, clientHello, "no certificates")
 }
 
 func TestServerResumption(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	sessionFilePath := tempFile("")
 	defer os.Remove(sessionFilePath)
 
@@ -1225,6 +1280,8 @@ func TestServerResumption(t *testing.T) {
 }
 
 func TestServerResumptionDisabled(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	sessionFilePath := tempFile("")
 	defer os.Remove(sessionFilePath)
 
@@ -1260,6 +1317,8 @@ func TestServerResumptionDisabled(t *testing.T) {
 }
 
 func TestFallbackSCSV(t *testing.T) {
+	skipFips(t) // No TLS 1.1 for FIPS.
+
 	serverConfig := Config{
 		Certificates: testConfig.Certificates,
 		MinVersion:   VersionTLS11,
@@ -1275,6 +1334,8 @@ func TestFallbackSCSV(t *testing.T) {
 }
 
 func TestHandshakeServerExportKeyingMaterial(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	test := &serverTest{
 		name:    "ExportKeyingMaterial",
 		command: []string{"openssl", "s_client", "-cipher", "ECDHE-RSA-AES256-SHA", "-ciphersuites", "TLS_CHACHA20_POLY1305_SHA256"},
@@ -1294,6 +1355,8 @@ func TestHandshakeServerExportKeyingMaterial(t *testing.T) {
 }
 
 func TestHandshakeServerRSAPKCS1v15(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	test := &serverTest{
 		name:    "RSA-RSAPKCS1v15",
 		command: []string{"openssl", "s_client", "-no_ticket", "-cipher", "ECDHE-RSA-CHACHA20-POLY1305", "-sigalgs", "rsa_pkcs1_sha256"},
@@ -1302,6 +1365,8 @@ func TestHandshakeServerRSAPKCS1v15(t *testing.T) {
 }
 
 func TestHandshakeServerRSAPSS(t *testing.T) {
+	skipFips(t) // No CHACHA20_POLY1305 for FIPS
+
 	// We send rsa_pss_rsae_sha512 first, as the test key won't fit, and we
 	// verify the server implementation will disregard the client preference in
 	// that case. See Issue 29793.
@@ -1321,6 +1386,8 @@ func TestHandshakeServerRSAPSS(t *testing.T) {
 }
 
 func TestHandshakeServerEd25519(t *testing.T) {
+	skipFips(t) // No ed25519 for FIPS.
+
 	config := testConfig.Clone()
 	config.Certificates = make([]Certificate, 1)
 	config.Certificates[0].Certificate = [][]byte{testEd25519Certificate}
@@ -1422,6 +1489,8 @@ func BenchmarkHandshakeServer(b *testing.B) {
 }
 
 func TestClientAuth(t *testing.T) {
+	skipFips(t) // FIPS mode is non-deterministic, can't use static test transcripts.
+
 	var certPath, keyPath, ecdsaCertPath, ecdsaKeyPath, ed25519CertPath, ed25519KeyPath string
 
 	if *update {
@@ -1496,9 +1565,9 @@ func TestSNIGivenOnFailure(t *testing.T) {
 	const expectedServerName = "test.testing"
 
 	clientHello := &clientHelloMsg{
-		vers:               VersionTLS10,
+		vers:               VersionTLS12,
 		random:             make([]byte, 32),
-		cipherSuites:       []uint16{TLS_RSA_WITH_RC4_128_SHA},
+		cipherSuites:       []uint16{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256},
 		compressionMethods: []uint8{compressionNone},
 		serverName:         expectedServerName,
 	}
@@ -1754,7 +1823,7 @@ T+E0J8wlH24pgwQHzy7Ko2qLwn1b5PW8ecrlvP1g
 
 func TestMultipleCertificates(t *testing.T) {
 	clientConfig := testConfig.Clone()
-	clientConfig.CipherSuites = []uint16{TLS_RSA_WITH_AES_128_GCM_SHA256}
+	clientConfig.CipherSuites = []uint16{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256}
 	clientConfig.MaxVersion = VersionTLS12
 
 	serverConfig := testConfig.Clone()
@@ -1776,6 +1845,8 @@ func TestMultipleCertificates(t *testing.T) {
 }
 
 func TestAESCipherReordering(t *testing.T) {
+	skipFips(t) // No CHACHA20_POLY1305 for FIPS.
+
 	currentAESSupport := hasAESGCMHardwareSupport
 	defer func() { hasAESGCMHardwareSupport = currentAESSupport }()
 
@@ -1919,6 +1990,8 @@ func TestAESCipherReordering(t *testing.T) {
 }
 
 func TestAESCipherReorderingTLS13(t *testing.T) {
+	skipFips(t) // No CHACHA20_POLY1305 for FIPS.
+
 	currentAESSupport := hasAESGCMHardwareSupport
 	defer func() { hasAESGCMHardwareSupport = currentAESSupport }()
 
