@@ -109,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "36d934a9_d2c1506b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-11-19T19:49:13Z",
+      "side": 1,
+      "message": "In the past the Go team has been open to modifying the Go internals to facilitate Go forks maintenance. I don\u0027t see why this case would be different nor why I shouldn\u0027t try to influence API desicions (as anyone else can).\n\nHard to argue against the compliance budget argument. Would it be really noticeable taking into account the large FIPS API surface implemented in this efford?\n\nI think it is a fair ask what I\u0027m proposing, I might be failing to understand why it has been discarded.\n\nSide note: when you say \"the rest of the team\" you mean @roland@golang.org and his crew?\n\nSorry for pushing back on this soo much, but it is important for me to understand whether you are open to do minnor concessions in here so I can calibrate how much of an efford would be to maintain our fork. You know, today is a tiny part of the TLS logic moved into the FIPS boundary, tomorrow might be a bigger thing.",
+      "parentUuid": "6f5fd325_09969c6b",
+      "revId": "774403525393cbbe2753ef269a9c439267f622e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79cdf0fc_e7f4fa9f",
         "filename": "src/crypto/internal/fips/tls13/tls13.go",
         "patchSetId": 5
