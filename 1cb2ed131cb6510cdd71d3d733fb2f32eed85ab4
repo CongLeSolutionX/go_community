@@ -37,6 +37,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "17ad66ba_9f4045d4",
+        "filename": "doc/godebug.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-11-19T00:47:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7be6a745_f2410838",
+      "revId": "1cb2ed131cb6510cdd71d3d733fb2f32eed85ab4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "687ed271_2710cf64",
         "filename": "src/cmd/go/internal/test/testflag.go",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2024-11-18T21:24:03Z",
       "side": 1,
       "message": "In theory it would be better if the non-default counter would only incremented both if the gotestjsonbuildtext\u003d1 is set, once for each build failure (or so). That way if `GODEBUG\u003dgotestjsonbuildtext\u003d1 go test -json` doesn\u0027t run into any build errors, the counter wouldn\u0027t be incremented.\n\nBut that\u0027s probably more trouble than it\u0027s worth to implement, so this is fine as is.",
+      "revId": "1cb2ed131cb6510cdd71d3d733fb2f32eed85ab4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51c36df5_20eeffca",
+        "filename": "src/cmd/go/internal/test/testflag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-11-19T00:47:44Z",
+      "side": 1,
+      "message": "Hmm, interesting. I agree that that\u0027s a lot of trouble to implement. I think it\u0027s also up to interpretation to some extent: whatever\u0027s invoking go test -json probably doesn\u0027t control the source it\u0027s testing, so it\u0027s exposing itself to this behavior whether a build error actually happens or not. But that\u0027s all splitting hairs.",
+      "parentUuid": "687ed271_2710cf64",
       "revId": "1cb2ed131cb6510cdd71d3d733fb2f32eed85ab4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
