@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4778cb4_28e30517",
+        "filename": "doc/godebug.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T03:40:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e4182f4_50128c3d",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ccb7c3d_40885f6f",
@@ -65,6 +83,48 @@
       "writtenOn": "2024-11-18T21:23:12Z",
       "side": 1,
       "message": "1",
+      "range": {
+        "startLine": 180,
+        "startChar": 29,
+        "endLine": 180,
+        "endChar": 30
+      },
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61fd5a63_0f2f701d",
+        "filename": "doc/godebug.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T03:40:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ccb7c3d_40885f6f",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88ce6e40_a6b755c4",
+        "filename": "doc/godebug.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T03:40:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1011e02a_853db13e",
       "range": {
         "startLine": 180,
         "startChar": 29,
@@ -121,6 +181,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "acbe216c_673ef454",
+        "filename": "doc/next/6-stdlib/99-minor/crypto/subtle/66450.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T03:40:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44735b86_c56bcb63",
+      "range": {
+        "startLine": 5,
+        "startChar": 27,
+        "endLine": 6,
+        "endChar": 62
+      },
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d6877aa_f45d6fa5",
@@ -134,6 +218,30 @@
       "writtenOn": "2024-11-18T22:02:20Z",
       "side": 1,
       "message": "Do we want to document this part, without a \"may\"? If in the future it become cheap and important to switch this on and off, we might want to carry that state around with a goroutine as it moves between threads, but we\u0027ll have to worry about people relying on the side-effect instead of calling runtime.LockOSThread?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 21
+      },
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5991c6c_2bdc6580",
+        "filename": "src/crypto/subtle/dit.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T03:40:11Z",
+      "side": 1,
+      "message": "Hm good point. I think just inserting a \"may\" before \"[lock] the current goroutine\" would give us enough leeway to remove this down the road if we want.\n\nWe could also just... not document it, but that seems dangerous since this may be suprising.",
+      "parentUuid": "5d6877aa_f45d6fa5",
       "range": {
         "startLine": 17,
         "startChar": 0,
@@ -179,6 +287,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea0ecff3_23734fde",
+        "filename": "src/crypto/subtle/dit.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T03:40:11Z",
+      "side": 1,
+      "message": "Moved to internal/runtime/sys, seems like the best solution.",
+      "parentUuid": "01e1b6f3_ec72a639",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddb42d3b_7ff163cf",
@@ -192,6 +318,24 @@
       "writtenOn": "2024-11-18T22:02:20Z",
       "side": 1,
       "message": "currently",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fc36311_dfe4efd4",
+        "filename": "src/crypto/subtle/dit.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T03:40:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddb42d3b_7ff163cf",
       "revId": "246feb7568def274b883a8e199a51b7b6c116205",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -213,6 +357,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e46830ba_73bd6d0b",
+        "filename": "src/crypto/subtle/dit_arm64.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T03:40:11Z",
+      "side": 1,
+      "message": "Hm, yeah this is a nicer solution. Done.",
+      "parentUuid": "877ea55a_c95f9c1e",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3e66d47_fa1abb49",
@@ -226,6 +388,24 @@
       "writtenOn": "2024-11-18T22:02:20Z",
       "side": 1,
       "message": "```suggestion\n\t{Name: \"dataindependenttiming\", Package: \"crypto/subtle\", Opaque: true},\n```\n\nI think that setting Changed implies that there is a new default, and that before Go 1.24 it needs to be reverted by setting to Old, but here nothing changed, right?\n\nActually, should this even be here? You are not ever accessing the GODEBUG via package godebug, it\u0027s a runtime GODEBUG like a dozen others that are not listed here.",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "505e84ed_85ff2cfa",
+        "filename": "src/internal/godebugs/table.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T03:40:11Z",
+      "side": 1,
+      "message": "I think you\u0027re right on Changed and Old here. For the later question, I thought (but cannot recall an actual reference for this) that we were still supposed to add the values here even if we weren\u0027t using the godebugs package to access them.\n\nI\u0027m not particularly strongly opinionated if there isn\u0027t actually a rule about that.",
+      "parentUuid": "a3e66d47_fa1abb49",
       "revId": "246feb7568def274b883a8e199a51b7b6c116205",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -261,6 +441,24 @@
       "side": 1,
       "message": "Yeah that feels weird.",
       "parentUuid": "b18687e0_ede69bdb",
+      "revId": "246feb7568def274b883a8e199a51b7b6c116205",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8af6a29_7b36649a",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T03:40:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbd0d6c9_587239ea",
       "revId": "246feb7568def274b883a8e199a51b7b6c116205",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
