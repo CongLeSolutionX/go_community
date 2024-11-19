@@ -33,6 +33,24 @@
       "message": "Should these functions be named `P224()`, `P256()`, etc to avoid the stutter with the package name?",
       "revId": "2a0de4e7379c08b4bc1ce993a7b3f3a82470b73a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7a3380a_57b5e02a",
+        "filename": "src/crypto/internal/fips/ecdh/ecdh.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T15:21:14Z",
+      "side": 1,
+      "message": "I am not a fan of these names either, but ecdh.P256() looks like the curve, not the actual ECDH operation.",
+      "parentUuid": "dbc7f7d1_0f6caf38",
+      "revId": "2a0de4e7379c08b4bc1ce993a7b3f3a82470b73a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
