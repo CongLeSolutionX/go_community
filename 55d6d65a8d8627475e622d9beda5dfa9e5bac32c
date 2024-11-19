@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a777aac4_296ed95b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T21:51:42Z",
+      "side": 1,
+      "message": "\"In the output of go test -json, this change provides...\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4101f296_6cf22034",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T21:51:42Z",
+      "side": 1,
+      "message": "missing space",
+      "range": {
+        "startLine": 16,
+        "startChar": 21,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b083aabf_7d7de2c7",
@@ -87,6 +133,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c95fd609_2fb38848",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T21:51:42Z",
+      "side": 1,
+      "message": "(Never mind; I see that the existing JSON protocol stipulates a line-oriented form.)",
+      "parentUuid": "fb62c48e_f9d2a98e",
+      "range": {
+        "startLine": 109,
+        "startChar": 51,
+        "endLine": 109,
+        "endChar": 53
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c5b2d05_ffedcfcd",
@@ -100,6 +170,30 @@
       "writtenOn": "2024-11-19T21:02:38Z",
       "side": 1,
       "message": "Again, I wonder why lines matter at all if the file is a JSON stream.",
+      "range": {
+        "startLine": 432,
+        "startChar": 34,
+        "endLine": 432,
+        "endChar": 71
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8621ed9c_6fd84caf",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T21:51:42Z",
+      "side": 1,
+      "message": "(Never mind.)",
+      "parentUuid": "3c5b2d05_ffedcfcd",
       "range": {
         "startLine": 432,
         "startChar": 34,
@@ -128,6 +222,132 @@
         "startChar": 3,
         "endLine": 447,
         "endChar": 38
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb777b94_4921a423",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T21:51:42Z",
+      "side": 1,
+      "message": "```\n// notateOutput transforms an output line into something more easily comparable\nvar notateOutput \u003d strings.NewReplacer(\n  string(markFraming), \"^V\",\n  string(markErrBegin), \"^O\",\n  string(markErrEnd), \"^N\",\n  string(markEscape), \"^[\",\n).Replace\n```",
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c6659a7_28a62a00",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T21:51:42Z",
+      "side": 1,
+      "message": "The test2json command documents the public JSON protocol, but we should add a comment here explaining the internal protocol used between \"testing\" and test2json.",
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f6b57a8_82f86c7d",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T21:51:42Z",
+      "side": 1,
+      "message": "shift into error state\nshift out of error state\n\n(^O, ^N are formally named \"shift in/out\")",
+      "range": {
+        "startLine": 531,
+        "startChar": 39,
+        "endLine": 531,
+        "endChar": 47
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79832e2e_3d206080",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T21:51:42Z",
+      "side": 1,
+      "message": "vestige of debugging?",
+      "range": {
+        "startLine": 580,
+        "startChar": 4,
+        "endLine": 580,
+        "endChar": 9
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c37b9bb_05e6fab7",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T21:51:42Z",
+      "side": 1,
+      "message": "What\u0027s the purpose of implementing WriteString if it isn\u0027t more efficient than Write([]byte(s))?",
+      "range": {
+        "startLine": 640,
+        "startChar": 0,
+        "endLine": 644,
+        "endChar": 0
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60c6b564_62aa1f61",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T21:51:42Z",
+      "side": 1,
+      "message": "This looks wrong: it will attempt to Write p again.\n\nI think you want something like this:\n```go\n\nfunc (w escapeWriter) Write(p []byte) (total int, err error) {\n\tescaped :\u003d [2]byte{markEscape, 0}\n\tfor len(p) \u003e 0 {\n\t\t// Are there any remaining escapes?\n\t\tvar n int\n\t\ti :\u003d bytes.IndexAny(p, string([]byte{markFraming, markErrBegin, markErrEnd, markEscape}))\n\t\tif i \u003c 0 {\n\t\t\t// Write final literal portion.\n\t\t\tn, err \u003d w.w.Write(p)\n\t\t\ttotal +\u003d n\n\t\t\tbreak\n\t\t}\n\n\t\t// Write literal portion.\n\t\tn, err \u003d w.w.Write(p[:i])\n\t\ttotal +\u003d n\n\t\tif err !\u003d nil {\n\t\t\tbreak\n\t\t}\n\n\t\t// Write escaped byte.\n\t\tescaped[1] \u003d p[i]\n\t\tn, err \u003d w.w.Write(escaped[:])\n\t\tif err !\u003d nil {\n\t\t\tbreak\n\t\t}\n\t\tif n \u003c len(escaped) {\n\t\t\terr \u003d fmt.Errorf(\"short write\")\n\t\t\tbreak\n\t\t}\n\t\ttotal++ // (only wrote 1 byte of p)\n\t\tp \u003d p[i+1:]\n\t}\n\treturn\n}\n```\n\nThe string literal could be hoisted out, but I don\u0027t think it should escape.",
+      "range": {
+        "startLine": 657,
+        "startChar": 3,
+        "endLine": 657,
+        "endChar": 8
       },
       "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
