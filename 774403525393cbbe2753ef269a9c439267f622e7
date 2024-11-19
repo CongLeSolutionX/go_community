@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e8a32ac2_f9b1da3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-11-19T16:41:15Z",
+      "side": 1,
+      "message": "Not an expert on interpreting these documents, but as far as I understand, OpenSSL ([1]), BoringSSL ([2]), and wolfSSL ([3]) just add a thin wrapper over HKDF in the FIPS boundary. All the different key scheduling handling is implemented in the TLS layer.\n\nFollowing the same approach here would help maintaining other crypto backends in Go forks, else they would have to reimplement part of the TLS logic, which would be unfortunate.\n\n[1]: https://docs.openssl.org/master/man7/EVP_KDF-TLS13_KDF\n[2]: https://github.com/google/boringssl/blob/264f4f7a958af6c4ccb04662e302a99dfa7c5b85/crypto/fipsmodule/tls/kdf.c.inc#L182\n[3]: https://github.com/wolfSSL/wolfssl/blob/18f52b25736c6d6f68f0178ede35cd3d2df9b6da/wolfssl/wolfcrypt/kdf.h#L83",
+      "parentUuid": "cf36911f_f6407979",
+      "revId": "774403525393cbbe2753ef269a9c439267f622e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79cdf0fc_e7f4fa9f",
         "filename": "src/crypto/internal/fips/tls13/tls13.go",
         "patchSetId": 5
