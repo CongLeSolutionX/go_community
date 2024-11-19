@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f5fd325_09969c6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T17:21:28Z",
+      "side": 1,
+      "message": "None of this is an exact science, but doing the thin wrapper would be spending compliance budget unnecessarily. I discussed it with the rest of the team and we agree.\n\nOne of the goals of the Go FIPS module, and the reason it\u0027s being tested on so many platforms, is to remove the complexity of catering to forks. You\u0027re obviously free to still maintain one, but it shouldn\u0027t influence upstream API decisions.",
+      "parentUuid": "e8a32ac2_f9b1da3b",
+      "revId": "774403525393cbbe2753ef269a9c439267f622e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79cdf0fc_e7f4fa9f",
