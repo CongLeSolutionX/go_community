@@ -7,11 +7,13 @@ package os
 import (
 	"errors"
 	"internal/bytealg"
+	"internal/filepathlite"
 	"internal/stringslite"
 	"internal/testlog"
 	"io/fs"
 	"runtime"
 	"slices"
+	"syscall"
 )
 
 // OpenInRoot opens the file name in the directory dir.
@@ -144,6 +146,33 @@ func (r *Root) Mkdir(name string, perm FileMode) error {
 // See [Remove] for more details.
 func (r *Root) Remove(name string) error {
 	return rootRemove(r, name)
+}
+
+// RemoveAll removes path and any children it contains.
+// See [RemoveAll] for more details.
+func (r *Root) RemoveAll(path string) error {
+	if endsWithDot(path) {
+		return &PathError{Op: "RemoveAll", Path: path, Err: syscall.EINVAL}
+	}
+
+	parent := r
+	parentDir, base := filepathlite.Split(path)
+	for len(parentDir) > 0 && IsPathSeparator(parentDir[len(parentDir)-1]) {
+		parentDir = parentDir[:len(parentDir)-1]
+	}
+	if parentDir != "" {
+		var err error
+		parent, err = r.OpenRoot(parentDir)
+		if err != nil {
+			return err
+		}
+		defer parent.Close()
+	}
+	err := removeAllFrom(parent, base)
+	if err != nil {
+		return prependErrorPathPrefix(err, parentDir)
+	}
+	return nil
 }
 
 // Stat returns a [FileInfo] describing the named file in the root.

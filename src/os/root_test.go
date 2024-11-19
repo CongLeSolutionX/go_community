@@ -488,6 +488,36 @@ func TestRootRemoveDirectory(t *testing.T) {
 	}
 }
 
+func TestRootRemoveAll(t *testing.T) {
+	for _, test := range rootTestCases {
+		test.run(t, func(t *testing.T, target string, root *os.Root) {
+			wantError := test.wantError
+			if test.ltarget != "" {
+				// Remove doesn't follow symlinks in the final path component,
+				// so it will successfully remove ltarget.
+				wantError = false
+				target = filepath.Join(root.Name(), test.ltarget)
+			} else if target != "" {
+				if err := os.Mkdir(target, 0o777); err != nil {
+					t.Fatal(err)
+				}
+				if err := os.WriteFile(target+"/file", nil, 0o666); err != nil {
+					t.Fatal(err)
+				}
+			}
+
+			err := root.RemoveAll(test.open)
+			if errEndsTest(t, err, wantError, "root.RemoveAll(%q)", test.open) {
+				return
+			}
+			_, err = os.Lstat(target)
+			if !errors.Is(err, os.ErrNotExist) {
+				t.Fatalf(`stat file removed with Root.RemoveAll(%q): %v, want ErrNotExist`, test.open, err)
+			}
+		})
+	}
+}
+
 func TestRootOpenFileAsRoot(t *testing.T) {
 	dir := t.TempDir()
 	target := filepath.Join(dir, "target")
@@ -618,6 +648,17 @@ var rootConsistencyTestCases = []rootConsistencyTest{{
 	detailedErrorMismatch: func(t *testing.T) bool {
 		// FreeBSD returns EPERM in the non-Root case.
 		return runtime.GOOS == "freebsd" && strings.HasPrefix(t.Name(), "TestRootConsistencyRemove")
+	},
+}, {
+	name: "dir dotdot",
+	fs: []string{
+		"dir/",
+	},
+	open: "dir/..",
+	detailedErrorMismatch: func(t *testing.T) bool {
+		// rmdir(2) returns different results for "dir/.." and ".",
+		// even though both refer to the current directory.
+		return true
 	},
 }, {
 	name: "dir slash",
