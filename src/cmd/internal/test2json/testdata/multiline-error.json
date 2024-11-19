@@ -1,0 +1,6 @@
+{"Action":"start"}
+{"Action":"run","Test":"Test"}
+{"Action":"output","Test":"Test","Output":"=== RUN   Test\n","OutputType":"frame"}
+{"Action":"output","Test":"Test","Output":"    x_test.go:6: Error1\n","OutputType":"error"}
+{"Action":"output","Test":"Test","Output":"        Error2\n","OutputType":"error-continue"}
+{"Action":"output","Test":"Test","Output":"--- FAIL: Test (0.00s)\n","OutputType":"frame"}
