@@ -1,0 +1,59 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03c26a82_3409f833",
+        "filename": "src/go/types/check.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-11-19T16:48:43Z",
+      "side": 1,
+      "message": "not sure why this needs to be renamed - signature change should be fine",
+      "fixSuggestions": [
+        {
+          "fixId": "6e392d0e_e65add83",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/go/types/check.go",
+              "range": {
+                "startLine": 265,
+                "startChar": 0,
+                "endLine": 266,
+                "endChar": 0
+              },
+              "replacement": "func (check *Checker) Files(files []*ast.File) error { return check.checkFiles(files, nil) }\n"
+            },
+            {
+              "path": "src/go/types/check.go",
+              "range": {
+                "startLine": 267,
+                "startChar": 0,
+                "endLine": 268,
+                "endChar": 0
+              },
+              "replacement": "// checkFiles checks the provided files as part of the checker\u0027s package.\n"
+            },
+            {
+              "path": "src/go/types/check.go",
+              "range": {
+                "startLine": 273,
+                "startChar": 0,
+                "endLine": 274,
+                "endChar": 0
+              },
+              "replacement": "func (check *Checker) checkFiles(files []*ast.File, cgo *ast.File) (err error) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "45e8a05f3925b1fb9750314f1e0d886a9d937219",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

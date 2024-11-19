@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b0076c4_7086c299",
+        "filename": "src/go/types/api.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-11-19T16:48:43Z",
+      "side": 0,
+      "message": "This was added in 2020 (https://go.dev/cl/231459). I don\u0027t think we can change this at this point. What am I missing?",
+      "revId": "185c3d46109fe067abf1d4ad4d4812006a55dbe2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
