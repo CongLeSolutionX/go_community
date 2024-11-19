@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d63ca814_4565c66e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-19T16:15:32Z",
+      "side": 1,
+      "message": "FWIW, x/tools still contains astutil, it just stops being vendored because `go mod vendor` doesn\u0027t consider imports in this _gen directory due to the leading underscore.",
+      "range": {
+        "startLine": 9,
+        "startChar": 50,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "5a4887b0fd420726c9989f6921a64b5f2a8c1001",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f771f8d_aeae9105",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-19T16:15:32Z",
+      "side": 1,
+      "message": "Go has well defined meanings for the terms \u0027module\u0027 and \u0027package\u0027. A Go module is a collection of Go packages, and a Go package is what can be built. \u0027astutil\u0027 was never a Go module - it is a Go package contained in the golang.org/x/tools module.\n\nWriting \"module astutil\" is confusing for this reason. Please write \"package astutil\" instead of \"module astutil\" here.",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "5a4887b0fd420726c9989f6921a64b5f2a8c1001",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f5c7770_c98f24df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-19T16:15:32Z",
+      "side": 1,
+      "message": "Also here.",
+      "range": {
+        "startLine": 10,
+        "startChar": 61,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "5a4887b0fd420726c9989f6921a64b5f2a8c1001",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ccb0c4b_20c4fe1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-19T16:15:32Z",
+      "side": 1,
+      "message": "And here.",
+      "range": {
+        "startLine": 11,
+        "startChar": 52,
+        "endLine": 11,
+        "endChar": 58
+      },
+      "revId": "5a4887b0fd420726c9989f6921a64b5f2a8c1001",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
