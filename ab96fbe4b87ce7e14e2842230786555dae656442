@@ -48,6 +48,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4249afce_23bd93cd",
+        "filename": "doc/next/6-stdlib/99-minor/runtime/67535.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-19T22:33:18Z",
+      "side": 1,
+      "message": "FWIW, the documentation for this release note linking support is in doc/README.md, and this short form indeed should work as listed on [line 43](https://cs.opensource.google/go/go/+/master:doc/README.md;l\u003d43;drc\u003de8c5bed7ea43e1a533c322e6b928ed06327721db).",
+      "parentUuid": "25684718_63eda7dd",
+      "range": {
+        "startLine": 5,
+        "startChar": 45,
+        "endLine": 5,
+        "endChar": 46
+      },
+      "revId": "ab96fbe4b87ce7e14e2842230786555dae656442",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2e64db9_1b87356d",
