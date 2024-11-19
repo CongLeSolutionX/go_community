@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3df8bba5_a467f7db",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T04:12:18Z",
+      "side": 1,
+      "message": "A non-trivial number of US govt. issued certs seem to get this wrong 🙃.",
+      "parentUuid": "9aae3f96_de714bff",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "607c7395_a99f491d",
@@ -65,6 +83,24 @@
       "writtenOn": "2024-11-18T20:29:06Z",
       "side": 1,
       "message": "Compared to case 36 I think this one is fine for not consider criticality since marking it such is a SHOULD in 5280.",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85726feb_ccfe86a6",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T04:12:18Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "607c7395_a99f491d",
       "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +122,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eac47648_56545f4d",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T04:12:18Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "931b92b7_adce777f",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6b25013_6674a450",
@@ -99,6 +153,24 @@
       "writtenOn": "2024-11-18T20:29:06Z",
       "side": 1,
       "message": "nit: maybe there should be an assert these are non-empty and `len(c.PolicyIdentifiers)` \u003d\u003d `len(c.Policies)`? It feels like there\u0027s more juice to squeeze from the test.",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09f3eec1_4a0a78b0",
+        "filename": "src/crypto/x509/parser_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T04:12:18Z",
+      "side": 1,
+      "message": "Whoops I didn\u0027t actually mean to commit this. Probably fine to keep though with some adjustments.",
+      "parentUuid": "b6b25013_6674a450",
       "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -120,6 +192,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3592995_0c71820d",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T04:12:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b21e0c5_ec80b453",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7826fbb6_f8c01bdc",
@@ -133,6 +223,24 @@
       "writtenOn": "2024-11-18T20:29:06Z",
       "side": 1,
       "message": "Should it be passed as the _only_ `CertificatePolicies` entry since it\u0027s a `[]OID`?",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13a55a55_660ededb",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T04:12:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7826fbb6_f8c01bdc",
       "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -154,6 +262,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa6ab366_7facd4a8",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T04:12:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a1245b6_d4896783",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d0941f3_16f95e70",
@@ -167,6 +293,24 @@
       "writtenOn": "2024-11-18T20:29:06Z",
       "side": 1,
       "message": "hmm, yeah a bit tricky. It feels to me like you either need to split up the key usage and policy checks or give up on giving a more specific reason beyond \"No chains, sorry\"\n\nI was thinking something like:\n\n```diff\ndiff --git a/src/crypto/x509/verify.go b/src/crypto/x509/verify.go\nindex 13071f2d05..2f049a2467 100644\n--- a/src/crypto/x509/verify.go\n+++ b/src/crypto/x509/verify.go\n@@ -846,16 +846,30 @@ func (c *Certificate) Verify(opts VerifyOptions) (chains [][]*Certificate, err e\n \t\t}\n \t}\n \n+\tkeyUsageRejections :\u003d 0\n+\tpolicyRejections :\u003d 0\n \tchains \u003d make([][]*Certificate, 0, len(candidateChains))\n \tfor _, candidate :\u003d range candidateChains {\n-\t\tif checkChainForKeyUsage(candidate, opts.KeyUsages) \u0026\u0026 policiesValid(candidate, opts) {\n+\t\tkuOk :\u003d checkChainForKeyUsage(candidate, opts.KeyUsages)\n+\t\tif !kuOk {\n+\t\t\tkeyUsageRejections++\n+\t\t}\n+\t\tpolicyOk :\u003d policiesValid(candidate, opts)\n+\t\tif !kuOk {\n+\t\t\tpolicyRejections++\n+\t\t}\n+\t\tif kuOk \u0026\u0026 policyOk {\n \t\t\tchains \u003d append(chains, candidate)\n \t\t}\n \t}\n \tif len(chains) \u003d\u003d 0 {\n-\t\t// TODO: incompatible usage is not really correct here, in the case of\n-\t\t// policies being incorrect. Not obvious what the right thing to say is.\n-\t\treturn nil, CertificateInvalidError{c, IncompatibleUsage, \"\"}\n+\t\tif keyUsageRejections !\u003d 0 \u0026\u0026 policyRejections \u003d\u003d 0 {\n+\t\t\treturn nil, CertificateInvalidError{c, IncompatibleUsage, \"\"}\n+\t\t} else if keyUsageRejections \u003d\u003d 0 \u0026\u0026 policyRejections !\u003d 0 {\n+\t\t\treturn nil, CertificateInvalidError{c, ..., \"\"}\n+\t\t} else {\n+\t\t\treturn nil, CertificateInvalidError{c, ..., \"\"}\n+\t\t}\n \t}\n \n \treturn chains, nil\n\n```\n\nIt\u0027s still prettttty awkward though :-/ I\u0027m not sure it\u0027s a strong improvement.",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce8fb56e_ea3cb5bd",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T04:12:18Z",
+      "side": 1,
+      "message": "Did something along these lines. Requires a new invalid reason, but I think its a bit clearer?",
+      "parentUuid": "6d0941f3_16f95e70",
       "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -188,6 +332,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b23d004_041599aa",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1232,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T04:12:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37c1311c_899a3c5d",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40d33c2e_9a603cfb",
@@ -201,6 +363,24 @@
       "writtenOn": "2024-11-18T20:29:06Z",
       "side": 1,
       "message": "leftover?\n\nMy read of draft-ietf-lamps-x509-policy-graph aligns with this impl, but all of this is pretty maddening 😵‍💫",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "636ba062_da508cfa",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T04:12:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40d33c2e_9a603cfb",
       "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -222,6 +402,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26345fda_f1b7e16e",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1395,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T04:12:18Z",
+      "side": 1,
+      "message": "Yeah not entirely sure what the best way to do this is. I\u0027ve added a top-line comment and added notes to the relevant section comments with ` -- as updated by RFC 9618`.",
+      "parentUuid": "10873817_ace7a145",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59ec8439_a27c9e85",
@@ -235,6 +433,24 @@
       "writtenOn": "2024-11-18T20:29:06Z",
       "side": 1,
       "message": "`// ?` 😄",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3679d433_6cca9c85",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1459,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T04:12:18Z",
+      "side": 1,
+      "message": "Whoops.",
+      "parentUuid": "59ec8439_a27c9e85",
       "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -256,6 +472,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa1846a6_b63095a5",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T04:12:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd81da21_dad67e85",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0f45605_af3a6a14",
@@ -269,6 +503,24 @@
       "writtenOn": "2024-11-18T20:29:06Z",
       "side": 1,
       "message": "editorial nit: maybe missing a word here? \n\n\"IssuerDomainPolicy indicates policy OID\" -\u003e \"IssuerDomainPolicy indicates a policy OID\" ?\n\nDitto for L877 if you agree.",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "210d9a9f_2afabfd4",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-19T04:12:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0f45605_af3a6a14",
       "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
