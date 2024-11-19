@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df534a64_3cd8c675",
+        "filename": "src/cmd/go/internal/fips/fips.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-19T21:28:40Z",
+      "side": 1,
+      "message": "No good reason. Changed to \u0027version\u0027 to match the other use above.",
+      "parentUuid": "bd9c5db8_fc5b00c1",
+      "range": {
+        "startLine": 261,
+        "startChar": 27,
+        "endLine": 261,
+        "endChar": 36
+      },
+      "revId": "e6faa79d027f68ce58d2c541bc89cb95c8b5bc67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "539478bd_fa720193",
