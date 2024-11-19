@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad7657bd_8d19d69c",
+        "filename": "src/crypto/internal/fips/aes/gcm/gcm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T09:38:06Z",
+      "side": 1,
+      "message": "We could do that, but a *uint32 takes more space (64 bits on 64 bit arches) and makes the GC work, and potentially causes an allocation. I don\u0027t find `ready` that hard to read personally.",
+      "parentUuid": "1e40c69e_d039179d",
+      "revId": "bd9495dff78b022616a6f03fa606e94d3cb407e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a55b73b5_ca67738d",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-11-11T15:43:11Z",
       "side": 1,
       "message": "\u003e The implementation of the deterministic non-repetitive counter management logic inside the module shall ensure that when the counter part of the IV exhausts the maximum number of possible values for a given session key (e.g., a 32-bit counter starting from 0 and increasing, when it reaches the maximum value of 232 -1) the encryptor shall abort the session\n\nMy first read of this req is that it should return an error in place of setting non-approved in order to \"abort the session\". Is this reading inaccurate?",
+      "revId": "bd9495dff78b022616a6f03fa606e94d3cb407e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ace1b8a3_4e2e55b3",
+        "filename": "src/crypto/internal/fips/aes/gcm/gcm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T09:38:06Z",
+      "side": 1,
+      "message": "Sigh. This was me trying to be cheeky to \"save\" uses of NewGCM, but I agree it doesn\u0027t work. The idea was that we are allowed to enter and exit FIPS mode freely, but there is also a rule about not sharing key material between FIPS and non-FIPS mode, and this would probably fail it. Moved to a NewGCMWithCounterNonce, in case we decide to expose it one day.",
+      "parentUuid": "a55b73b5_ca67738d",
       "revId": "bd9495dff78b022616a6f03fa606e94d3cb407e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
