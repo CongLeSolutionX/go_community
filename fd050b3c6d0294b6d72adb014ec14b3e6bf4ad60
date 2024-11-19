@@ -83,6 +83,81 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b24934eb_f43d1f46",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-19T08:43:32Z",
+      "side": 1,
+      "message": "I would consider doing this only before semasleep. I don\u0027t think it makes sense to track latency when the thread wasn\u0027t sleeping, we know it\u0027s very brief periods only.\n\nWe could also initialize spinning count in a global variable, so that we don\u0027t need a branch on every mutex lock.\n\nAlso restructure the code to completely remove \"withRank\" overhead. Currently there is still an additional thunk function call on every lock/unlock.",
+      "fixSuggestions": [
+        {
+          "fixId": "9c930b52_84503eea",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 173,
+                "startChar": 0,
+                "endLine": 175,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 193,
+                "startChar": 0,
+                "endLine": 194,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 199,
+                "startChar": 0,
+                "endLine": 200,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 237,
+                "startChar": 0,
+                "endLine": 237,
+                "endChar": 0
+              },
+              "replacement": "\t\t\t\ttimer :\u003d \u0026lockTimer{lock: l}\n\t\t\t\ttimer.begin()\n"
+            },
+            {
+              "path": "src/runtime/lock_spinbit.go",
+              "range": {
+                "startLine": 238,
+                "startChar": 0,
+                "endLine": 238,
+                "endChar": 0
+              },
+              "replacement": "\t\t\t\ttimer.end()\n"
+            }
+          ]
+        }
+      ],
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "23824226_37e17027",
         "filename": "src/runtime/lock_spinbit.go",
         "patchSetId": 7
