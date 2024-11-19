@@ -51,6 +51,24 @@
       "parentUuid": "748b30f2_18859bb0",
       "revId": "a52a74485b83aef2fac622e9a0665278bcb37c96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f613d3d2_40a4d8c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-11-19T20:48:48Z",
+      "side": 1,
+      "message": "Thank you for sharing! For a quick look, comparing to my runs there seems only similar result on FPAQ benchmark, but it is small enough, about 1%. Looking though benchmarks disassembly I haven\u0027t noticed significant changes like additional spills -- in most cases there was identical code and the changed functions looked like slight improvement mostly, e.g. avoiding a bound check. I\u0027ll try to look at difference for the affected tests.",
+      "parentUuid": "e5bb73be_97093899",
+      "revId": "a52a74485b83aef2fac622e9a0665278bcb37c96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
