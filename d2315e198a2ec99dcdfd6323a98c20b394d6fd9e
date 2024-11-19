@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9244b33_b2398649",
+        "filename": "src/crypto/ecdh/ecdh_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-19T15:55:58Z",
+      "side": 1,
+      "message": "p384 not p386",
+      "revId": "d2315e198a2ec99dcdfd6323a98c20b394d6fd9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f7d6668_7cf79634",
+        "filename": "src/crypto/ecdh/nist.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-19T15:55:58Z",
+      "side": 1,
+      "message": "This \", nil\" many lines after the return always bothers me,\nlike finishing a sentence interrupted 5 minutes ago.\nAt least in the code being introduced in this CL,\nplease do what some of the surrounding code does, which is:\n\nk :\u003d \u0026PrivateKey{\n...\n}\nreturn k, nil",
+      "revId": "d2315e198a2ec99dcdfd6323a98c20b394d6fd9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cba1344_0033e7a0",
+        "filename": "src/crypto/ecdh/x25519.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-19T15:55:58Z",
+      "side": 1,
+      "message": "s/returns/reports/ \nhttps://go.dev/doc/comment#func\n\"returns whether\" is awkward because it sounds like whether is making the return itself conditional, so it\u0027s not the convention.\n\n\nAlso the awkwardness of \u0027a\u0027 looking like the English word is why I never name arguments \u0027a\u0027. x would be fine here.",
+      "revId": "d2315e198a2ec99dcdfd6323a98c20b394d6fd9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4541e89_581fe68e",
+        "filename": "src/crypto/internal/fips/ecdh/ecdh.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-19T15:55:58Z",
+      "side": 1,
+      "message": "reports",
+      "revId": "d2315e198a2ec99dcdfd6323a98c20b394d6fd9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "082ca517_b8341806",
+        "filename": "src/crypto/internal/fips/ecdh/ecdh.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-19T15:55:58Z",
+      "side": 1,
+      "message": "reports",
+      "revId": "d2315e198a2ec99dcdfd6323a98c20b394d6fd9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
