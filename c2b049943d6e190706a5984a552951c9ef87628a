@@ -70,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb493c4a_3d218d25",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-19T14:32:04Z",
+      "side": 1,
+      "message": "$MISTAKES_MADE ✔ sob/laugh",
+      "parentUuid": "3df8bba5_a467f7db",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "607c7395_a99f491d",
@@ -315,6 +333,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ddb8015_c21440a4",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-19T14:32:04Z",
+      "side": 1,
+      "message": "Yeah, I like it 👍",
+      "parentUuid": "ce8fb56e_ea3cb5bd",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37c1311c_899a3c5d",
@@ -416,6 +452,24 @@
       "side": 1,
       "message": "Yeah not entirely sure what the best way to do this is. I\u0027ve added a top-line comment and added notes to the relevant section comments with ` -- as updated by RFC 9618`.",
       "parentUuid": "10873817_ace7a145",
+      "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e388101_a3f0a15f",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1395,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-19T14:32:04Z",
+      "side": 1,
+      "message": "SGTM. It\u0027s a bit of a mess but short of a 5280-bis (shudder) we\u0027re all just doing our best.",
+      "parentUuid": "26345fda_f1b7e16e",
       "revId": "c2b049943d6e190706a5984a552951c9ef87628a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
