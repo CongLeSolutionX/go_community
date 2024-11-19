@@ -385,6 +385,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c5dd67ef_fd4b114f",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-19T08:20:36Z",
+      "side": 1,
+      "message": "The same note about mutex benchmarks. They lie.\n\nsemasleep/semawakeup are considerable amount of local work. So doing them more will falsely benefit synthetic benchmark b/c other threads will be able to do longer \"streaks\" faster, while these threads distracted doing unuseful local work.",
+      "parentUuid": "4a7e38b0_6f9efc6a",
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "698e119d_70e62b99",
         "filename": "src/runtime/lock_spinbit.go",
         "patchSetId": 7
@@ -462,6 +480,24 @@
       "side": 1,
       "message": "I will prepare a CL to try that. There are two reasons it\u0027s not in this revision.\n\nFirst, in the zero-contention case there\u0027s a clear speedup of Xchg8 rather than CAS. On my darwin/arm64 machine (an M1 MacBook Air, which used lock_sema.go\u0027s CAS-based implementation as a baseline), it\u0027s a bit over 12%.\n\nSecond, anything protected by mutexLocked is part of the critical section, so I\u0027m reluctant to add non-essential code to that path. As this CL stands, we\u0027re out of the critical section at this point and can skip all of the CAS operations if some other thread has already claimed mutexStackLocked.\n\nI wasn\u0027t able to get the performance to work in my earlier attempts, but I\u0027ll give it another try. There are certainly benefits in simplicity and in profile accuracy (outlined in the comment that follows).",
       "parentUuid": "698e119d_70e62b99",
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56ff63ac_3f164f3f",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-19T08:20:36Z",
+      "side": 1,
+      "message": "\u003e CAS-based implementation as a baseline), it\u0027s a bit over 12%.\n\nThis looks suspicious. Is it in contended or uncontended case?\n\nsemawakeup should definitely happen after unlock. The only additional expensive operation is loading of wakem.mWaitList.next. To avoid it, I would at least consider resetting  mutexLocked and setting mutexStackLocked with 1 CAS.",
+      "parentUuid": "5919afa7_3755d035",
       "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
