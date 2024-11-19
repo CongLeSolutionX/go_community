@@ -166,6 +166,30 @@
       },
       "revId": "42915e6ef708a8a82c06f7b5e48dda878445a4f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e9e9831_e89fad17",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-19T17:58:44Z",
+      "side": 1,
+      "message": "This works. Done.",
+      "parentUuid": "4db166b6_39ea5fec",
+      "range": {
+        "startLine": 414,
+        "startChar": 36,
+        "endLine": 414,
+        "endChar": 62
+      },
+      "revId": "42915e6ef708a8a82c06f7b5e48dda878445a4f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
