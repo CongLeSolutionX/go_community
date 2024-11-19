@@ -1,0 +1,326 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc8d03c7_e01d14be",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T23:33:53Z",
+      "side": 1,
+      "message": "withinErr",
+      "range": {
+        "startLine": 64,
+        "startChar": 1,
+        "endLine": 64,
+        "endChar": 11
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4a6b12a_fc98f984",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T23:33:53Z",
+      "side": 1,
+      "message": "escapeNext",
+      "range": {
+        "startLine": 65,
+        "startChar": 1,
+        "endLine": 65,
+        "endChar": 11
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39f17f2e_b58f8599",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T23:33:53Z",
+      "side": 1,
+      "message": "byte",
+      "range": {
+        "startLine": 65,
+        "startChar": 36,
+        "endLine": 65,
+        "endChar": 45
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae73ad17_3873ea22",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T23:33:53Z",
+      "side": 1,
+      "message": "treated literally",
+      "range": {
+        "startLine": 65,
+        "startChar": 56,
+        "endLine": 65,
+        "endChar": 80
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ecfe5dc_bf854791",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T23:33:53Z",
+      "side": 1,
+      "message": "\"character\" is a word best avoided in discussions of text encoding; use \"byte\" or \"rune\" as appropriate. In this case, byte.\n\n(Implicit in why this is safe is that we only ever need to escape the first byte of a multi-byte rune encoding since all the control codes are ASCII.)",
+      "range": {
+        "startLine": 430,
+        "startChar": 27,
+        "endLine": 430,
+        "endChar": 36
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "670c7d97_b20ae022",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T23:33:53Z",
+      "side": 1,
+      "message": "split across successive calls",
+      "range": {
+        "startLine": 430,
+        "startChar": 55,
+        "endLine": 431,
+        "endChar": 11
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75d848dd_863eda4b",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T23:33:53Z",
+      "side": 1,
+      "message": "There is no doc link syntax for fields; use c.escape.",
+      "range": {
+        "startLine": 432,
+        "startChar": 4,
+        "endLine": 432,
+        "endChar": 27
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d890101_ab6b16ea",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T23:33:53Z",
+      "side": 1,
+      "message": "\", for example when\"",
+      "range": {
+        "startLine": 436,
+        "startChar": 65,
+        "endLine": 437,
+        "endChar": 16
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9dedbe3_b919b7de",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T23:33:53Z",
+      "side": 1,
+      "message": "c.withinErr\n\n\n(I suggest this field name.)",
+      "range": {
+        "startLine": 439,
+        "startChar": 4,
+        "endLine": 439,
+        "endChar": 26
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12979c86_de84a4c6",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T23:33:53Z",
+      "side": 1,
+      "message": "byte.",
+      "range": {
+        "startLine": 452,
+        "startChar": 49,
+        "endLine": 452,
+        "endChar": 58
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41a72231_68bf5ce3",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T23:33:53Z",
+      "side": 1,
+      "message": "Consume\n\n(We didn\u0027t ignore it.)",
+      "range": {
+        "startLine": 452,
+        "startChar": 6,
+        "endLine": 452,
+        "endChar": 12
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de22d3a2_bafa63ad",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T23:33:53Z",
+      "side": 1,
+      "message": "interpret",
+      "range": {
+        "startLine": 452,
+        "startChar": 32,
+        "endLine": 452,
+        "endChar": 39
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24941247_21676b98",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T23:33:53Z",
+      "side": 1,
+      "message": "...but this is never true; this logic looks wrong. Perhaps a missing i++ before L472?",
+      "range": {
+        "startLine": 472,
+        "startChar": 21,
+        "endLine": 472,
+        "endChar": 35
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "623fd0fb_1d670c11",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T23:33:53Z",
+      "side": 1,
+      "message": "This is always true...",
+      "range": {
+        "startLine": 472,
+        "startChar": 6,
+        "endLine": 472,
+        "endChar": 20
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

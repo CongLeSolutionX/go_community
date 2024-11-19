@@ -279,6 +279,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d17febeb_0628363c",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T23:33:53Z",
+      "side": 1,
+      "message": "Thanks; this is great information to record in a comment, if it is the reason this protocol was chosen.\n\n\u003e the line-oriented form is a lot easier to handle in vscode-go.\n\nIsn\u0027t this protocol an implementation detail of the testing package and its accomplice test2json? It seems unwise for vscode-go to consume it directly as it may presumably change in incompatible ways on any given day.",
+      "parentUuid": "c3527653_c25806e7",
+      "range": {
+        "startLine": 109,
+        "startChar": 51,
+        "endLine": 109,
+        "endChar": 53
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3c5b2d05_ffedcfcd",
         "filename": "src/cmd/internal/test2json/test2json.go",
         "patchSetId": 16
@@ -361,6 +385,30 @@
       "side": 1,
       "message": "I updated it to use a second buffer. I kept the begin and end cases separate because A) there are some nuances that I don\u0027t think your version preserves and B) IMO it\u0027s easier to read. The nuances:\n\n- Unconditionally setting the output type to `error` after markErrEnd is insufficient. The design as specified by Russ requires a separate event for each line of output and an output type of `error` for the first line of `t.Error(...)` and `error-continue` for subsequent lines. I\u0027d prefer one event per Log/Error call as it would make my life easier (when working on vscode-go), but not enough to try to change the design. I think the reason is that test2json processes line by line.\n\n- Because test2json processes line by line, `t.Error` emits the end mark before the newline. But if the user calls `t.Error(\"Error\\n\")`, they expect the new line to be part of the error message. Hence the \"if the next character is \\n, include it\" bit.",
       "parentUuid": "fe88b658_cbe532de",
+      "range": {
+        "startLine": 447,
+        "startChar": 3,
+        "endLine": 447,
+        "endChar": 38
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e1fd71e_cb33d9ab",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-19T23:33:53Z",
+      "side": 1,
+      "message": "Thanks for the explanation; makes sense.",
+      "parentUuid": "ebfa8057_90cacbcf",
       "range": {
         "startLine": 447,
         "startChar": 3,
