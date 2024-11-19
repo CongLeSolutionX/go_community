@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67073996_dc056deb",
+        "filename": "src/crypto/x509/pkits_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T22:46:07Z",
+      "side": 1,
+      "message": "Maybe hoist these and the calls below into a\n\n    func nistPKITSCertificate(t *testing.T, name string) *Certificate",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 4
+      },
+      "revId": "fb866f94132a0f1ff890d46b450cb254f8e69fd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb022874_e2d7c0da",
+        "filename": "src/crypto/x509/pkits_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-19T22:46:07Z",
+      "side": 1,
+      "message": "Lots of duplication, maybe it makes sense to do as part of the test above? Up to you.",
+      "revId": "fb866f94132a0f1ff890d46b450cb254f8e69fd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
