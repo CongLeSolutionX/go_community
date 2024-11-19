@@ -11,6 +11,7 @@ import (
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/rsa"
+	"crypto/tls/internal/fipstls"
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/base64"
@@ -495,6 +496,8 @@ func runClientTestTLS13(t *testing.T, template *clientTest) {
 }
 
 func TestHandshakeClientRSARC4(t *testing.T) {
+	skipFips(t) // no RC4 in FIPS
+
 	test := &clientTest{
 		name: "RSA-RC4",
 		args: []string{"-cipher", "RC4-SHA"},
@@ -505,6 +508,8 @@ func TestHandshakeClientRSARC4(t *testing.T) {
 }
 
 func TestHandshakeClientRSAAES128GCM(t *testing.T) {
+	skipFips(t) // No RSA key exchange in FIPS.
+
 	test := &clientTest{
 		name: "AES128-GCM-SHA256",
 		args: []string{"-cipher", "AES128-GCM-SHA256"},
@@ -513,6 +518,8 @@ func TestHandshakeClientRSAAES128GCM(t *testing.T) {
 }
 
 func TestHandshakeClientRSAAES256GCM(t *testing.T) {
+	skipFips(t) // No RSA key exchange in FIPS.
+
 	test := &clientTest{
 		name: "AES256-GCM-SHA384",
 		args: []string{"-cipher", "AES256-GCM-SHA384"},
@@ -521,6 +528,8 @@ func TestHandshakeClientRSAAES256GCM(t *testing.T) {
 }
 
 func TestHandshakeClientECDHERSAAES(t *testing.T) {
+	skipFips(t) // No SHA1 in FIPS.
+
 	test := &clientTest{
 		name: "ECDHE-RSA-AES",
 		args: []string{"-cipher", "ECDHE-RSA-AES128-SHA"},
@@ -531,6 +540,8 @@ func TestHandshakeClientECDHERSAAES(t *testing.T) {
 }
 
 func TestHandshakeClientECDHEECDSAAES(t *testing.T) {
+	skipFips(t) // No SHA1 in FIPS.
+
 	test := &clientTest{
 		name: "ECDHE-ECDSA-AES",
 		args: []string{"-cipher", "ECDHE-ECDSA-AES128-SHA"},
@@ -543,6 +554,8 @@ func TestHandshakeClientECDHEECDSAAES(t *testing.T) {
 }
 
 func TestHandshakeClientECDHEECDSAAESGCM(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	test := &clientTest{
 		name: "ECDHE-ECDSA-AES-GCM",
 		args: []string{"-cipher", "ECDHE-ECDSA-AES128-GCM-SHA256"},
@@ -553,6 +566,8 @@ func TestHandshakeClientECDHEECDSAAESGCM(t *testing.T) {
 }
 
 func TestHandshakeClientAES256GCMSHA384(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	test := &clientTest{
 		name: "ECDHE-ECDSA-AES256-GCM-SHA384",
 		args: []string{"-cipher", "ECDHE-ECDSA-AES256-GCM-SHA384"},
@@ -563,6 +578,8 @@ func TestHandshakeClientAES256GCMSHA384(t *testing.T) {
 }
 
 func TestHandshakeClientAES128CBCSHA256(t *testing.T) {
+	skipFips(t) // No CBC in FIPS.
+
 	test := &clientTest{
 		name: "AES128-SHA256",
 		args: []string{"-cipher", "AES128-SHA256"},
@@ -571,6 +588,8 @@ func TestHandshakeClientAES128CBCSHA256(t *testing.T) {
 }
 
 func TestHandshakeClientECDHERSAAES128CBCSHA256(t *testing.T) {
+	skipFips(t) // No CBC in FIPS.
+
 	test := &clientTest{
 		name: "ECDHE-RSA-AES128-SHA256",
 		args: []string{"-cipher", "ECDHE-RSA-AES128-SHA256"},
@@ -579,6 +598,8 @@ func TestHandshakeClientECDHERSAAES128CBCSHA256(t *testing.T) {
 }
 
 func TestHandshakeClientECDHEECDSAAES128CBCSHA256(t *testing.T) {
+	skipFips(t) // No CBC in FIPS.
+
 	test := &clientTest{
 		name: "ECDHE-ECDSA-AES128-SHA256",
 		args: []string{"-cipher", "ECDHE-ECDSA-AES128-SHA256"},
@@ -589,6 +610,8 @@ func TestHandshakeClientECDHEECDSAAES128CBCSHA256(t *testing.T) {
 }
 
 func TestHandshakeClientX25519(t *testing.T) {
+	skipFips(t) // No X25519 in FIPS.
+
 	config := testConfig.Clone()
 	config.CurvePreferences = []CurveID{X25519}
 
@@ -603,6 +626,8 @@ func TestHandshakeClientX25519(t *testing.T) {
 }
 
 func TestHandshakeClientP256(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	config := testConfig.Clone()
 	config.CurvePreferences = []CurveID{CurveP256}
 
@@ -617,6 +642,8 @@ func TestHandshakeClientP256(t *testing.T) {
 }
 
 func TestHandshakeClientHelloRetryRequest(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	config := testConfig.Clone()
 	config.CurvePreferences = []CurveID{X25519, CurveP256}
 
@@ -636,6 +663,8 @@ func TestHandshakeClientHelloRetryRequest(t *testing.T) {
 }
 
 func TestHandshakeClientECDHERSAChaCha20(t *testing.T) {
+	skipFips(t) // No CHACHA20_POLY1305 in FIPS.
+
 	config := testConfig.Clone()
 	config.CipherSuites = []uint16{TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305}
 
@@ -649,6 +678,8 @@ func TestHandshakeClientECDHERSAChaCha20(t *testing.T) {
 }
 
 func TestHandshakeClientECDHEECDSAChaCha20(t *testing.T) {
+	skipFips(t) // No CHACHA20_POLY1305 in FIPS.
+
 	config := testConfig.Clone()
 	config.CipherSuites = []uint16{TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305}
 
@@ -664,6 +695,8 @@ func TestHandshakeClientECDHEECDSAChaCha20(t *testing.T) {
 }
 
 func TestHandshakeClientAES128SHA256(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	test := &clientTest{
 		name: "AES128-SHA256",
 		args: []string{"-ciphersuites", "TLS_AES_128_GCM_SHA256"},
@@ -671,6 +704,8 @@ func TestHandshakeClientAES128SHA256(t *testing.T) {
 	runClientTestTLS13(t, test)
 }
 func TestHandshakeClientAES256SHA384(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	test := &clientTest{
 		name: "AES256-SHA384",
 		args: []string{"-ciphersuites", "TLS_AES_256_GCM_SHA384"},
@@ -678,6 +713,8 @@ func TestHandshakeClientAES256SHA384(t *testing.T) {
 	runClientTestTLS13(t, test)
 }
 func TestHandshakeClientCHACHA20SHA256(t *testing.T) {
+	skipFips(t) // No CHACHA20_POLY1305 in FIPS.
+
 	test := &clientTest{
 		name: "CHACHA20-SHA256",
 		args: []string{"-ciphersuites", "TLS_CHACHA20_POLY1305_SHA256"},
@@ -686,6 +723,8 @@ func TestHandshakeClientCHACHA20SHA256(t *testing.T) {
 }
 
 func TestHandshakeClientECDSATLS13(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	test := &clientTest{
 		name: "ECDSA",
 		cert: testECDSACertificate,
@@ -695,6 +734,8 @@ func TestHandshakeClientECDSATLS13(t *testing.T) {
 }
 
 func TestHandshakeClientEd25519(t *testing.T) {
+	skipFips(t) // No ED25519 in FIPS.
+
 	test := &clientTest{
 		name: "Ed25519",
 		cert: testEd25519Certificate,
@@ -718,6 +759,8 @@ func TestHandshakeClientEd25519(t *testing.T) {
 }
 
 func TestHandshakeClientCertRSA(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	config := testConfig.Clone()
 	cert, _ := X509KeyPair([]byte(clientCertificatePEM), []byte(clientKeyPEM))
 	config.Certificates = []Certificate{cert}
@@ -755,6 +798,8 @@ func TestHandshakeClientCertRSA(t *testing.T) {
 }
 
 func TestHandshakeClientCertECDSA(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	config := testConfig.Clone()
 	cert, _ := X509KeyPair([]byte(clientECDSACertificatePEM), []byte(clientECDSAKeyPEM))
 	config.Certificates = []Certificate{cert}
@@ -786,6 +831,8 @@ func TestHandshakeClientCertECDSA(t *testing.T) {
 // signed itself with RSA-PSS, mostly to check that crypto/x509 chain validation
 // works.
 func TestHandshakeClientCertRSAPSS(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	cert, err := x509.ParseCertificate(testRSAPSSCertificate)
 	if err != nil {
 		panic(err)
@@ -816,6 +863,8 @@ func TestHandshakeClientCertRSAPSS(t *testing.T) {
 }
 
 func TestHandshakeClientCertRSAPKCS1v15(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	config := testConfig.Clone()
 	cert, _ := X509KeyPair([]byte(clientCertificatePEM), []byte(clientKeyPEM))
 	config.Certificates = []Certificate{cert}
@@ -831,6 +880,8 @@ func TestHandshakeClientCertRSAPKCS1v15(t *testing.T) {
 }
 
 func TestClientKeyUpdate(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	test := &clientTest{
 		name:          "KeyUpdate",
 		args:          []string{"-state"},
@@ -840,6 +891,8 @@ func TestClientKeyUpdate(t *testing.T) {
 }
 
 func TestResumption(t *testing.T) {
+	skipFips(t) // RC4 ciphersuites, RSA 1024 issuer not in FIPS.
+
 	t.Run("TLSv12", func(t *testing.T) { testResumption(t, VersionTLS12) })
 	t.Run("TLSv13", func(t *testing.T) { testResumption(t, VersionTLS13) })
 }
@@ -1241,6 +1294,8 @@ func TestKeyLogTLS13(t *testing.T) {
 }
 
 func TestHandshakeClientALPNMatch(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	config := testConfig.Clone()
 	config.NextProtos = []string{"proto2", "proto1"}
 
@@ -1272,7 +1327,7 @@ func TestServerSelectingUnconfiguredApplicationProtocol(t *testing.T) {
 	go func() {
 		client := Client(c, &Config{
 			ServerName:   "foo",
-			CipherSuites: []uint16{TLS_RSA_WITH_AES_128_GCM_SHA256},
+			CipherSuites: []uint16{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256},
 			NextProtos:   []string{"http", "something-else"},
 		})
 		errChan <- client.Handshake()
@@ -1292,7 +1347,7 @@ func TestServerSelectingUnconfiguredApplicationProtocol(t *testing.T) {
 	serverHello := &serverHelloMsg{
 		vers:         VersionTLS12,
 		random:       make([]byte, 32),
-		cipherSuite:  TLS_RSA_WITH_AES_128_GCM_SHA256,
+		cipherSuite:  TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
 		alpnProtocol: "how-about-this",
 	}
 	serverHelloBytes := mustMarshal(t, serverHello)
@@ -1308,7 +1363,7 @@ func TestServerSelectingUnconfiguredApplicationProtocol(t *testing.T) {
 	s.Close()
 
 	if err := <-errChan; !strings.Contains(err.Error(), "server selected unadvertised ALPN protocol") {
-		t.Fatalf("Expected error about unconfigured cipher suite but got %q", err)
+		t.Fatalf("Expected error about unconfigured ALPN protocol but got %q", err)
 	}
 }
 
@@ -1316,6 +1371,8 @@ func TestServerSelectingUnconfiguredApplicationProtocol(t *testing.T) {
 const sctsBase64 = "ABIBaQFnAHUApLkJkLQYWBSHuxOizGdwCjw1mAT5G9+443fNDsgN3BAAAAFHl5nuFgAABAMARjBEAiAcS4JdlW5nW9sElUv2zvQyPoZ6ejKrGGB03gjaBZFMLwIgc1Qbbn+hsH0RvObzhS+XZhr3iuQQJY8S9G85D9KeGPAAdgBo9pj4H2SCvjqM7rkoHUz8cVFdZ5PURNEKZ6y7T0/7xAAAAUeX4bVwAAAEAwBHMEUCIDIhFDgG2HIuADBkGuLobU5a4dlCHoJLliWJ1SYT05z6AiEAjxIoZFFPRNWMGGIjskOTMwXzQ1Wh2e7NxXE1kd1J0QsAdgDuS723dc5guuFCaR+r4Z5mow9+X7By2IMAxHuJeqj9ywAAAUhcZIqHAAAEAwBHMEUCICmJ1rBT09LpkbzxtUC+Hi7nXLR0J+2PmwLp+sJMuqK+AiEAr0NkUnEVKVhAkccIFpYDqHOlZaBsuEhWWrYpg2RtKp0="
 
 func TestHandshakClientSCTs(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	config := testConfig.Clone()
 
 	scts, err := base64.StdEncoding.DecodeString(sctsBase64)
@@ -1353,6 +1410,8 @@ func TestHandshakClientSCTs(t *testing.T) {
 }
 
 func TestRenegotiationRejected(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	config := testConfig.Clone()
 	test := &clientTest{
 		name:                        "RenegotiationRejected",
@@ -1374,6 +1433,8 @@ func TestRenegotiationRejected(t *testing.T) {
 }
 
 func TestRenegotiateOnce(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	config := testConfig.Clone()
 	config.Renegotiation = RenegotiateOnceAsClient
 
@@ -1388,6 +1449,8 @@ func TestRenegotiateOnce(t *testing.T) {
 }
 
 func TestRenegotiateTwice(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	config := testConfig.Clone()
 	config.Renegotiation = RenegotiateFreelyAsClient
 
@@ -1402,6 +1465,8 @@ func TestRenegotiateTwice(t *testing.T) {
 }
 
 func TestRenegotiateTwiceRejected(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	config := testConfig.Clone()
 	config.Renegotiation = RenegotiateOnceAsClient
 
@@ -1430,6 +1495,8 @@ func TestRenegotiateTwiceRejected(t *testing.T) {
 }
 
 func TestHandshakeClientExportKeyingMaterial(t *testing.T) {
+	skipFips(t) // Mismatch with non-fips golden test data.
+
 	test := &clientTest{
 		name:   "ExportKeyingMaterial",
 		config: testConfig.Clone(),
@@ -1556,6 +1623,8 @@ func TestServerSelectingUnconfiguredCipherSuite(t *testing.T) {
 }
 
 func TestVerifyConnection(t *testing.T) {
+	skipFips(t) // RSA 1024 issuer not compat w/ FIPS.
+
 	t.Run("TLSv12", func(t *testing.T) { testVerifyConnection(t, VersionTLS12) })
 	t.Run("TLSv13", func(t *testing.T) { testVerifyConnection(t, VersionTLS13) })
 }
@@ -1778,6 +1847,8 @@ func testVerifyConnection(t *testing.T, version uint16) {
 }
 
 func TestVerifyPeerCertificate(t *testing.T) {
+	skipFips(t) // test certificates chains not FIPS compatible.
+
 	t.Run("TLSv12", func(t *testing.T) { testVerifyPeerCertificate(t, VersionTLS12) })
 	t.Run("TLSv13", func(t *testing.T) { testVerifyPeerCertificate(t, VersionTLS13) })
 }
@@ -2352,6 +2423,8 @@ var getClientCertificateTests = []struct {
 }
 
 func TestGetClientCertificate(t *testing.T) {
+	//skipFips(t) // TODO(@cpu): come back to this
+
 	t.Run("TLSv12", func(t *testing.T) { testGetClientCertificate(t, VersionTLS12) })
 	t.Run("TLSv13", func(t *testing.T) { testGetClientCertificate(t, VersionTLS13) })
 }
@@ -2363,6 +2436,11 @@ func testGetClientCertificate(t *testing.T, version uint16) {
 	}
 
 	for i, test := range getClientCertificateTests {
+		// test 1 uses TLS 1.1. test 3 uses a client certificate that isn't FIPS compatible.
+		if (i == 1 || i == 3) && fipstls.Required() {
+			t.Logf("skipping test %d for FIPS mode", i)
+			continue
+		}
 		serverConfig := testConfig.Clone()
 		serverConfig.ClientAuth = VerifyClientCertIfGiven
 		serverConfig.RootCAs = x509.NewCertPool()
@@ -2490,6 +2568,8 @@ func testDowngradeCanary(t *testing.T, clientVersion, serverVersion uint16) erro
 }
 
 func TestDowngradeCanary(t *testing.T) {
+	//skipFips(t) // TODO(@cpu): come back to this
+
 	if err := testDowngradeCanary(t, VersionTLS13, VersionTLS12); err == nil {
 		t.Errorf("downgrade from TLS 1.3 to TLS 1.2 was not detected")
 	}
@@ -2514,15 +2594,22 @@ func TestDowngradeCanary(t *testing.T) {
 	if err := testDowngradeCanary(t, VersionTLS12, VersionTLS12); err != nil {
 		t.Errorf("client didn't ignore expected TLS 1.2 canary")
 	}
-	if err := testDowngradeCanary(t, VersionTLS11, VersionTLS11); err != nil {
-		t.Errorf("client unexpectedly reacted to a canary in TLS 1.1")
-	}
-	if err := testDowngradeCanary(t, VersionTLS10, VersionTLS10); err != nil {
-		t.Errorf("client unexpectedly reacted to a canary in TLS 1.0")
+
+	if !fipstls.Required() {
+		if err := testDowngradeCanary(t, VersionTLS11, VersionTLS11); err != nil {
+			t.Errorf("client unexpectedly reacted to a canary in TLS 1.1")
+		}
+		if err := testDowngradeCanary(t, VersionTLS10, VersionTLS10); err != nil {
+			t.Errorf("client unexpectedly reacted to a canary in TLS 1.0")
+		}
+	} else {
+		t.Logf("skiping TLS 1.1 and TLS 1.0 downgrade canary checks in FIPS mode")
 	}
 }
 
 func TestResumptionKeepsOCSPAndSCT(t *testing.T) {
+	skipFips(t) // test certificates not FIPS compatible.
+
 	t.Run("TLSv12", func(t *testing.T) { testResumptionKeepsOCSPAndSCT(t, VersionTLS12) })
 	t.Run("TLSv13", func(t *testing.T) { testResumptionKeepsOCSPAndSCT(t, VersionTLS13) })
 }
@@ -2637,6 +2724,8 @@ func TestClientHandshakeContextCancellation(t *testing.T) {
 // TestTLS13OnlyClientHelloCipherSuite tests that when a client states that
 // it only supports TLS 1.3, it correctly advertises only TLS 1.3 ciphers.
 func TestTLS13OnlyClientHelloCipherSuite(t *testing.T) {
+	//skipFips(t) // TODO(@cpu): come back to this
+
 	tls13Tests := []struct {
 		name    string
 		ciphers []uint16
@@ -2675,11 +2764,15 @@ func testTLS13OnlyClientHelloCipherSuite(t *testing.T, ciphers []uint16) {
 	serverConfig := &Config{
 		Certificates: testConfig.Certificates,
 		GetConfigForClient: func(chi *ClientHelloInfo) (*Config, error) {
-			if len(chi.CipherSuites) != len(defaultCipherSuitesTLS13NoAES) {
+			expectedCiphersuites := defaultCipherSuitesTLS13NoAES
+			if fipstls.Required() {
+				expectedCiphersuites = defaultCipherSuitesTLS13FIPS
+			}
+			if len(chi.CipherSuites) != len(expectedCiphersuites) {
 				t.Errorf("only TLS 1.3 suites should be advertised, got=%x", chi.CipherSuites)
 			} else {
-				for i := range defaultCipherSuitesTLS13NoAES {
-					if want, got := defaultCipherSuitesTLS13NoAES[i], chi.CipherSuites[i]; want != got {
+				for i := range expectedCiphersuites {
+					if want, got := expectedCiphersuites[i], chi.CipherSuites[i]; want != got {
 						t.Errorf("cipher at index %d does not match, want=%x, got=%x", i, want, got)
 					}
 				}
