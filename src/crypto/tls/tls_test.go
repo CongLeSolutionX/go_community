@@ -11,6 +11,7 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
+	"crypto/tls/internal/fipstls"
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/asn1"
@@ -174,7 +175,34 @@ func newLocalListener(t testing.TB) net.Listener {
 	return ln
 }
 
+func runWithFIPSEnabled(t *testing.T, testName string, testFunc func(t *testing.T)) {
+	originalFIPS := fipstls.Required()
+	defer func() {
+		if originalFIPS {
+			fipstls.Force()
+		} else {
+			fipstls.TestingOnlyAbandon()
+		}
+	}()
+
+	fipstls.Force()
+	t.Run(testName+"FIPSEnabled", testFunc)
+
+	fipstls.TestingOnlyAbandon()
+	t.Run(testName, testFunc)
+}
+
+func skipFips(t *testing.T) {
+	if fipstls.Required() {
+		t.Skip("skipping test in FIPS mode")
+	}
+}
+
 func TestDialTimeout(t *testing.T) {
+	runWithFIPSEnabled(t, "TestDialTimeout", testDialTimeout)
+}
+
+func testDialTimeout(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping in short mode")
 	}
@@ -719,6 +747,10 @@ func TestConnCloseWrite(t *testing.T) {
 }
 
 func TestWarningAlertFlood(t *testing.T) {
+	runWithFIPSEnabled(t, "TestWarningAlertFlood", testWarningAlertFlood)
+}
+
+func testWarningAlertFlood(t *testing.T) {
 	ln := newLocalListener(t)
 	defer ln.Close()
 
