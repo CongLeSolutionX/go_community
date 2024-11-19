@@ -22,6 +22,30 @@
       },
       "revId": "c493c47c237eaadb564e4ce1a0bf8d380b28d227",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d82d7fa4_27ae2475",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-19T18:18:51Z",
+      "side": 1,
+      "message": "It\u0027s just synthesizing a fake directory in case one does not already exist.\nThe convention in stat is that dir:true implies replaced:true.\nThe dir:true is the important part.\nCommented.",
+      "parentUuid": "01d30b70_7d834203",
+      "range": {
+        "startLine": 199,
+        "startChar": 0,
+        "endLine": 199,
+        "endChar": 67
+      },
+      "revId": "c493c47c237eaadb564e4ce1a0bf8d380b28d227",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
