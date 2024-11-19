@@ -94,7 +94,7 @@ func runtime_mapaccess1(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) unsaf
 				slotKey = *((*unsafe.Pointer)(slotKey))
 			}
 			if typ.Key.Equal(key, slotKey) {
-				slotElem := g.elem(typ, i)
+				slotElem := unsafe.Pointer(uintptr(slotKey) + typ.ElemOff)
 				if typ.IndirectElem() {
 					slotElem = *((*unsafe.Pointer)(slotElem))
 				}
@@ -167,7 +167,7 @@ func runtime_mapaccess2(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) (unsa
 				slotKey = *((*unsafe.Pointer)(slotKey))
 			}
 			if typ.Key.Equal(key, slotKey) {
-				slotElem := g.elem(typ, i)
+				slotElem := unsafe.Pointer(uintptr(slotKey) + typ.ElemOff)
 				if typ.IndirectElem() {
 					slotElem = *((*unsafe.Pointer)(slotElem))
 				}
@@ -264,7 +264,7 @@ outer:
 						typedmemmove(typ.Key, slotKey, key)
 					}
 
-					slotElem = g.elem(typ, i)
+					slotElem = unsafe.Pointer(uintptr(slotKey) + typ.ElemOff)
 					if typ.IndirectElem() {
 						slotElem = *((*unsafe.Pointer)(slotElem))
 					}
@@ -305,7 +305,7 @@ outer:
 					}
 					typedmemmove(typ.Key, slotKey, key)
 
-					slotElem = g.elem(typ, i)
+					slotElem = unsafe.Pointer(uintptr(slotKey) + typ.ElemOff)
 					if typ.IndirectElem() {
 						emem := newobject(typ.Elem)
 						*(*unsafe.Pointer)(slotElem) = emem
