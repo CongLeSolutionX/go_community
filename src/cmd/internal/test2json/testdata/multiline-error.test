@@ -1,0 +1,4 @@
+=== RUN   Test
+    x_test.go:6: Error1
+        Error2
+--- FAIL: Test (0.00s)
