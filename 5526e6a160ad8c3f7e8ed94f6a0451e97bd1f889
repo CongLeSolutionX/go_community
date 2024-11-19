@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94e2cbee_815d8879",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-11-19T18:07:05Z",
+      "side": 1,
+      "message": "should these be HasFilePathPrefix?",
+      "range": {
+        "startLine": 192,
+        "startChar": 9,
+        "endLine": 192,
+        "endChar": 22
+      },
+      "revId": "5526e6a160ad8c3f7e8ed94f6a0451e97bd1f889",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecac2072_c52896d7",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-11-19T18:07:05Z",
+      "side": 1,
+      "message": "Out of curiosity: we\u0027re doing this check because len(dirs) \u003d\u003d 1 is the common case? My naive assumption was that for both of the functions we\u0027d be returning early so it wouldn\u0027t be a big deal?",
+      "range": {
+        "startLine": 258,
+        "startChar": 0,
+        "endLine": 258,
+        "endChar": 20
+      },
+      "revId": "5526e6a160ad8c3f7e8ed94f6a0451e97bd1f889",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
