@@ -5,6 +5,7 @@
 package bigmod
 
 import (
+	"bytes"
 	"fmt"
 	"math/big"
 	"math/bits"
@@ -352,6 +353,28 @@ func TestMulReductions(t *testing.T) {
 	}
 }
 
+func TestMulEvenModulus(t *testing.T) {
+	m, _ := new(big.Int).SetString("773608962677651230850240281261679752031633236267106044359907", 10)
+	m = m.Add(m, m)
+	M, err := NewModulus(m.Bytes())
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	a, _ := new(big.Int).SetString("180692823610368451951102211649591374573781973061758082626801", 10)
+	b, _ := new(big.Int).SetString("123456789012345678901234567890123456789012345678901234567", 10)
+	n := new(big.Int).Mul(a, b)
+	n.Mod(n, m)
+
+	A := NewNat().setBig(a).ExpandFor(M)
+	B := NewNat().setBig(b).ExpandFor(M)
+	N := A.Mul(B, M)
+
+	if !bytes.Equal(n.Bytes(), N.Bytes(M)) {
+		t.Errorf("a * b mod m = %x, got %x", n.Bytes(), N.Bytes(M))
+	}
+}
+
 func natBytes(n *Nat) []byte {
 	return n.Bytes(maxModulus(uint(len(n.limbs))))
 }
@@ -480,7 +503,7 @@ func BenchmarkExp(b *testing.B) {
 }
 
 func TestNewModulus(t *testing.T) {
-	expected := "modulus must be > 0 and odd"
+	expected := "modulus must be > 0"
 	_, err := NewModulus([]byte{})
 	if err == nil || err.Error() != expected {
 		t.Errorf("NewModulus(0) got %q, want %q", err, expected)
@@ -492,10 +515,6 @@ func TestNewModulus(t *testing.T) {
 	_, err = NewModulus([]byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
 	if err == nil || err.Error() != expected {
 		t.Errorf("NewModulus(0) got %q, want %q", err, expected)
-	}
-	_, err = NewModulus([]byte{1, 1, 1, 1, 2})
-	if err == nil || err.Error() != expected {
-		t.Errorf("NewModulus(2) got %q, want %q", err, expected)
 	}
 }
 
