@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf767771_e8d39d8c",
+        "filename": "doc/next/5-toolchain.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-20T21:03:40Z",
+      "side": 1,
+      "message": "s/possibly/possible/",
+      "revId": "aec77de57984c79c3c26846c6865c7aee68bb282",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
