@@ -833,7 +833,8 @@ func (t *tester) registerTests() {
 				buildmode: "pie",
 				ldflags:   "-linkmode=internal",
 				env:       []string{"CGO_ENABLED=0"},
-				pkg:       "crypto/internal/fips140/check",
+				pkg:       "crypto/internal/fips140test",
+				runTests:  []string{"TestFIPSCheck"},
 			})
 		// Also test a cgo package.
 		if t.cgoEnabled && t.internalLink() && !disablePIE {
@@ -856,7 +857,8 @@ func (t *tester) registerTests() {
 				buildmode: "exe",
 				ldflags:   "-linkmode=external",
 				env:       []string{"CGO_ENABLED=1"},
-				pkg:       "crypto/internal/fips140/check",
+				pkg:       "crypto/internal/fips140test",
+				runTests:  []string{"TestFIPSCheck"},
 			})
 		if t.externalLinkPIE() && !disablePIE {
 			t.registerTest("external linking, -buildmode=pie",
@@ -866,7 +868,8 @@ func (t *tester) registerTests() {
 					buildmode: "pie",
 					ldflags:   "-linkmode=external",
 					env:       []string{"CGO_ENABLED=1"},
-					pkg:       "crypto/internal/fips140/check",
+					pkg:       "crypto/internal/fips140test",
+					runTests:  []string{"TestFIPSCheck"},
 				})
 		}
 	}
