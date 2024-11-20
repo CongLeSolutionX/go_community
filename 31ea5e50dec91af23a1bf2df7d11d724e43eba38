@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9e449e2_f8b874af",
+        "filename": "src/crypto/tls/auth_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-20T22:14:51Z",
+      "side": 1,
+      "message": "This is currently `(fipstls.Required() \u0026\u0026 test.expectedHash \u003d\u003d crypto.SHA1) || test.expectedSigAlg \u003d\u003d Ed25519`\n\n```suggestion\n\t\tif fipstls.Required() \u0026\u0026 (test.expectedHash \u003d\u003d crypto.SHA1 || test.expectedSigAlg \u003d\u003d Ed25519) {\n```",
+      "revId": "31ea5e50dec91af23a1bf2df7d11d724e43eba38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42d6b922_b54d0e98",
+        "filename": "src/crypto/tls/conn_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-20T22:14:51Z",
+      "side": 1,
+      "message": "```suggestion\n\tskipFips(t) // No CBC cipher suites in defaultCipherSuitesFIPS.\n```",
+      "revId": "31ea5e50dec91af23a1bf2df7d11d724e43eba38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24e97c3b_cbec76d8",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-20T22:14:51Z",
+      "side": 1,
+      "message": "These are so many skips, and given the non-derminism I don\u0027t think we\u0027ll pick them off one by one. Just put the skip with an explanation in runTestAndUpdateIfNeeded?",
+      "revId": "31ea5e50dec91af23a1bf2df7d11d724e43eba38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ae2e1f7_db99df57",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-20T22:14:51Z",
+      "side": 1,
+      "message": "testName is nearly always \"fipstls\", you can just fix it, and make it fips140tls while at it.",
+      "revId": "31ea5e50dec91af23a1bf2df7d11d724e43eba38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dac3ecc3_e6528ef9",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-20T22:14:51Z",
+      "side": 1,
+      "message": "Ditto.",
+      "revId": "31ea5e50dec91af23a1bf2df7d11d724e43eba38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "824a84be_74522657",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-20T22:14:51Z",
+      "side": 1,
+      "message": "```suggestion\nfunc skipFIPS(t *testing.T) {\n```",
+      "revId": "31ea5e50dec91af23a1bf2df7d11d724e43eba38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
