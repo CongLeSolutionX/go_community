@@ -81,6 +81,24 @@
       "parentUuid": "539478bd_fa720193",
       "revId": "e6faa79d027f68ce58d2c541bc89cb95c8b5bc67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddded4e3_bfb10af3",
+        "filename": "src/cmd/go/testdata/script/fipssnap.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-20T12:25:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a6144cd_155a0ab4",
+      "revId": "e6faa79d027f68ce58d2c541bc89cb95c8b5bc67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
