@@ -16,6 +16,24 @@
       "message": "This test case was added for #59944 which seems to show an example of existing code that does exactly this.  See https://git.sr.ht/~eliasnaur/gio-shader/tree/main/item/piet/elements_abi.go#L29 in which we have\n\ntype ElementsDescriptorSetLayout \u003d C.struct_elements_descriptor_set_layout\nfunc (l *ElementsDescriptorSetLayout) Binding0() *cpu.BufferDescriptor { ... }\n\nSo that existing code violates #57926.  I think we can still do this--there are no backward compatibility guarantees for cgo code--but we should be aware of it and we need to add a release note to this CL.",
       "revId": "55d850f7dbd5aeba9d688283646129838c6d375a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9068a6e3_c174efba",
+        "filename": "src/cmd/compile/internal/types2/issues_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-11-20T06:26:09Z",
+      "side": 1,
+      "message": "ACK. There was also significant code added elsewhere in the type checker to handle the issue #59944.",
+      "parentUuid": "f8ff7e7c_c26ed3db",
+      "revId": "55d850f7dbd5aeba9d688283646129838c6d375a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
