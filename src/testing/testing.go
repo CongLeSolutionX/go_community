@@ -397,6 +397,11 @@ import (
 
 var initRan bool
 
+var (
+	parallelStart atomic.Int64 // number of parallel tests started
+	parallelStop  atomic.Int64 // number of parallel tests stopped
+)
+
 // Init registers testing flags. These flags are automatically registered by
 // the "go test" command before running test functions, so Init is only needed
 // when calling functions such as Benchmark without using "go test".
@@ -1513,6 +1518,7 @@ func (t *T) Parallel() {
 		panic(parallelConflict)
 	}
 	t.isParallel = true
+	parallelStart.Add(1)
 	if t.parent.barrier == nil {
 		// T.Parallel has no effect when fuzzing.
 		// Multiple processes may run in parallel, but only one input can run at a
@@ -1683,6 +1689,9 @@ func tRunner(t *T, fn func(t *T)) {
 				panic(err)
 			}
 			running.Delete(t.name)
+			if t.isParallel {
+				parallelStop.Add(1)
+			}
 			t.signal <- signal
 		}()
 
