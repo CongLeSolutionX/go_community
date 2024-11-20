@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "856b91cd_b59d2e38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-20T18:06:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63ac1f15_1a08df2d",
+      "revId": "b948d7f342694e49c19b76d6c1c7f43f38573d7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1c5d100_06380413",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-11-20T15:23:20Z",
       "side": 1,
       "message": "Should the parser be checking for `val` being empty here?",
+      "revId": "b948d7f342694e49c19b76d6c1c7f43f38573d7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad92a31b_04017e12",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-20T18:06:36Z",
+      "side": 1,
+      "message": "We\u0027ve generally taken the position that trailing garbage is... acceptable (assuming that is what you\u0027re referring to).",
+      "parentUuid": "c1c5d100_06380413",
       "revId": "b948d7f342694e49c19b76d6c1c7f43f38573d7f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8326a80c_f465564d",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-20T18:06:36Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "2de239c8_7f1a9eeb",
+      "revId": "b948d7f342694e49c19b76d6c1c7f43f38573d7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4dbbf196_3e3f577c",
@@ -69,6 +123,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab7f7e44_9dcc4275",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-20T18:06:36Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "4dbbf196_3e3f577c",
+      "revId": "b948d7f342694e49c19b76d6c1c7f43f38573d7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f7146ce_20985fa1",
@@ -82,6 +154,24 @@
       "writtenOn": "2024-11-20T15:23:20Z",
       "side": 1,
       "message": "Optional: If I\u0027m reading this right, I think `depth \u003d\u003d len(strata) - 1` so you probably don\u0027t need to store it separately?",
+      "revId": "b948d7f342694e49c19b76d6c1c7f43f38573d7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe497edb_ea0e17f7",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1273,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-20T18:06:36Z",
+      "side": 1,
+      "message": "Technically yes, but I think it\u0027s worth the cost of carrying around an int to make things a little more readable (initially I used `len(pg.strata)-1` everywhere but it got quite verbose and the pain of reasoning about slice length vs indexing was just enough overhead to make me switch.)",
+      "parentUuid": "3f7146ce_20985fa1",
       "revId": "b948d7f342694e49c19b76d6c1c7f43f38573d7f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
