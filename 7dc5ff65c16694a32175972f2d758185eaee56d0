@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b78bb673_48445669",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-20T00:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc8d03c7_e01d14be",
+      "range": {
+        "startLine": 64,
+        "startChar": 1,
+        "endLine": 64,
+        "endChar": 11
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4a6b12a_fc98f984",
@@ -93,6 +117,78 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22b74e7e_42766cae",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-20T00:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4a6b12a_fc98f984",
+      "range": {
+        "startLine": 65,
+        "startChar": 1,
+        "endLine": 65,
+        "endChar": 11
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a014dc5d_4c4b7f4a",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-20T00:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae73ad17_3873ea22",
+      "range": {
+        "startLine": 65,
+        "startChar": 56,
+        "endLine": 65,
+        "endChar": 80
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41ae4223_0acece9e",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-20T00:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39f17f2e_b58f8599",
+      "range": {
+        "startLine": 65,
+        "startChar": 36,
+        "endLine": 65,
+        "endChar": 45
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ecfe5dc_bf854791",
@@ -106,6 +202,30 @@
       "writtenOn": "2024-11-19T23:33:53Z",
       "side": 1,
       "message": "\"character\" is a word best avoided in discussions of text encoding; use \"byte\" or \"rune\" as appropriate. In this case, byte.\n\n(Implicit in why this is safe is that we only ever need to escape the first byte of a multi-byte rune encoding since all the control codes are ASCII.)",
+      "range": {
+        "startLine": 430,
+        "startChar": 27,
+        "endLine": 430,
+        "endChar": 36
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df96b76e_08f642f6",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-20T00:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ecfe5dc_bf854791",
       "range": {
         "startLine": 430,
         "startChar": 27,
@@ -139,6 +259,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3cc4f70_18350924",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-20T00:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "670c7d97_b20ae022",
+      "range": {
+        "startLine": 430,
+        "startChar": 55,
+        "endLine": 431,
+        "endChar": 11
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75d848dd_863eda4b",
@@ -152,6 +296,30 @@
       "writtenOn": "2024-11-19T23:33:53Z",
       "side": 1,
       "message": "There is no doc link syntax for fields; use c.escape.",
+      "range": {
+        "startLine": 432,
+        "startChar": 4,
+        "endLine": 432,
+        "endChar": 27
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6381ca41_dea8a232",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-20T00:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75d848dd_863eda4b",
       "range": {
         "startLine": 432,
         "startChar": 4,
@@ -185,6 +353,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c6f6e8a_1416eabf",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-20T00:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d890101_ab6b16ea",
+      "range": {
+        "startLine": 436,
+        "startChar": 65,
+        "endLine": 437,
+        "endChar": 16
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9dedbe3_b919b7de",
@@ -198,6 +390,30 @@
       "writtenOn": "2024-11-19T23:33:53Z",
       "side": 1,
       "message": "c.withinErr\n\n\n(I suggest this field name.)",
+      "range": {
+        "startLine": 439,
+        "startChar": 4,
+        "endLine": 439,
+        "endChar": 26
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea7eccfd_c04113f7",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-20T00:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9dedbe3_b919b7de",
       "range": {
         "startLine": 439,
         "startChar": 4,
@@ -277,6 +493,78 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36ddab08_c790f47f",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-20T00:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12979c86_de84a4c6",
+      "range": {
+        "startLine": 452,
+        "startChar": 49,
+        "endLine": 452,
+        "endChar": 58
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "135866d1_9376262a",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-20T00:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41a72231_68bf5ce3",
+      "range": {
+        "startLine": 452,
+        "startChar": 6,
+        "endLine": 452,
+        "endChar": 12
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d06b676_0175959b",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-20T00:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de22d3a2_bafa63ad",
+      "range": {
+        "startLine": 452,
+        "startChar": 32,
+        "endLine": 452,
+        "endChar": 39
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24941247_21676b98",
@@ -313,6 +601,54 @@
       "writtenOn": "2024-11-19T23:33:53Z",
       "side": 1,
       "message": "This is always true...",
+      "range": {
+        "startLine": 472,
+        "startChar": 6,
+        "endLine": 472,
+        "endChar": 20
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c0dd8e7_ff9b92c4",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-20T00:18:26Z",
+      "side": 1,
+      "message": "AH. Yep, and that\u0027s the source of the other bug I found. I think I need to use `i+1` instead of incrementing i to avoid messing with the loop logic.",
+      "parentUuid": "24941247_21676b98",
+      "range": {
+        "startLine": 472,
+        "startChar": 21,
+        "endLine": 472,
+        "endChar": 35
+      },
+      "revId": "7dc5ff65c16694a32175972f2d758185eaee56d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f510d7d0_878254b3",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-20T00:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "623fd0fb_1d670c11",
       "range": {
         "startLine": 472,
         "startChar": 6,

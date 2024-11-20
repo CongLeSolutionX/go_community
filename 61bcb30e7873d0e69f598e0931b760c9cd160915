@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eea9bb43_86053d32",
+        "filename": "src/cmd/internal/test2json/testdata/multiline-error.json",
+        "patchSetId": 24
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-20T00:18:26Z",
+      "side": 1,
+      "message": "Alan found the source of this bug, but I still want to know why TestGolden doesn\u0027t detect the change.\n\n### Original comment\n\nThere\u0027s a bug in test2json that should cause this test to fail but isn\u0027t. src/cmd/go/testdata/script/test_json_fails.txt is failing, but this test doesn\u0027t fail because there\u0027s a bug in TestGolden\u0027s comparison. Which I\u0027m having difficulty debugging because delve is throwing a fit.",
+      "revId": "61bcb30e7873d0e69f598e0931b760c9cd160915",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
