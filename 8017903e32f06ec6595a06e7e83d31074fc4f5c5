@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8c6d2974_7d121da5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 47
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-11-20T10:56:55Z",
+      "side": 1,
+      "message": "Marking as unresolved.",
+      "parentUuid": "18fdd4c3_c5cd0321",
+      "revId": "8017903e32f06ec6595a06e7e83d31074fc4f5c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8480d2a6_74521072",
         "filename": "src/os/root_unix.go",
         "patchSetId": 47
