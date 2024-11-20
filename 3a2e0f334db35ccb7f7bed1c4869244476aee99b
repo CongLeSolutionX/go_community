@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8b06740_4a72f2b5",
+        "filename": "src/os/root.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-20T01:29:10Z",
+      "side": 1,
+      "message": "I think it\u0027s OK to write\n\n    return r.Open(name)",
+      "revId": "3a2e0f334db35ccb7f7bed1c4869244476aee99b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ae158ea_0ed7a0c4",
+        "filename": "src/os/stat_wasip1.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-20T01:29:10Z",
+      "side": 1,
+      "message": "Is this related to this CL?",
+      "revId": "3a2e0f334db35ccb7f7bed1c4869244476aee99b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
