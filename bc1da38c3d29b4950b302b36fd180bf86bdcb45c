@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3937f36d_aaae7911",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-11-20T12:59:19Z",
+      "side": 1,
+      "message": "The DIT test is broken on openbsd/arm64, where DIT is already enabled - https://go-review.googlesource.com/c/go/+/629995",
+      "revId": "bc1da38c3d29b4950b302b36fd180bf86bdcb45c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
