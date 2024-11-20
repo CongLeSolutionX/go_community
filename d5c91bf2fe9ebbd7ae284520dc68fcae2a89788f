@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edf5a7ef_0acfd00e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-20T16:39:56Z",
+      "side": 1,
+      "message": "Thanks. Some comments/questions.",
+      "revId": "d5c91bf2fe9ebbd7ae284520dc68fcae2a89788f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e18f20d_0589b605",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-20T16:39:56Z",
+      "side": 1,
+      "message": "What does \"The go command knows not to build the actual tests\" refer to? (The tests must be built when they\u0027re being executed later. Whereas here in registerTests specifically, nothing is built since its point is to discover and register tests, not to test/build/vet anything.)\n\nCan you clarify, or maybe leave this sentence out?",
+      "range": {
+        "startLine": 646,
+        "startChar": 36,
+        "endLine": 647,
+        "endChar": 65
+      },
+      "revId": "d5c91bf2fe9ebbd7ae284520dc68fcae2a89788f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f1670ff_a649d769",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-20T16:39:56Z",
+      "side": 1,
+      "message": "Is this change being included intentionally in this CL? It\u0027s not mentioned in the commit message, has no comment and seems be dropping cgo test packages.\n\nAlso, I think it\u0027d be good to keep the property that \u0027dist test\u0027 finds all problems that \u0027go test std cmd\u0027 does, unless the motivation to make \u0027dist test\u0027 a subset of that is quite compelling.",
+      "revId": "d5c91bf2fe9ebbd7ae284520dc68fcae2a89788f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
