@@ -137,15 +137,21 @@ func doInRoot[T any](r *Root, name string, f func(parent sysfdType, name string)
 			// removing the elements eliminated by ".." components,
 			// and start over from the beginning.
 			restarts++
-			end := i + 1
-			for end < len(parts) && parts[end] == ".." {
-				end++
+			parts, err = removeDotDot(parts, i)
+			if err != nil {
+				return ret, err
 			}
+<<<<<<< PATCH SET (2dd375 os: optimized Root.Open on Windows)
+			if len(parts) == 0 {
+				parts = []string{"."}
+			}
+=======
 			count := end - i
 			if count > i {
 				return ret, errPathEscapes
 			}
 			parts = slices.Delete(parts, i-count, end)
+>>>>>>> BASE      (0a0a7a cmd/compile: fix rewrite rules for multiply/add)
 			i = 0
 			if dirfd != rootfd {
 				syscall.Close(dirfd)

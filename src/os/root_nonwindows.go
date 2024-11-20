@@ -6,6 +6,6 @@
 
 package os
 
-func rootCleanPath(s string, prefix, suffix []string) (string, error) {
-	return s, nil
+func rootCleanParts(parts []string, start int) ([]string, error) {
+	return parts, nil
 }
