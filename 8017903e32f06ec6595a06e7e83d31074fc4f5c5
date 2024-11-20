@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18fdd4c3_c5cd0321",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 47
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-11-20T10:56:25Z",
+      "side": 1,
+      "message": "I\u0027ve done some benchmarking with CL 629698 and the results are not very good:\n\n```\ngoos: windows\ngoarch: amd64\npkg: os\ncpu: Intel(R) Core(TM) i7-10850H CPU @ 2.70GHz\n             │ master.txt  │              CL629698.txt              │\n             │   sec/op    │    sec/op     vs base                  │\nRemoveAll-12   80.73m ± 4%   506.18m ± 5%  +527.00% (p\u003d0.000 n\u003d8+9)\n\n             │  master.txt   │           CL629698.txt           │\n             │     B/op      │     B/op       vs base           │\nRemoveAll-12   172.3Ki ± 14%   191.4Ki ± 17%  ~ (p\u003d0.132 n\u003d8+9)\n\n             │ master.txt │             CL629698.txt              │\n             │ allocs/op  │  allocs/op   vs base                  │\nRemoveAll-12   791.0 ± 0%   2640.0 ± 0%  +233.75% (p\u003d0.000 n\u003d8+9)\n```\n\nIt is not unexpected, though, given that the previous os.RemoveAll implementation is more mature and more optimized. On the other hand, the amount of allocations concerns me. I\u0027ve submitted the CL 629935 tackling some low hanging fruits, reducing the allocations by half. Feel free to pull in those changes in your CL.",
+      "revId": "8017903e32f06ec6595a06e7e83d31074fc4f5c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8480d2a6_74521072",
