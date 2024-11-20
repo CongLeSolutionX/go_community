@@ -575,6 +575,24 @@
       "parentUuid": "5919afa7_3755d035",
       "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "033f26b8_e14e7936",
+        "filename": "src/runtime/lock_spinbit.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-11-20T06:26:31Z",
+      "side": 1,
+      "message": "If we load the full work in unlock, can we get rid of the sleeping bit and the additional atomic.Or8 in lock?",
+      "parentUuid": "56ff63ac_3f164f3f",
+      "revId": "fd050b3c6d0294b6d72adb014ec14b3e6bf4ad60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
