@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0069eaa_f1351493",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-20T20:13:04Z",
+      "side": 1,
+      "message": "Adding Damien as primary owner of the testing package.\n\nThis change looks basically fine to me. It would be nice to get it in before the freeze.",
+      "revId": "b29530adfd1208a9a993bfddc50cba26adfe0cbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50fba36c_f9235f10",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-20T20:13:04Z",
+      "side": 1,
+      "message": "Do you mean to convert CR LF to just LF? In that case I think an i++ is missing. (The current code will produce two LFs.)\n\n\n\tif b \u003d\u003d \u0027\\r\u0027 \u0026\u0026 i+1 \u003c len(in) \u0026\u0026 in[i+1] \u003d\u003d \u0027\\n\u0027 {\n\t\ti++\n\t\tout \u003d append(out, in[i]) // \\n\n\t}",
+      "range": {
+        "startLine": 467,
+        "startChar": 4,
+        "endLine": 470,
+        "endChar": 5
+      },
+      "revId": "b29530adfd1208a9a993bfddc50cba26adfe0cbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c49676d_dee8cbf0",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-20T20:13:04Z",
+      "side": 1,
+      "message": "Clever!\n\nThough cleverer than necessary:\n\n    in[i+1] \u003d\u003d \u0027\\r\u0027 \u0026\u0026 in[i+2] \u003d\u003d \u0027\\n\u0027",
+      "range": {
+        "startLine": 506,
+        "startChar": 30,
+        "endLine": 506,
+        "endChar": 71
+      },
+      "revId": "b29530adfd1208a9a993bfddc50cba26adfe0cbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

@@ -161,6 +161,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7a1dbdc_b949e8a5",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-20T20:13:04Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "07c5903f_0b34b55c",
+      "revId": "ab77ecd085d5b6c7471317994119969e357cc068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb3924af_15e717bf",
@@ -318,6 +336,30 @@
       "side": 1,
       "message": "\u003e I added a new mechanic to test2json\u0027s TestGolden\n\nI moved this to CL 628615",
       "parentUuid": "ad82678b_2cebfc2f",
+      "range": {
+        "startLine": 822,
+        "startChar": 29,
+        "endLine": 822,
+        "endChar": 33
+      },
+      "revId": "ab77ecd085d5b6c7471317994119969e357cc068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "add20aac_3ad5344f",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-20T20:13:04Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2639c2ff_6178eafe",
       "range": {
         "startLine": 822,
         "startChar": 29,

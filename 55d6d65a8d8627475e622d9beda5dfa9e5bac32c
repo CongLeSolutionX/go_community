@@ -325,6 +325,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d4e04e2_a99bf971",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-20T20:13:04Z",
+      "side": 1,
+      "message": "Ah, good. Thanks for clarifying.",
+      "parentUuid": "8b211af0_a7511492",
+      "range": {
+        "startLine": 109,
+        "startChar": 51,
+        "endLine": 109,
+        "endChar": 53
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c5b2d05_ffedcfcd",
@@ -668,6 +692,30 @@
       "side": 1,
       "message": "If I\u0027m right about the double copy, I don\u0027t know if that\u0027s enough of a difference to justify the complexity. My motivation was mainly to avoid a performance regression where I could.",
       "parentUuid": "ae95cbde_4bce7f54",
+      "range": {
+        "startLine": 640,
+        "startChar": 0,
+        "endLine": 644,
+        "endChar": 0
+      },
+      "revId": "55d6d65a8d8627475e622d9beda5dfa9e5bac32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c5cbe12_a9c227ec",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-11-20T20:13:04Z",
+      "side": 1,
+      "message": "I think it would be fine to replace the WriteString call in decorate with Write([]byte(line)). It\u0027s hard to imagine performance matters that much here as the volume of data is very small, and there\u0027s tons of other allocation happening all over the place. Then you deal in terms of io.Writer and ignore StringWriter.",
+      "parentUuid": "6e7a4964_4b49ee55",
       "range": {
         "startLine": 640,
         "startChar": 0,
