@@ -41,6 +41,32 @@ func rootCleanPath(s string, prefix, suffix []string) (string, error) {
 		return "", windows.ERROR_INVALID_NAME
 	}
 
+	// Check to see if we can skip cleaning:
+	// One directory component, no trailing spaces/dots.
+	if s == "" {
+		return ".", nil
+	}
+	isSimpleFilename := func(s string) bool {
+		if s == "." {
+			return true
+		}
+		if stringslite.IndexByte(s, '/') >= 0 || stringslite.IndexByte(s, '\\') >= 0 {
+			return false
+		}
+		// If len(s) == 0, we already returned above.
+		switch s[len(s)-1] {
+		case ' ', '.':
+			return false
+		}
+		return true
+	}
+	if len(prefix) == 0 && len(suffix) == 0 && isSimpleFilename(s) {
+		if !filepathlite.IsLocal(s) {
+			return "", errPathEscapes
+		}
+		return s, nil
+	}
+
 	const fixedPrefix = `\\?\?`
 	buf := []byte(fixedPrefix)
 	for _, p := range prefix {
