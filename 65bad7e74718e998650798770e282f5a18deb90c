@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a64b797f_a56aa685",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-20T18:14:35Z",
+      "side": 1,
+      "message": "These comments should be rewritten: in fact we can\u0027t make FIPS mode deterministic to be able to test against static files like this and so these tests should be skipped on principle, and not addressed with data regen. Will push a rev shortly.",
+      "revId": "65bad7e74718e998650798770e282f5a18deb90c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
