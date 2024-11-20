@@ -143,6 +143,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58a8aeb1_9e790191",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-11-20T11:13:23Z",
+      "side": 1,
+      "message": "Thanks for the clarity Roland. Reducing uncertainty is certainly a good argument, wont refute that.\n\nPlease continue the good work Filippo, overall the FIPS changes have been beneficial to our fork. But forgive me in advance for the (constructive) push back I\u0027ll make in those CLs that I consider there are things that could be implemented differently.",
+      "parentUuid": "daa49426_0fe4f8fa",
+      "revId": "774403525393cbbe2753ef269a9c439267f622e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79cdf0fc_e7f4fa9f",
