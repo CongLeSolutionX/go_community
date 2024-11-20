@@ -8,8 +8,8 @@ package rand
 
 import (
 	"crypto/internal/boring"
-	"crypto/internal/fips"
-	"crypto/internal/fips/drbg"
+	"crypto/internal/fips140"
+	"crypto/internal/fips140/drbg"
 	"crypto/internal/sysrand"
 	"io"
 	_ "unsafe"
