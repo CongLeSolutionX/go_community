@@ -33,6 +33,24 @@
       "message": "TestNilDeref failure is a flaky test, issue #70288.",
       "revId": "d5003402ededfe0a0a646b9ca390ab824f7ea7f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cae7d9c9_cbc62a51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2024-11-20T19:08:03Z",
+      "side": 1,
+      "message": "It [passed](https://ci.chromium.org/ui/p/golang/builders/try/go1.23-windows-386/b8730725159940532321/test-results?q\u003dExactID%3Async%2Fatomic.TestNilDeref+VHash%3A5635bb292f68fdd0\u0026clean\u003d\u0026sortby\u003d\u0026groupby\u003d) on the third try. Bypassing here. If it keeps happening, we\u0027ll need to consider its fix for backport.",
+      "parentUuid": "77d7d47e_568b945a",
+      "revId": "d5003402ededfe0a0a646b9ca390ab824f7ea7f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
