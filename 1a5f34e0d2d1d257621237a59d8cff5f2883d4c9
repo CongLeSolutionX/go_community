@@ -3,6 +3,40 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c03bbf03_ad1ef57c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-20T17:34:24Z",
+      "side": 1,
+      "message": "Not a big deal, but it might help to mention that this includes CL 630136 too.",
+      "revId": "1a5f34e0d2d1d257621237a59d8cff5f2883d4c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "540571c8_3293a9fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-20T17:34:24Z",
+      "side": 1,
+      "message": "Please either s/gotip/go1.22/g on this line (since this branch needs Go 1.22 builders) or remove it.",
+      "revId": "1a5f34e0d2d1d257621237a59d8cff5f2883d4c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a52bbcb8_c4d07d4e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -31,6 +65,23 @@
       "writtenOn": "2024-11-20T17:30:54Z",
       "side": 1,
       "message": "Thanks!",
+      "revId": "1a5f34e0d2d1d257621237a59d8cff5f2883d4c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60d8b3ec_04dcdefa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-20T17:34:24Z",
+      "side": 1,
+      "message": "Thanks.",
       "revId": "1a5f34e0d2d1d257621237a59d8cff5f2883d4c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
