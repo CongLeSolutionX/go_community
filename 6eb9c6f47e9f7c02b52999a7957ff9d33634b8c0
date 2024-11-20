@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "faf5238d_62f115fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2024-11-20T09:45:42Z",
+      "side": 1,
+      "message": "Yeah, I think pointers are a point that needs more attention. But first I want to say that there is a piece of code confuses me.\n\nI found, since [CL 578376](https://go-review.googlesource.com/c/go/+/578376), the DSE code has ignored the OpLocalAddrs which has the same Aux, except the first one in value order. For this code:\n```\nif v.Op \u003d\u003d OpLocalAddr {\n\tif _, ok :\u003d localAddrs[v.Aux]; !ok {\n\t\tlocalAddrs[v.Aux] \u003d v\n\t} else {\n\t\tcontinue\n\t}\n}\n```\nThe `continue` in the `else` block skips the following code which adds the memory arg of OpLocalAddr to `loadUse`. So, only the first OpLocalAddr in value order is not ignored, and its memory arg is added to `loadUse`.\n\nAccording to my understanding, if we just want to teach DSE about equivalent LocalAddrs, then there should be no `else` and `continue` here, and all OpLocalAddrs will be treat as load. Like this:\n```\nif v.Op \u003d\u003d OpLocalAddr {\n\tif _, ok :\u003d localAddrs[v.Aux]; !ok {\n\t\tlocalAddrs[v.Aux] \u003d v\n\t}\n}\n```\nIf we do not want to treat OpLocalAddr as load, then we should remove the else block and put the `continue` in the outter if block. Just like what I did in this CL.\n\nSo, what\u0027s the point of only treat the first OpLocalAddr in value order as load? This confuses me. This code also rely on the order of the values, and the compiler behaves differently when compile with or w/o `-gcflags\u003d-d\u003dssa/check/on`, as I described in [issue 70409](https://go.dev/issue/70409).\n\nIs there something wrong with my understanding?\n\nFinally, for the pointer, I\u0027m not sure if it\u0027s a risk here. If so, it looks the HEAD code also has this risk. Maybe?",
+      "parentUuid": "672d21ac_f189998e",
+      "revId": "6eb9c6f47e9f7c02b52999a7957ff9d33634b8c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9cb049c0_c1d72e83",
