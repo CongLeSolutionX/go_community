@@ -34,6 +34,8 @@ import (
 	"crypto/rand"
 	"crypto/subtle"
 	"errors"
+	"fmt"
+	"internal/godebug"
 	"io"
 	"math"
 	"math/big"
@@ -249,12 +251,37 @@ func (priv *PrivateKey) Validate() error {
 	return nil
 }
 
+// rsa1024min is a GODEBUG that re-enables weak RSA keys if set to "0".
+// See https://go.dev/issue/68762.
+var rsa1024min = godebug.New("rsa1024min")
+
+func checkKeySize(size int) error {
+	if size >= 1024 {
+		return nil
+	}
+	if rsa1024min.Value() == "0" {
+		rsa1024min.IncNonDefault()
+		return nil
+	}
+	return fmt.Errorf("crypto/rsa: %d-bit keys are insecure (see go.dev/issue/68762)", size)
+}
+
+func checkPublicKeySize(k *PublicKey) error {
+	if k.N == nil {
+		return errors.New("crypto/rsa: missing public modulus")
+	}
+	return checkKeySize(k.N.BitLen())
+}
+
 // GenerateKey generates a random RSA private key of the given bit size.
 //
 // Most applications should use [crypto/rand.Reader] as rand. Note that the
 // returned key does not depend deterministically on the bytes read from rand,
 // and may change between calls and/or between versions.
 func GenerateKey(random io.Reader, bits int) (*PrivateKey, error) {
+	if err := checkKeySize(bits); err != nil {
+		return nil, err
+	}
 	return GenerateMultiPrimeKey(random, 2, bits)
 }
 
