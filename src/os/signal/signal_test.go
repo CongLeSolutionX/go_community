@@ -876,6 +876,10 @@ func TestNotifyContextStringer(t *testing.T) {
 
 // #44193 test signal handling while stopping and starting the world.
 func TestSignalTrace(t *testing.T) {
+	if runtime.GOOS == "openbsd" && runtime.GOARCH == "arm64" {
+		t.Skip("Test is flaky on openbsd/arm64 - see issue #70460")
+	}
+
 	done := make(chan struct{})
 	quit := make(chan struct{})
 	c := make(chan os.Signal, 1)
