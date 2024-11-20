@@ -16,6 +16,24 @@
       "message": "nit: there are other FIPS standards that we *do* implement, like AES(FIPS 197), SHA-2 (FIPS 180), SHA-3 (FIPS 202), ML-KEM (FIPS 203), etc. which have nothing to do with a FIPS 140 validation.",
       "revId": "0051cccc9ba8b60add3f0ff568cb71946fb0cf5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d76f867_49b316e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-20T15:20:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efe98a1f_4384cc32",
+      "revId": "0051cccc9ba8b60add3f0ff568cb71946fb0cf5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
