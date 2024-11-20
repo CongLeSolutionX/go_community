@@ -697,19 +697,25 @@ func (t *tester) registerTests() {
 	}
 
 	// Check that all crypto packages compile with the purego build tag.
-	t.registerTest("crypto with tag purego", &goTest{
+	t.registerTest("crypto with tag purego (build and vet only)", &goTest{
 		variant:  "purego",
 		tags:     []string{"purego"},
 		pkg:      "crypto/...",
 		runTests: "^$", // only ensure they compile
 	})
 
-	// Check that all crypto packages compile with fips.
-	for _, version := range fipsVersions() {
-		t.registerTest("crypto with GOFIPS140", &goTest{
+	// Check that all crypto packages compile (and test correctly, in longmode) with fips.
+	for _, version := range fipsVersions(t.short) {
+		suffix := " # (build and vet only)"
+		run := "^$" // only ensure they compile
+		if !t.short {
+			name = ""
+			run = ""
+		}
+		t.registerTest("GOFIPS140="+version+" go test crypto/..."+suffix, &goTest{
 			variant:  "gofips140-" + version,
 			pkg:      "crypto/...",
-			runTests: "^$", // only ensure they compile
+			runTests: run,
 			env:      []string{"GOFIPS140=" + version, "GOMODCACHE=" + filepath.Join(workdir, "fips-"+version)},
 		})
 	}
@@ -833,7 +839,8 @@ func (t *tester) registerTests() {
 				buildmode: "pie",
 				ldflags:   "-linkmode=internal",
 				env:       []string{"CGO_ENABLED=0"},
-				pkg:       "crypto/internal/fips140/check",
+				pkg:       "crypto/internal/fips140test",
+				runTests:  "TestFIPSCheck",
 			})
 		// Also test a cgo package.
 		if t.cgoEnabled && t.internalLink() && !disablePIE {
@@ -856,7 +863,8 @@ func (t *tester) registerTests() {
 				buildmode: "exe",
 				ldflags:   "-linkmode=external",
 				env:       []string{"CGO_ENABLED=1"},
-				pkg:       "crypto/internal/fips140/check",
+				pkg:       "crypto/internal/fips140test",
+				runTests:  "TestFIPSCheck",
 			})
 		if t.externalLinkPIE() && !disablePIE {
 			t.registerTest("external linking, -buildmode=pie",
@@ -866,7 +874,8 @@ func (t *tester) registerTests() {
 					buildmode: "pie",
 					ldflags:   "-linkmode=external",
 					env:       []string{"CGO_ENABLED=1"},
-					pkg:       "crypto/internal/fips140/check",
+					pkg:       "crypto/internal/fips140test",
+					runTests:  "TestFIPSCheck",
 				})
 		}
 	}
@@ -1766,8 +1775,14 @@ func isEnvSet(evar string) bool {
 }
 
 // fipsVersions returns the list of versions available in lib/fips140.
-func fipsVersions() []string {
+func fipsVersions(short bool) []string {
 	var versions []string
+	if !short {
+		// If we're running the tests, run GOFIPS140=latest first,
+		// to identify failures due to FIPS mode being enabled
+		// as opposed to due to something different in a snapshot.
+		versions = append(versions, "latest")
+	}
 	zips, err := filepath.Glob(filepath.Join(goroot, "lib/fips140/*.zip"))
 	if err != nil {
 		fatalf("%v", err)
