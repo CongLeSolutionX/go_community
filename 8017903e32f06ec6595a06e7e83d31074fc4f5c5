@@ -54,6 +54,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b082fda9_838ecc7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 47
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-11-20T19:44:53Z",
+      "side": 1,
+      "message": "I\u0027m running the `BenchmarkRemoveAll` test from the `os` repo. For the moment I only investigated the allocations. I did take a cpu profile and saw that 95% of the time was spent on cgo calls, the Root logic didn\u0027t show up in the profile. The top ofender was `NtSetInformationFile`, followed by `CloseHandle` and `NtOpenFile`, all from `windows.Deleteat`. I don\u0027t understand why is that doing 3 syscalls instead of 1 (`DeleteFileW`) reduces the performance by 500%. I\u0027m probably missing something, as our `Deleteat` implementation seems almost identical to `DeleteFileW`.\n\n\u003e I think this is an argument for not trying to change RemoveAll until Root has a faster path for listing directory contents. I\u0027ve got a CL for that, but it\u0027s not going to be ready for 1.24.\n\nAgree.",
+      "parentUuid": "26eddb24_508a7f1f",
+      "revId": "8017903e32f06ec6595a06e7e83d31074fc4f5c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8480d2a6_74521072",
