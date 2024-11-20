@@ -195,16 +195,6 @@ func splitPathInRoot(s string, prefix, suffix []string) (_ []string, err error) 
 		return nil, errPathEscapes
 	}
 
-	if runtime.GOOS == "windows" {
-		// Windows cleans paths before opening them.
-		s, err = rootCleanPath(s, prefix, suffix)
-		if err != nil {
-			return nil, err
-		}
-		prefix = nil
-		suffix = nil
-	}
-
 	parts := append([]string{}, prefix...)
 	i, j := 0, 1
 	for {
@@ -234,7 +224,30 @@ func splitPathInRoot(s string, prefix, suffix []string) (_ []string, err error) 
 		// Remove a trailing "." component if we're joining to a suffix.
 		parts = parts[:len(parts)-1]
 	}
+
 	parts = append(parts, suffix...)
+
+	if runtime.GOOS == "windows" {
+		parts, err = rootCleanParts(parts, len(prefix))
+		if err != nil {
+			return nil, err
+		}
+	}
+	return parts, nil
+}
+
+// removeDotDot removes ".." components from parts starting at start.
+// It returns the new parts slice, or an error if the path escapes the root.
+func removeDotDot(parts []string, start int) ([]string, error) {
+	end := start + 1
+	for end < len(parts) && parts[end] == ".." {
+		end++
+	}
+	count := end - start
+	if count > start {
+		return nil, errPathEscapes
+	}
+	parts = slices.Delete(parts, start-count, end)
 	return parts, nil
 }
 

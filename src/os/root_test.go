@@ -640,6 +640,18 @@ var rootConsistencyTestCases = []rootConsistencyTest{{
 	},
 	open: "./",
 }, {
+	name: "dot slashslash",
+	fs: []string{
+		"a",
+	},
+	open: "a/.//",
+}, {
+	name: "slash dotdot",
+	fs: []string{
+		"a/b/",
+	},
+	open: "a/b/..",
+}, {
 	name: "file slash",
 	fs: []string{
 		"target",
@@ -747,6 +759,62 @@ var rootConsistencyTestCases = []rootConsistencyTest{{
 	name: "nul byte",
 	open: "\x00",
 }}
+
+var rootConsistencyTestCasesWindows = []rootConsistencyTest{{
+	name: "dir dot slash",
+	fs: []string{
+		"a/b",
+	},
+	open: "a./b",
+}, {
+	name: "dir dotdot slash",
+	fs: []string{
+		"a/b",
+	},
+	open: "a../b",
+}, {
+	name: "dir dotdotdot slash",
+	fs: []string{
+		"a/b",
+	},
+	open: "a.../b",
+}, {
+	name: "dir space slash",
+	fs: []string{
+		"a/b",
+	},
+	open: "a /b",
+}, {
+	name: "file space",
+	fs: []string{
+		"file",
+	},
+	open: "file ",
+}, {
+	name: "file dot",
+	fs: []string{
+		"file",
+	},
+	open: "file.",
+}, {
+	name: "slash dotdotdot",
+	fs: []string{
+		"a/b/",
+	},
+	open: "a/b/...",
+}, {
+	name: "slash space space slash",
+	fs: []string{
+		"a/b/",
+	},
+	open: "a/ /b/",
+}}
+
+func init() {
+	if runtime.GOOS == "windows" {
+		rootConsistencyTestCases = append(rootConsistencyTestCases, rootConsistencyTestCasesWindows...)
+	}
+}
 
 func tempDirWithUnixSocket(t *testing.T, name string) string {
 	dir, err := os.MkdirTemp("", "")
