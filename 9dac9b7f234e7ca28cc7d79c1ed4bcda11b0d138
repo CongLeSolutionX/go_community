@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd1a1d4f_9b7cacad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-11-20T17:20:51Z",
+      "side": 1,
+      "message": "The perf builders on PS4 look fine. The 16-thread linux/amd64 builder shows +29% on `CockroachDBkv95/nodes\u003d3-8` `read-p50-latency-sec`, but the perf dashboard shows that as a pretty noisy benchmark.\n\nhttps://perf.golang.org/dashboard/?benchmark\u003dCockroachDBkv95%2Fnodes%3D3-8\u0026unit\u003d\u0026repository\u003dgo\u0026branch\u003dmaster\u0026platform\u003dlinux%2Famd64\u0026days\u003d30\u0026end\u003d2024-11-20T17%3A18\n\nPS5 is a comment-only change, so won\u0027t have meaningful performance changes.",
+      "revId": "9dac9b7f234e7ca28cc7d79c1ed4bcda11b0d138",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
