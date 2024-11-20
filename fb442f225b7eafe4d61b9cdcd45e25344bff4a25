@@ -16,6 +16,40 @@
       "message": "Hmm, Gerrit\u0027s rename threshold is unfortunately very low for some reason and not configurable. This file is best reviewed as a move from src/crypto/rsa/pkcs1v22.go.",
       "revId": "fb442f225b7eafe4d61b9cdcd45e25344bff4a25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dbf2321_d7d5cb52",
+        "filename": "src/crypto/internal/fips/rsa/rsa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-20T13:35:26Z",
+      "side": 1,
+      "message": "uint is not idiomatic Go unless E is a collection of bits (which it\u0027s not).\nAnd if you needed the extra unsigned range, you\u0027d want uint64.\n(And crypto/rsa uses int.)",
+      "revId": "fb442f225b7eafe4d61b9cdcd45e25344bff4a25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c11f36f6_afebf620",
+        "filename": "src/crypto/internal/fips/rsa/rsa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-20T13:35:26Z",
+      "side": 1,
+      "message": "Not the best panic message. a // TODO comment would be appropriate but this should be something like\n\nif dP \u003d\u003d nil || dQ \u003d\u003d nil || qInv \u003d\u003d nil {\n    panic(\"crypto/internal/fips/rsa: internal error: missing CRT parameters\")\n}",
+      "revId": "fb442f225b7eafe4d61b9cdcd45e25344bff4a25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

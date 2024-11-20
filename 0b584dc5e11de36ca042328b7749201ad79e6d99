@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfa2b8e3_d7d76dcb",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-20T13:35:26Z",
+      "side": 0,
+      "message": "You lost this error in the move. It seems important, since it is reachable by misuse of the exported crypto/rsa APIs.",
+      "revId": "0b584dc5e11de36ca042328b7749201ad79e6d99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
