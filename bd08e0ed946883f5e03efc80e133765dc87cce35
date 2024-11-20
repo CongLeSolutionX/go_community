@@ -16,6 +16,24 @@
       "message": "Now that I see this in other CLs I don\u0027t really like the name eloopErr.  It suggests that this is going to return some form of ELOOP, but it doesn\u0027t do that at all.  Better might be checkSymlink.",
       "revId": "bd08e0ed946883f5e03efc80e133765dc87cce35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1929cbb2_896d3097",
+        "filename": "src/os/root_unix.go",
+        "patchSetId": 43
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-20T01:04:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f187ee4_3dc2e872",
+      "revId": "bd08e0ed946883f5e03efc80e133765dc87cce35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
