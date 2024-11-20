@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1d4ee04b_b0d075af",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-11-20T22:02:59Z",
+      "side": 1,
+      "message": "I worked out a test that verifies you were correct about the bug and that your change fixes it. I am not trying to convert CR LF to LF. I don\u0027t know what circumstances would cause this scenario (short of ./pkg.test -test.v\u003dtest2json | sed \u0027s/$/\\r/g\u0027 | go tool test2json) but I\u0027m happy with this solution since it has parity between the behavior of t.Log and t.Error:\n\n- `\\x0fError\\x0e\\r\\n` (t.Error(\"Error\") with LF -\u003e CR LF) split before \\r produces an event with \"Error\" and an event with CR LF.\n- `Hello\\r\\n` (t.Log(\"Hello\") with LF -\u003e CR LF) split before \\r produces an event with \"Hello\" and an event with CR LF.",
+      "parentUuid": "2b865110_68d6c504",
+      "range": {
+        "startLine": 467,
+        "startChar": 4,
+        "endLine": 470,
+        "endChar": 5
+      },
+      "revId": "b29530adfd1208a9a993bfddc50cba26adfe0cbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1c49676d_dee8cbf0",
         "filename": "src/cmd/internal/test2json/test2json.go",
         "patchSetId": 27
