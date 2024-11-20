@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "550b8500_264569e3",
+        "filename": "src/crypto/internal/fips/rsa/pkcs1v22.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-20T13:18:37Z",
+      "side": 1,
+      "message": "Hmm, Gerrit\u0027s rename threshold is unfortunately very low for some reason and not configurable. This file is best reviewed as a move from src/crypto/rsa/pkcs1v22.go.",
+      "revId": "fb442f225b7eafe4d61b9cdcd45e25344bff4a25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
