@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63ac1f15_1a08df2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2024-11-20T15:23:20Z",
+      "side": 1,
+      "message": "RFC 9618",
+      "revId": "b948d7f342694e49c19b76d6c1c7f43f38573d7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1c5d100_06380413",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2024-11-20T15:23:20Z",
+      "side": 1,
+      "message": "Should the parser be checking for `val` being empty here?",
+      "revId": "b948d7f342694e49c19b76d6c1c7f43f38573d7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2de239c8_7f1a9eeb",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2024-11-20T15:23:20Z",
+      "side": 1,
+      "message": "Should we check for `s` being empty here?",
+      "revId": "b948d7f342694e49c19b76d6c1c7f43f38573d7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dbbf196_3e3f577c",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2024-11-20T15:23:20Z",
+      "side": 1,
+      "message": "Should we check for `val` being empty here?",
+      "revId": "b948d7f342694e49c19b76d6c1c7f43f38573d7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f7146ce_20985fa1",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1273,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2024-11-20T15:23:20Z",
+      "side": 1,
+      "message": "Optional: If I\u0027m reading this right, I think `depth \u003d\u003d len(strata) - 1` so you probably don\u0027t need to store it separately?",
+      "revId": "b948d7f342694e49c19b76d6c1c7f43f38573d7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba76d654_38ceb2ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2024-11-20T15:23:20Z",
+      "side": 1,
+      "message": "I didn\u0027t look at this suuuuper carefully and have to admit I\u0027ve long paged this horrible, horrible algorithm out of memory.\n\nAlthough, this is probably the first time anyone has implemented this algorithm from the description in the RFC. 😄 All other implementations I know of were all derived from one of mine, which predates the RFC.",
+      "revId": "d9b220a9209048f45395a4f5d6f7b6b852511bc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21324fe9_2fcc2d6e",
+        "filename": "doc/next/6-stdlib/99-minor/crypto/x509/68484.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2024-11-20T15:23:20Z",
+      "side": 1,
+      "message": "RFC 9618",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 34
+      },
+      "revId": "d9b220a9209048f45395a4f5d6f7b6b852511bc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7162e200_de6207b8",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1304,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2024-11-20T15:23:20Z",
+      "side": 1,
+      "message": "Optional: I dunno if you all care (see note below about whether to run this algorithm conditionally or unconditionally), but doing a linear search through the previous level does make policy verification quadratic. Consider A issuing B where...\n\nA\u0027s policies: 1, 2, 3, ..., N\nB\u0027s policies: 1, 2, 3, ..., N\n\nI believe this CL will do N^2 work to match the policies up. You can avoid this by building an index from OID to nodes where it appears in the expectedPolicySet.\n\nFor more fun, that index can be represented as a policy strata in itself. It\u0027s actually just the strata you would get if the next cert\u0027s policy set was anyPolicy. In one of BoringSSL\u0027s implementations, I used that trick.\n\nOr you can just use this structure and do a linear pass to build the mapping before processing the next cert. 😊",
+      "revId": "d9b220a9209048f45395a4f5d6f7b6b852511bc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d50c31c0_c1a12ff8",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1398,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2024-11-20T15:23:20Z",
+      "side": 1,
+      "message": "I feel really bad writing this comment, but here\u0027s something horrible about how this extension works. 😭\n\nEven if the user does not care about policy validation, policy validation is *not* a no-op. If someone along the chain activates requireExplicitPolicy then, even if the user doesn\u0027t care about policies, the chain is technically invalid if it doesn\u0027t end up asserting *some* policy.\n\nWhy anyone would set this flag, I have no idea. But it means that you probably ought to pick one of two behaviors:\n* Reject the chain if there are any critical policy-related extensions (RFC 9618, Section 6.5)\n* Always run policy validation\n\nI think this ends up doing neither because the parser treats the critical extension as handled, but the verifier drops it on the floor. 😞 Though you\u0027d be in good company because that\u0027s OpenSSL\u0027s behavior too.\n\n(I reported it to OpenSSL about 2 years ago with the other suite of policy issues, and they decided it wasn\u0027t a bug on grounds that OpenSSL does \"understand\" the extension but has chosen not to enforce it. I\u0027m... not sure how much I buy this theory, but okay. At the least such a theory really should be documented! Maybe I\u0027ll follow-up there...)\n\nBoringSSL chose to always run policy validation, not because we thought it was a good idea, but because our historical behavior was OpenSSL\u0027s. (Ignore but do not process critical policy constraints.) I wasn\u0027t sure what the compatibility implications would be of blanket-rejecting them, so I opted to check it. This is also why we were sensitive to even quadratic behavior in our validator. But you all historically rejected critical policy constraints, so might be tidiest to just preserve that behavior.\n\nOr you could decide this ridiculous edge case is not worth thinking about. 😊 In which case I might suggest writing it down somewhere.",
+      "range": {
+        "startLine": 1398,
+        "startChar": 23,
+        "endLine": 1398,
+        "endChar": 58
+      },
+      "revId": "d9b220a9209048f45395a4f5d6f7b6b852511bc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bcd43ad_0719399e",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1452,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2024-11-20T15:23:20Z",
+      "side": 1,
+      "message": "Fun fact: while required by the spec and enshrined in NIST PKITS, the fact that this only kicks in when `len(parents) \u003d\u003d 0` is probably a bug in the spec. It results in really weird effects like crbug.com/40885279",
+      "revId": "d9b220a9209048f45395a4f5d6f7b6b852511bc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a76a6892_9780ba34",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1492,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2024-11-20T15:23:20Z",
+      "side": 1,
+      "message": "See comment in L1515 for what this check should be. Though, if you ignore inhibitPolicyMapping, it might actually be equivalent? I tried to come up with a counterexample, but could not. But it\u0027s also been a while since I had this horrid algorithm paged in.\n\nWith inhibitPolicyMapping, I do have a counter-example. The problem is inhibitPolicyMapping does this weird punch-out behavior. So suppose A issues B and we have:\n\n* A policies: {1, 2}\n* A mappings: {9999 \u003d\u003e 1}\n* B policies: {1, 2}\n\nWhen policy mapping is allowed, the final policy set is {1, 2}. But when it is inhibited, 1 is knocked out by 6.1.4.b.3.i. This check breaks that logic.\n\nNo, nothing about this algorithm makes sense. I can kinda understand locally what they were trying to do, but it\u0027s nonsense.",
+      "revId": "d9b220a9209048f45395a4f5d6f7b6b852511bc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e7ba642_c040e46c",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1515,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2024-11-20T15:23:20Z",
+      "side": 1,
+      "message": "I believe this should check for anyPolicy in the leaf strata, not the parent strata: if I do not include anyPolicy, anyPolicy stops with me and certs I issue cannot use it.",
+      "revId": "d9b220a9209048f45395a4f5d6f7b6b852511bc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
