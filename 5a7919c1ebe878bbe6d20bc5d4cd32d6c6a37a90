@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86a41999_1566f8c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-20T22:00:08Z",
+      "side": 1,
+      "message": "This looks basically fine to me as well. Thanks!",
+      "revId": "5a7919c1ebe878bbe6d20bc5d4cd32d6c6a37a90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12bf292e_c5035731",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-20T22:00:08Z",
+      "side": 1,
+      "message": "Do we need to worry about the case of \\r and \\n being split across two calls?",
+      "revId": "5a7919c1ebe878bbe6d20bc5d4cd32d6c6a37a90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
