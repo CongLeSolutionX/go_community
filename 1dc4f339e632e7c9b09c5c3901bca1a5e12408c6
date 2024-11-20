@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8552cbc4_9430b068",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-20T18:13:14Z",
+      "side": 1,
+      "message": "It seems a bit unfortunate to fall back to a slow path if a filename contains a forward slash. Backslashes are canonical on Windows, but there\u0027s lots of code that uses forward slashes because they work everywhere, or because they require less escaping in strings.",
+      "revId": "1dc4f339e632e7c9b09c5c3901bca1a5e12408c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "859ecea5_8a51d34b",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-20T18:13:14Z",
+      "side": 1,
+      "message": "Would we want to handle names with strippable whitespace: `x `, `x .`, `x . x `, etc.?",
+      "revId": "1dc4f339e632e7c9b09c5c3901bca1a5e12408c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c2b3bb4_b79f317b",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-20T18:13:14Z",
+      "side": 1,
+      "message": "I wonder if using a sync.Pool of buffers would be sufficient, or if the syscall.FullPath call is adding too much expense as well?\n\nOr maybe a sync.Pool, plus skip the FullPath call if the filename contains no path separators at all.",
+      "revId": "1dc4f339e632e7c9b09c5c3901bca1a5e12408c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
