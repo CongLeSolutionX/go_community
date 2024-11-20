@@ -8,7 +8,6 @@ package os
 
 import (
 	"errors"
-	"internal/filepathlite"
 	"internal/stringslite"
 	"internal/syscall/windows"
 	"runtime"
@@ -16,30 +15,45 @@ import (
 	"unsafe"
 )
 
-// rootCleanPath uses GetFullPathName to perform lexical path cleaning.
+// rootCleanParts performs lexical path cleaning of relative paths as GetFullPathName
+// does.
 //
 // On Windows, file names are lexically cleaned at the start of a file operation.
 // For example, on Windows the path `a\..\b` is exactly equivalent to `b` alone,
 // even if `a` does not exist or is not a directory.
-//
-// We use the Windows API function GetFullPathName to perform this cleaning.
-// We could do this ourselves, but there are a number of subtle behaviors here,
-// and deferring to the OS maintains consistency.
-// (For example, `a\.\` cleans to `a\`.)
-//
-// GetFullPathName operates on absolute paths, and our input path is relative.
-// We make the path absolute by prepending a fixed prefix of \\?\?\.
-//
-// We want to detect paths which use .. components to escape the root.
-// We do this by ensuring the cleaned path still begins with \\?\?\.
-// We catch the corner case of a path which includes a ..\?\. component
-// by rejecting any input paths which contain a ?, which is not a valid character
-// in a Windows filename.
-func rootCleanPath(s string, prefix, suffix []string) (string, error) {
-	// Reject paths which include a ? component (see above).
-	if stringslite.IndexByte(s, '?') >= 0 {
-		return "", windows.ERROR_INVALID_NAME
+func rootCleanParts(parts []string, start int) ([]string, error) {
+	for i := start; i < len(parts); i++ {
+		switch part := parts[i]; {
+		case part == "." || part == ".\\" || part == "./":
+			// Remove "." components.
+			parts = append(parts[:i], parts[i+1:]...)
+		case part == "..":
+			// Remove ".." components and the preceding component.
+			n := len(parts)
+			var err error
+			parts, err = removeDotDot(parts, i)
+			if err != nil {
+				return nil, err
+			}
+			// Adjust i to the start of the removed components.
+			i -= (n-len(parts))/2 + 1
+		case stringslite.HasSuffix(part, " ") || stringslite.HasSuffix(part, "."):
+			// Remove trailing spaces and dots.
+			for len(part) > 0 {
+				if c := part[len(part)-1]; c != ' ' && c != '.' {
+					break
+				}
+				parts[i] = part[:len(part)-1]
+			}
+		case stringslite.HasSuffix(part, "/"):
+			// Replace forward slashes with backslashes.
+			parts[i] = part[:len(part)-1] + "\\"
+		}
 	}
+<<<<<<< PATCH SET (1da41d os: optimized Root.Open on Windows)
+	if len(parts) == 0 {
+		parts = []string{"."}
+=======
 
 	// Check to see if we can skip cleaning:
 	// One directory component, no trailing spaces/dots.
@@ -71,34 +85,9 @@ func rootCleanPath(s string, prefix, suffix []string) (string, error) {
 	for _, p := range prefix {
 		buf = append(buf, '\\')
 		buf = append(buf, []byte(p)...)
+>>>>>>> BASE      (523808 os: add Root.RemoveAll, avoid symlink race in RemoveAll on W)
 	}
-	buf = append(buf, '\\')
-	buf = append(buf, []byte(s)...)
-	for _, p := range suffix {
-		buf = append(buf, '\\')
-		buf = append(buf, []byte(p)...)
-	}
-	s = string(buf)
-
-	s, err := syscall.FullPath(s)
-	if err != nil {
-		return "", err
-	}
-
-	s, ok := stringslite.CutPrefix(s, fixedPrefix)
-	if !ok {
-		return "", errPathEscapes
-	}
-	s = stringslite.TrimPrefix(s, `\`)
-	if s == "" {
-		s = "."
-	}
-
-	if !filepathlite.IsLocal(s) {
-		return "", errPathEscapes
-	}
-
-	return s, nil
+	return parts, nil
 }
 
 type sysfdType = syscall.Handle
