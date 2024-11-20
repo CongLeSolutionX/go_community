@@ -34,6 +34,24 @@
       "parentUuid": "f8ff7e7c_c26ed3db",
       "revId": "55d850f7dbd5aeba9d688283646129838c6d375a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a2f512f_3f91c473",
+        "filename": "src/cmd/compile/internal/types2/issues_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-11-20T17:22:46Z",
+      "side": 1,
+      "message": "Per discussion with Elias Naur (author of Gio, where the original code in #59944 came from), it\u0027s ok to make this an error. He will update the code before 1.24. See comment https://go.dev/issue/60725#issuecomment-2488860989.",
+      "parentUuid": "9068a6e3_c174efba",
+      "revId": "55d850f7dbd5aeba9d688283646129838c6d375a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
