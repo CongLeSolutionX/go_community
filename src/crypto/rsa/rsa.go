@@ -28,7 +28,7 @@ import (
 	"crypto"
 	"crypto/internal/boring"
 	"crypto/internal/boring/bbig"
-	"crypto/internal/fips/bigmod"
+	"crypto/internal/fips140/bigmod"
 	"crypto/internal/randutil"
 	"crypto/rand"
 	"crypto/subtle"
