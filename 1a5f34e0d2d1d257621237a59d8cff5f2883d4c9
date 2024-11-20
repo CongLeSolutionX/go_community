@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cfc9113_1bb0d550",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-20T17:35:26Z",
+      "side": 1,
+      "message": "Oh I see you mentioned this in a Gerrit comment.",
+      "parentUuid": "c03bbf03_ad1ef57c",
+      "revId": "1a5f34e0d2d1d257621237a59d8cff5f2883d4c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "540571c8_3293a9fa",
