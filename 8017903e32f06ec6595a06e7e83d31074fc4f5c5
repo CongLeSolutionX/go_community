@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a5f92ac_7317a6f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 47
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-11-20T21:08:26Z",
+      "side": 1,
+      "message": "For reference, some time ago I reimplemented `os.RemoveAll` using `NtCreateFile` to simulate `openat` and `deleteat`: https://go-review.googlesource.com/c/go/+/574115. It is weird because that implementation looks similar to yours, but the cpu time is the same as the current `os.RemoveAll` implementation.",
+      "parentUuid": "b082fda9_838ecc7d",
+      "revId": "8017903e32f06ec6595a06e7e83d31074fc4f5c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8480d2a6_74521072",
