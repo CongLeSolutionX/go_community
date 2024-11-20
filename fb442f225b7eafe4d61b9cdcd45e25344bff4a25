@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16b42383_925edc6b",
+        "filename": "src/crypto/internal/fips/rsa/pkcs1v22.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-20T13:41:22Z",
+      "side": 1,
+      "message": "I manually diffed all this in the review.",
+      "parentUuid": "550b8500_264569e3",
+      "revId": "fb442f225b7eafe4d61b9cdcd45e25344bff4a25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4dbf2321_d7d5cb52",
