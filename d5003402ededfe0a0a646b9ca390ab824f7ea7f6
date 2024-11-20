@@ -16,6 +16,23 @@
       "message": "Pending backport approval, but LGTM. Thanks.",
       "revId": "d5003402ededfe0a0a646b9ca390ab824f7ea7f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77d7d47e_568b945a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2024-11-20T18:39:38Z",
+      "side": 1,
+      "message": "TestNilDeref failure is a flaky test, issue #70288.",
+      "revId": "d5003402ededfe0a0a646b9ca390ab824f7ea7f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
