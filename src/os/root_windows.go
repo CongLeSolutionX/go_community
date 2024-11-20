@@ -40,31 +40,77 @@ func rootCleanPath(s string, prefix, suffix []string) (string, error) {
 	if stringslite.IndexByte(s, '?') >= 0 {
 		return "", windows.ERROR_INVALID_NAME
 	}
+	hasForwardSlash := stringslite.IndexByte(s, '/') >= 0
+	var hasDotComponents bool
+	i, j := 0, 0
+	for {
+		if j < len(s) && !IsPathSeparator(s[j]) {
+			// Keep looking for the end of this component.
+			j++
+			continue
+		}
+		if s[i:j] == "." || s[i:j] == ".." {
+			hasDotComponents = true
+			break
+		}
+		j++
+		if j >= len(s) {
+			break
+		}
+		i = j
+	}
+	if hasDotComponents || hasForwardSlash || len(prefix) > 0 || len(suffix) > 0 {
+		// First count the length of the buffer so we can preallocate it.
+		const fixedPrefix = `\\?\?`
+		var lenPrefix, lenSuffix int
+		if hasDotComponents {
+			lenPrefix = len(fixedPrefix) + 1
+		}
+		for _, p := range prefix {
+			lenPrefix += len(p) + 1
+		}
+		for _, p := range suffix {
+			lenSuffix += len(p) + 1
+		}
+		// Now build the buffer.
+		buf := make([]byte, 0, lenPrefix+len(s)+lenSuffix)
+		if hasDotComponents {
+			buf = append(buf, []byte(fixedPrefix)...)
+			buf = append(buf, '\\')
+		}
+		for _, p := range prefix {
+			buf = append(buf, []byte(p)...)
+			buf = append(buf, '\\')
+		}
+		buf = append(buf, []byte(s)...)
+		for _, p := range suffix {
+			buf = append(buf, '\\')
+			buf = append(buf, []byte(p)...)
+		}
+		if hasDotComponents {
+			var err error
+			s, err = syscall.FullPath(string(buf))
+			if err != nil {
+				return "", err
+			}
+			var ok bool
+			s, ok = stringslite.CutPrefix(s, fixedPrefix)
+			if !ok {
+				return "", errPathEscapes
+			}
+			s = stringslite.TrimPrefix(s, `\`)
+		} else if hasForwardSlash {
+			for i := range len(buf) {
+				if buf[i] == '/' {
+					buf[i] = '\\'
+				}
+			}
+			s = string(buf)
+		} else {
+			s = string(buf)
+		}
+	}
 
-	const fixedPrefix = `\\?\?`
-	buf := []byte(fixedPrefix)
-	for _, p := range prefix {
-		buf = append(buf, '\\')
-		buf = append(buf, []byte(p)...)
-	}
-	buf = append(buf, '\\')
-	buf = append(buf, []byte(s)...)
-	for _, p := range suffix {
-		buf = append(buf, '\\')
-		buf = append(buf, []byte(p)...)
-	}
-	s = string(buf)
-
-	s, err := syscall.FullPath(s)
-	if err != nil {
-		return "", err
-	}
-
-	s, ok := stringslite.CutPrefix(s, fixedPrefix)
-	if !ok {
-		return "", errPathEscapes
-	}
-	s = stringslite.TrimPrefix(s, `\`)
 	if s == "" {
 		s = "."
 	}
