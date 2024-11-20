@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2534104_85f74d00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-11-20T13:57:24Z",
+      "side": 1,
+      "message": "TRY\u003dopenbsd-arm64",
+      "revId": "a6a959b1350271799133d5d0bbdc6ba4899a6e82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
