@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build unix
+//go:build unix || windows
 
 package os
 
 import (
-	"internal/syscall/unix"
 	"io"
+	"runtime"
 	"syscall"
 )
 
@@ -31,103 +31,111 @@ func removeAll(path string) error {
 		return nil
 	}
 
-	// RemoveAll recurses by deleting the path base from
-	// its parent directory
-	parentDir, base := splitPath(path)
-
-	parent, err := Open(parentDir)
+	dir, err := Open(path)
 	if IsNotExist(err) {
-		// If parent does not exist, base cannot exist. Fail silently
 		return nil
 	}
 	if err != nil {
 		return err
 	}
-	defer parent.Close()
-
-	if err := removeAllFrom(parent, base); err != nil {
-		if pathErr, ok := err.(*PathError); ok {
-			pathErr.Path = parentDir + string(PathSeparator) + pathErr.Path
-			err = pathErr
-		}
+	err = removeAllFrom(dir)
+	dir.Close()
+	if err != nil {
+		return prependErrorPathPrefix(err, path)
+	}
+	if err := Remove(path); err != nil && !IsNotExist(err) {
 		return err
 	}
 	return nil
 }
 
-func removeAllFrom(parent *File, base string) error {
-	parentFd := int(parent.Fd())
-	// Simple case: if Unlink (aka remove) works, we're done.
-	err := ignoringEINTR(func() error {
-		return unix.Unlinkat(parentFd, base, 0)
-	})
-	if err == nil || IsNotExist(err) {
+func prependErrorPathPrefix(err error, prefix string) error {
+	pe, ok := err.(*PathError)
+	if !ok {
+		return err
+	}
+	if pe.Path == "." {
+		pe.Path = prefix
+	} else if len(prefix) > 0 && !IsPathSeparator(prefix[len(prefix)-1]) {
+		pe.Path = prefix + string(PathSeparator) + pe.Path
+	} else {
+		pe.Path = prefix + pe.Path
+	}
+	return pe
+}
+
+// removeAllFromChild recursively removes the file name in dirfd.
+func removeAllFromChild(dirfd sysfdType, name string) error {
+	// If we can unlink the file, then we're done.
+	unlinkErr := unlinkat(dirfd, name)
+	if unlinkErr == nil || IsNotExist(unlinkErr) {
 		return nil
 	}
 
-	// EISDIR means that we have a directory, and we need to
-	// remove its contents.
-	// EPERM or EACCES means that we don't have write permission on
-	// the parent directory, but this entry might still be a directory
-	// whose contents need to be removed.
-	// Otherwise just return the error.
-	if err != syscall.EISDIR && err != syscall.EPERM && err != syscall.EACCES {
-		return &PathError{Op: "unlinkat", Path: base, Err: err}
-	}
-	uErr := err
-
-	// Remove the directory's entries.
-	var recurseErr error
-	for {
-		const reqSize = 1024
-		var respSize int
-
-		// Open the directory to recurse into
-		file, err := openDirAt(parentFd, base)
-		if err != nil {
-			if IsNotExist(err) {
+	// Possibly this is a directory that we can recurse into.
+	// Try to open it.
+	child, err := openDirAt(dirfd, name)
+	if err != nil {
+		if IsNotExist(err) {
+			return nil
+		}
+		if runtime.GOOS != "windows" {
+			// On Unix, unlink and rmdir are different operations.
+			// We've failed to open this file as a directory,
+			// but possibly it's an empty directory that we don't
+			// have permission to open. Try rmdir.
+			if err := rmdirat(dirfd, name); err == nil {
 				return nil
 			}
-			if err == syscall.ENOTDIR || err == unix.NoFollowErrno {
-				// Not a directory; return the error from the unix.Unlinkat.
-				return &PathError{Op: "unlinkat", Path: base, Err: uErr}
-			}
-			recurseErr = &PathError{Op: "openfdat", Path: base, Err: err}
+		}
+		return &PathError{Op: "RemoveAll", Path: name, Err: unlinkErr}
+	}
+
+	err = removeAllFrom(child)
+	child.Close()
+	if err != nil {
+		return prependErrorPathPrefix(err, name)
+	}
+
+	err = rmdirat(dirfd, name)
+	if err != nil && !IsNotExist(err) {
+		return &PathError{Op: "RemoveAll", Path: name, Err: err}
+	}
+	return nil
+}
+
+// removeAllFrom recursively removes the contents of dir.
+func removeAllFrom(dir *File) error {
+	dirfd := (sysfdType)(dir.Fd())
+
+	var firstError error
+	for {
+		const reqSize = 1024
+		names, err := dir.Readdirnames(reqSize)
+		if err != nil && err != io.EOF {
+			// Don't return this error.
+			// The caller will try to delete the directory we just failed to list,
+			// and either succeed or fail; if it fails, we use the error from
+			// deleting the directory rather than this one.
 			break
 		}
 
-		for {
-			numErr := 0
-
-			names, readErr := file.Readdirnames(reqSize)
-			// Errors other than EOF should stop us from continuing.
-			if readErr != nil && readErr != io.EOF {
-				file.Close()
-				if IsNotExist(readErr) {
-					return nil
+		success := false
+		errs := 0
+		for _, name := range names {
+			err := removeAllFromChild(dirfd, name)
+			if err != nil {
+				errs++
+				if firstError == nil {
+					firstError = err
 				}
-				return &PathError{Op: "readdirnames", Path: base, Err: readErr}
+			} else {
+				success = true
 			}
+		}
 
-			respSize = len(names)
-			for _, name := range names {
-				err := removeAllFrom(file, name)
-				if err != nil {
-					if pathErr, ok := err.(*PathError); ok {
-						pathErr.Path = base + string(PathSeparator) + pathErr.Path
-					}
-					numErr++
-					if recurseErr == nil {
-						recurseErr = err
-					}
-				}
-			}
-
-			// If we can delete any entry, break to start new iteration.
-			// Otherwise, we discard current names, get next entries and try deleting them.
-			if numErr != reqSize {
-				break
-			}
+		if len(names) < reqSize {
+			break
 		}
 
 		// Removing files from the directory may have caused
@@ -135,48 +143,15 @@ func removeAllFrom(parent *File, base string) error {
 		// again may skip some entries. The only reliable way
 		// to avoid this is to close and re-open the
 		// directory. See issue 20841.
-		file.Close()
-
-		// Finish when the end of the directory is reached
-		if respSize < reqSize {
-			break
+		//
+		// If we didn't delete anything, keep iterating from the current position.
+		if success {
+			if info := dir.dirinfo.Swap(nil); info != nil {
+				info.close()
+			}
+			dir.Seek(0, io.SeekStart)
 		}
 	}
 
-	// Remove the directory itself.
-	unlinkError := ignoringEINTR(func() error {
-		return unix.Unlinkat(parentFd, base, unix.AT_REMOVEDIR)
-	})
-	if unlinkError == nil || IsNotExist(unlinkError) {
-		return nil
-	}
-
-	if recurseErr != nil {
-		return recurseErr
-	}
-	return &PathError{Op: "unlinkat", Path: base, Err: unlinkError}
-}
-
-// openDirAt opens a directory name relative to the directory referred to by
-// the file descriptor dirfd. If name is anything but a directory (this
-// includes a symlink to one), it should return an error. Other than that this
-// should act like openFileNolog.
-//
-// This acts like openFileNolog rather than OpenFile because
-// we are going to (try to) remove the file.
-// The contents of this file are not relevant for test caching.
-func openDirAt(dirfd int, name string) (*File, error) {
-	r, err := ignoringEINTR2(func() (int, error) {
-		return unix.Openat(dirfd, name, O_RDONLY|syscall.O_CLOEXEC|syscall.O_DIRECTORY|syscall.O_NOFOLLOW, 0)
-	})
-	if err != nil {
-		return nil, err
-	}
-
-	if !supportsCloseOnExec {
-		syscall.CloseOnExec(r)
-	}
-
-	// We use kindNoPoll because we know that this is a directory.
-	return newFile(r, name, kindNoPoll, false), nil
+	return firstError
 }
