@@ -55,6 +55,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1d06238b_063d8bda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-20T17:42:10Z",
+      "side": 1,
+      "message": "I removed the line, my understanding is that we don\u0027t need it on the release branches anyhow.  Thanks.",
+      "parentUuid": "540571c8_3293a9fa",
+      "revId": "1a5f34e0d2d1d257621237a59d8cff5f2883d4c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a52bbcb8_c4d07d4e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
