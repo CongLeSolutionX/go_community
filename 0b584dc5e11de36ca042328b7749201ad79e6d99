@@ -16,6 +16,24 @@
       "message": "You lost this error in the move. It seems important, since it is reachable by misuse of the exported crypto/rsa APIs.",
       "revId": "0b584dc5e11de36ca042328b7749201ad79e6d99",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77f72857_072cf245",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-20T14:21:07Z",
+      "side": 0,
+      "message": "It\u0027s now above rsa.SignPKCS1v15 and rsa.VerifyPKCS1v15 in crypto/rsa/fips.go. Implementing it here would require a map from hash name to expected length, because we can\u0027t use crypto.Hash. Nothing goes catastrophically wrong if the hash has the wrong length, it\u0027s just misuse resistance, so it feels fine to have in crypto/rsa.",
+      "parentUuid": "cfa2b8e3_d7d76dcb",
+      "revId": "0b584dc5e11de36ca042328b7749201ad79e6d99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

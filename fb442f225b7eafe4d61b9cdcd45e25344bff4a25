@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fae45048_d368353e",
+        "filename": "src/crypto/internal/fips/rsa/rsa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-20T14:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dbf2321_d7d5cb52",
+      "revId": "fb442f225b7eafe4d61b9cdcd45e25344bff4a25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c11f36f6_afebf620",
@@ -66,6 +84,24 @@
       "writtenOn": "2024-11-20T13:35:26Z",
       "side": 1,
       "message": "Not the best panic message. a // TODO comment would be appropriate but this should be something like\n\nif dP \u003d\u003d nil || dQ \u003d\u003d nil || qInv \u003d\u003d nil {\n    panic(\"crypto/internal/fips/rsa: internal error: missing CRT parameters\")\n}",
+      "revId": "fb442f225b7eafe4d61b9cdcd45e25344bff4a25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80a9be31_11f2a35b",
+        "filename": "src/crypto/internal/fips/rsa/rsa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-20T14:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c11f36f6_afebf620",
       "revId": "fb442f225b7eafe4d61b9cdcd45e25344bff4a25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
