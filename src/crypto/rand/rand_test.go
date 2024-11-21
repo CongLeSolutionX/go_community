@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"compress/flate"
 	"crypto/internal/cryptotest"
+	"crypto/internal/fips140"
 	"errors"
 	"internal/testenv"
 	"io"
@@ -154,6 +155,9 @@ var sink byte
 
 func TestAllocations(t *testing.T) {
 	cryptotest.SkipTestAllocations(t)
+	if fips140.Enabled {
+		t.Skip("skipping allocation test when using FIPS140")
+	}
 	n := int(testing.AllocsPerRun(10, func() {
 		buf := make([]byte, 32)
 		Read(buf)
