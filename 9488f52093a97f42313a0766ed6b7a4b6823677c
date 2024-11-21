@@ -16,6 +16,24 @@
       "message": "I don\u0027t think insData can ever be nil, now that we\u0027ve added the error check above.  Do we still need the insData !\u003d nil check?",
       "revId": "9488f52093a97f42313a0766ed6b7a4b6823677c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1b26be7_d44a9677",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-11-21T14:30:39Z",
+      "side": 1,
+      "message": "Good call - we\u0027ll always have insData even if it is a zero value and not explicitly set in the table.",
+      "parentUuid": "d5f2efe0_6783f4a8",
+      "revId": "9488f52093a97f42313a0766ed6b7a4b6823677c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
