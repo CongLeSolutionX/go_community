@@ -16,6 +16,24 @@
       "message": "I can\u0027t reproduce this, and would rather not blanket give up on this across OSes.\n\nwatchflakes is only finding this on ppc64 and loong64, but they look healthy on build.golang.org. Is it behind maybe?",
       "revId": "7104d95c351281a306ebf251d3176cb622d9ab6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc8f4c91_a8e607c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-21T22:02:13Z",
+      "side": 1,
+      "message": "I can reproduce this with \"GOFIPS140\u003dlatest go test crypto/rand\".",
+      "parentUuid": "2d0435fd_2978784c",
+      "revId": "7104d95c351281a306ebf251d3176cb622d9ab6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
