@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "48a2ea89_9bfdebda",
+        "filename": "src/crypto/x509/pkits_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-21T13:21:26Z",
+      "side": 1,
+      "message": "copyright",
+      "revId": "fb866f94132a0f1ff890d46b450cb254f8e69fd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "67073996_dc056deb",
         "filename": "src/crypto/x509/pkits_test.go",
         "patchSetId": 2
