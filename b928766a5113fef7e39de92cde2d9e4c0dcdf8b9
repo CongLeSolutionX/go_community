@@ -16,6 +16,40 @@
       "message": "Despite what it says in the commit message, this patch only adds support for CSRRS and CSRRSI.  I\u0027ll update it to support the other instructions once we\u0027re happy with how this patch works.\n\nThe CSR symbolic names are implemented using SpecialOperands.  I\u0027ve tried to write the patch in such a way that it won\u0027t conflict with the SpecialOperands that will be introduced for the vector instructions.  I used Pengcheng\u0027s draft vector patch ( https://go-review.googlesource.com/c/go/+/594696 ) as a model for the SpecialOperands here and have copied a few constants and modifications from it.\n\nI\u0027ve chosen to make the CSR name the middle parameter.  This feels consistent with the ISA specs.  It also feels more normal to have the immediate operand in the I variant of the instructions as the first parameter.  So this gives us\n\nCSRRS   X10, CYCLE, X5\nCSRRSI  $2, TIME, X5\n\nI\u0027ll make a few more comments directly in the code.",
       "revId": "b928766a5113fef7e39de92cde2d9e4c0dcdf8b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d3275e6_19c62bd0",
+        "filename": "src/cmd/asm/internal/arch/riscv64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-11-21T13:41:38Z",
+      "side": 1,
+      "message": "This is how things are done in the arm part of the assembler so I copy the approach here.  Pengcheng did a similar thing in his RVV patch.  One comment though.  Is this safe?  Are we guaranteed that this will only ever be called by one go routine.  Tempted to use a sync.Once here but perhaps that\u0027s overkill.",
+      "revId": "b928766a5113fef7e39de92cde2d9e4c0dcdf8b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69408da4_6cd2e89b",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1270,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-11-21T13:41:38Z",
+      "side": 1,
+      "message": "I\u0027m thinking we\u0027d add the vector Special Operands here and updated the methods below.",
+      "revId": "b928766a5113fef7e39de92cde2d9e4c0dcdf8b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
