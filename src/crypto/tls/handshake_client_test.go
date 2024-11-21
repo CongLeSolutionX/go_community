@@ -11,6 +11,7 @@ import (
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/rsa"
+	"crypto/tls/internal/fips140tls"
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/base64"
@@ -840,6 +841,8 @@ func TestClientKeyUpdate(t *testing.T) {
 }
 
 func TestResumption(t *testing.T) {
+	skipFIPS(t) // RC4 ciphersuites, RSA 1024 issuer not in FIPS.
+
 	t.Run("TLSv12", func(t *testing.T) { testResumption(t, VersionTLS12) })
 	t.Run("TLSv13", func(t *testing.T) { testResumption(t, VersionTLS13) })
 }
@@ -1272,7 +1275,7 @@ func TestServerSelectingUnconfiguredApplicationProtocol(t *testing.T) {
 	go func() {
 		client := Client(c, &Config{
 			ServerName:   "foo",
-			CipherSuites: []uint16{TLS_RSA_WITH_AES_128_GCM_SHA256},
+			CipherSuites: []uint16{TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256},
 			NextProtos:   []string{"http", "something-else"},
 		})
 		errChan <- client.Handshake()
@@ -1292,7 +1295,7 @@ func TestServerSelectingUnconfiguredApplicationProtocol(t *testing.T) {
 	serverHello := &serverHelloMsg{
 		vers:         VersionTLS12,
 		random:       make([]byte, 32),
-		cipherSuite:  TLS_RSA_WITH_AES_128_GCM_SHA256,
+		cipherSuite:  TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
 		alpnProtocol: "how-about-this",
 	}
 	serverHelloBytes := mustMarshal(t, serverHello)
@@ -1308,7 +1311,7 @@ func TestServerSelectingUnconfiguredApplicationProtocol(t *testing.T) {
 	s.Close()
 
 	if err := <-errChan; !strings.Contains(err.Error(), "server selected unadvertised ALPN protocol") {
-		t.Fatalf("Expected error about unconfigured cipher suite but got %q", err)
+		t.Fatalf("Expected error about unconfigured ALPN protocol but got %q", err)
 	}
 }
 
@@ -1556,6 +1559,8 @@ func TestServerSelectingUnconfiguredCipherSuite(t *testing.T) {
 }
 
 func TestVerifyConnection(t *testing.T) {
+	skipFIPS(t) // RSA 1024 issuer not compat w/ FIPS.
+
 	t.Run("TLSv12", func(t *testing.T) { testVerifyConnection(t, VersionTLS12) })
 	t.Run("TLSv13", func(t *testing.T) { testVerifyConnection(t, VersionTLS13) })
 }
@@ -1778,6 +1783,8 @@ func testVerifyConnection(t *testing.T, version uint16) {
 }
 
 func TestVerifyPeerCertificate(t *testing.T) {
+	skipFIPS(t) // test certificates chains not FIPS compatible.
+
 	t.Run("TLSv12", func(t *testing.T) { testVerifyPeerCertificate(t, VersionTLS12) })
 	t.Run("TLSv13", func(t *testing.T) { testVerifyPeerCertificate(t, VersionTLS13) })
 }
@@ -2363,6 +2370,12 @@ func testGetClientCertificate(t *testing.T, version uint16) {
 	}
 
 	for i, test := range getClientCertificateTests {
+		// test 1 uses TLS 1.1. test 3 uses a client certificate that isn't FIPS compatible.
+		if (i == 1 || i == 3) && fips140tls.Required() {
+			t.Logf("skipping test %d for FIPS mode", i)
+			continue
+		}
+
 		serverConfig := testConfig.Clone()
 		serverConfig.ClientAuth = VerifyClientCertIfGiven
 		serverConfig.RootCAs = x509.NewCertPool()
@@ -2514,15 +2527,21 @@ func TestDowngradeCanary(t *testing.T) {
 	if err := testDowngradeCanary(t, VersionTLS12, VersionTLS12); err != nil {
 		t.Errorf("client didn't ignore expected TLS 1.2 canary")
 	}
-	if err := testDowngradeCanary(t, VersionTLS11, VersionTLS11); err != nil {
-		t.Errorf("client unexpectedly reacted to a canary in TLS 1.1")
-	}
-	if err := testDowngradeCanary(t, VersionTLS10, VersionTLS10); err != nil {
-		t.Errorf("client unexpectedly reacted to a canary in TLS 1.0")
+	if !fips140tls.Required() {
+		if err := testDowngradeCanary(t, VersionTLS11, VersionTLS11); err != nil {
+			t.Errorf("client unexpectedly reacted to a canary in TLS 1.1")
+		}
+		if err := testDowngradeCanary(t, VersionTLS10, VersionTLS10); err != nil {
+			t.Errorf("client unexpectedly reacted to a canary in TLS 1.0")
+		}
+	} else {
+		t.Logf("skiping TLS 1.1 and TLS 1.0 downgrade canary checks in FIPS mode")
 	}
 }
 
 func TestResumptionKeepsOCSPAndSCT(t *testing.T) {
+	skipFIPS(t) // test certificates not FIPS compatible.
+
 	t.Run("TLSv12", func(t *testing.T) { testResumptionKeepsOCSPAndSCT(t, VersionTLS12) })
 	t.Run("TLSv13", func(t *testing.T) { testResumptionKeepsOCSPAndSCT(t, VersionTLS13) })
 }
@@ -2675,11 +2694,15 @@ func testTLS13OnlyClientHelloCipherSuite(t *testing.T, ciphers []uint16) {
 	serverConfig := &Config{
 		Certificates: testConfig.Certificates,
 		GetConfigForClient: func(chi *ClientHelloInfo) (*Config, error) {
-			if len(chi.CipherSuites) != len(defaultCipherSuitesTLS13NoAES) {
+			expectedCiphersuites := defaultCipherSuitesTLS13NoAES
+			if fips140tls.Required() {
+				expectedCiphersuites = defaultCipherSuitesTLS13FIPS
+			}
+			if len(chi.CipherSuites) != len(expectedCiphersuites) {
 				t.Errorf("only TLS 1.3 suites should be advertised, got=%x", chi.CipherSuites)
 			} else {
-				for i := range defaultCipherSuitesTLS13NoAES {
-					if want, got := defaultCipherSuitesTLS13NoAES[i], chi.CipherSuites[i]; want != got {
+				for i := range expectedCiphersuites {
+					if want, got := expectedCiphersuites[i], chi.CipherSuites[i]; want != got {
 						t.Errorf("cipher at index %d does not match, want=%x, got=%x", i, want, got)
 					}
 				}
