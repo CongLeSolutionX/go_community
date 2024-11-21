@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29a53102_d4f7edce",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-21T14:32:42Z",
+      "side": 1,
+      "message": "For Filippo.",
+      "revId": "8302e635f4a5d57de5700a38f82756ace9b20657",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
