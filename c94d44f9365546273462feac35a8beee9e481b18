@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3c80d03_8b113b67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-21T20:00:48Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "c94d44f9365546273462feac35a8beee9e481b18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb29f5e4_19fecaaa",
+        "filename": "src/net/tcpsock.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-21T20:00:48Z",
+      "side": 1,
+      "message": "The names of return parameters show up in godoc. Let\u0027s not change them here: Leave the return parameters unnamed, and define vars below.\n\n```\nvar (\n  c   *TCPConn\n  err error\n)\nif sd.MultipathTCP() {\n...\n```",
+      "revId": "c94d44f9365546273462feac35a8beee9e481b18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2318e2d6_37744489",
+        "filename": "src/net/tcpsock.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-21T20:00:48Z",
+      "side": 1,
+      "message": "Same here: Let\u0027s not add names to the return parameters.",
+      "revId": "c94d44f9365546273462feac35a8beee9e481b18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
