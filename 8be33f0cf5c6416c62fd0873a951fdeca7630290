@@ -16,6 +16,23 @@
       "message": "Thank you for the quick review! I just applied the suggested modifications.",
       "revId": "8be33f0cf5c6416c62fd0873a951fdeca7630290",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3df0318b_92b816c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-11-21T21:13:51Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "8be33f0cf5c6416c62fd0873a951fdeca7630290",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
