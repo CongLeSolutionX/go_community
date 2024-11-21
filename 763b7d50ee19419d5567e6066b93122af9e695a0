@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b687cc0_7bb65918",
+        "filename": "src/crypto/internal/fips140/bigmod/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T17:55:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ec826a8_3c41507a",
+      "revId": "763b7d50ee19419d5567e6066b93122af9e695a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9148193_ea8ef510",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-11-21T14:37:27Z",
       "side": 1,
       "message": "The test in this CL does not look like it covers all these cases. It should.",
+      "revId": "763b7d50ee19419d5567e6066b93122af9e695a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4de026f_d14ae7e1",
+        "filename": "src/crypto/internal/fips140/bigmod/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T17:55:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9148193_ea8ef510",
       "revId": "763b7d50ee19419d5567e6066b93122af9e695a0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
