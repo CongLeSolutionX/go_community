@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "817318fe_676bac88",
+        "filename": "doc/next/6-stdlib/99-minor/crypto/pbkdf2/69488.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T16:24:15Z",
+      "side": 1,
+      "message": "```suggestion\n`golang.org/x/crypto/pbkdf2` package. \u003c!-- go.dev/issue/69488 --\u003e\n```\n\nor alternatively x/crypto/pbkdf2 without leading / but we don\u0027t generally use that in public.",
+      "revId": "d4bea9c94154e8f2ef153d64de6a58feb07c9d83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
