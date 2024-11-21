@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26918822_26fae2d6",
+        "filename": "src/net/tcpsock.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-11-21T20:22:35Z",
+      "side": 1,
+      "message": "I didn\u0027t know about that. Sure, no problem, done.",
+      "parentUuid": "bb29f5e4_19fecaaa",
+      "revId": "c94d44f9365546273462feac35a8beee9e481b18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2318e2d6_37744489",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-11-21T20:00:48Z",
       "side": 1,
       "message": "Same here: Let\u0027s not add names to the return parameters.",
+      "revId": "c94d44f9365546273462feac35a8beee9e481b18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16a7687e_f07b3ee7",
+        "filename": "src/net/tcpsock.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-11-21T20:22:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2318e2d6_37744489",
       "revId": "c94d44f9365546273462feac35a8beee9e481b18",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
