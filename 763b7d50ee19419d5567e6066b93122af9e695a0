@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ec826a8_3c41507a",
+        "filename": "src/crypto/internal/fips140/bigmod/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-21T14:37:27Z",
+      "side": 1,
+      "message": "Use singular nouns in documentation in general (almost always leads to clearer descriptions), but especially in this case where it changes the name of the type being described.\n\n// A Modulus can leak the exact number of bits needed to store its value\n// and is stored without padding. Its actual value is still kept secret.",
+      "revId": "763b7d50ee19419d5567e6066b93122af9e695a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9148193_ea8ef510",
+        "filename": "src/crypto/internal/fips140/bigmod/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-21T14:37:27Z",
+      "side": 1,
+      "message": "The test in this CL does not look like it covers all these cases. It should.",
+      "revId": "763b7d50ee19419d5567e6066b93122af9e695a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
