@@ -72,6 +72,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "287f40bf_93cbe81c",
+        "filename": "doc/next/6-stdlib/99-minor/runtime/67535.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-11-21T15:31:44Z",
+      "side": 1,
+      "message": "Thanks for the confirmation.",
+      "parentUuid": "4249afce_23bd93cd",
+      "range": {
+        "startLine": 5,
+        "startChar": 45,
+        "endLine": 5,
+        "endChar": 46
+      },
+      "revId": "ab96fbe4b87ce7e14e2842230786555dae656442",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2e64db9_1b87356d",
@@ -257,6 +281,54 @@
         "startChar": 15,
         "endLine": 433,
         "endChar": 15
+      },
+      "revId": "ab96fbe4b87ce7e14e2842230786555dae656442",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae6869b3_aee5f849",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-11-21T15:31:44Z",
+      "side": 1,
+      "message": "I\u0027ve removed the deprecation notice. I\u0027ve added a warning to the top of the SetFinalizer doc which states that you should prefer the use of AddCleanup where possible. I will add examples of common transformations as I work through converting calls to SetFinalizer to AddCleanups.",
+      "parentUuid": "875c2a94_68dd6f7d",
+      "range": {
+        "startLine": 432,
+        "startChar": 15,
+        "endLine": 433,
+        "endChar": 15
+      },
+      "revId": "ab96fbe4b87ce7e14e2842230786555dae656442",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceec0725_4fcdb698",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-11-21T15:31:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e64db9_1b87356d",
+      "range": {
+        "startLine": 433,
+        "startChar": 32,
+        "endLine": 433,
+        "endChar": 37
       },
       "revId": "ab96fbe4b87ce7e14e2842230786555dae656442",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
