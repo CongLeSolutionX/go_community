@@ -16,6 +16,24 @@
       "message": "nit: more readable?\n\n```suggestion\n\tif goarch.PtrSize \u003d\u003d 8 {\n```",
       "revId": "e1c3b8a4905cecc1c61bdfe8feffe598eaf44933",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "282c1a09_8d8b9d8f",
+        "filename": "src/hash/maphash/maphash_runtime.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-21T20:46:37Z",
+      "side": 1,
+      "message": "Thanks. CL 630795 .",
+      "parentUuid": "3a47cab5_14cd8107",
+      "revId": "e1c3b8a4905cecc1c61bdfe8feffe598eaf44933",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
