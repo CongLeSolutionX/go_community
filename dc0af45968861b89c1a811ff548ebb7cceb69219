@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d5617f8_20cebdc9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-21T16:59:02Z",
+      "side": 1,
+      "message": "Reworked slightly so Comparable computes the hash directly without calling Sum64.",
+      "revId": "dc0af45968861b89c1a811ff548ebb7cceb69219",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
