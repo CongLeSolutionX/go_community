@@ -16,6 +16,23 @@
       "message": "@dneil@google.com I\u0027ve completely redone this CL so it allows using `FullPath` altogether. At the end the Windows rules are not that difficult to implement for relative paths, see the new `rootCleanParts` function.\n\nWould be great if we could land this in Go 1.24, if it looks good to you.",
       "revId": "1da41d9a86f2d00119363cda8b55fab6bd7da935",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fb3601f_a52de73a",
+        "filename": "src/os/root.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-11-21T15:06:05Z",
+      "side": 1,
+      "message": "Comment unrelated to this CL: @dneil@google.com this looks suspicions. If `suffixes` is not empty, then this is not the \"real\" final component from the path.",
+      "revId": "1da41d9a86f2d00119363cda8b55fab6bd7da935",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
