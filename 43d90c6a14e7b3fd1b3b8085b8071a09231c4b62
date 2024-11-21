@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaf81bfe_281ab43b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 49
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5184
+      },
+      "writtenOn": "2024-11-21T17:03:42Z",
+      "side": 1,
+      "message": "It looks like the tests for this are broken on NetBSD and Dragonfly.",
+      "revId": "43d90c6a14e7b3fd1b3b8085b8071a09231c4b62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
