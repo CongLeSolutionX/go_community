@@ -34,6 +34,24 @@
       "parentUuid": "f91d6a51_7f14ee74",
       "revId": "2bbc6a45121e6576554d7f5f1f568c17c4bf67dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce5adf8a_551705b7",
+        "filename": "src/cmd/go/internal/help/help.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 58169
+      },
+      "writtenOn": "2024-11-21T07:02:32Z",
+      "side": 0,
+      "message": "restored them. I thought it\u0027s a trivial change:) thanks for your suggestion.",
+      "parentUuid": "7ac58463_fa0ce271",
+      "revId": "2bbc6a45121e6576554d7f5f1f568c17c4bf67dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
