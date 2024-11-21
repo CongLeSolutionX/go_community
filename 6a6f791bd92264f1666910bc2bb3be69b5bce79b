@@ -281,6 +281,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e4d9c89_4923b249",
+        "filename": "src/crypto/tls/handshake_server_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T20:39:56Z",
+      "side": 1,
+      "message": "We chatted OOB about this and agreed it was OK to file an issue to re-enable and leave skips in place for now: https://github.com/golang/go/issues/70505",
+      "parentUuid": "831293d5_dd70313e",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13bfa805_b0f8790f",
@@ -312,6 +330,24 @@
       "side": 1,
       "message": "I was able to get the first three ECC cases working by switching the ciphersuite and test PKI. \n\nHaving trouble with the RSA cases, getting handshake failure. Left those skipped for the moment.",
       "parentUuid": "13bfa805_b0f8790f",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36698d9b_abf8e89a",
+        "filename": "src/crypto/tls/handshake_server_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T20:39:56Z",
+      "side": 1,
+      "message": "We chatted OOB about this and agreed it was OK to file an issue to re-enable and leave skips in place for now: https://github.com/golang/go/issues/70505",
+      "parentUuid": "b030f537_59f11229",
       "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
