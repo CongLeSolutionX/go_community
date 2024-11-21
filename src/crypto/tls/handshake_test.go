@@ -50,6 +50,9 @@ var (
 )
 
 func runTestAndUpdateIfNeeded(t *testing.T, name string, run func(t *testing.T, update bool), wait bool) {
+	// FIPS mode is non-deterministic and so isn't suited for testing against static test transcripts.
+	skipFIPS(t)
+
 	success := t.Run(name, func(t *testing.T) {
 		if !*update && !wait {
 			t.Parallel()
