@@ -16,6 +16,24 @@
       "message": "I spotted some possible problems.\n\nThese findings are based on simple heuristics. If a finding appears wrong, briefly reply here saying so. Otherwise, please address any problems and update the GitHub PR. When complete, mark this comment as \u0027Done\u0027 and click the [blue \u0027Reply\u0027 button](https://go.dev/wiki/GerritBot#i-left-a-reply-to-a-comment-in-gerrit-but-no-one-but-me-can-see-it) above.\n\nPossible problems detected:\n  1. Lines in the commit message should be wrapped at ~76 characters unless needed for things like URLs or tables. You have a 200 character line.\n\nThe commit title and commit message body come from the GitHub PR title and description, and must be edited in the GitHub web interface (not via git). For instructions, see [here](https://go.dev/wiki/GerritBot/#how-does-gerritbot-determine-the-final-commit-message). For guidelines on commit messages for the Go project, see [here](https://go.dev/doc/contribute#commit_messages).\n\n\n(In general for Gerrit code reviews, the change author is expected to [log in to Gerrit](https://go-review.googlesource.com/login/) with a Gmail or other Google account and then close out each piece of feedback by marking it as \u0027Done\u0027 if implemented as suggested or otherwise reply to each review comment. See the [Review](https://go.dev/doc/contribute#review) section of the Contributing Guide for details.)",
       "revId": "b8c8e500061d0320c6414c32e528d15c26812fad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b159ea6d_f0fea1b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-11-21T19:01:36Z",
+      "side": 1,
+      "message": "Oops, sorry, I thought that was done automatically (GitHub unwrapped the lines automatically). I did the modification on GitHub side. So (hopefully): Done\n\n(PS: I\u0027m using GitHub, because I\u0027m not able to generate a password with my @kernel.org account, not sure why...)",
+      "parentUuid": "2562dfdd_e196eb0c",
+      "revId": "b8c8e500061d0320c6414c32e528d15c26812fad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
