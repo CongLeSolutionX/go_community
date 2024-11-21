@@ -8,7 +8,7 @@ package maphash
 
 import (
 	"internal/abi"
-	"reflect"
+	"internal/goexperiment"
 	"unsafe"
 )
 
@@ -45,17 +45,19 @@ func randUint64() uint64 {
 }
 
 func comparableF[T comparable](h *Hash, v T) {
-	t := abi.TypeFor[T]()
-	// We can only use the raw memory contents for the hash,
-	// if the raw memory contents are used for computing equality.
-	// That works for some types (int),
-	// but not others (float, string, structs with padding, etc.)
-	if t.TFlag&abi.TFlagRegularMemory != 0 {
-		ptr := unsafe.Pointer(&v)
-		l := t.Size()
-		h.Write(unsafe.Slice((*byte)(ptr), l))
+	var m map[T]struct{}
+	mTyp := abi.TypeOf(m)
+	var hasher func(unsafe.Pointer, uintptr) uintptr
+	if goexperiment.SwissMap {
+		hasher = (*abi.SwissMapType)(unsafe.Pointer(mTyp)).Hasher
+	} else {
+		hasher = (*abi.OldMapType)(unsafe.Pointer(mTyp)).Hasher
+	}
+	if unsafe.Sizeof(uintptr(0)) == 8 {
+		h.state.s = uint64(hasher(abi.NoEscape(unsafe.Pointer(&v)), uintptr(h.state.s)))
 		return
 	}
-	vv := reflect.ValueOf(v)
-	appendT(h, vv)
+	lo := hasher(abi.NoEscape(unsafe.Pointer(&v)), uintptr(h.state.s))
+	hi := hasher(abi.NoEscape(unsafe.Pointer(&v)), uintptr(h.state.s>>32))
+	h.state.s = uint64(hi)<<32 | uint64(lo)
 }
