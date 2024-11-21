@@ -54,6 +54,7 @@ func TestCopyright(t *testing.T) {
 			t.Error(err)
 			return nil
 		}
+		f.Close()
 		b := buf[:n]
 		if bytes.Contains(b, copyright) {
 			return nil
