@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a47cab5_14cd8107",
+        "filename": "src/hash/maphash/maphash_runtime.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-11-21T19:32:19Z",
+      "side": 1,
+      "message": "nit: more readable?\n\n```suggestion\n\tif goarch.PtrSize \u003d\u003d 8 {\n```",
+      "revId": "e1c3b8a4905cecc1c61bdfe8feffe598eaf44933",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
