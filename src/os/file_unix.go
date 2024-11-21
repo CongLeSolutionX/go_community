@@ -54,7 +54,7 @@ func rename(oldname, newname string) error {
 
 // file is the real representation of *File.
 // The extra level of indirection ensures that no clients of os
-// can overwrite this data, which could cause the finalizer
+// can overwrite this data, which could cause the cleanup
 // to close the wrong file descriptor.
 type file struct {
 	pfd         poll.FD
@@ -63,17 +63,18 @@ type file struct {
 	nonblock    bool                    // whether we set nonblocking mode
 	stdoutOrErr bool                    // whether this is stdout or stderr
 	appendMode  bool                    // whether file is opened for appending
+	cleanup     runtime.Cleanup         // cleanup for closing the file
 }
 
 // Fd returns the integer Unix file descriptor referencing the open file.
 // If f is closed, the file descriptor becomes invalid.
-// If f is garbage collected, a finalizer may close the file descriptor,
-// making it invalid; see [runtime.SetFinalizer] for more information on when
-// a finalizer might be run. On Unix systems this will cause the [File.SetDeadline]
+// If f is garbage collected, a cleanup may close the file descriptor,
+// making it invalid; see [runtime.AddCleanup] for more information on when
+// a cleanup might be run. On Unix systems this will cause the [File.SetDeadline]
 // methods to stop working.
 // Because file descriptors can be reused, the returned file descriptor may
-// only be closed through the [File.Close] method of f, or by its finalizer during
-// garbage collection. Otherwise, during garbage collection the finalizer
+// only be closed through the [File.Close] method of f, or by its cleanup during
+// garbage collection. Otherwise, during garbage collection the cleanup
 // may close an unrelated file descriptor with the same (reused) number.
 //
 // As an alternative, see the f.SyscallConn method.
@@ -168,6 +169,7 @@ func newFile(fd int, name string, kind newFileKind, nonBlocking bool) *File {
 		},
 		name:        name,
 		stdoutOrErr: fd == 1 || fd == 2,
+		cleanup:     runtime.Cleanup{},
 	}}
 
 	pollable := kind == kindOpenFile || kind == kindPipe || kind == kindSock || nonBlocking
@@ -240,7 +242,8 @@ func newFile(fd int, name string, kind newFileKind, nonBlocking bool) *File {
 		}
 	}
 
-	runtime.SetFinalizer(f.file, (*file).close)
+	// Close the file when the File is not live.
+	f.cleanup = runtime.AddCleanup(f, func(f *file) { f.close() }, f.file)
 	return f
 }
 
@@ -337,8 +340,8 @@ func (file *file) close() error {
 		err = &PathError{Op: "close", Path: file.name, Err: e}
 	}
 
-	// no need for a finalizer anymore
-	runtime.SetFinalizer(file, nil)
+	// no need for a cleanup anymore
+	file.cleanup.Stop()
 	return err
 }
 
