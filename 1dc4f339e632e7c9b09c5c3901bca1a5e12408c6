@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea5fecb5_da80c024",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-11-21T14:59:02Z",
+      "side": 1,
+      "message": "Note that paths with forward slashes but without dot/dotdot components won\u0027t call `FullPath`, they will only get the forward slash replaced by a back slash, which only means an additional allocation.",
+      "parentUuid": "8552cbc4_9430b068",
+      "revId": "1dc4f339e632e7c9b09c5c3901bca1a5e12408c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "859ecea5_8a51d34b",
