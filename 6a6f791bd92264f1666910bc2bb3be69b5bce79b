@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd295a97_bb9aa151",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T09:56:44Z",
+      "side": 1,
+      "message": "I think neither of those are necessary to test resumption.",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f583d81_48ed36bd",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1562,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T09:56:44Z",
+      "side": 1,
+      "message": "This is a pretty important test, worth changing the cert if there are no other blockers.",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22b56226_6c1cca93",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1786,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T09:56:44Z",
+      "side": 1,
+      "message": "Ditto.",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7915eba8_60b73cae",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2374,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T09:56:44Z",
+      "side": 1,
+      "message": "i \u003d\u003d 1 should be checked by looking at the actual MaxVersion. i \u003d\u003d 3 sounds fixable.",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c08a9145_a7d1bf72",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2543,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T09:56:44Z",
+      "side": 1,
+      "message": "Sounds fixable. This is all certificate-related behavior that I could conceivably see getting broken by a FIPS behavior, so we should try to keep them.",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abf4def0_858ffefb",
+        "filename": "src/crypto/tls/handshake_server_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T09:56:44Z",
+      "side": 1,
+      "message": "This one shouldn\u0027t depend on the cipher suite, I think.",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13bfa805_b0f8790f",
+        "filename": "src/crypto/tls/handshake_server_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T09:56:44Z",
+      "side": 1,
+      "message": "This also should be doable with different cipher suites.",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fb99aa2_94475157",
+        "filename": "src/crypto/tls/handshake_server_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T09:56:44Z",
+      "side": 1,
+      "message": "Use P-384 instead, and an AES cipher suite.",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
