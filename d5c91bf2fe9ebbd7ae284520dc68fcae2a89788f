@@ -98,6 +98,24 @@
       "parentUuid": "6f1670ff_a649d769",
       "revId": "d5c91bf2fe9ebbd7ae284520dc68fcae2a89788f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95ac2b2f_a57f44eb",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-21T14:31:26Z",
+      "side": 1,
+      "message": "Looking at this more closely, I see that the longtest builders have been running vet on the vendor code. I suppose that\u0027s fine to continue, so I\u0027ve changed the CL to keep doing that.",
+      "parentUuid": "41ee48bd_bf1701de",
+      "revId": "d5c91bf2fe9ebbd7ae284520dc68fcae2a89788f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
