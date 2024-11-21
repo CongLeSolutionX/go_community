@@ -171,6 +171,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4659447b_711e3624",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1398,
+      "author": {
+        "id": 7805
+      },
+      "writtenOn": "2024-11-21T22:50:44Z",
+      "side": 1,
+      "message": "\u003e goes down the chain and rejects chains that enabled the extensions?\n\nDepends on what you mean by \"the extensions\". EV certificates are specified with certificate policies (😭), so it\u0027s almost certainly the case that Go users rely on Go tolerating non-critical certificatePolicies today.\n\nHowever, I *think* it\u0027s the case that the only extension that can (short of syntax errors) cause path validation to fail is policy constraints, specifically requireExplicitPolicy. So if you fail validation if you see requireExplicitPolicy in the chain, that might work. Except...\n\n\u003e we wouldn\u0027t break any currently-verifying chains\n\nMost. *If* there were some chain that set a non-critical policy constraints, Go would previously accept it. That change would start rejecting it, even if it would have been valid if you did policy validation.\n\nNow, why you would ever set a constraining extension and mark it non-critical, I have no idea. But honestly I also have no idea why you would even use this extension, or any of the features in this horrible mechanism. 😊\n\nThe good news is RFC 5280 *does* say:\n\n\u003e Conforming CAs MUST mark this extension as critical.\n\nThat doesn\u0027t guarantee that everyone actually follows this, but perhaps that\u0027s enough to go on?",
+      "parentUuid": "5214a876_4891c431",
+      "range": {
+        "startLine": 1398,
+        "startChar": 23,
+        "endLine": 1398,
+        "endChar": 58
+      },
+      "revId": "d9b220a9209048f45395a4f5d6f7b6b852511bc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6bcd43ad_0719399e",
