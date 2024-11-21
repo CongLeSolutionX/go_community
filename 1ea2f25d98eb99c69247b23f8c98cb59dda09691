@@ -1,0 +1,56 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4fe54ac_844bc395",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-21T17:48:39Z",
+      "side": 1,
+      "message": "I believe part can end with any number of separators (but only when the last component): `part/////`.\n\nPerhaps rootCleanParts should start by stripping off any trailing path separators from the last part, and then reattach them (or just one?) after cleaning.\n\nA couple additions to rootConsistencyTestCases that exercise these paths:\n\n```\n}, {\n        name: \"dot slashslash\",\n        fs: []string{\n                \"a\",\n        },\n        open: \"a/.//\",\n}, {\n        name: \"dotdot slashslash\",\n        fs: []string{\n                \"a/b/\",\n        },\n        open: \"a/b/..\",\n}, {\n```",
+      "revId": "1ea2f25d98eb99c69247b23f8c98cb59dda09691",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17326afe_c7f8b83d",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-21T17:48:39Z",
+      "side": 1,
+      "message": "Here, too: part might end with a path separator.",
+      "fixSuggestions": [
+        {
+          "fixId": "a572fe1b_df26e78a",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/os/root_windows.go",
+              "range": {
+                "startLine": 30,
+                "startChar": 0,
+                "endLine": 31,
+                "endChar": 0
+              },
+              "replacement": "\t\tcase part \u003d\u003d \"..\" || part \u003d\u003d \"..\\\\\" || part \u003d\u003d \"../\":\n"
+            }
+          ]
+        }
+      ],
+      "revId": "1ea2f25d98eb99c69247b23f8c98cb59dda09691",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
