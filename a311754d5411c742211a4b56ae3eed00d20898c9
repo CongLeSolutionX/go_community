@@ -16,6 +16,24 @@
       "message": "I understand you\u0027ve considered the possibility of keeping this on builders, and dropping this only when GO_BUILDER_NAME \u003d\u003d \"\", but decided to apply this change to builders too.",
       "revId": "a311754d5411c742211a4b56ae3eed00d20898c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afd8748d_3b16bca0",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-21T14:15:50Z",
+      "side": 0,
+      "message": "Yes, in general I want my all.bash to be as much like the builder as possible. Running vet locally is a reasonable expense.",
+      "parentUuid": "2cbfa1cc_b4a9e1c1",
+      "revId": "a311754d5411c742211a4b56ae3eed00d20898c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
