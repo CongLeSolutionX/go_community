@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc546713_faa296ee",
+        "filename": "src/crypto/tls/auth_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T01:13:02Z",
+      "side": 1,
+      "message": "🤦 Argh, good catch. Fixed in patch set 7. Thanks!",
+      "parentUuid": "c9e449e2_f8b874af",
+      "revId": "31ea5e50dec91af23a1bf2df7d11d724e43eba38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42d6b922_b54d0e98",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-11-20T22:14:51Z",
       "side": 1,
       "message": "```suggestion\n\tskipFips(t) // No CBC cipher suites in defaultCipherSuitesFIPS.\n```",
+      "revId": "31ea5e50dec91af23a1bf2df7d11d724e43eba38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7a790e5_98bb274d",
+        "filename": "src/crypto/tls/conn_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T01:13:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42d6b922_b54d0e98",
       "revId": "31ea5e50dec91af23a1bf2df7d11d724e43eba38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6542a626_71daf8a4",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T01:13:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24e97c3b_cbec76d8",
+      "revId": "31ea5e50dec91af23a1bf2df7d11d724e43eba38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ae2e1f7_db99df57",
@@ -65,6 +119,24 @@
       "writtenOn": "2024-11-20T22:14:51Z",
       "side": 1,
       "message": "testName is nearly always \"fipstls\", you can just fix it, and make it fips140tls while at it.",
+      "revId": "31ea5e50dec91af23a1bf2df7d11d724e43eba38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdeaf4b5_8bd3fd9e",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T01:13:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ae2e1f7_db99df57",
       "revId": "31ea5e50dec91af23a1bf2df7d11d724e43eba38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +158,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4da27bc1_44b04c06",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T01:13:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dac3ecc3_e6528ef9",
+      "revId": "31ea5e50dec91af23a1bf2df7d11d724e43eba38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "824a84be_74522657",
@@ -99,6 +189,24 @@
       "writtenOn": "2024-11-20T22:14:51Z",
       "side": 1,
       "message": "```suggestion\nfunc skipFIPS(t *testing.T) {\n```",
+      "revId": "31ea5e50dec91af23a1bf2df7d11d724e43eba38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d823232_c9f331ac",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T01:13:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "824a84be_74522657",
       "revId": "31ea5e50dec91af23a1bf2df7d11d724e43eba38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
