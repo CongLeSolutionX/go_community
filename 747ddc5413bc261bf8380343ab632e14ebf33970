@@ -16,6 +16,29 @@
       "message": "Please add some testcase， Thanks.",
       "revId": "747ddc5413bc261bf8380343ab632e14ebf33970",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eeb3f0f4_0e90a19d",
+        "filename": "src/cmd/internal/obj/loong64/asm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2315,
+      "author": {
+        "id": 59718
+      },
+      "writtenOn": "2024-11-21T08:12:08Z",
+      "side": 1,
+      "message": "This type of immediate value has been matched in case 4 and case 10 above, so the processing here seems redundant. Please confirm.",
+      "range": {
+        "startLine": 2315,
+        "startChar": 2,
+        "endLine": 2315,
+        "endChar": 18
+      },
+      "revId": "747ddc5413bc261bf8380343ab632e14ebf33970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
