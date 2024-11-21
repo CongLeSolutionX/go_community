@@ -16,6 +16,24 @@
       "message": "See https://go-review.googlesource.com/c/go/+/629176/comment/75cc1575_4374cf3d/",
       "revId": "a311754d5411c742211a4b56ae3eed00d20898c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d036c47_bd8914fc",
+        "filename": "doc/next/6-stdlib/99-minor/crypto/pbkdf2/69488.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T16:50:01Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "daef0ec1_cfbb0a60",
+      "revId": "a311754d5411c742211a4b56ae3eed00d20898c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
