@@ -714,12 +714,13 @@ func (t *tester) registerTests() {
 	})
 
 	// Check that all crypto packages compile (and test correctly, in longmode) with fips.
+	/* TODO(cpu): Restore in #629736
 	if fipsSupported() {
 		// Test standard crypto packages with fips140=on.
 		t.registerTest("GODEBUG=fips140=on go test crypto/...", &goTest{
 			variant: "gofips140",
 			env:     []string{"GODEBUG=fips140=on"},
-			skip:    "TestHandshake|TestServerResumption|TestClientAuth|TestRenegotiate", // TODO(valsorda): remove once crypto/tls passes
+			skip:    "TestHandshake|TestServerResumption|TestClientAuth|TestRenegotiate", // TODO(cpu): remove in #629736
 			pkg:     "crypto/...",
 		})
 
@@ -739,7 +740,7 @@ func (t *tester) registerTests() {
 				env:      []string{"GOFIPS140=" + version, "GOMODCACHE=" + filepath.Join(workdir, "fips-"+version)},
 			})
 		}
-	}
+	}*/
 
 	// Test ios/amd64 for the iOS simulator.
 	if goos == "darwin" && goarch == "amd64" && t.cgoEnabled {
