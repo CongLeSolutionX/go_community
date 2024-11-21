@@ -33,6 +33,24 @@
       "message": "I think this will set the indicator to false if password is shorter than 112 bits. Unless that\u0027s correct, you\u0027ll need something like hmac.MarkAsUsedInHKDF. Also a test for the indicator.",
       "revId": "8a65ed05b609b7d6a2fd69a288b4167d8c820eef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53ee41f1_d0fb3d34",
+        "filename": "src/crypto/internal/fips/pbkdf2/pbkdf2.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T17:10:14Z",
+      "side": 1,
+      "message": "AFAIK there\u0027s no requirement on the password. I\u0027ve added the hmac.MarkAsUnusedInHKDF and added a test for the indicator.",
+      "parentUuid": "b29959a2_49d048cd",
+      "revId": "8a65ed05b609b7d6a2fd69a288b4167d8c820eef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
