@@ -34,6 +34,24 @@
       "parentUuid": "2d0435fd_2978784c",
       "revId": "7104d95c351281a306ebf251d3176cb622d9ab6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29964533_366a2c40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-21T22:03:38Z",
+      "side": 1,
+      "message": "Ah, but not after I rebuilt the compiler.  Not sure why that mattered, but OK.  Abandoning.",
+      "parentUuid": "bc8f4c91_a8e607c7",
+      "revId": "7104d95c351281a306ebf251d3176cb622d9ab6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
