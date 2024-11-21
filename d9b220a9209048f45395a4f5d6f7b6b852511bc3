@@ -147,6 +147,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5214a876_4891c431",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1398,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T22:36:09Z",
+      "side": 1,
+      "message": "Messing with critical extensions is indeed scary, but disabling policy validation unless requested is *very* appealing.\n\nHow hard would it be to have a `len(opts.CertificatePolicies) \u003d\u003d 0` code path that just goes down the chain and rejects chains that enabled the extensions? We would be honoring the critical extensions (in some way), we wouldn\u0027t break any currently-verifying chains, we can always remove it later, and it\u0027s somewhat coherent to explain: chains with these extensions are only supported if CertificatePolicies is set.",
+      "parentUuid": "dc0615f8_f455ad0f",
+      "range": {
+        "startLine": 1398,
+        "startChar": 23,
+        "endLine": 1398,
+        "endChar": 58
+      },
+      "revId": "d9b220a9209048f45395a4f5d6f7b6b852511bc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6bcd43ad_0719399e",
@@ -201,6 +225,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2610d8f8_ea3be336",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1492,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T22:36:09Z",
+      "side": 1,
+      "message": "Can we add a test for this?",
+      "parentUuid": "99599a09_7d79b369",
+      "revId": "d9b220a9209048f45395a4f5d6f7b6b852511bc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4e7ba642_c040e46c",
         "filename": "src/crypto/x509/verify.go",
         "patchSetId": 14
@@ -230,6 +272,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "4e7ba642_c040e46c",
+      "revId": "d9b220a9209048f45395a4f5d6f7b6b852511bc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c9fa5b6_33d270e7",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1515,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T22:36:09Z",
+      "side": 1,
+      "message": "Can we add a test for this?",
+      "parentUuid": "22130a09_1a5165de",
       "revId": "d9b220a9209048f45395a4f5d6f7b6b852511bc3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

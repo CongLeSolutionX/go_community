@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebd02714_bf601615",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T22:36:09Z",
+      "side": 1,
+      "message": "I am not going to pretend I understand what the algorithm is *meant* to do in some places, but I reviewed the structure, and especially changes since PS14, and this doesn\u0027t look any more unreasonable than expected.\n\nLGTM after marshalers(?) and maybe attempting to disable it by default.",
+      "revId": "fe08ffed544bbbc614db47701c66dffb7fcf9ae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b550b935_918032f3",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T22:36:09Z",
+      "side": 1,
+      "message": "Should you be checking for overflow?",
+      "revId": "fe08ffed544bbbc614db47701c66dffb7fcf9ae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7526dc66_fde2906e",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T22:36:09Z",
+      "side": 1,
+      "message": "Ditto.",
+      "revId": "fe08ffed544bbbc614db47701c66dffb7fcf9ae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15b86f75_6c38e7a5",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T22:36:09Z",
+      "side": 1,
+      "message": "```suggestion\n\tparents  map[*policyGraphNode]struct{}\n\tchildren map[*policyGraphNode]struct{}\n```",
+      "range": {
+        "startLine": 1259,
+        "startChar": 0,
+        "endLine": 1260,
+        "endChar": 35
+      },
+      "revId": "fe08ffed544bbbc614db47701c66dffb7fcf9ae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6098c108_25846618",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 1473,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T22:36:09Z",
+      "side": 1,
+      "message": "i has the opposite meaning compared to the spec, right? Might be worth mentioning if not fixing.",
+      "range": {
+        "startLine": 1473,
+        "startChar": 70,
+        "endLine": 1473,
+        "endChar": 77
+      },
+      "revId": "fe08ffed544bbbc614db47701c66dffb7fcf9ae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b40fcfc0_e407e8e5",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T22:36:09Z",
+      "side": 1,
+      "message": "Is generation for these extensions implemented (and tested)? I would have expected it in this file in buildCertExtensions.",
+      "revId": "fe08ffed544bbbc614db47701c66dffb7fcf9ae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
