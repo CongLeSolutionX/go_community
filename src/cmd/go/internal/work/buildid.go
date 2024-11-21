@@ -771,6 +771,7 @@ func (b *Builder) updateBuildID(a *Action, target string) error {
 				name = path.Base(a.Package.ImportPath)
 			}
 			outputID, _, err := c.PutExecutable(a.actionID, name+cfg.ExeSuffix, r)
+			a.Target = c.OutputFile(outputID)
 			r.Close()
 			if err == nil && cfg.BuildX {
 				sh.ShowCmd("", "%s # internal", joinUnambiguously(str.StringList("cp", target, c.OutputFile(outputID))))
