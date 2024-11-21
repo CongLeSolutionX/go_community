@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "504c9eed_517f57ed",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T19:54:15Z",
+      "side": 1,
+      "message": "Agreed, but after switching the ciphersuites/PKI i\u0027m getting a weird no matching ciphersuites error for TLS 1.2 that I haven\u0027t been able to figure out yet. Suspect it\u0027s something small and I\u0027m missing it in my frazzled state.",
+      "parentUuid": "cd295a97_bb9aa151",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5f583d81_48ed36bd",
         "filename": "src/crypto/tls/handshake_client_test.go",
         "patchSetId": 7
@@ -65,6 +83,24 @@
       "writtenOn": "2024-11-21T09:56:44Z",
       "side": 1,
       "message": "This is a pretty important test, worth changing the cert if there are no other blockers.",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b70272a1_aea79433",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1562,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T19:54:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f583d81_48ed36bd",
       "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +122,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98bcc6ab_3c4a71fd",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1786,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T19:54:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22b56226_6c1cca93",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7915eba8_60b73cae",
@@ -103,6 +157,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b7ccd64_5c752bff",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2374,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T19:54:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7915eba8_60b73cae",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c08a9145_a7d1bf72",
@@ -116,6 +188,24 @@
       "writtenOn": "2024-11-21T09:56:44Z",
       "side": 1,
       "message": "Sounds fixable. This is all certificate-related behavior that I could conceivably see getting broken by a FIPS behavior, so we should try to keep them.",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e175eef_2b3cb557",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2543,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T19:54:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c08a9145_a7d1bf72",
       "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -139,6 +229,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "831293d5_dd70313e",
+        "filename": "src/crypto/tls/handshake_server_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T19:54:15Z",
+      "side": 1,
+      "message": "Agreed, this one should have been described as constrained by needing acceptable test certs.\n\nHowever, after switching the ciphersuite and PKI I\u0027m getting an error about the server returning a short message. Haven\u0027t been able to spot the underlying issue yet.",
+      "parentUuid": "abf4def0_858ffefb",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "13bfa805_b0f8790f",
         "filename": "src/crypto/tls/handshake_server_test.go",
         "patchSetId": 7
@@ -156,6 +264,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b030f537_59f11229",
+        "filename": "src/crypto/tls/handshake_server_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T19:54:15Z",
+      "side": 1,
+      "message": "I was able to get the first three ECC cases working by switching the ciphersuite and test PKI. \n\nHaving trouble with the RSA cases, getting handshake failure. Left those skipped for the moment.",
+      "parentUuid": "13bfa805_b0f8790f",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0fb99aa2_94475157",
         "filename": "src/crypto/tls/handshake_server_test.go",
         "patchSetId": 7
@@ -167,6 +293,24 @@
       "writtenOn": "2024-11-21T09:56:44Z",
       "side": 1,
       "message": "Use P-384 instead, and an AES cipher suite.",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dba3db0a_f4b448c2",
+        "filename": "src/crypto/tls/handshake_server_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T19:54:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fb99aa2_94475157",
       "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
