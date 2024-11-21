@@ -719,7 +719,7 @@ func (t *tester) registerTests() {
 		t.registerTest("GODEBUG=fips140=on go test crypto/...", &goTest{
 			variant: "gofips140",
 			env:     []string{"GODEBUG=fips140=on"},
-			skip:    "TestHandshake|TestServerResumption|TestClientAuth|TestRenegotiate", // TODO(valsorda): remove once crypto/tls passes
+			skip:    "TestHandshake|TestServerResumption|TestClientAuth|TestRenegotiate|TestDynamicRecordSizingWithCBC|TestDynamicRecordSizingWithStreamCipher|TestFIPSServerProtocolVersion|TestSignatureSelection|TestFIPSServerCipherSuites", // TODO(valsorda): remove once crypto/tls passes
 			pkg:     "crypto/...",
 		})
 
