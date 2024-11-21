@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e57f615_e3747647",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T14:36:54Z",
+      "side": 1,
+      "message": "With this CL, reactivate the crypto/tls tests in FIPS mode, see https://go-review.googlesource.com/c/go/+/630116/comment/29a53102_d4f7edce/.",
+      "revId": "6a6f791bd92264f1666910bc2bb3be69b5bce79b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cd295a97_bb9aa151",
         "filename": "src/crypto/tls/handshake_client_test.go",
         "patchSetId": 7
