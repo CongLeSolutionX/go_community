@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7b85ae7_bd71923c",
+        "filename": "src/crypto/internal/fips140test/pbkdf2_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-21T21:11:50Z",
+      "side": 1,
+      "message": "Empty file to delete.",
+      "revId": "b152e3458592c73f19e5484d5a21a79edc095639",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
