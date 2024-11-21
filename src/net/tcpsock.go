@@ -314,7 +314,7 @@ func newTCPConn(fd *netFD, keepAliveIdle time.Duration, keepAliveCfg KeepAliveCo
 // If laddr is nil, a local address is automatically chosen.
 // If the IP field of raddr is nil or an unspecified IP address, the
 // local system is assumed.
-func DialTCP(network string, laddr, raddr *TCPAddr) (*TCPConn, error) {
+func DialTCP(network string, laddr, raddr *TCPAddr) (c *TCPConn, err error) {
 	switch network {
 	case "tcp", "tcp4", "tcp6":
 	default:
@@ -324,7 +324,11 @@ func DialTCP(network string, laddr, raddr *TCPAddr) (*TCPConn, error) {
 		return nil, &OpError{Op: "dial", Net: network, Source: laddr.opAddr(), Addr: nil, Err: errMissingAddress}
 	}
 	sd := &sysDialer{network: network, address: raddr.String()}
-	c, err := sd.dialTCP(context.Background(), laddr, raddr)
+	if sd.MultipathTCP() {
+		c, err = sd.dialMPTCP(context.Background(), laddr, raddr)
+	} else {
+		c, err = sd.dialTCP(context.Background(), laddr, raddr)
+	}
 	if err != nil {
 		return nil, &OpError{Op: "dial", Net: network, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: err}
 	}
@@ -429,7 +433,7 @@ func (l *TCPListener) File() (f *os.File, err error) {
 // of the local system.
 // If the Port field of laddr is 0, a port number is automatically
 // chosen.
-func ListenTCP(network string, laddr *TCPAddr) (*TCPListener, error) {
+func ListenTCP(network string, laddr *TCPAddr) (ln *TCPListener, err error) {
 	switch network {
 	case "tcp", "tcp4", "tcp6":
 	default:
@@ -439,7 +443,11 @@ func ListenTCP(network string, laddr *TCPAddr) (*TCPListener, error) {
 		laddr = &TCPAddr{}
 	}
 	sl := &sysListener{network: network, address: laddr.String()}
-	ln, err := sl.listenTCP(context.Background(), laddr)
+	if sl.MultipathTCP() {
+		ln, err = sl.listenMPTCP(context.Background(), laddr)
+	} else {
+		ln, err = sl.listenTCP(context.Background(), laddr)
+	}
 	if err != nil {
 		return nil, &OpError{Op: "listen", Net: network, Source: nil, Addr: laddr.opAddr(), Err: err}
 	}
