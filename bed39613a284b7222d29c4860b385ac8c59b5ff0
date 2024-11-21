@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1802c3a3_73ddaab2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-11-21T13:25:11Z",
+      "side": 1,
+      "message": "About a month ago I offered to update riscv-opcodes to add CSR support to inst.go and send a link to the riscv-opcode changes for review before sending the PR.  Here are the changes.  I\u0027ve made two.\n\nhttps://github.com/markdryan/riscv-opcodes/commit/7b76fb24efed13db53ca0e97b449e353adca8bce\n\nhttps://github.com/markdryan/riscv-opcodes/commit/fe5951bd6b15c8340b32c932bf35d2edb1bb69c0\n\nThe first fixes a bug in go_util.py and is unrelated to CSRs.  Currently, once inst.go has been generated go_util.py tries to format the generated file.  This attempt always fails and the error is ignored, resulting in an unformatted file.  Thought it was best to fix this although it\u0027s not exactly an elegant solution.  Let me know if you see a better way of doing this.\n\nThe second commit adds the CSR map.  I\u0027ve added a map of CSR values to CSR names.  There\u0027s no map of CSR names to CSR values as I think we\u0027ll want to generate this on the fly in the assembler (see other patch).  I\u0027ve chosen to use uint16s for the csr values (which cannot be greater than 4095) in an attempt to save space.\n\nAs it\u0027s hard to really review this patch in isolation without considering how the new map will be used inside the assembler, I\u0027ve also added a draft patch that adds support for CSRRS and CSRRSI.  Please see the related patch ( https://go-review.googlesource.com/c/go/+/630519 ).  I will also comment on this patch.",
+      "revId": "bed39613a284b7222d29c4860b385ac8c59b5ff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
