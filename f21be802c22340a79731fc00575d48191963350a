@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61136426_eb806e56",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T18:41:41Z",
+      "side": 1,
+      "message": "See https://go-review.googlesource.com/c/go/+/629736",
+      "revId": "f21be802c22340a79731fc00575d48191963350a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
