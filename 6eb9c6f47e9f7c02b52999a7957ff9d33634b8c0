@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "833b4dca_b2273584",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-11-21T16:57:55Z",
+      "side": 1,
+      "message": "I agree, probably continuing unconditionally is the right thing to do.\n\n\u003e This code also rely on the order of the values, and the compiler behaves differently when compile with or w/o -gcflags\u003d-d\u003dssa/check/on, as I described in issue 70409.\n\nI think if we fixed the continue this would be ok. Which representative LocalAddr is chosen doesn\u0027t matter, so that part is fine.",
+      "parentUuid": "faf5238d_62f115fd",
+      "revId": "6eb9c6f47e9f7c02b52999a7957ff9d33634b8c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9cb049c0_c1d72e83",
