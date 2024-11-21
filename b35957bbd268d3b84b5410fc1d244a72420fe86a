@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96fe5e33_e5b1279a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-21T15:46:44Z",
+      "side": 1,
+      "message": "Consider adding \u0027For #60463.\u0027 here so that this change shows up in the timeline of that issue.",
+      "revId": "b35957bbd268d3b84b5410fc1d244a72420fe86a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4d5e8d3_2546efed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-21T15:46:44Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "b35957bbd268d3b84b5410fc1d244a72420fe86a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
