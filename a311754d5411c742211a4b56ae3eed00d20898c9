@@ -34,6 +34,24 @@
       "parentUuid": "daef0ec1_cfbb0a60",
       "revId": "a311754d5411c742211a4b56ae3eed00d20898c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "684c8fc3_2f0af9f4",
+        "filename": "doc/next/6-stdlib/99-minor/crypto/pbkdf2/69488.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-21T17:25:00Z",
+      "side": 0,
+      "message": "I\u0027m not sure how to square this advice with the test failure in CI:\n\n```\n--- FAIL: TestCheckAPIFragments (0.02s)\n    relnote_test.go:31: checking release notes for 18 files in api/next\n    relnote_test.go:36: api/next/69488.txt: doc/next/6-stdlib/99-minor/crypto/pbkdf2/69488.md: File does not exist. Every API change must have a corresponding release note file.\n```",
+      "parentUuid": "2d036c47_bd8914fc",
+      "revId": "a311754d5411c742211a4b56ae3eed00d20898c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
