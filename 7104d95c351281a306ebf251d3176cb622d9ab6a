@@ -52,6 +52,23 @@
       "parentUuid": "bc8f4c91_a8e607c7",
       "revId": "7104d95c351281a306ebf251d3176cb622d9ab6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a5a24d7_72aa0e9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2024-11-22T10:14:22Z",
+      "side": 1,
+      "message": "Hi， Can this CL be restored?\nOn loong64, because the optimization is not as good as ARM64, AMD64 and other architectures, more stacks are needed. Can this CL temporarily ignore this test on loong64, arm, and ppc64, and enable this test case after we do more optimization in the future.",
+      "revId": "7104d95c351281a306ebf251d3176cb622d9ab6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
