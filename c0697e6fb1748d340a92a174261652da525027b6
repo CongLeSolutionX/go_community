@@ -63,6 +63,30 @@
       },
       "revId": "c0697e6fb1748d340a92a174261652da525027b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6749d445_9cb40328",
+        "filename": "src/cmd/internal/obj/fips140.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-22T14:15:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "effee4b7_ea541f3a",
+      "range": {
+        "startLine": 247,
+        "startChar": 28,
+        "endLine": 247,
+        "endChar": 35
+      },
+      "revId": "c0697e6fb1748d340a92a174261652da525027b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
