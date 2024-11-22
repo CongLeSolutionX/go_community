@@ -16,6 +16,24 @@
       "message": "Fine to do in a followup doc CL later, just noting here what https://go.dev/doc/comment#package says:\n\n\u003e Every package should have a package comment ...",
       "revId": "6bd857fc3611944f80fdbd2b513d89c0e3dbdf1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dad1b3ba_1fd88293",
+        "filename": "src/crypto/fips140/fips140.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-11-22T03:08:45Z",
+      "side": 1,
+      "message": "Yeah we need to decide a bit holistically how the FIPS 140 documentation will look like, where it will live, and what other places point to the main one.",
+      "parentUuid": "83ef1a87_7b5e575b",
+      "revId": "6bd857fc3611944f80fdbd2b513d89c0e3dbdf1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
