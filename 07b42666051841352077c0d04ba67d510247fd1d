@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cf57d20_27bed273",
+        "filename": "src/crypto/sha1/sha1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 26879
+      },
+      "writtenOn": "2024-11-22T03:39:21Z",
+      "side": 0,
+      "message": "Good catch 👍",
+      "revId": "07b42666051841352077c0d04ba67d510247fd1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
