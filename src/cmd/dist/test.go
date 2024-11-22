@@ -714,7 +714,9 @@ func (t *tester) registerTests() {
 	})
 
 	// Check that all crypto packages compile (and test correctly, in longmode) with fips.
-	if t.fipsSupported() {
+	// Skip for ASAN builds - the FIPS module can't self-verify in this build mode so FIPS
+	// cryptography will panic.
+	if t.fipsSupported() && !t.asan {
 		// Test standard crypto packages with fips140=on.
 		t.registerTest("GODEBUG=fips140=on go test crypto/...", &goTest{
 			variant: "gofips140",
