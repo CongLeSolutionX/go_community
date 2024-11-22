@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2150b94e_500e94d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-11-22T02:22:10Z",
+      "side": 1,
+      "message": "Obviously no rush on this once, but it\u0027s simple and cleans up the code nicely.",
+      "revId": "8424f77a0a72079a19611cbb9fae368be0d42d61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
