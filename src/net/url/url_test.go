@@ -1307,10 +1307,10 @@ func TestResolveReference(t *testing.T) {
 }
 
 func TestQueryValues(t *testing.T) {
-	u, _ := Parse("http://x.com?foo=bar&bar=1&bar=2&baz")
+	u, _ := Parse("http://x.com?foo=bar&bar=1&bar=2&baz&a=b;c")
 	v := u.Query()
-	if len(v) != 3 {
-		t.Errorf("got %d keys in Query values, want 3", len(v))
+	if len(v) != 4 {
+		t.Errorf("got %d keys in Query values, want 4", len(v))
 	}
 	if g, e := v.Get("foo"), "bar"; g != e {
 		t.Errorf("Get(foo) = %q, want %q", g, e)
@@ -1324,6 +1324,9 @@ func TestQueryValues(t *testing.T) {
 	}
 	if g, e := v.Get("baz"), ""; g != e {
 		t.Errorf("Get(baz) = %q, want %q", g, e)
+	}
+	if g, e := v.Get("a"), "b;c"; g != e {
+		t.Errorf("Get(a) = %q, want %q", g, e)
 	}
 	if h, e := v.Has("foo"), true; h != e {
 		t.Errorf("Has(foo) = %t, want %t", h, e)
@@ -1371,12 +1374,12 @@ var parseTests = []parseTest{
 		ok:    true,
 	}, {
 		query: "a=1;b=2",
-		out:   Values{},
-		ok:    false,
+		out:   Values{"a": []string{"1;b=2"}},
+		ok:    true,
 	}, {
 		query: "a;b=1",
-		out:   Values{},
-		ok:    false,
+		out:   Values{"a;b": []string{"1"}},
+		ok:    true,
 	}, {
 		query: "a=%3B", // hex encoding for semicolon
 		out:   Values{"a": []string{";"}},
@@ -1389,48 +1392,48 @@ var parseTests = []parseTest{
 	},
 	{
 		query: "a=1&a=2;a=banana",
-		out:   Values{"a": []string{"1"}},
-		ok:    false,
+		out:   Values{"a": []string{"1", "2;a=banana"}},
+		ok:    true,
 	},
 	{
 		query: "a;b&c=1",
-		out:   Values{"c": []string{"1"}},
-		ok:    false,
+		out:   Values{"a;b": []string{""}, "c": []string{"1"}},
+		ok:    true,
 	},
 	{
 		query: "a=1&b=2;a=3&c=4",
-		out:   Values{"a": []string{"1"}, "c": []string{"4"}},
-		ok:    false,
+		out:   Values{"a": []string{"1"}, "b": []string{"2;a=3"}, "c": []string{"4"}},
+		ok:    true,
 	},
 	{
 		query: "a=1&b=2;c=3",
-		out:   Values{"a": []string{"1"}},
-		ok:    false,
+		out:   Values{"a": []string{"1"}, "b": []string{"2;c=3"}},
+		ok:    true,
 	},
 	{
 		query: ";",
-		out:   Values{},
-		ok:    false,
+		out:   Values{";": []string{""}},
+		ok:    true,
 	},
 	{
 		query: "a=1;",
-		out:   Values{},
-		ok:    false,
+		out:   Values{"a": []string{"1;"}},
+		ok:    true,
 	},
 	{
 		query: "a=1&;",
-		out:   Values{"a": []string{"1"}},
-		ok:    false,
+		out:   Values{"a": []string{"1"}, ";": []string{""}},
+		ok:    true,
 	},
 	{
 		query: ";a=1&b=2",
-		out:   Values{"b": []string{"2"}},
-		ok:    false,
+		out:   Values{";a": []string{"1"}, "b": []string{"2"}},
+		ok:    true,
 	},
 	{
 		query: "a=1&b=2;",
-		out:   Values{"a": []string{"1"}},
-		ok:    false,
+		out:   Values{"a": []string{"1"}, "b": []string{"2;"}},
+		ok:    true,
 	},
 }
 

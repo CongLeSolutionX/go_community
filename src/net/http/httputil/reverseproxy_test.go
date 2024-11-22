@@ -1885,7 +1885,7 @@ func testReverseProxyQueryParameterSmuggling(t *testing.T, wantCleanQuery bool, 
 		cleanQuery string
 	}{{
 		rawQuery:   "a=1&a=2;b=3",
-		cleanQuery: "a=1",
+		cleanQuery: "a=1&a=2%3Bb%3D3",
 	}, {
 		rawQuery:   "a=1&a=%zz&b=3",
 		cleanQuery: "a=1&b=3",

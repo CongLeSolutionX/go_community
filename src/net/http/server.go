@@ -3306,10 +3306,11 @@ func badServeHTTP(serverHandler, ResponseWriter, *Request)
 // AllowQuerySemicolons returns a handler that serves requests by converting any
 // unescaped semicolons in the URL query to ampersands, and invoking the handler h.
 //
-// This restores the pre-Go 1.17 behavior of splitting query parameters on both
-// semicolons and ampersands. (See golang.org/issue/25192). Note that this
-// behavior doesn't match that of many proxies, and the mismatch can lead to
-// security issues.
+// Semicolons (";") are no longer treated as query parameter separators in
+// accordance with the WHATWG URL and HTML standards.
+// References:
+// - WHATWG URL Standard: https://url.spec.whatwg.org/#urlsearchparams
+// - HTML5 Specification (URL-encoded form data): https://www.w3.org/TR/2014/REC-html5-20141028/forms.html#url-encoded-form-data
 //
 // AllowQuerySemicolons should be invoked before [Request.ParseForm] is called.
 func AllowQuerySemicolons(h Handler) Handler {

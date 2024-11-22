@@ -6816,47 +6816,34 @@ func TestMuxRedirectRelative(t *testing.T) {
 	}
 }
 
-// TestQuerySemicolon tests the behavior of semicolons in queries. See Issue 25192.
+// TestQuerySemicolon tests the behavior of semicolons in queries. Should allow semicolons
 func TestQuerySemicolon(t *testing.T) {
 	t.Cleanup(func() { afterTest(t) })
 
 	tests := []struct {
-		query              string
-		xNoSemicolons      string
-		xWithSemicolons    string
-		expectParseFormErr bool
+		query string
+		wants string
 	}{
-		{"?a=1;x=bad&x=good", "good", "bad", true},
-		{"?a=1;b=bad&x=good", "good", "good", true},
-		{"?a=1%3Bx=bad&x=good%3B", "good;", "good;", false},
-		{"?a=1;x=good;x=bad", "", "good", true},
+		{"?a=1;x=bad&x=good", "good"},
+		{"?a=1;b=bad&x=good", "good"},
+		{"?a=1%3Bx=bad&x=good%3B", "good;"},
+		{"?a=1;x=good;x=bad&x", ""},
 	}
 
 	run(t, func(t *testing.T, mode testMode) {
 		for _, tt := range tests {
-			t.Run(tt.query+"/allow=false", func(t *testing.T) {
-				allowSemicolons := false
-				testQuerySemicolon(t, mode, tt.query, tt.xNoSemicolons, allowSemicolons, tt.expectParseFormErr)
-			})
 			t.Run(tt.query+"/allow=true", func(t *testing.T) {
-				allowSemicolons, expectParseFormErr := true, false
-				testQuerySemicolon(t, mode, tt.query, tt.xWithSemicolons, allowSemicolons, expectParseFormErr)
+				testQuerySemicolon(t, mode, tt.query, tt.wants)
 			})
 		}
 	})
 }
 
-func testQuerySemicolon(t *testing.T, mode testMode, query string, wantX string, allowSemicolons, expectParseFormErr bool) {
+func testQuerySemicolon(t *testing.T, mode testMode, query string, wantX string) {
 	writeBackX := func(w ResponseWriter, r *Request) {
 		x := r.URL.Query().Get("x")
-		if expectParseFormErr {
-			if err := r.ParseForm(); err == nil || !strings.Contains(err.Error(), "semicolon") {
-				t.Errorf("expected error mentioning semicolons from ParseForm, got %v", err)
-			}
-		} else {
-			if err := r.ParseForm(); err != nil {
-				t.Errorf("expected no error from ParseForm, got %v", err)
-			}
+		if err := r.ParseForm(); err != nil {
+			t.Errorf("expected no error from ParseForm, got %v", err)
 		}
 		if got := r.FormValue("x"); x != got {
 			t.Errorf("got %q from FormValue, want %q", got, x)
@@ -6865,9 +6852,6 @@ func testQuerySemicolon(t *testing.T, mode testMode, query string, wantX string,
 	}
 
 	h := Handler(HandlerFunc(writeBackX))
-	if allowSemicolons {
-		h = AllowQuerySemicolons(h)
-	}
 
 	logBuf := &strings.Builder{}
 	ts := newClientServerTest(t, mode, h, func(ts *httptest.Server) {
@@ -6886,6 +6870,23 @@ func testQuerySemicolon(t *testing.T, mode testMode, query string, wantX string,
 	}
 	if got, want := string(slurp), wantX; got != want {
 		t.Errorf("Body = %q; want = %q", got, want)
+	}
+}
+
+func TestAllowQuerySemicolonsAsSeperator(t *testing.T) {
+	handler := http.AllowQuerySemicolons(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.RawQuery != "a=1&b=2" {
+			t.Errorf("unexpected query: %s", r.URL.RawQuery)
+		}
+	}))
+
+	req := httptest.NewRequest("GET", "/?a=1;b=2", nil)
+	w := httptest.NewRecorder()
+
+	handler.ServeHTTP(w, req)
+
+	if w.Result().StatusCode != http.StatusOK {
+		t.Errorf("expected status OK, got %d", w.Result().StatusCode)
 	}
 }
 

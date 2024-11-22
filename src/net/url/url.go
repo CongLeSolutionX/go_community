@@ -960,7 +960,6 @@ func (v Values) Has(key string) bool {
 // Query is expected to be a list of key=value settings separated by ampersands.
 // A setting without an equals sign is interpreted as a key set to an empty
 // value.
-// Settings containing a non-URL-encoded semicolon are considered invalid.
 func ParseQuery(query string) (Values, error) {
 	m := make(Values)
 	err := parseQuery(m, query)
@@ -971,10 +970,6 @@ func parseQuery(m Values, query string) (err error) {
 	for query != "" {
 		var key string
 		key, query, _ = strings.Cut(query, "&")
-		if strings.Contains(key, ";") {
-			err = fmt.Errorf("invalid semicolon separator in query")
-			continue
-		}
 		if key == "" {
 			continue
 		}
