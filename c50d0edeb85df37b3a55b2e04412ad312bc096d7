@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2667138_47ec22f4",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1045,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-11-22T17:37:50Z",
+      "side": 1,
+      "message": "Thanks, this is a nice improvement.\n\nBut now this function is very small, and a good fraction of its logic is specialized based on the flag variable. We\u0027ve already factored out parseParameterList.\n\nHow about just removing the flag var, and having `parseParameters` and `parseTypeParameters`. That seems perfectly clear, and the duplicated logic has very little cost.",
+      "range": {
+        "startLine": 1045,
+        "startChar": 17,
+        "endLine": 1045,
+        "endChar": 44
+      },
+      "revId": "c50d0edeb85df37b3a55b2e04412ad312bc096d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
