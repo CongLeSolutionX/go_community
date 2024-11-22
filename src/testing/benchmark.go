@@ -559,6 +559,11 @@ func benchmarkName(name string, n int) string {
 type benchState struct {
 	match *matcher
 
+	// When count > 1, subbenchmark names need to be cached to prevent
+	// the name mangling of benchmarks of the same name.
+	subIndex  int      // Index of the subbenchmark within a top level benchmark.
+	nameCache []string // The previously generated unique name for the sub benchmark.
+
 	maxLen int // The largest recorded benchmark name.
 	extLen int // Maximum extension length.
 }
@@ -588,13 +593,23 @@ func runBenchmarks(importPath string, matchString func(pat, str string) (bool, e
 	var bs []InternalBenchmark
 	for _, Benchmark := range benchmarks {
 		if _, matched, _ := bstate.match.fullName(nil, Benchmark.Name); matched {
-			bs = append(bs, Benchmark)
+			for range *count {
+				bs = append(bs, Benchmark)
+			}
 			benchName := benchmarkName(Benchmark.Name, maxprocs)
 			if l := len(benchName) + bstate.extLen + 1; l > bstate.maxLen {
 				bstate.maxLen = l
 			}
 		}
 	}
+
+	if *shuffle != "off" {
+		shuffleRNG.Shuffle(len(bs), func(i, j int) { bs[i], bs[j] = bs[j], bs[i] })
+	}
+
+	// Top level benchmarks and their subbenchmark nameCaches
+	nameCache := make(map[string][]string)
+
 	main := &B{
 		common: common{
 			name:  "Main",
@@ -604,7 +619,10 @@ func runBenchmarks(importPath string, matchString func(pat, str string) (bool, e
 		importPath: importPath,
 		benchFunc: func(b *B) {
 			for _, Benchmark := range bs {
+				bstate.subIndex = 0
+				bstate.nameCache = nameCache[Benchmark.Name]
 				b.Run(Benchmark.Name, Benchmark.F)
+				nameCache[Benchmark.Name] = bstate.nameCache
 			}
 		},
 		benchTime: benchTime,
@@ -620,57 +638,55 @@ func runBenchmarks(importPath string, matchString func(pat, str string) (bool, e
 // processBench runs bench b for the configured CPU counts and prints the results.
 func (s *benchState) processBench(b *B) {
 	for i, procs := range cpuList {
-		for j := uint(0); j < *count; j++ {
-			runtime.GOMAXPROCS(procs)
-			benchName := benchmarkName(b.name, procs)
+		runtime.GOMAXPROCS(procs)
+		benchName := benchmarkName(b.name, procs)
 
-			// If it's chatty, we've already printed this information.
-			if b.chatty == nil {
-				fmt.Fprintf(b.w, "%-*s\t", s.maxLen, benchName)
+		// If it's chatty, we've already printed this information.
+		if b.chatty == nil {
+			fmt.Fprintf(b.w, "%-*s\t", s.maxLen, benchName)
+		}
+		// Recompute the running time for all but the first iteration.
+		if i > 0 {
+			b = &B{
+				common: common{
+					signal: make(chan bool),
+					name:   b.name,
+					w:      b.w,
+					chatty: b.chatty,
+					bench:  true,
+				},
+				benchFunc: b.benchFunc,
+				benchTime: b.benchTime,
 			}
-			// Recompute the running time for all but the first iteration.
-			if i > 0 || j > 0 {
-				b = &B{
-					common: common{
-						signal: make(chan bool),
-						name:   b.name,
-						w:      b.w,
-						chatty: b.chatty,
-						bench:  true,
-					},
-					benchFunc: b.benchFunc,
-					benchTime: b.benchTime,
-				}
-				b.run1()
-			}
-			r := b.doBench()
-			if b.failed {
-				// The output could be very long here, but probably isn't.
-				// We print it all, regardless, because we don't want to trim the reason
-				// the benchmark failed.
-				fmt.Fprintf(b.w, "%s--- FAIL: %s\n%s", b.chatty.prefix(), benchName, b.output)
-				continue
-			}
-			results := r.String()
-			if b.chatty != nil {
-				fmt.Fprintf(b.w, "%-*s\t", s.maxLen, benchName)
-			}
-			if *benchmarkMemory || b.showAllocResult {
-				results += "\t" + r.MemString()
-			}
-			fmt.Fprintln(b.w, results)
-			// Unlike with tests, we ignore the -chatty flag and always print output for
-			// benchmarks since the output generation time will skew the results.
-			if len(b.output) > 0 {
-				b.trimOutput()
-				fmt.Fprintf(b.w, "%s--- BENCH: %s\n%s", b.chatty.prefix(), benchName, b.output)
-			}
-			if p := runtime.GOMAXPROCS(-1); p != procs {
-				fmt.Fprintf(os.Stderr, "testing: %s left GOMAXPROCS set to %d\n", benchName, p)
-			}
-			if b.chatty != nil && b.chatty.json {
-				b.chatty.Updatef("", "=== NAME  %s\n", "")
-			}
+			b.run1()
+		}
+		r := b.doBench()
+		if b.failed {
+			// The output could be very long here, but probably isn't.
+			// We print it all, regardless, because we don't want to trim the reason
+			// the benchmark failed.
+			fmt.Fprintf(b.w, "%s--- FAIL: %s\n%s", b.chatty.prefix(), benchName, b.output)
+			continue
+		}
+		results := r.String()
+		if b.chatty != nil {
+			fmt.Fprintf(b.w, "%-*s\t", s.maxLen, benchName)
+		}
+		if *benchmarkMemory || b.showAllocResult {
+			results += "\t" + r.MemString()
+		}
+		fmt.Fprintln(b.w, results)
+		// Unlike with tests, we ignore the -chatty flag and always print output for
+		// benchmarks since the output generation time will skew the results.
+		if len(b.output) > 0 {
+			b.trimOutput()
+			fmt.Fprintf(b.w, "%s--- BENCH: %s\n%s", b.chatty.prefix(), benchName, b.output)
+		}
+		if p := runtime.GOMAXPROCS(-1); p != procs {
+			fmt.Fprintf(os.Stderr, "testing: %s left GOMAXPROCS set to %d\n", benchName, p)
+		}
+		if b.chatty != nil && b.chatty.json {
+			b.chatty.Updatef("", "=== NAME  %s\n", "")
 		}
 	}
 }
@@ -695,6 +711,12 @@ func (b *B) Run(name string, f func(b *B)) bool {
 	benchName, ok, partial := b.name, true, false
 	if b.bstate != nil {
 		benchName, ok, partial = b.bstate.match.fullName(&b.common, name)
+		if len(b.bstate.nameCache) > b.bstate.subIndex {
+			benchName = b.bstate.nameCache[b.bstate.subIndex]
+		} else {
+			b.bstate.nameCache = append(b.bstate.nameCache, benchName)
+		}
+		b.bstate.subIndex++
 	}
 	if !ok {
 		return true

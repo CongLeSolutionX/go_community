@@ -11,8 +11,8 @@ go test -v -shuffle=off foo_test.go
 ! stdout '-test.shuffle '
 stdout '(?s)TestOne(.*)TestTwo(.*)TestThree'
 
-go test -v -shuffle=42 foo_test.go
-stdout '^-test.shuffle 42'
+go test -v -shuffle=43 foo_test.go
+stdout '^-test.shuffle 43'
 stdout '(?s)TestThree(.*)TestOne(.*)TestTwo'
 
 go test -v -shuffle=0 foo_test.go
@@ -21,7 +21,7 @@ stdout '(?s)TestTwo(.*)TestOne(.*)TestThree'
 
 go test -v -shuffle -1 foo_test.go
 stdout '^-test.shuffle -1'
-stdout '(?s)TestThree(.*)TestOne(.*)TestTwo'
+stdout '(?s)TestTwo(.*)TestThree(.*)TestOne'
 
 go test -v -shuffle=on foo_test.go
 stdout '^-test.shuffle '
@@ -39,17 +39,17 @@ go test -v -bench=. -shuffle=off foo_test.go
 ! stdout '-test.shuffle '
 stdout '(?s)TestOne(.*)TestTwo(.*)TestThree(.*)BenchmarkOne(.*)BenchmarkTwo(.*)BenchmarkThree'
 
-go test -v -bench=. -shuffle=42 foo_test.go
-stdout '^-test.shuffle 42'
-stdout '(?s)TestThree(.*)TestOne(.*)TestTwo(.*)BenchmarkThree(.*)BenchmarkOne(.*)BenchmarkTwo'
+go test -v -bench=. -shuffle=43 foo_test.go
+stdout '^-test.shuffle 43'
+stdout '(?s)TestThree(.*)TestOne(.*)TestTwo(.*)BenchmarkTwo(.*)BenchmarkThree(.*)BenchmarkOne'
 
 go test -v -bench=. -shuffle=0 foo_test.go
 stdout '^-test.shuffle 0'
-stdout '(?s)TestTwo(.*)TestOne(.*)TestThree(.*)BenchmarkThree(.*)BenchmarkOne(.*)BenchmarkTwo'
+stdout '(?s)TestTwo(.*)TestOne(.*)TestThree(.*)BenchmarkTwo(.*)BenchmarkThree(.*)BenchmarkOne'
 
 go test -v -bench=. -shuffle -1 foo_test.go
 stdout '^-test.shuffle -1'
-stdout '(?s)TestThree(.*)TestOne(.*)TestTwo(.*)BenchmarkOne(.*)BenchmarkThree(.*)BenchmarkTwo'
+stdout '(?s)TestTwo(.*)TestThree(.*)TestOne(.*)BenchmarkTwo(.*)BenchmarkThree(.*)BenchmarkOne'
 
 go test -v -bench=. -shuffle=on foo_test.go
 stdout '^-test.shuffle '
@@ -65,11 +65,11 @@ stdout -count=2 'BenchmarkThree'
 # shuffled order of these tests.
 go test -v -shuffle=43 -count=4 foo_test.go
 stdout '^-test.shuffle 43'
-stdout '(?s)TestThree(.*)TestTwo(.*)TestOne(.*)TestThree(.*)TestTwo(.*)TestOne(.*)TestThree(.*)TestTwo(.*)TestOne(.*)TestThree(.*)TestTwo(.*)TestOne'
+stdout '(?s)TestThree(.*)TestOne(.*)TestTwo(.*)TestOne(.*)TestTwo(.*)TestThree(.*)TestOne(.*)TestTwo(.*)TestThree(.*)TestTwo(.*)TestOne(.*)TestThree'
 
 go test -v -bench=. -shuffle=44 -count=2 foo_test.go
 stdout '^-test.shuffle 44'
-stdout '(?s)TestOne(.*)TestThree(.*)TestTwo(.*)TestOne(.*)TestThree(.*)TestTwo(.*)BenchmarkTwo(.*)BenchmarkOne(.*)BenchmarkThree(.*)'
+stdout '(?s)TestThree(.*)TestOne(.*)TestTwo(.*)TestOne(.*)TestThree(.*)TestTwo(.*)BenchmarkTwo(.*)BenchmarkThree(.*)BenchmarkOne(.*)'
 
 
 # The feature should work with test binaries as well
@@ -82,19 +82,19 @@ stdout '^-test.shuffle '
 
 exec ./m.test -test.v -test.bench=. -test.shuffle=0 foo_test.go
 stdout '^-test.shuffle 0'
-stdout '(?s)TestTwo(.*)TestOne(.*)TestThree(.*)BenchmarkThree(.*)BenchmarkOne(.*)BenchmarkTwo'
+stdout '(?s)TestTwo(.*)TestOne(.*)TestThree(.*)BenchmarkTwo(.*)BenchmarkThree(.*)BenchmarkOne'
 
 exec ./m.test -test.v -test.bench=. -test.shuffle=123 foo_test.go
 stdout '^-test.shuffle 123'
-stdout '(?s)TestThree(.*)TestOne(.*)TestTwo(.*)BenchmarkThree(.*)BenchmarkTwo(.*)BenchmarkOne'
+stdout '(?s)TestOne(.*)TestTwo(.*)TestThree(.*)BenchmarkOne(.*)BenchmarkThree(.*)BenchmarkTwo'
 
 exec ./m.test -test.v -test.bench=. -test.shuffle=-1 foo_test.go
 stdout '^-test.shuffle -1'
-stdout '(?s)TestThree(.*)TestOne(.*)TestTwo(.*)BenchmarkOne(.*)BenchmarkThree(.*)BenchmarkTwo'
+stdout '(?s)TestTwo(.*)TestThree(.*)TestOne(.*)BenchmarkTwo(.*)BenchmarkThree(.*)BenchmarkOne'
 
 exec ./m.test -test.v -test.bench=. -test.shuffle=44 -test.count=2 foo_test.go
 stdout '^-test.shuffle 44'
-stdout '(?s)TestOne(.*)TestThree(.*)TestTwo(.*)TestOne(.*)TestThree(.*)TestTwo(.*)BenchmarkTwo(.*)BenchmarkOne(.*)BenchmarkThree(.*)'
+stdout '(?s)TestThree(.*)TestOne(.*)TestTwo(.*)TestOne(.*)TestThree(.*)TestTwo(.*)BenchmarkTwo(.*)BenchmarkThree(.*)BenchmarkOne(.*)'
 
 
 # Negative testcases for invalid input
