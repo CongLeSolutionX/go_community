@@ -172,6 +172,12 @@ var invalids = []string{
 	`package p; type _ struct{ *( /* ERROR "cannot parenthesize embedded type" */ int) }`,
 	`package p; type _ struct{ *( /* ERROR "cannot parenthesize embedded type" */ []byte) }`,
 
+	`package p; func _(... /* ERROR "invalid use of ..." */ T, T)`,
+	`package p; func _(_, _ ... /* ERROR "invalid use of ..." */ T)`,
+	`package p; func _(T, ... /* ERROR "invalid use of ..." */ T, T)`,
+	`package p; func _() (... /* ERROR "invalid use of ..." */ T)`,
+	`package p; func _() (T, ... /* ERROR "invalid use of ..." */ T, T)`,
+
 	// go.dev/issue/8656
 	`package p; func f() (a b string /* ERROR "missing ','" */ , ok bool)`,
 

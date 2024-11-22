@@ -931,7 +931,7 @@ func (p *parser) parseParameterList(name0 *ast.Ident, typ0 ast.Expr, closing tok
 	// distribute parameter types (len(list) > 0)
 	if named == 0 {
 		// all unnamed => found names are type names
-		for i := 0; i < len(list); i++ {
+		for i := range list {
 			par := &list[i]
 			if typ := par.name; typ != nil {
 				par.typ = typ
@@ -959,8 +959,8 @@ func (p *parser) parseParameterList(name0 *ast.Ident, typ0 ast.Expr, closing tok
 		// some named or we're in a type parameter list => all must be named
 		var errPos token.Pos // left-most error position (or invalid)
 		var typ ast.Expr     // current type (from right to left)
-		for i := len(list) - 1; i >= 0; i-- {
-			if par := &list[i]; par.typ != nil {
+		for i := range list {
+			if par := &list[len(list)-1-i]; par.typ != nil {
 				typ = par.typ
 				if par.name == nil {
 					errPos = typ.Pos()
@@ -1064,6 +1064,14 @@ func (p *parser) parseParameters(types bool) *ast.FieldList {
 		return nil // avoid follow-on errors
 	}
 
+	// report invalid uses of ...
+	for i, f := range list {
+		if t, _ := f.Type.(*ast.Ellipsis); t != nil && (types || i+1 < len(list) || len(f.Names) > 1) {
+			p.error(t.Ellipsis, "invalid use of ...")
+			f.Type = t.Elt // remove ...
+		}
+	}
+
 	return &ast.FieldList{Opening: opening, List: list, Closing: closing}
 }
 
@@ -1073,7 +1081,18 @@ func (p *parser) parseResult() *ast.FieldList {
 	}
 
 	if p.tok == token.LPAREN {
-		return p.parseParameters(false)
+		params := p.parseParameters(false)
+
+		// report invalid use of ...
+		if list := params.List; len(list) > 0 {
+			f := list[len(list)-1]
+			if t, _ := f.Type.(*ast.Ellipsis); t != nil {
+				p.error(t.Ellipsis, "invalid use of ...")
+				f.Type = t.Elt // remove ...
+			}
+		}
+
+		return params
 	}
 
 	typ := p.tryIdentOrType()
