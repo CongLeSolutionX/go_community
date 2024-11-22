@@ -17,14 +17,14 @@ stdout -count=2 '^    z_test.go:10: LOG: XX running'
 # TestZ is not run
 ! stdout '^=== RUN   TestZ$'
 
-# BenchmarkX is run with N=1 once, only to discover what sub-benchmarks it has,
+# BenchmarkX is run with N=1 once before every iteration of count
 # and should not print a final summary line.
-stdout -count=1 '^    x_test.go:13: LOG: X running N=1$'
+stdout -count=2 '^    x_test.go:13: LOG: X running N=1$'
 ! stdout '^\s+BenchmarkX: x_test.go:13: LOG: X running N=\d\d+'
 ! stdout 'BenchmarkX\s+\d+'
 
 # Same for BenchmarkXX.
-stdout -count=1 '^    z_test.go:18: LOG: XX running N=1$'
+stdout -count=2 '^    z_test.go:18: LOG: XX running N=1$'
 ! stdout  '^    z_test.go:18: LOG: XX running N=\d\d+'
 ! stdout 'BenchmarkXX\s+\d+'
 
