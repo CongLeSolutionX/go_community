@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2a1d12e_049c3ed8",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-22T00:10:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b550b935_918032f3",
+      "revId": "fe08ffed544bbbc614db47701c66dffb7fcf9ae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7526dc66_fde2906e",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-11-21T22:36:09Z",
       "side": 1,
       "message": "Ditto.",
+      "revId": "fe08ffed544bbbc614db47701c66dffb7fcf9ae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d5ef969_d8d61ccc",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-22T00:10:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7526dc66_fde2906e",
       "revId": "fe08ffed544bbbc614db47701c66dffb7fcf9ae9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
