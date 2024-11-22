@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37d36a8b_20919d24",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-11-22T10:35:17Z",
+      "side": 1,
+      "message": "Fixed. I\u0027ve also added more tests and fixed some new inconsistencies.",
+      "parentUuid": "f4fe54ac_844bc395",
+      "revId": "1ea2f25d98eb99c69247b23f8c98cb59dda09691",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17326afe_c7f8b83d",
@@ -49,6 +67,24 @@
           ]
         }
       ],
+      "revId": "1ea2f25d98eb99c69247b23f8c98cb59dda09691",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcd4feba_def79e8f",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-11-22T10:35:17Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "17326afe_c7f8b83d",
       "revId": "1ea2f25d98eb99c69247b23f8c98cb59dda09691",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
