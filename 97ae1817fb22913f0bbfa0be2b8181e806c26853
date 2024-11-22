@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86e5a9e1_0365453a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-11-22T09:37:21Z",
+      "side": 1,
+      "message": "@Ian, Damien, Dmitri: thank you for the reviews!\n\nDo you think this simple fix preventing `GODEBUG\u003dmultipathtcp\u003dX` to work in some cases could be considered for backport to the \u003e\u003d v1.21 versions?\n\nThe code that is being modified has not changed for at least 5-6 years, the cherry-pick should not be an issue.\nOn these older versions, MPTCP is not used by default, except if `GODEBUG\u003dmultipathtcp\u003d1` is set, so the risk should be limited.\nWDYT?",
+      "revId": "97ae1817fb22913f0bbfa0be2b8181e806c26853",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
