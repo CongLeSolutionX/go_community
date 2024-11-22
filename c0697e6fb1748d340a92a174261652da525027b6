@@ -39,6 +39,30 @@
       },
       "revId": "c0697e6fb1748d340a92a174261652da525027b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "effee4b7_ea541f3a",
+        "filename": "src/cmd/internal/obj/fips140.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-11-22T13:10:29Z",
+      "side": 1,
+      "message": "Yes, it was inittask. Made it more specific.",
+      "parentUuid": "c2fb5d1e_0f2e675c",
+      "range": {
+        "startLine": 247,
+        "startChar": 28,
+        "endLine": 247,
+        "endChar": 35
+      },
+      "revId": "c0697e6fb1748d340a92a174261652da525027b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
