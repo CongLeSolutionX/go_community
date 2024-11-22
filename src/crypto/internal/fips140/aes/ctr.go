@@ -18,11 +18,15 @@ type CTR struct {
 }
 
 func NewCTR(b *Block, iv []byte) *CTR {
+	c := newCTR(b, iv)
+	return &c
+}
+func newCTR(b *Block, iv []byte) CTR {
 	if len(iv) != BlockSize {
 		panic("bad IV length")
 	}
 
-	return &CTR{
+	return CTR{
 		b:      *b,
 		ivlo:   byteorder.BEUint64(iv[8:16]),
 		ivhi:   byteorder.BEUint64(iv[0:8]),
