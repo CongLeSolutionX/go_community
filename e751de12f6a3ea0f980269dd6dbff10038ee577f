@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fd90c3b_5c832c1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-11-22T23:30:17Z",
+      "side": 1,
+      "message": "Any other simplifications we can make if we assume power8+ for big-endian ppc64?",
+      "revId": "e751de12f6a3ea0f980269dd6dbff10038ee577f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
