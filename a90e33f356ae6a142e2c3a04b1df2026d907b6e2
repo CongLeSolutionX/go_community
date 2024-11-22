@@ -33,6 +33,24 @@
       "message": "x/tools/go/analysis test failure is the flaky test #70426.",
       "revId": "a90e33f356ae6a142e2c3a04b1df2026d907b6e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7433e06_c4c0ccfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-22T01:15:32Z",
+      "side": 1,
+      "message": "Only that test failed, the rest passed, so bypassing it.",
+      "parentUuid": "712debd7_788cfceb",
+      "revId": "a90e33f356ae6a142e2c3a04b1df2026d907b6e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
