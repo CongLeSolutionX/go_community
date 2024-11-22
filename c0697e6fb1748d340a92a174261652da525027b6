@@ -16,6 +16,29 @@
       "message": "Thanks for tracking this down!",
       "revId": "c0697e6fb1748d340a92a174261652da525027b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2fb5d1e_0f2e675c",
+        "filename": "src/cmd/internal/obj/fips140.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-11-22T01:57:59Z",
+      "side": 1,
+      "message": "Could you remind me why .init data symbol needs to be excluded? The rest on the list are metadata symbols etc., and are pretty obvious for exclusion. What is the .init symbol for? Perhaps you mean .inittask? If so, it could me more specific.",
+      "range": {
+        "startLine": 247,
+        "startChar": 28,
+        "endLine": 247,
+        "endChar": 35
+      },
+      "revId": "c0697e6fb1748d340a92a174261652da525027b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
