@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b94bc26f_c6fd83c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-22T23:14:47Z",
+      "side": 1,
+      "message": "linux-386-longtest failed on the first try in the same way as in https://ci.chromium.org/b/8730599811428218769 and https://ci.chromium.org/b/8730553380124537409 at tip. And second try failure was #70515. It passed on the third try.\n\nBypassing since it doesn\u0027t seem those flaky failures are being introduced by this CL.",
+      "revId": "a107d73785de2efdb67684a2ebc3a3026af7de46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
