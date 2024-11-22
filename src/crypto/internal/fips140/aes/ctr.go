@@ -17,12 +17,12 @@ type CTR struct {
 	offset     uint64 // for XORKeyStream only
 }
 
-func NewCTR(b *Block, iv []byte) *CTR {
+func NewCTR(b *Block, iv []byte) CTR {
 	if len(iv) != BlockSize {
 		panic("bad IV length")
 	}
 
-	return &CTR{
+	return CTR{
 		b:      *b,
 		ivlo:   byteorder.BEUint64(iv[8:16]),
 		ivhi:   byteorder.BEUint64(iv[0:8]),

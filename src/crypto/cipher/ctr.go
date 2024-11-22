@@ -39,7 +39,8 @@ type ctrAble interface {
 // counter mode. The length of iv must be the same as the [Block]'s block size.
 func NewCTR(block Block, iv []byte) Stream {
 	if block, ok := block.(*aes.Block); ok {
-		return aesCtrWrapper{aes.NewCTR(block, iv)}
+		c := aes.NewCTR(block, iv)
+		return aesCtrWrapper{&c}
 	}
 	if ctr, ok := block.(ctrAble); ok {
 		return ctr.NewCTR(iv)

@@ -52,7 +52,7 @@ func NewCounter(entropy *[SeedSize]byte) *Counter {
 	}
 
 	c := &Counter{}
-	c.c = *aes.NewCTR(cipher, V)
+	c.c = aes.NewCTR(cipher, V)
 	c.update(entropy)
 	c.reseedCounter = 1
 	return c
@@ -73,7 +73,7 @@ func (c *Counter) update(seed *[SeedSize]byte) {
 	if err != nil {
 		panic(err)
 	}
-	c.c = *aes.NewCTR(cipher, V)
+	c.c = aes.NewCTR(cipher, V)
 }
 
 func increment(v *[aes.BlockSize]byte) {
