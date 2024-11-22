@@ -372,13 +372,14 @@ package testing
 import (
 	"bytes"
 	"context"
+	"encoding/binary"
 	"errors"
 	"flag"
 	"fmt"
 	"internal/goexperiment"
 	"internal/race"
 	"io"
-	"math/rand"
+	"math/rand/v2"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -477,6 +478,9 @@ var (
 	shuffle              *string
 	testlog              *string
 	fullPath             *bool
+
+	shuffleSeed = time.Now().UnixNano()
+	shuffleRNG  *rand.Rand
 
 	haveExamples bool // are there examples?
 
@@ -1285,7 +1289,7 @@ func removeAll(path string) error {
 			return err
 		}
 		time.Sleep(nextSleep)
-		nextSleep += time.Duration(rand.Int63n(int64(nextSleep)))
+		nextSleep += time.Duration(rand.Int64N(int64(nextSleep)))
 	}
 }
 
@@ -2082,22 +2086,19 @@ func (m *M) Run() (code int) {
 	}
 
 	if *shuffle != "off" {
-		var n int64
 		var err error
-		if *shuffle == "on" {
-			n = time.Now().UnixNano()
-		} else {
-			n, err = strconv.ParseInt(*shuffle, 10, 64)
+		if *shuffle != "on" {
+			shuffleSeed, err = strconv.ParseInt(*shuffle, 10, 64)
 			if err != nil {
 				fmt.Fprintln(os.Stderr, `testing: -shuffle should be "off", "on", or a valid integer:`, err)
 				m.exitCode = 2
 				return
 			}
 		}
-		fmt.Println("-test.shuffle", n)
-		rng := rand.New(rand.NewSource(n))
-		rng.Shuffle(len(m.tests), func(i, j int) { m.tests[i], m.tests[j] = m.tests[j], m.tests[i] })
-		rng.Shuffle(len(m.benchmarks), func(i, j int) { m.benchmarks[i], m.benchmarks[j] = m.benchmarks[j], m.benchmarks[i] })
+		fmt.Println("-test.shuffle", shuffleSeed)
+		var seed [32]byte
+		binary.PutVarint(seed[:], shuffleSeed)
+		shuffleRNG = rand.New(rand.NewChaCha8(seed))
 	}
 
 	parseCpuList()
@@ -2246,6 +2247,11 @@ func runTests(matchString func(pat, str string) (bool, error), tests []InternalT
 			if Verbose() {
 				t.chatty = newChattyPrinter(t.w)
 			}
+
+			if *shuffle != "off" {
+				shuffleRNG.Shuffle(len(tests), func(i, j int) { tests[i], tests[j] = tests[j], tests[i] })
+			}
+
 			tRunner(t, func(t *T) {
 				for _, test := range tests {
 					t.Run(test.Name, test.F)
