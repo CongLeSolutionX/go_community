@@ -16,6 +16,23 @@
       "message": "Thanks.",
       "revId": "a90e33f356ae6a142e2c3a04b1df2026d907b6e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "712debd7_788cfceb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-11-22T00:46:53Z",
+      "side": 1,
+      "message": "x/tools/go/analysis test failure is the flaky test #70426.",
+      "revId": "a90e33f356ae6a142e2c3a04b1df2026d907b6e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
