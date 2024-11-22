@@ -659,7 +659,7 @@ var depsRules = `
 	FMT, flag, math/rand
 	< testing/quick;
 
-	FMT, DEBUG, flag, runtime/trace, internal/sysinfo, math/rand
+	FMT, DEBUG, flag, runtime/trace, internal/sysinfo, math/rand/v2
 	< testing;
 
 	log/slog, testing
