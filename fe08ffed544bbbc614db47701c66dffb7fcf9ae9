@@ -69,6 +69,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d8b7bbb_91a8f9fd",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-22T00:07:22Z",
+      "side": 1,
+      "message": "With the goal of not doing anything weird, I think I\u0027m just going to stick with this for now, and when I get around to rewriting this test suite to be a bit more Go idiomatic I might revisit this idea.",
+      "parentUuid": "c9506ae1_08b37a7d",
+      "revId": "fe08ffed544bbbc614db47701c66dffb7fcf9ae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15b86f75_6c38e7a5",
@@ -82,6 +100,30 @@
       "writtenOn": "2024-11-21T22:36:09Z",
       "side": 1,
       "message": "```suggestion\n\tparents  map[*policyGraphNode]struct{}\n\tchildren map[*policyGraphNode]struct{}\n```",
+      "range": {
+        "startLine": 1259,
+        "startChar": 0,
+        "endLine": 1260,
+        "endChar": 35
+      },
+      "revId": "fe08ffed544bbbc614db47701c66dffb7fcf9ae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "857b8c7a_79a3a71c",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-22T00:07:22Z",
+      "side": 1,
+      "message": "Convention these days is `map[x]bool` over `map[x]struct{}`.",
+      "parentUuid": "15b86f75_6c38e7a5",
       "range": {
         "startLine": 1259,
         "startChar": 0,
@@ -115,6 +157,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa75f8ca_9535102a",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 1473,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-22T00:07:22Z",
+      "side": 1,
+      "message": "This was leftover from before I inverted the loop. The NIST PKI TS catches it, but none of our other tests do 🤦. Will land that test suite in a follow-up.",
+      "parentUuid": "6098c108_25846618",
+      "range": {
+        "startLine": 1473,
+        "startChar": 70,
+        "endLine": 1473,
+        "endChar": 77
+      },
+      "revId": "fe08ffed544bbbc614db47701c66dffb7fcf9ae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b40fcfc0_e407e8e5",
@@ -128,6 +194,24 @@
       "writtenOn": "2024-11-21T22:36:09Z",
       "side": 1,
       "message": "Is generation for these extensions implemented (and tested)? I would have expected it in this file in buildCertExtensions.",
+      "revId": "fe08ffed544bbbc614db47701c66dffb7fcf9ae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bac59fe_238833c4",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-11-22T00:07:22Z",
+      "side": 1,
+      "message": "Forgot we had these comments, removed since we don\u0027t support marshaling these fields.",
+      "parentUuid": "b40fcfc0_e407e8e5",
       "revId": "fe08ffed544bbbc614db47701c66dffb7fcf9ae9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
