@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83ef1a87_7b5e575b",
+        "filename": "src/crypto/fips140/fips140.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2024-11-22T03:06:20Z",
+      "side": 1,
+      "message": "Fine to do in a followup doc CL later, just noting here what https://go.dev/doc/comment#package says:\n\n\u003e Every package should have a package comment ...",
+      "revId": "6bd857fc3611944f80fdbd2b513d89c0e3dbdf1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
