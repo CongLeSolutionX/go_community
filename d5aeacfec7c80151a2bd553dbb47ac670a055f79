@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0e45e93_b415486b",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2024-11-23T01:17:08Z",
+      "side": 1,
+      "message": "By moving count out to the top, subbenchmark iteration order also changes from:\nA/1, A/1, A/1, A/2, A/2, A/2\nto\nA/1, A/2, A/1, A/2, A/1, A/2\n\nThis also means that https://go.dev/issue/23423 would resurface, though it may not have been explicitly fixed in the first place?\nWe could in theory stash the final N like with nameCache below.",
+      "revId": "d5aeacfec7c80151a2bd553dbb47ac670a055f79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

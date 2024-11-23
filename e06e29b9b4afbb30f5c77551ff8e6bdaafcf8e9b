@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eac816ba_261f9c12",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2024-11-23T01:17:08Z",
+      "side": 0,
+      "message": "I changed this to math/rand/v2 just because I was changing the shuffle code anyway, is it ok to update TestDeps for this?",
+      "revId": "e06e29b9b4afbb30f5c77551ff8e6bdaafcf8e9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
