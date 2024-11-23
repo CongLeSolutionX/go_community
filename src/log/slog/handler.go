@@ -525,8 +525,7 @@ func (s *handleState) appendError(err error) {
 func (s *handleState) appendKey(key string) {
 	s.buf.WriteString(s.sep)
 	if s.prefix != nil && len(*s.prefix) > 0 {
-		// TODO: optimize by avoiding allocation.
-		s.appendString(string(*s.prefix) + key)
+		s.appendTwoStrings(string(*s.prefix), key)
 	} else {
 		s.appendString(key)
 	}
@@ -536,6 +535,72 @@ func (s *handleState) appendKey(key string) {
 		s.buf.WriteByte('=')
 	}
 	s.sep = s.h.attrSep()
+}
+
+func (s *handleState) appendTwoStrings(prefix, key string) {
+	if s.h.json {
+		s.buf.WriteByte('"')
+		*s.buf = appendEscapedJSONString(*s.buf, string(prefix))
+		*s.buf = appendEscapedJSONString(*s.buf, key)
+		s.buf.WriteByte('"')
+		return
+	}
+
+	var (
+		// Check if prefix and key need quoting
+		prefixNeedsQuoting = needsQuoting(prefix)
+		keyNeedsQuoting    = needsQuoting(key)
+	)
+
+	switch {
+	case !prefixNeedsQuoting && !keyNeedsQuoting: // not needs quoting
+		s.buf.WriteString(prefix)
+		s.buf.WriteString(key)
+
+	case prefixNeedsQuoting && keyNeedsQuoting:
+		// When both require Quoting, it's necessary to remove the trailing quote
+		// from the prefix and the leading quote from the key.
+		// However, to avoid copy operations, we record the last byte in the buffer
+		// and restore it later.
+		*s.buf = strconv.AppendQuote(*s.buf, prefix)
+
+		*s.buf = (*s.buf)[:s.buf.Len()-1] // remove the trailing quote from prefix
+
+		// key start with a quote, record the last byte and restore it later
+		idx := s.buf.Len() - 1
+		lastByte := (*s.buf)[idx]
+		*s.buf = (*s.buf)[:idx]
+
+		*s.buf = strconv.AppendQuote(*s.buf, key)
+		(*s.buf)[idx] = lastByte // replace the original last byte
+
+	default:
+		if prefixNeedsQuoting {
+			// When only the prefix requires quotation, it's necessary to remove
+			// the trailing quote from the prefix and then write the quote back
+			// in at the end.
+			*s.buf = strconv.AppendQuote(*s.buf, prefix)
+			*s.buf = (*s.buf)[:s.buf.Len()-1]
+			s.buf.WriteString(key)
+			s.buf.WriteString("\"")
+		} else {
+			// When only the key needs to be quoted, since the prefix doesn't
+			// have a quote, we first need to write a quote, then write the prefix.
+			//
+			// Similarly, we need to remove the leading quote from the key, keep
+			// track of the last byte in the buffer, and restore it later.
+			s.buf.WriteString("\"") // key has quote
+			s.buf.WriteString(prefix)
+
+			// key start with a quote, record the last byte and restore it later
+			idx := s.buf.Len() - 1
+			lastByte := (*s.buf)[idx]
+
+			*s.buf = (*s.buf)[:idx]
+			*s.buf = strconv.AppendQuote(*s.buf, key)
+			(*s.buf)[idx] = lastByte // replace the original last byte
+		}
+	}
 }
 
 func (s *handleState) appendString(str string) {
