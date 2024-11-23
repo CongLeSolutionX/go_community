@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afc5d53a_4980c9b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-11-23T01:14:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c2bee02_0e0fd19e",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "a8574f30a3bed8e190ac34b9b21b4e769a5fa013",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f01ff9a_2523e8cb",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-11-23T01:06:04Z",
       "side": 1,
       "message": "PS 3 updated the commit message to reflect the new implementation, and it looks like it got lost in PS 4.",
+      "revId": "a8574f30a3bed8e190ac34b9b21b4e769a5fa013",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cad2a427_ffd27b82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-11-23T01:14:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f01ff9a_2523e8cb",
       "revId": "a8574f30a3bed8e190ac34b9b21b4e769a5fa013",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
