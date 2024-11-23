@@ -525,8 +525,7 @@ func (s *handleState) appendError(err error) {
 func (s *handleState) appendKey(key string) {
 	s.buf.WriteString(s.sep)
 	if s.prefix != nil && len(*s.prefix) > 0 {
-		// TODO: optimize by avoiding allocation.
-		s.appendString(string(*s.prefix) + key)
+		s.appendStringWithPrefixKey(*s.prefix, key)
 	} else {
 		s.appendString(key)
 	}
@@ -536,6 +535,28 @@ func (s *handleState) appendKey(key string) {
 		s.buf.WriteByte('=')
 	}
 	s.sep = s.h.attrSep()
+}
+
+func (s *handleState) appendStringWithPrefixKey(prefix []byte, key string) {
+	if s.h.json {
+		s.buf.WriteByte('"')
+		*s.buf = appendEscapedJSONString(*s.buf, string(prefix))
+		*s.buf = appendEscapedJSONString(*s.buf, key)
+		s.buf.WriteByte('"')
+		return
+	}
+
+	prefixStr := string(prefix)
+	if needsQuoting(prefixStr) {
+		*s.buf = strconv.AppendQuote(*s.buf, prefixStr)
+	} else {
+		s.buf.WriteString(prefixStr)
+	}
+	if needsQuoting(key) {
+		*s.buf = strconv.AppendQuote(*s.buf, key)
+	} else {
+		s.buf.WriteString(key)
+	}
 }
 
 func (s *handleState) appendString(str string) {

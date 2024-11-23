@@ -10,7 +10,9 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
+	"log/slog/internal/buffer"
 	"os"
 	"path/filepath"
 	"slices"
@@ -731,4 +733,24 @@ func TestDiscardHandler(t *testing.T) {
 	l.LogAttrs(ctx, LevelInfo+1, "a b c", Int("a", 1), String("b", "two"))
 	l.Info("info", "a", []Attr{Int("i", 1)})
 	l.Info("info", "a", GroupValue(Int("i", 1)))
+}
+
+func BenchmarkAppendKey(b *testing.B) {
+	for _, size := range []int{5, 10, 30, 50, 100} {
+		b.Run(fmt.Sprintf("prefix_size_%d", size), func(b *testing.B) {
+			var (
+				hs     = NewJSONHandler(io.Discard, nil).newHandleState(buffer.New(), false, "")
+				prefix = bytes.Repeat([]byte("x"), size)
+				key    = "key"
+			)
+			hs.prefix = (*buffer.Buffer)(&prefix)
+
+			b.ResetTimer()
+
+			for i := 0; i < b.N; i++ {
+				hs.appendKey(key)
+				hs.buf.Reset()
+			}
+		})
+	}
 }
