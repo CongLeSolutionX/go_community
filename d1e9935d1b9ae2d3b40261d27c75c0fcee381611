@@ -51,6 +51,24 @@
       "parentUuid": "716e6aa4_425a18ac",
       "revId": "d1e9935d1b9ae2d3b40261d27c75c0fcee381611",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "447802bb_1a207858",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2024-11-25T16:13:32Z",
+      "side": 1,
+      "message": "Ian: no there is not. Given our new API presenting symlink targets as an opaque string, I\u0027m not sure that we could do detection.\n\nWe could introduce a recursion limit, I suppose, but that would have broader implications.\n\n(It\u0027s a holiday week in the U.S. I was traveling for the last few days, but have been following the CL and issue discussion. I can try to help where I can to land the CL, but given the length of time it\u0027s been open, I\u0027m personally fine waiting until the next release. :D)",
+      "parentUuid": "262def87_a4e4a240",
+      "revId": "d1e9935d1b9ae2d3b40261d27c75c0fcee381611",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
