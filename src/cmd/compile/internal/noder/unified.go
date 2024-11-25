@@ -376,9 +376,11 @@ func freePackage(pkg *types2.Package) {
 		return
 	}
 
-	// Set a finalizer on pkg so we can detect if/when it's collected.
+	// Set a cleanup on pkg so we can detect if/when it's collected.
 	done := make(chan struct{})
 	runtime.SetFinalizer(pkg, func(*types2.Package) { close(done) })
+	// TODO: bootstrap version of go does not contain cleanups
+	//runtime.AddCleanup(pkg, func(d chan struct{}) { close(d) }, done)
 
 	// Important: objects involved in cycles are not finalized, so zero
 	// out pkg to break its cycles and allow the finalizer to run.

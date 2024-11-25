@@ -112,9 +112,7 @@ loop:
 		var fin, fin1 uint32
 		for i := 0; i < N; i++ {
 			v := new(string)
-			runtime.SetFinalizer(v, func(vv *string) {
-				atomic.AddUint32(&fin, 1)
-			})
+			runtime.AddCleanup(v, func(f *uint32) { atomic.AddUint32(f, 1) }, &fin1)
 			p.Put(v)
 		}
 		if drain {

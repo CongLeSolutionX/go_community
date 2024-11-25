@@ -19,7 +19,8 @@ func Ranger[T any]() (*Sender[T], *Receiver[T]) {
 	d := make(chan bool)
 	s := &Sender[T]{values: c, done: d}
 	r := &Receiver[T]{values: c, done: d}
-	runtime.SetFinalizer(r, r.finalize)
+	runtime.AddCleanup(r, func(d chan<- bool) { close(d) }, r.done)
+
 	return s, r
 }
 

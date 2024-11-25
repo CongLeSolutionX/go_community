@@ -52,7 +52,7 @@ func AcquireNet() (release func(), err error) {
 	}
 
 	checker := new(netTokenChecker)
-	runtime.SetFinalizer(checker, (*netTokenChecker).panicUnreleased)
+	cleanup := runtime.AddCleanup(checker, func(_ int) { panic("internal error: net token acquired but not released") }, 0)
 
 	return func() {
 		if checker.released {
@@ -62,7 +62,7 @@ func AcquireNet() (release func(), err error) {
 		if hasToken {
 			<-netLimitSem
 		}
-		runtime.SetFinalizer(checker, nil)
+		cleanup.Stop()
 	}, nil
 }
 
