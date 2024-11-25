@@ -51,8 +51,9 @@ func AcquireNet() (release func(), err error) {
 		hasToken = true
 	}
 
+	// TODO the checker can probably be eliminated.
 	checker := new(netTokenChecker)
-	runtime.SetFinalizer(checker, (*netTokenChecker).panicUnreleased)
+	checker.cleanup = runtime.AddCleanup(checker, func(_ int) { panic("internal error: net token acquired but not released") }, 0)
 
 	return func() {
 		if checker.released {
@@ -62,7 +63,7 @@ func AcquireNet() (release func(), err error) {
 		if hasToken {
 			<-netLimitSem
 		}
-		runtime.SetFinalizer(checker, nil)
+		checker.cleanup.Stop()
 	}, nil
 }
 
@@ -77,6 +78,7 @@ type netTokenChecker struct {
 	// so we arbitrarily pad the tokens with a string to defeat the runtime's
 	// “tiny allocator”.
 	unusedAvoidTinyAllocator string
+	cleanup                  runtime.Cleanup
 }
 
 func (c *netTokenChecker) panicUnreleased() {
