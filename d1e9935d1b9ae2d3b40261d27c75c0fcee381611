@@ -33,6 +33,24 @@
       "message": "If there is a symlink to \"../dir\", then this looks like an endless loop.  Is there something that prevents that?",
       "revId": "d1e9935d1b9ae2d3b40261d27c75c0fcee381611",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "262def87_a4e4a240",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-11-25T11:37:52Z",
+      "side": 1,
+      "message": "Ian can we merge this CL with the bug you\u0027ve identified (which only affects `fstest`) and fix it in a latter CL? We are already in code freeze and I\u0027m afraid the CL owner won\u0027t connect on time to fix it.",
+      "parentUuid": "716e6aa4_425a18ac",
+      "revId": "d1e9935d1b9ae2d3b40261d27c75c0fcee381611",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
