@@ -34,6 +34,24 @@
       "parentUuid": "5e806356_3c080d29",
       "revId": "b3c0f8b3f170e85b65e81dd0ac69e3e6348bec6b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f94396b8_bf8f148a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-25T02:35:16Z",
+      "side": 1,
+      "message": "Your patch requires knowing that memoryLimitHeapGoal only depends on memoryLimit.  If anybody changes memoryLimitHeapGoal without changing this code, things could quietly break.  That is more complex than the current code.",
+      "parentUuid": "c0b7a652_d7d29031",
+      "revId": "b3c0f8b3f170e85b65e81dd0ac69e3e6348bec6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
