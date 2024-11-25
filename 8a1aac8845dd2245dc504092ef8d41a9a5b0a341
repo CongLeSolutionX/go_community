@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f65f16d_a38d643a",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 59718
+      },
+      "writtenOn": "2024-11-25T01:38:14Z",
+      "side": 1,
+      "message": "missing loong64enc5",
+      "range": {
+        "startLine": 468,
+        "startChar": 1,
+        "endLine": 468,
+        "endChar": 42
+      },
+      "revId": "8a1aac8845dd2245dc504092ef8d41a9a5b0a341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
