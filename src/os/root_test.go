@@ -1194,3 +1194,53 @@ func TestOpenInRoot(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkRootOpen(b *testing.B) {
+	b.Run("root", func(b *testing.B) { benchmarkRootOpen(b, true) })
+	b.Run("no", func(b *testing.B) { benchmarkRootOpen(b, false) })
+}
+func benchmarkRootOpen(b *testing.B, inroot bool) {
+	for _, depth := range []int{0, 10, 100} {
+		b.Run(fmt.Sprintf("%v", depth), func(b *testing.B) {
+			benchmarkRootOpenDepth(b, inroot, depth)
+		})
+	}
+}
+func benchmarkRootOpenDepth(b *testing.B, inroot bool, depth int) {
+	dir := b.TempDir()
+
+	path := "f"
+	if depth > 0 {
+		sub := strings.Repeat("/d", depth)
+		if err := os.MkdirAll(dir+sub, 0777); err != nil {
+			b.Fatal(err)
+		}
+		path = sub[1:] + "/f"
+	}
+	fullpath := dir + "/" + path
+	if err := os.WriteFile(fullpath, []byte("content"), 0666); err != nil {
+		b.Fatal(err)
+	}
+	var r *os.Root
+	var err error
+	if inroot {
+		r, err = os.OpenRoot(dir)
+		if err != nil {
+			b.Fatal(err)
+		}
+		defer r.Close()
+	}
+	for b.Loop() {
+		var f *os.File
+		var err error
+		if inroot {
+			f, err = r.Open(path)
+		} else {
+			f, err = os.Open(fullpath)
+		}
+		if err != nil {
+			b.Fatal(err)
+		}
+		f.Close()
+	}
+}
