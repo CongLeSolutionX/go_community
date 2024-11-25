@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69fe1fd2_129870cb",
+        "filename": "src/os/root_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-25T23:57:30Z",
+      "side": 1,
+      "message": "I don\u0027t think there\u0027s any need for these to be Windows-specific--the whole point of the consistency tests is that they don\u0027t test for any particular behavior, only that the behavior of Root and non-Root APIs be consistent on each platform.",
+      "revId": "22514973766bea0d04a82a538f69224f00238ec6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28b1b59a_8e8bccc8",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-25T23:57:30Z",
+      "side": 1,
+      "message": "This is missing the device-name check from filepathlite.IsLocal.\n\nInterestingly, it seems that this allows creating a file with a reserved device name: `r.Create(\"NUL\")` now creates a file named `NUL` (to my surprise).",
+      "revId": "22514973766bea0d04a82a538f69224f00238ec6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55254bd8_aafc9388",
+        "filename": "src/os/root_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-25T23:57:30Z",
+      "side": 1,
+      "message": "This is a very complicated set of rules and I don\u0027t feel like we\u0027ll ever be confident we\u0027re perfectly matching the OS\u0027s behavior. Deferring to syscall.FullPath feels much more robust.\n\nI wonder if we can get most of the benefit by making the call to FullPath more efficient. We currently create a buffer here in rootCleanPath, and then copy it to another UTF-16 buffer in the FullPath call. Perhaps we could combine some of these allocations, and/or use a sync.Pool.\n\nI also don\u0027t think allocations are the main problem performance-wise we need to worry about. CL 631835 contains a benchmark of open performance; on my test machine, Root.Open is only slightly slower than os.Open for filenames containing no directory components, but (predictably) dramatically slower as the path length grows. I think the first thing to do is add a fast-path for the common case of no symlinks. (Open the full path with OBJ_DONT_REPARSE, fall back to the slower step-by-step open only if that fails.)",
+      "revId": "22514973766bea0d04a82a538f69224f00238ec6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
