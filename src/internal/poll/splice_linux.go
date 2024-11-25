@@ -183,6 +183,8 @@ type splicePipe struct {
 	// We want to use a finalizer, so ensure that the size is
 	// large enough to not use the tiny allocator.
 	_ [24 - unsafe.Sizeof(splicePipeFields{})%24]byte
+
+	cleanups [2]runtime.Cleanup
 }
 
 // splicePipePool caches pipes to avoid high-frequency construction and destruction of pipe buffers.
@@ -197,7 +199,9 @@ func newPoolPipe() any {
 	if p == nil {
 		return nil
 	}
-	runtime.SetFinalizer(p, destroyPipe)
+	p.cleanups[0] = runtime.AddCleanup(p, func(rfd int) { CloseFunc(rfd) }, p.rfd)
+	p.cleanups[1] = runtime.AddCleanup(p, func(wfd int) { CloseFunc(wfd) }, p.wfd)
+
 	return p
 }
 
@@ -214,7 +218,8 @@ func putPipe(p *splicePipe) {
 	// If there is still data left in the pipe,
 	// then close and discard it instead of putting it back into the pool.
 	if p.data != 0 {
-		runtime.SetFinalizer(p, nil)
+		p.cleanups[0].Stop()
+		p.cleanups[1].Stop()
 		destroyPipe(p)
 		return
 	}

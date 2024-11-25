@@ -231,9 +231,7 @@ func TestIssue40999(t *testing.T) {
 	// indicates that keys have not been leaked.
 	for atomic.LoadUint32(&finalized) == 0 {
 		p := new(int)
-		runtime.SetFinalizer(p, func(*int) {
-			atomic.AddUint32(&finalized, 1)
-		})
+		runtime.AddCleanup(p, func(f *uint32) { atomic.AddUint32(f, 1) }, &finalized)
 		m.Store(p, struct{}{})
 		m.Delete(p)
 		runtime.GC()
