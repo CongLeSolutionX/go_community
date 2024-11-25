@@ -191,6 +191,34 @@ TEXT ·StoreRel64(SB), NOSPLIT, $0-16
 TEXT ·StoreReluintptr(SB), NOSPLIT, $0-16
 	JMP	·Store64(SB)
 
+// uint8 Xchg(ptr *uint8, new uint8)
+TEXT ·Xchg8(SB), NOSPLIT, $0-17
+	MOV	ptr+0(FP), A0
+	MOVBU	new+8(FP), A1
+	AND	$3, A0, A2
+	SLL	$3, A2
+	MOV	$255, A3
+	SLL	A2, A3, A4
+	XOR $-1, A4
+	MOV	$~3, A5
+	AND	A5, A0
+	SLL	A2,	A1
+
+	FENCE
+_loop:
+	LRW	(A0), A3
+	MOV	A3, A5
+	AND	A4, A3
+	OR	A1, A3
+	SCW	A3, (A0), A6
+
+	BNE	A6, ZERO, _loop
+	FENCE
+	SRL	A2, A5, A5
+
+	MOVB	A5, ret+16(FP)
+	RET
+
 // func Xchg(ptr *uint32, new uint32) uint32
 TEXT ·Xchg(SB), NOSPLIT, $0-20
 	MOV	ptr+0(FP), A0
