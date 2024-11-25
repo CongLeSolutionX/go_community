@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8750ceb3_5860f44a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-11-25T22:35:43Z",
+      "side": 1,
+      "message": "Sigh. There are too many moving pieces because we expect the type-checker, not the parser, to report this error.\n\nI am starting to think that perhaps CL 626758 by Mateusz Poliwczak was the better approach, after all, given the existing codebase.\n\nFeedback welcome. Not urgent, of course.",
+      "revId": "5374cca1afcf0b5a308381ec6ad5f97baad2a34b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
