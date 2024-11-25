@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93c5333c_4f68d884",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-11-25T20:07:29Z",
+      "side": 1,
+      "message": "This is a complex area that needs to be discussed on an issue, not just in a patch.",
+      "revId": "f956b1244f3ec11a23127dc77155e5d7b1f3a688",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
