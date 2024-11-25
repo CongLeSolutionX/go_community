@@ -24,12 +24,17 @@ type netFD struct {
 	net         string
 	laddr       Addr
 	raddr       Addr
+
+	cleanup runtime.Cleanup
 }
 
 func (fd *netFD) setAddr(laddr, raddr Addr) {
 	fd.laddr = laddr
 	fd.raddr = raddr
-	runtime.SetFinalizer(fd, (*netFD).Close)
+	fd.cleanup = runtime.AddCleanup(fd, func(pfd *poll.FD) {
+		fd.cleanup.Stop()
+		pfd.Close()
+	}, &fd.pfd)
 }
 
 func (fd *netFD) Close() error {
