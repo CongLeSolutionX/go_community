@@ -1051,6 +1051,7 @@ func (p *parser) parseTypeParameters() *ast.FieldList {
 	var list []*ast.Field
 	if p.tok != token.RBRACK {
 		list = p.parseParameterList(nil, nil, token.RBRACK)
+		p.checkddd(list, false)
 	}
 	rbrack := p.expect(token.RBRACK)
 
@@ -1062,38 +1063,42 @@ func (p *parser) parseTypeParameters() *ast.FieldList {
 	return &ast.FieldList{Opening: lbrack, List: list, Closing: rbrack}
 }
 
-func (p *parser) parseParameters() *ast.FieldList {
+func (p *parser) parseParameters(result bool) *ast.FieldList {
 	if p.trace {
 		defer un(trace(p, "Parameters"))
 	}
 
-	lparen := p.expect(token.LPAREN)
-	var list []*ast.Field
-	if p.tok != token.RPAREN {
-		list = p.parseParameterList(nil, nil, token.RPAREN)
-	}
-	rparen := p.expect(token.RPAREN)
-
-	return &ast.FieldList{Opening: lparen, List: list, Closing: rparen}
-}
-
-func (p *parser) parseResult() *ast.FieldList {
-	if p.trace {
-		defer un(trace(p, "Result"))
+	if !result || p.tok == token.LPAREN {
+		lparen := p.expect(token.LPAREN)
+		var list []*ast.Field
+		if p.tok != token.RPAREN {
+			list = p.parseParameterList(nil, nil, token.RPAREN)
+			p.checkddd(list, !result)
+		}
+		rparen := p.expect(token.RPAREN)
+		return &ast.FieldList{Opening: lparen, List: list, Closing: rparen}
 	}
 
-	if p.tok == token.LPAREN {
-		return p.parseParameters()
-	}
-
-	typ := p.tryIdentOrType()
-	if typ != nil {
+	if typ := p.tryIdentOrType(); typ != nil {
 		list := make([]*ast.Field, 1)
 		list[0] = &ast.Field{Type: typ}
 		return &ast.FieldList{List: list}
 	}
 
 	return nil
+}
+
+func (p *parser) checkddd(list []*ast.Field, allow bool) {
+	for i, f := range list {
+		if t, _ := f.Type.(*ast.Ellipsis); t != nil && (!allow || i+1 < len(list) || len(f.Names) > 1) {
+			if allow {
+				p.error(t.Ellipsis, "can only use ... with final parameter")
+			} else {
+				p.error(t.Ellipsis, "invalid use of ...")
+			}
+			f.Type = t.Elt // remove invalid ...
+		}
+	}
 }
 
 func (p *parser) parseFuncType() *ast.FuncType {
@@ -1109,8 +1114,8 @@ func (p *parser) parseFuncType() *ast.FuncType {
 			p.error(tparams.Opening, "function type must have no type parameters")
 		}
 	}
-	params := p.parseParameters()
-	results := p.parseResult()
+	params := p.parseParameters(false)
+	results := p.parseParameters(true)
 
 	return &ast.FuncType{Func: pos, Params: params, Results: results}
 }
@@ -1143,8 +1148,8 @@ func (p *parser) parseMethodSpec() *ast.Field {
 				p.error(lbrack, "interface method must have no type parameters")
 
 				// TODO(rfindley) refactor to share code with parseFuncType.
-				params := p.parseParameters()
-				results := p.parseResult()
+				params := p.parseParameters(false)
+				results := p.parseParameters(true)
 				idents = []*ast.Ident{ident}
 				typ = &ast.FuncType{
 					Func:    token.NoPos,
@@ -1173,8 +1178,8 @@ func (p *parser) parseMethodSpec() *ast.Field {
 		case p.tok == token.LPAREN:
 			// ordinary method
 			// TODO(rfindley) refactor to share code with parseFuncType.
-			params := p.parseParameters()
-			results := p.parseResult()
+			params := p.parseParameters(false)
+			results := p.parseParameters(true)
 			idents = []*ast.Ident{ident}
 			typ = &ast.FuncType{Func: token.NoPos, Params: params, Results: results}
 		default:
@@ -2775,7 +2780,7 @@ func (p *parser) parseFuncDecl() *ast.FuncDecl {
 
 	var recv *ast.FieldList
 	if p.tok == token.LPAREN {
-		recv = p.parseParameters()
+		recv = p.parseParameters(false)
 	}
 
 	ident := p.parseIdent()
@@ -2790,8 +2795,8 @@ func (p *parser) parseFuncDecl() *ast.FuncDecl {
 			tparams = nil
 		}
 	}
-	params := p.parseParameters()
-	results := p.parseResult()
+	params := p.parseParameters(false)
+	results := p.parseParameters(true)
 
 	var body *ast.BlockStmt
 	switch p.tok {

@@ -344,7 +344,11 @@ func (check *Checker) collectParams(list []*syntax.Field, variadicOk bool) (name
 				if variadicOk && i == len(list)-1 {
 					variadic = true
 				} else {
-					check.softErrorf(t, MisplacedDotDotDot, "can only use ... with final parameter in list")
+					if variadicOk {
+						check.softErrorf(t, MisplacedDotDotDot, "can only use ... with final parameter in list")
+					} else {
+						check.softErrorf(t, MisplacedDotDotDot, "invalid use of ...")
+					}
 					// ignore ... and continue
 				}
 			}
