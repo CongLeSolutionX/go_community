@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed2a75cd_6c1000aa",
+        "filename": "src/log/slog/handler.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2024-11-25T14:08:06Z",
+      "side": 1,
+      "message": "You always convert prefix to a string. So do it at the call site as in the current code. Then this function just appends two strings. I would call it \"appendTwoStrings\".",
+      "range": {
+        "startLine": 549,
+        "startChar": 14,
+        "endLine": 549,
+        "endChar": 20
+      },
+      "revId": "848b4b3e739674cee9eb0367aaed68bf977ee14d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "066ad19f_991c9ca1",
+        "filename": "src/log/slog/handler.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2024-11-25T14:08:06Z",
+      "side": 1,
+      "message": "If either the prefix or the key (or both) needs quoting, you\u0027ll end up with something like\n\n   \"prefix\"\"key\"\n   \nwhich is wrong.\n\nIf you fix this, please add a test.",
+      "range": {
+        "startLine": 551,
+        "startChar": 1,
+        "endLine": 556,
+        "endChar": 37
+      },
+      "revId": "848b4b3e739674cee9eb0367aaed68bf977ee14d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
