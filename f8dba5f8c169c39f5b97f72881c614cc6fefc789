@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8dd72eb7_86a667c9",
+        "filename": "src/cmd/go/testdata/script/test_regexps.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2024-11-26T02:31:42Z",
+      "side": 1,
+      "message": "Count used to be implemented at the innermost (subbenchmark) level. You\u0027d run the top level benchmark once to discover the subbenchmarks, and the subbenchmark would repeat itself multiple times.\nBy lifting count out to top level benchmark, you have to run each top level benchmark again to be able to run its subbenchmarks.\nI don\u0027t really see a way around this.",
+      "parentUuid": "533627fe_dcb72d75",
+      "revId": "f8dba5f8c169c39f5b97f72881c614cc6fefc789",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "61b8bd9b_c8eccdbf",
         "filename": "src/testing/benchmark.go",
         "patchSetId": 6
@@ -54,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9aabe244_702d6365",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2024-11-26T02:31:42Z",
+      "side": 1,
+      "message": "if it\u0027s a concern, we can instead just keep a count of how many times each benchmark has run, and for each iteration, pick one from the list that hasn\u0027t reached the cap yet?",
+      "parentUuid": "61b8bd9b_c8eccdbf",
+      "revId": "f8dba5f8c169c39f5b97f72881c614cc6fefc789",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fe694890_76587373",
         "filename": "src/testing/benchmark.go",
         "patchSetId": 6
@@ -65,6 +101,24 @@
       "writtenOn": "2024-11-26T00:53:13Z",
       "side": 1,
       "message": "b.bstat.match.fullName computes a name for the benchmark and then compares that name against the filters/skips. In the case where you\u0027re taking the name from the cache here, I think fullName will have used the wrong name for the match.",
+      "revId": "f8dba5f8c169c39f5b97f72881c614cc6fefc789",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c491d07_a1cdb919",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2024-11-26T02:31:42Z",
+      "side": 1,
+      "message": "does that mean also caching ok and partial?\nI\u0027m wondering what this affects, an exact match no longer matching?",
+      "parentUuid": "fe694890_76587373",
       "revId": "f8dba5f8c169c39f5b97f72881c614cc6fefc789",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
