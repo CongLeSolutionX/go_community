@@ -16,6 +16,24 @@
       "message": "I changed this to math/rand/v2 just because I was changing the shuffle code anyway, is it ok to update TestDeps for this?",
       "revId": "e06e29b9b4afbb30f5c77551ff8e6bdaafcf8e9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e45f758f_191fac77",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-11-26T00:53:13Z",
+      "side": 0,
+      "message": "Yes, updating the dependency is fine. Anything that depends on math/rand can depend on math/rand/v2.",
+      "parentUuid": "eac816ba_261f9c12",
+      "revId": "e06e29b9b4afbb30f5c77551ff8e6bdaafcf8e9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
