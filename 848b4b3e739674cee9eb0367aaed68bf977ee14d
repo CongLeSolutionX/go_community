@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14dc14a0_a4e9e661",
+        "filename": "src/log/slog/handler.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 50893
+      },
+      "writtenOn": "2024-11-26T02:53:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed2a75cd_6c1000aa",
+      "range": {
+        "startLine": 549,
+        "startChar": 14,
+        "endLine": 549,
+        "endChar": 20
+      },
+      "revId": "848b4b3e739674cee9eb0367aaed68bf977ee14d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "066ad19f_991c9ca1",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-11-25T14:08:06Z",
       "side": 1,
       "message": "If either the prefix or the key (or both) needs quoting, you\u0027ll end up with something like\n\n   \"prefix\"\"key\"\n   \nwhich is wrong.\n\nIf you fix this, please add a test.",
+      "range": {
+        "startLine": 551,
+        "startChar": 1,
+        "endLine": 556,
+        "endChar": 37
+      },
+      "revId": "848b4b3e739674cee9eb0367aaed68bf977ee14d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4ac3dab_9d901feb",
+        "filename": "src/log/slog/handler.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 50893
+      },
+      "writtenOn": "2024-11-26T02:53:43Z",
+      "side": 1,
+      "message": "Thanks, completed",
+      "parentUuid": "066ad19f_991c9ca1",
       "range": {
         "startLine": 551,
         "startChar": 1,
