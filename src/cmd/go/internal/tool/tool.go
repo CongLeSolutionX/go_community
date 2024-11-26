@@ -309,6 +309,7 @@ func runBuiltTool(b *work.Builder, ctx context.Context, a *work.Action) error {
 		Stdin:  os.Stdin,
 		Stdout: os.Stdout,
 		Stderr: os.Stderr,
+		Env:    cfg.OrigEnv,
 	}
 	err := toolCmd.Start()
 	if err == nil {
