@@ -46,6 +46,30 @@
       },
       "revId": "c50d0edeb85df37b3a55b2e04412ad312bc096d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc1ec1a1_80d8adf3",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1045,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-11-26T14:38:06Z",
+      "side": 1,
+      "message": "You mean years ago? I hope I didn\u0027t suggest you factor them together... (I may have; my perspective on these things has changed over the years).",
+      "parentUuid": "a2ca5306_07fec61e",
+      "range": {
+        "startLine": 1045,
+        "startChar": 17,
+        "endLine": 1045,
+        "endChar": 44
+      },
+      "revId": "c50d0edeb85df37b3a55b2e04412ad312bc096d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
