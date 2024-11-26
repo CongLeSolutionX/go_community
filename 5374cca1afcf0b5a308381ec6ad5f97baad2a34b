@@ -16,6 +16,24 @@
       "message": "Sigh. There are too many moving pieces because we expect the type-checker, not the parser, to report this error.\n\nI am starting to think that perhaps CL 626758 by Mateusz Poliwczak was the better approach, after all, given the existing codebase.\n\nFeedback welcome. Not urgent, of course.",
       "revId": "5374cca1afcf0b5a308381ec6ad5f97baad2a34b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2adcd1eb_911e1ab9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-11-26T14:55:19Z",
+      "side": 1,
+      "message": "Hmm, for what it\u0027s worth, I noticed that the current production for function types allows ... for any parameter declaration:\nhttps://go.dev/ref/spec#Function_types\n\nI don\u0027t think it needs to be that way: we could write an \u0027ellipsis field\u0027 as a separate production, and express the parameter list as having an optional final ellipsis field. But, given that it is written this way currently, there is a certain appeal to aligning with the speci.",
+      "parentUuid": "8750ceb3_5860f44a",
+      "revId": "5374cca1afcf0b5a308381ec6ad5f97baad2a34b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
